@@ -1,0 +1,12 @@
+evidence_selectors:
+  - {id: actual_amount, input: actuals, field: amount, dimensions: [subject, period, metric, unit]}
+  - {id: budget_amount, input: budget, field: amount, dimensions: [subject, period, metric, unit, budget_version]}
+metrics:
+  - id: budget_difference
+    operator: difference
+    inputs: [actual_amount, budget_amount]
+    parameters: {requires_same_subject_period_metric_unit: true}
+analysis_tasks:
+  - id: performance_review
+    goal: 区分已证实的表现、原因假设、问题和建议
+retrieval_tasks: []

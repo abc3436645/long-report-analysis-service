@@ -1,0 +1,7 @@
+evidence_selectors:
+  - {id: application_record, input: application, field: text, dimensions: [unit, application, evaluation_date]}
+metrics: []
+analysis_tasks:
+  - {id: risk_review, goal: 按适用专题审查证据、风险事项和策略依据}
+  - {id: external_result_check, goal: 核对外部额度、等级、期限的主体、时点、版本和适用范围}
+retrieval_tasks: []

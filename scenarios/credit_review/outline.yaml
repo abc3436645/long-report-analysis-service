@@ -1,0 +1,71 @@
+sections:
+  - id: summary
+    title: 执行摘要
+    display_order: 1
+    repeat_for: null
+    goal: 汇总关键风险、审查结论、策略及限制
+    questions: [最重要的审查发现是什么]
+    evidence_refs: []
+    analysis_refs: [risk_review]
+    required_assets: []
+    depends_on: [scope, overview, financial_risks, external_results, strategy]
+  - id: scope
+    title: 评审事项、范围、基准与资料限制
+    display_order: 2
+    repeat_for: null
+    goal: 说明授信事项、业务单位、评价基准和资料范围
+    questions: [哪些资料缺口影响结论]
+    evidence_refs: [application_record]
+    analysis_refs: []
+    required_assets: []
+    depends_on: []
+  - id: overview
+    title: 单位及业务概况
+    display_order: 3
+    repeat_for: null
+    goal: 描述业务及适用的在建项目
+    questions: [在建项目的资金安排和状态有何依据]
+    evidence_refs: [application_record]
+    analysis_refs: [risk_review]
+    required_assets: []
+    depends_on: [scope]
+  - id: financial_risks
+    title: 财务与分专题风险审查
+    display_order: 4
+    repeat_for: null
+    goal: 审查财务、偿债、担保、诉讼、关联交易和控制措施
+    questions: [线索是否经过原文或专业记录核验]
+    evidence_refs: [application_record]
+    analysis_refs: [risk_review]
+    required_assets: []
+    depends_on: [overview]
+  - id: external_results
+    title: 外部授信结果核对
+    display_order: 5
+    repeat_for: null
+    goal: 核对已提供额度、等级、期限及依据，缺失时披露
+    questions: [外部结果对应本次主体、事项和基准吗]
+    evidence_refs: []
+    analysis_refs: [external_result_check]
+    required_assets: []
+    depends_on: [scope]
+  - id: strategy
+    title: 风险事项与策略建议
+    display_order: 6
+    repeat_for: null
+    goal: 区分既有措施与有条件的策略建议
+    questions: [每项建议的依据及适用条件是什么]
+    evidence_refs: []
+    analysis_refs: [risk_review, external_result_check]
+    required_assets: []
+    depends_on: [financial_risks, external_results]
+  - id: appendix
+    title: 证据和补件附录
+    display_order: 7
+    repeat_for: null
+    goal: 列示来源定位和补件要求
+    questions: [哪些关键信息仍待核实]
+    evidence_refs: [application_record]
+    analysis_refs: []
+    required_assets: []
+    depends_on: [financial_risks, external_results]

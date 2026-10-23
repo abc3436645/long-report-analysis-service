@@ -1,0 +1,61 @@
+sections:
+  - id: summary
+    title: 执行摘要
+    display_order: 1
+    repeat_for: null
+    goal: 提炼经营表现、关键偏差和行动重点
+    questions: [哪些结论有证据支持，哪些仍待核实]
+    evidence_refs: []
+    analysis_refs: [performance_review]
+    required_assets: []
+    depends_on: [group, income_cost, units, risks]
+  - id: group
+    title: 整体经营与预算执行
+    display_order: 2
+    repeat_for: null
+    goal: 分析当月和累计经营表现及预算执行
+    questions: [集团口径与单位口径是否可比]
+    evidence_refs: [actual_amount, budget_amount]
+    analysis_refs: [budget_difference, performance_review]
+    required_assets: []
+    depends_on: []
+  - id: income_cost
+    title: 收入、利润及成本费用分析
+    display_order: 3
+    repeat_for: null
+    goal: 解释有依据的变化和利润类型
+    questions: [差异的原因有何原始依据]
+    evidence_refs: [actual_amount, budget_amount]
+    analysis_refs: [budget_difference, performance_review]
+    required_assets: []
+    depends_on: [group]
+  - id: units
+    title: 各单位经营分析
+    display_order: 4
+    repeat_for: unit
+    goal: 覆盖本次范围内每个单位
+    questions: [各单位表现、原因、问题及建议是什么]
+    evidence_refs: [actual_amount, budget_amount]
+    analysis_refs: [budget_difference, performance_review]
+    required_assets: []
+    depends_on: [group]
+  - id: risks
+    title: 主要问题、风险及建议
+    display_order: 5
+    repeat_for: null
+    goal: 汇总需要管理层关注的事项
+    questions: [建议对应哪些证据和适用条件]
+    evidence_refs: []
+    analysis_refs: [performance_review]
+    required_assets: []
+    depends_on: [income_cost, units]
+  - id: appendix
+    title: 口径、材料缺口与证据附录
+    display_order: 6
+    repeat_for: null
+    goal: 列明比较口径、预算版本、来源和缺口
+    questions: [哪些限制还需在相关正文披露]
+    evidence_refs: [actual_amount, budget_amount]
+    analysis_refs: []
+    required_assets: []
+    depends_on: [group, income_cost, units]

@@ -1,0 +1,1 @@
+"""Long report scenario contracts."""

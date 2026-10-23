@@ -1,0 +1,23 @@
+schema_version: 1
+id: compensation_analysis
+title: 人力薪酬分析
+version: "0.1.0"
+subject_model: workforce_groups
+time_model: analysis_and_comparison_periods
+inputs:
+  - {id: payroll, required: true, kinds: [xlsx, csv]}
+  - {id: roster, required: true, kinds: [xlsx, csv]}
+  - {id: productivity_sources, required: false, kinds: [xlsx, csv]}
+retrieval: {enabled: false, task_refs: []}
+outline: outline.yaml
+analysis: analysis.yaml
+quality: quality.yaml
+template: templates/default-v0.1.0.docx
+delivery: {required_formats: [md, docx], optional_formats: [pdf]}
+business_definitions:
+  pay_components: null
+  accounting_basis: null
+  headcount_or_fte_rule: null
+  productivity_formula: null
+  minimum_group_size: null
+definition_missing: [pay_components, accounting_basis, headcount_or_fte_rule, productivity_formula, minimum_group_size]

@@ -1,0 +1,22 @@
+schema_version: 1
+id: budget_operations
+title: 预算经营分析
+version: "0.1.0"
+subject_model: organization_and_units
+time_model: month_and_year_to_date
+inputs:
+  - {id: actuals, required: true, kinds: [xlsx, csv]}
+  - {id: budget, required: true, kinds: [xlsx, csv]}
+  - {id: prior_period, required: false, kinds: [xlsx, csv]}
+  - {id: explanations, required: false, kinds: [docx, pdf, txt]}
+retrieval: {enabled: false, task_refs: []}
+outline: outline.yaml
+analysis: analysis.yaml
+quality: quality.yaml
+template: templates/default-v0.1.0.docx
+delivery: {required_formats: [md, docx], optional_formats: [pdf]}
+business_definitions:
+  budget_version_rule: null
+  consolidation_rule: null
+  measurement_unit: null
+definition_missing: [budget_version_rule, consolidation_rule, measurement_unit]
