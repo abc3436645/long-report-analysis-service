@@ -1,0 +1,22 @@
+{
+  "run_id": "ee7fab4658d8475ba3ba151550563e8a",
+  "status": "pending_review",
+  "hard_checks_passed": true,
+  "checks": {
+    "evidence_frozen": true,
+    "required_sections": true,
+    "draft_exists": true,
+    "independent_review": true,
+    "source_integrity": true,
+    "retrieval_integrity": true,
+    "personal_pay_hidden": true
+  },
+  "gaps": {
+    "missing_inputs": [],
+    "definition_missing": [
+      "productivity_formula"
+    ],
+    "retrieval_gaps": []
+  },
+  "draft_sha256": "e61a08509988b1f390722f1736bd4d7007a29078d3576579b9904ff07c05feda"
+}

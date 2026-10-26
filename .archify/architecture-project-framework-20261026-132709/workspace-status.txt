@@ -1,0 +1,63 @@
+ M .agents/skills/long-report/SKILL.md
+ M AGENTS.md
+ M README.md
+ M docs/scenarios/人力薪酬分析-场景规格.md
+ M docs/scenarios/预算经营分析-场景规格.md
+ M docs/外部服务接入与证据契约.md
+ M docs/工程结构与场景配置设计.md
+ M docs/架构细化-决策树与访谈记录.md
+ M docs/模块设计-数据与执行契约.md
+ M docs/通用长报告项目-统一架构与业务流程.md
+ M docs/首期实施蓝图-主控Skill与CLI三场景.md
+ M pyproject.toml
+ M scenarios/budget_operations/analysis.yaml
+ M scenarios/budget_operations/outline.yaml
+ M scenarios/budget_operations/quality.yaml
+ M scenarios/budget_operations/scenario.yaml
+ D scenarios/budget_operations/templates/default-v0.1.0.docx
+ M scenarios/compensation_analysis/analysis.yaml
+ M scenarios/compensation_analysis/outline.yaml
+ M scenarios/compensation_analysis/quality.yaml
+ M scenarios/compensation_analysis/scenario.yaml
+ D scenarios/compensation_analysis/templates/default-v0.1.0.docx
+ M scenarios/credit_review/analysis.yaml
+ M scenarios/credit_review/outline.yaml
+ M scenarios/credit_review/quality.yaml
+ M scenarios/credit_review/scenario.yaml
+ D scenarios/credit_review/templates/default-v0.1.0.docx
+ M src/long_report/adapters/cli.py
+ M src/long_report/application.py
+ M src/long_report/operators.py
+ M src/long_report/scenario.py
+ M tests/test_scenarios.py
+?? .archify/
+?? .scratch/
+?? docs/adr/0009-budget-first-report-reference-structure.md
+?? docs/adr/0010-budget-four-reference-acceptance.md
+?? docs/adr/0011-per-run-source-and-report-plan.md
+?? docs/agents/
+?? docs/首期工程验收规格-主控Skill三场景CLI.md
+?? scenarios/budget_operations/templates/default-v0.2.0.docx
+?? scenarios/compensation_analysis/templates/default-v0.2.0.docx
+?? scenarios/credit_review/templates/default-v0.2.0.docx
+?? src/long_report/charts.py
+?? src/long_report/compensation.py
+?? src/long_report/formula_verification.py
+?? src/long_report/rendering.py
+?? src/long_report/retrieval.py
+?? tests/fixtures/
+?? tests/test_budget_calculation_cli.py
+?? tests/test_budget_period_comparison_cli.py
+?? tests/test_budget_reference_indicators_cli.py
+?? tests/test_budget_report_profile_cli.py
+?? tests/test_budget_source_profile_cli.py
+?? tests/test_compensation_report_cli.py
+?? tests/test_credit_report_cli.py
+?? tests/test_document_material_cli.py
+?? tests/test_dynamic_report_plan_cli.py
+?? tests/test_evidence_conflict_cli.py
+?? tests/test_material_cli.py
+?? tests/test_project_cli.py
+?? tests/test_retrieval_cli.py
+?? tests/test_run_cli.py
+?? tests/test_runtime_source_mapping_cli.py

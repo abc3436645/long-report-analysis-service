@@ -1,0 +1,307 @@
+{
+  "scenario": {
+    "schema_version": 1,
+    "id": "budget_operations",
+    "title": "预算经营分析",
+    "version": "0.1.0",
+    "subject_model": "organization_and_units",
+    "time_model": "month_and_year_to_date",
+    "inputs": [
+      {
+        "id": "actuals",
+        "required": true,
+        "kinds": [
+          "xlsx",
+          "csv"
+        ]
+      },
+      {
+        "id": "budget",
+        "required": true,
+        "kinds": [
+          "xlsx",
+          "csv"
+        ]
+      },
+      {
+        "id": "prior_period",
+        "required": false,
+        "kinds": [
+          "xlsx",
+          "csv"
+        ]
+      },
+      {
+        "id": "explanations",
+        "required": false,
+        "kinds": [
+          "docx",
+          "pdf",
+          "txt"
+        ]
+      }
+    ],
+    "retrieval": {
+      "enabled": false,
+      "task_refs": []
+    },
+    "outline": "outline.yaml",
+    "analysis": "analysis.yaml",
+    "quality": "quality.yaml",
+    "template": "templates/default-v0.1.0.docx",
+    "delivery": {
+      "required_formats": [
+        "md",
+        "docx"
+      ],
+      "optional_formats": [
+        "pdf"
+      ]
+    },
+    "business_definitions": {
+      "budget_version_rule": "time_plan",
+      "consolidation_rule": null,
+      "measurement_unit": "万元"
+    },
+    "definition_missing": [
+      "consolidation_rule"
+    ],
+    "overridable_fields": {
+      "business_definitions.measurement_unit": {
+        "type": "string",
+        "min_length": 1
+      },
+      "business_definitions.budget_version_rule": {
+        "type": "string",
+        "min_length": 1
+      }
+    }
+  },
+  "outline": {
+    "sections": [
+      {
+        "id": "scope",
+        "title": "报告口径与资料范围",
+        "display_order": 1,
+        "repeat_for": null,
+        "goal": "交代报告期、材料覆盖、预算版本、合并范围与分析限制",
+        "questions": [
+          "哪些口径已确认，哪些仍需人工确认"
+        ],
+        "evidence_refs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "analysis_refs": [],
+        "required_assets": [],
+        "depends_on": []
+      },
+      {
+        "id": "units",
+        "title": "各单位经营分析",
+        "display_order": 2,
+        "repeat_for": "unit",
+        "goal": "按本项目单位范围逐户分析表现、原因、问题和建议",
+        "questions": [
+          "每户结论有何来源和同口径计算支持"
+        ],
+        "evidence_refs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "analysis_refs": [
+          "budget_difference",
+          "performance_review"
+        ],
+        "required_assets": [],
+        "depends_on": [
+          "scope"
+        ]
+      },
+      {
+        "id": "special",
+        "title": "专项来源的独立口径",
+        "display_order": 3,
+        "repeat_for": null,
+        "goal": "单列不能直接归入单位的专项资料与局部口径",
+        "questions": [
+          "专项数字是否被误并入单位或集团结果"
+        ],
+        "evidence_refs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "analysis_refs": [
+          "performance_review"
+        ],
+        "required_assets": [],
+        "depends_on": [
+          "scope"
+        ]
+      },
+      {
+        "id": "group",
+        "title": "整体经营与共同关注事项",
+        "display_order": 4,
+        "repeat_for": null,
+        "goal": "汇总已有的单位和专项发现，区分集团合并与单位汇总",
+        "questions": [
+          "共同问题、原因假设和待核实项如何区分"
+        ],
+        "evidence_refs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "analysis_refs": [
+          "budget_difference",
+          "performance_review"
+        ],
+        "required_assets": [],
+        "depends_on": [
+          "units",
+          "special"
+        ]
+      },
+      {
+        "id": "market",
+        "title": "市场关联及情景测算",
+        "display_order": 5,
+        "repeat_for": null,
+        "goal": "说明市场资料适用范围及有依据的敏感性情景",
+        "questions": [
+          "情景假设是否被写成已发生事实"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": [
+          "performance_review"
+        ],
+        "required_assets": [],
+        "depends_on": [
+          "scope"
+        ]
+      },
+      {
+        "id": "actions",
+        "title": "建议事项与人工确认",
+        "display_order": 6,
+        "repeat_for": null,
+        "goal": "给出逐户复核、协同方向、需确认口径和补件清单",
+        "questions": [
+          "建议对应哪些依据、影响及适用条件"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": [
+          "performance_review"
+        ],
+        "required_assets": [],
+        "depends_on": [
+          "group",
+          "market"
+        ]
+      },
+      {
+        "id": "sources",
+        "title": "来源索引与计算口径",
+        "display_order": 7,
+        "repeat_for": null,
+        "goal": "列明来源、定位、计算定义、材料缺口和保留的模板差异",
+        "questions": [
+          "读者能否回到原件复核数字和限制"
+        ],
+        "evidence_refs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "analysis_refs": [
+          "budget_difference"
+        ],
+        "required_assets": [],
+        "depends_on": [
+          "units",
+          "special",
+          "group",
+          "market",
+          "actions"
+        ]
+      }
+    ]
+  },
+  "analysis": {
+    "evidence_selectors": [
+      {
+        "id": "actual_amount",
+        "input": "actuals",
+        "field": "amount",
+        "dimensions": [
+          "subject",
+          "period",
+          "metric",
+          "unit"
+        ]
+      },
+      {
+        "id": "budget_amount",
+        "input": "budget",
+        "field": "amount",
+        "dimensions": [
+          "subject",
+          "period",
+          "metric",
+          "unit",
+          "budget_version"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "id": "budget_difference",
+        "operator": "difference",
+        "inputs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "applies_to": [
+          "profit_total"
+        ],
+        "parameters": {
+          "requires_same_subject_period_metric_unit": true
+        }
+      }
+    ],
+    "analysis_tasks": [
+      {
+        "id": "performance_review",
+        "goal": "区分已证实的表现、原因假设、问题和建议"
+      }
+    ],
+    "retrieval_tasks": []
+  },
+  "quality": {
+    "required_inputs": [
+      "actuals",
+      "budget"
+    ],
+    "required_sections": [
+      "scope",
+      "units",
+      "special",
+      "group",
+      "market",
+      "actions",
+      "sources"
+    ],
+    "checks": [
+      "evidence_location",
+      "numeric_binding",
+      "same_basis",
+      "full_unit_coverage",
+      "independent_review",
+      "md_docx_openable"
+    ],
+    "formal_requires": "all_required_checks_pass",
+    "visible_fields": [
+      "aggregate_amount",
+      "unit_amount"
+    ]
+  }
+}

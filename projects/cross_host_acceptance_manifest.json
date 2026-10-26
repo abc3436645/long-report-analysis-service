@@ -1,0 +1,270 @@
+{
+  "wheel_sha256": "9a6aa77c0d9f9a415334983319f9ac943c9e147d4c73ce6c9a08beb12243d0db",
+  "master_skill_sha256": "781e5b0ab2af0b5a0ecaba254e19f63cb68cb1e3a2e36f2177bed8ad13d5cee0",
+  "hosts": {
+    "codex": {
+      "budget_operations": {
+        "scenario_fingerprint": "6c5fed81e1e653981e9b1953686d76f10e780479977412eb4618b0808a5088f2",
+        "effective_config_fingerprint": "b74441623441fde2c499a8a4d4efcef834bc204efdbb997d1d92abbe4bf24b8d",
+        "template_sha256": "d911b39be59ff94e81a078630d401e1b08f4b74489ec1503676b28939f4e6757",
+        "input_sha256": {
+          "correction.csv": "9c51db3390b83a0a6a3ceb0753739aa7d8ae85cb024849e5e430fec4464e216e",
+          "budget.csv": "da799ce7d63e57e70c931bfb1830419577240fcf9792541c5b84bc8deba9f1b6",
+          "actuals.csv": "4e768eefb4009078a94e8a8b5156d1a3df198f38310868153d5a7b30df580729",
+          "next_correction.csv": "560bf970d46c4d284efa5981cfabe7d719e08c9298c0127b0d4d104a3f0f1265",
+          "supplement.csv": "a7cdaa4c72fdbd071e418bed08c09de81435cfac998ed706240a989b1f9fae75"
+        },
+        "facts_sha256": "575e43f7763dc1d69f739555fc5fcc503b2823b1a1dcdfce552553088150ff50",
+        "calculations_sha256": "aa5329de9a571e4f50299fb2105dd5f7f265e47fae2c57e74cf952f57f32ea86",
+        "revision_count": 4,
+        "revision_statuses": [
+          "pending_review",
+          "pending_review",
+          "pending_review",
+          "pending_review"
+        ],
+        "latest_markdown": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_wheel_acceptance/codex/test_confirmed_actual_and_matching_budget_produce_traced_difference/projects/8f9ca59683f14e86821ed618e7581808/revisions/925e9d4dc8dc4f0996b26d2c8ef5a46a/dist/full_report.md",
+        "latest_docx": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_wheel_acceptance/codex/test_confirmed_actual_and_matching_budget_produce_traced_difference/projects/8f9ca59683f14e86821ed618e7581808/revisions/925e9d4dc8dc4f0996b26d2c8ef5a46a/dist/full_report.docx",
+        "latest_file_sha256": {
+          "markdown": "9d961c381d5816c2960ae904a01f593dd0b31a36190854a2166f841adb2135ce",
+          "docx": "f9790ef02305248d7fa47407b9801368f01efcc6966941f947ffbffdd46c6797"
+        },
+        "word_table_count": 1,
+        "major_sections": 7
+      },
+      "credit_review": {
+        "scenario_fingerprint": "12ed4b478d98b86690df794ada702db802adafef68683b8a7c57b32e8ecddbfc",
+        "effective_config_fingerprint": "12ed4b478d98b86690df794ada702db802adafef68683b8a7c57b32e8ecddbfc",
+        "template_sha256": "17af4448a38bb2014b4d02ae03e6bf919a0f26b36568f3d54c128120788bb4ae",
+        "input_sha256": {
+          "external_55.txt": "cfe6869ce4de6a5ae2964d6c208e4b81118cd6c9e61f47e25f2f16fd986433a8",
+          "external_50.txt": "614580fdde862144c80e29a188131de4ab7fb2c669a2b6c9b7460d8bb10c1948",
+          "professional.docx": "b98342636f70dc63cf7a7653f663ac68da43eee614bf6bf01f47460cb2ff45da",
+          "financial.csv": "9562edc0a51c130e6eea5d46938e0655b49794b8efdf43e494ea4c9c12b5e9ef",
+          "credit_pdf_fixture.pdf": "5cfd3cb1b1535e39eaa33e2b710a908d0d5b43feee33fa6122d73dbb17b9d2df"
+        },
+        "facts_sha256": "2e6668df1cab591f4e10eb9610214aaf6fb3d1978e6e1fb3fe6317d238294473",
+        "calculations_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "revision_count": 4,
+        "revision_statuses": [
+          "pending_review",
+          "pending_review",
+          "pending_review",
+          "pending_review"
+        ],
+        "latest_markdown": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_credit_fixed/codex/test_application_financials_and_professional_records_yield_a_reviewable_full_report/projects/7138144905ee41bf9b09f3d42f93f5a9/revisions/80ed2d59e02d4d0f924129af50087106/dist/full_report.md",
+        "latest_docx": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_credit_fixed/codex/test_application_financials_and_professional_records_yield_a_reviewable_full_report/projects/7138144905ee41bf9b09f3d42f93f5a9/revisions/80ed2d59e02d4d0f924129af50087106/dist/full_report.docx",
+        "latest_file_sha256": {
+          "markdown": "5ca298c379d144c65bc8fd748775795d02d4c3c76e3061ef07fe1b4f8e9acc21",
+          "docx": "0570960c4777537f6b5679fb7f0a85a12b7ad7f5dd8632fb2a1d47f680e46335"
+        },
+        "word_table_count": 1,
+        "major_sections": 7
+      },
+      "compensation_analysis": {
+        "scenario_fingerprint": "90b35a1f42ed686127abf836d5b71e46660fbc7118274071a62f003fae317104",
+        "effective_config_fingerprint": "ccfe9e47fb05ec165410d25cc7145fb0f9e77005f1269cc6d00af30b024195ba",
+        "template_sha256": "8572a57df086d55d68b1d2a985c878ef3d380bd032d8ffa6259a343362d047a0",
+        "input_sha256": {
+          "roster.csv": "0c45b5333fdbbe6d3fb3e4352575fe3f84c43022fafe11f8a316caa44c3b8b58",
+          "output.csv": "0a674533cec9b187c00d88830d28761315ba68f73ac73206cb395541c774283d",
+          "payroll.csv": "2e6ba3dc78d06e833a5cd8590e5bd24aebe169d104bb624f4d247abaffd5cd21",
+          "payroll_corrected.csv": "26ab741e297233bd63ff8af31f1637e08dc0dfb8509220720ca90d40f3c35ab8"
+        },
+        "facts_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "calculations_sha256": "817a9f5ba1fa3288589a4d84e629b4275c6d49d3119865ce06ced9354e7f03d8",
+        "revision_count": 4,
+        "revision_statuses": [
+          "pending_review",
+          "pending_review",
+          "pending_review",
+          "pending_review"
+        ],
+        "latest_markdown": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_wheel_acceptance/codex/test_accrual_groups_and_small_sample_suppression_reach_the_full_report/projects/adca20f13f06468c9c21009bad726d80/revisions/8d3ab27d02e64ebca121c1cf131df616/dist/full_report.md",
+        "latest_docx": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_wheel_acceptance/codex/test_accrual_groups_and_small_sample_suppression_reach_the_full_report/projects/adca20f13f06468c9c21009bad726d80/revisions/8d3ab27d02e64ebca121c1cf131df616/dist/full_report.docx",
+        "latest_file_sha256": {
+          "markdown": "da4ec7595da254727dea2e8403012b18ff8d715cff024194e9329f973689085a",
+          "docx": "44efedaeb0eed33224655064b3ba608fbdd8872202e749ecca7a15a9bd9f1bb8"
+        },
+        "word_table_count": 1,
+        "major_sections": 7
+      }
+    },
+    "claude": {
+      "budget_operations": {
+        "scenario_fingerprint": "6c5fed81e1e653981e9b1953686d76f10e780479977412eb4618b0808a5088f2",
+        "effective_config_fingerprint": "b74441623441fde2c499a8a4d4efcef834bc204efdbb997d1d92abbe4bf24b8d",
+        "template_sha256": "d911b39be59ff94e81a078630d401e1b08f4b74489ec1503676b28939f4e6757",
+        "input_sha256": {
+          "correction.csv": "9c51db3390b83a0a6a3ceb0753739aa7d8ae85cb024849e5e430fec4464e216e",
+          "budget.csv": "da799ce7d63e57e70c931bfb1830419577240fcf9792541c5b84bc8deba9f1b6",
+          "actuals.csv": "4e768eefb4009078a94e8a8b5156d1a3df198f38310868153d5a7b30df580729",
+          "next_correction.csv": "560bf970d46c4d284efa5981cfabe7d719e08c9298c0127b0d4d104a3f0f1265",
+          "supplement.csv": "a7cdaa4c72fdbd071e418bed08c09de81435cfac998ed706240a989b1f9fae75"
+        },
+        "facts_sha256": "575e43f7763dc1d69f739555fc5fcc503b2823b1a1dcdfce552553088150ff50",
+        "calculations_sha256": "aa5329de9a571e4f50299fb2105dd5f7f265e47fae2c57e74cf952f57f32ea86",
+        "revision_count": 4,
+        "revision_statuses": [
+          "pending_review",
+          "pending_review",
+          "pending_review",
+          "pending_review"
+        ],
+        "latest_markdown": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_wheel_acceptance/claude/test_confirmed_actual_and_matching_budget_produce_traced_difference/projects/1c3d20d4797447f89ca3269cbbb23b66/revisions/83ce4bbb88cc4494aa9f3ef99ec696ed/dist/full_report.md",
+        "latest_docx": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_wheel_acceptance/claude/test_confirmed_actual_and_matching_budget_produce_traced_difference/projects/1c3d20d4797447f89ca3269cbbb23b66/revisions/83ce4bbb88cc4494aa9f3ef99ec696ed/dist/full_report.docx",
+        "latest_file_sha256": {
+          "markdown": "9d961c381d5816c2960ae904a01f593dd0b31a36190854a2166f841adb2135ce",
+          "docx": "7a15c20611d70f93ab96b96b92dfc358316b600d4941b47bba9c98b4de3ffad3"
+        },
+        "word_table_count": 1,
+        "major_sections": 7
+      },
+      "credit_review": {
+        "scenario_fingerprint": "12ed4b478d98b86690df794ada702db802adafef68683b8a7c57b32e8ecddbfc",
+        "effective_config_fingerprint": "12ed4b478d98b86690df794ada702db802adafef68683b8a7c57b32e8ecddbfc",
+        "template_sha256": "17af4448a38bb2014b4d02ae03e6bf919a0f26b36568f3d54c128120788bb4ae",
+        "input_sha256": {
+          "external_55.txt": "cfe6869ce4de6a5ae2964d6c208e4b81118cd6c9e61f47e25f2f16fd986433a8",
+          "external_50.txt": "614580fdde862144c80e29a188131de4ab7fb2c669a2b6c9b7460d8bb10c1948",
+          "professional.docx": "b98342636f70dc63cf7a7653f663ac68da43eee614bf6bf01f47460cb2ff45da",
+          "financial.csv": "9562edc0a51c130e6eea5d46938e0655b49794b8efdf43e494ea4c9c12b5e9ef",
+          "credit_pdf_fixture.pdf": "5cfd3cb1b1535e39eaa33e2b710a908d0d5b43feee33fa6122d73dbb17b9d2df"
+        },
+        "facts_sha256": "2e6668df1cab591f4e10eb9610214aaf6fb3d1978e6e1fb3fe6317d238294473",
+        "calculations_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "revision_count": 4,
+        "revision_statuses": [
+          "pending_review",
+          "pending_review",
+          "pending_review",
+          "pending_review"
+        ],
+        "latest_markdown": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_credit_fixed/claude/test_application_financials_and_professional_records_yield_a_reviewable_full_report/projects/2464a2a465bb474aa05bcea1eb0e08fe/revisions/1e93cff820ee4a63832704435409c4fb/dist/full_report.md",
+        "latest_docx": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_credit_fixed/claude/test_application_financials_and_professional_records_yield_a_reviewable_full_report/projects/2464a2a465bb474aa05bcea1eb0e08fe/revisions/1e93cff820ee4a63832704435409c4fb/dist/full_report.docx",
+        "latest_file_sha256": {
+          "markdown": "5ca298c379d144c65bc8fd748775795d02d4c3c76e3061ef07fe1b4f8e9acc21",
+          "docx": "7be48b0e46d910c9171f4640032b7f3220375a40fa4ead3b72bd169b56e719e1"
+        },
+        "word_table_count": 1,
+        "major_sections": 7
+      },
+      "compensation_analysis": {
+        "scenario_fingerprint": "90b35a1f42ed686127abf836d5b71e46660fbc7118274071a62f003fae317104",
+        "effective_config_fingerprint": "ccfe9e47fb05ec165410d25cc7145fb0f9e77005f1269cc6d00af30b024195ba",
+        "template_sha256": "8572a57df086d55d68b1d2a985c878ef3d380bd032d8ffa6259a343362d047a0",
+        "input_sha256": {
+          "roster.csv": "0c45b5333fdbbe6d3fb3e4352575fe3f84c43022fafe11f8a316caa44c3b8b58",
+          "output.csv": "0a674533cec9b187c00d88830d28761315ba68f73ac73206cb395541c774283d",
+          "payroll.csv": "2e6ba3dc78d06e833a5cd8590e5bd24aebe169d104bb624f4d247abaffd5cd21",
+          "payroll_corrected.csv": "26ab741e297233bd63ff8af31f1637e08dc0dfb8509220720ca90d40f3c35ab8"
+        },
+        "facts_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "calculations_sha256": "817a9f5ba1fa3288589a4d84e629b4275c6d49d3119865ce06ced9354e7f03d8",
+        "revision_count": 4,
+        "revision_statuses": [
+          "pending_review",
+          "pending_review",
+          "pending_review",
+          "pending_review"
+        ],
+        "latest_markdown": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_wheel_acceptance/claude/test_accrual_groups_and_small_sample_suppression_reach_the_full_report/projects/b34f0c89ff884cef9bbc1025c09c343e/revisions/7c9cf2f6519a48b09e00326354510186/dist/full_report.md",
+        "latest_docx": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_wheel_acceptance/claude/test_accrual_groups_and_small_sample_suppression_reach_the_full_report/projects/b34f0c89ff884cef9bbc1025c09c343e/revisions/7c9cf2f6519a48b09e00326354510186/dist/full_report.docx",
+        "latest_file_sha256": {
+          "markdown": "da4ec7595da254727dea2e8403012b18ff8d715cff024194e9329f973689085a",
+          "docx": "17ace5e115629db650ce9f7e76b4205b0db93642e0b4236dde0d0c78de352209"
+        },
+        "word_table_count": 1,
+        "major_sections": 7
+      }
+    },
+    "dsh": {
+      "budget_operations": {
+        "scenario_fingerprint": "6c5fed81e1e653981e9b1953686d76f10e780479977412eb4618b0808a5088f2",
+        "effective_config_fingerprint": "b74441623441fde2c499a8a4d4efcef834bc204efdbb997d1d92abbe4bf24b8d",
+        "template_sha256": "d911b39be59ff94e81a078630d401e1b08f4b74489ec1503676b28939f4e6757",
+        "input_sha256": {
+          "correction.csv": "9c51db3390b83a0a6a3ceb0753739aa7d8ae85cb024849e5e430fec4464e216e",
+          "budget.csv": "da799ce7d63e57e70c931bfb1830419577240fcf9792541c5b84bc8deba9f1b6",
+          "actuals.csv": "4e768eefb4009078a94e8a8b5156d1a3df198f38310868153d5a7b30df580729",
+          "next_correction.csv": "560bf970d46c4d284efa5981cfabe7d719e08c9298c0127b0d4d104a3f0f1265",
+          "supplement.csv": "a7cdaa4c72fdbd071e418bed08c09de81435cfac998ed706240a989b1f9fae75"
+        },
+        "facts_sha256": "575e43f7763dc1d69f739555fc5fcc503b2823b1a1dcdfce552553088150ff50",
+        "calculations_sha256": "aa5329de9a571e4f50299fb2105dd5f7f265e47fae2c57e74cf952f57f32ea86",
+        "revision_count": 4,
+        "revision_statuses": [
+          "pending_review",
+          "pending_review",
+          "pending_review",
+          "pending_review"
+        ],
+        "latest_markdown": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_wheel_acceptance/dsh/test_confirmed_actual_and_matching_budget_produce_traced_difference/projects/5115e19a9847488fbed889f4d3f757e8/revisions/9f40dd0392db48ec9f2b17418dae0747/dist/full_report.md",
+        "latest_docx": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_wheel_acceptance/dsh/test_confirmed_actual_and_matching_budget_produce_traced_difference/projects/5115e19a9847488fbed889f4d3f757e8/revisions/9f40dd0392db48ec9f2b17418dae0747/dist/full_report.docx",
+        "latest_file_sha256": {
+          "markdown": "9d961c381d5816c2960ae904a01f593dd0b31a36190854a2166f841adb2135ce",
+          "docx": "c7babbfd7af8a514c77f140664f242bc2d8522859bc0b2272349b145d1736cf7"
+        },
+        "word_table_count": 1,
+        "major_sections": 7
+      },
+      "credit_review": {
+        "scenario_fingerprint": "12ed4b478d98b86690df794ada702db802adafef68683b8a7c57b32e8ecddbfc",
+        "effective_config_fingerprint": "12ed4b478d98b86690df794ada702db802adafef68683b8a7c57b32e8ecddbfc",
+        "template_sha256": "17af4448a38bb2014b4d02ae03e6bf919a0f26b36568f3d54c128120788bb4ae",
+        "input_sha256": {
+          "external_55.txt": "cfe6869ce4de6a5ae2964d6c208e4b81118cd6c9e61f47e25f2f16fd986433a8",
+          "external_50.txt": "614580fdde862144c80e29a188131de4ab7fb2c669a2b6c9b7460d8bb10c1948",
+          "professional.docx": "b98342636f70dc63cf7a7653f663ac68da43eee614bf6bf01f47460cb2ff45da",
+          "financial.csv": "9562edc0a51c130e6eea5d46938e0655b49794b8efdf43e494ea4c9c12b5e9ef",
+          "credit_pdf_fixture.pdf": "5cfd3cb1b1535e39eaa33e2b710a908d0d5b43feee33fa6122d73dbb17b9d2df"
+        },
+        "facts_sha256": "2e6668df1cab591f4e10eb9610214aaf6fb3d1978e6e1fb3fe6317d238294473",
+        "calculations_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "revision_count": 4,
+        "revision_statuses": [
+          "pending_review",
+          "pending_review",
+          "pending_review",
+          "pending_review"
+        ],
+        "latest_markdown": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_credit_fixed/dsh/test_application_financials_and_professional_records_yield_a_reviewable_full_report/projects/0d53e0c69d4c4845b976994a38a2cf76/revisions/e365b3cccef245e295827cb0584b809f/dist/full_report.md",
+        "latest_docx": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_credit_fixed/dsh/test_application_financials_and_professional_records_yield_a_reviewable_full_report/projects/0d53e0c69d4c4845b976994a38a2cf76/revisions/e365b3cccef245e295827cb0584b809f/dist/full_report.docx",
+        "latest_file_sha256": {
+          "markdown": "5ca298c379d144c65bc8fd748775795d02d4c3c76e3061ef07fe1b4f8e9acc21",
+          "docx": "0c4b9cdb53ea854fa8b0df9735dd0c35f08ac08e75c7c951c6edd6dd72bfb769"
+        },
+        "word_table_count": 1,
+        "major_sections": 7
+      },
+      "compensation_analysis": {
+        "scenario_fingerprint": "90b35a1f42ed686127abf836d5b71e46660fbc7118274071a62f003fae317104",
+        "effective_config_fingerprint": "ccfe9e47fb05ec165410d25cc7145fb0f9e77005f1269cc6d00af30b024195ba",
+        "template_sha256": "8572a57df086d55d68b1d2a985c878ef3d380bd032d8ffa6259a343362d047a0",
+        "input_sha256": {
+          "roster.csv": "0c45b5333fdbbe6d3fb3e4352575fe3f84c43022fafe11f8a316caa44c3b8b58",
+          "output.csv": "0a674533cec9b187c00d88830d28761315ba68f73ac73206cb395541c774283d",
+          "payroll.csv": "2e6ba3dc78d06e833a5cd8590e5bd24aebe169d104bb624f4d247abaffd5cd21",
+          "payroll_corrected.csv": "26ab741e297233bd63ff8af31f1637e08dc0dfb8509220720ca90d40f3c35ab8"
+        },
+        "facts_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "calculations_sha256": "817a9f5ba1fa3288589a4d84e629b4275c6d49d3119865ce06ced9354e7f03d8",
+        "revision_count": 4,
+        "revision_statuses": [
+          "pending_review",
+          "pending_review",
+          "pending_review",
+          "pending_review"
+        ],
+        "latest_markdown": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_wheel_acceptance/dsh/test_accrual_groups_and_small_sample_suppression_reach_the_full_report/projects/30215093e0de4f99a0d10ca7215938cf/revisions/832be05b1e45493eb23bb7f459488e3b/dist/full_report.md",
+        "latest_docx": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/cross_host_wheel_acceptance/dsh/test_accrual_groups_and_small_sample_suppression_reach_the_full_report/projects/30215093e0de4f99a0d10ca7215938cf/revisions/832be05b1e45493eb23bb7f459488e3b/dist/full_report.docx",
+        "latest_file_sha256": {
+          "markdown": "da4ec7595da254727dea2e8403012b18ff8d715cff024194e9329f973689085a",
+          "docx": "4e3519a11a0b07bcf189bac3f188c6f3756eec0c7b8ffd776e43cedb5a4331bc"
+        },
+        "word_table_count": 1,
+        "major_sections": 7
+      }
+    }
+  }
+}

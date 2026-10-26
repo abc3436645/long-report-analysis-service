@@ -15,6 +15,19 @@ SOURCE = Path(__file__).resolve().parents[1] / "scenarios"
 
 
 class ScenarioTests(unittest.TestCase):
+    def test_budget_scenario_keeps_stable_guidance_without_fixed_report_plan(self):
+        scenario = get_scenario("budget_operations")
+        self.assertEqual(scenario["outline"]["sections"], [])
+        self.assertNotIn("profiles", scenario["outline"])
+        self.assertTrue(any("单位" in point for point in scenario["outline"]["planning_guidance"]))
+        self.assertTrue(any("本月与上月" in point for point in scenario["analysis"]["writing_guidance"]["unit_sequence"]))
+        guidance = scenario["analysis"]["writing_guidance"]
+        self.assertTrue(any("处理量" in point and "金属折合量" in point for point in guidance["mining_focus"]))
+        self.assertTrue(any("净采购需求" in point for point in guidance["decision"]))
+        self.assertTrue(any("剩余月份月均利润目标" in point for point in guidance["unit_sequence"]))
+        self.assertIn("month_change", scenario["quality"]["unit_required_calculations"])
+        self.assertIn("pdf", scenario["scenario"]["delivery"]["required_formats"])
+
     def test_three_installed_scenarios_match_business_scope(self):
         summaries = list_scenarios()
         self.assertEqual(
@@ -23,14 +36,12 @@ class ScenarioTests(unittest.TestCase):
         )
         for item in summaries:
             with self.subTest(item=item["id"]):
-                detail = get_scenario(item["id"], "0.1.0")
+                detail = get_scenario(item["id"], "0.2.0")
                 self.assertEqual(detail["fingerprint"], item["fingerprint"])
                 self.assertEqual(set(detail["quality"]["required_sections"]),
                                  {section["id"] for section in detail["outline"]["sections"]})
                 self.assertTrue(detail["definition_missing"])
-        self.assertEqual(len(get_scenario("budget_operations")["outline"]["sections"]), 6)
-        self.assertEqual(len(get_scenario("credit_review")["outline"]["sections"]), 7)
-        self.assertEqual(len(get_scenario("compensation_analysis")["outline"]["sections"]), 7)
+        self.assertTrue(all(not get_scenario(item)["outline"]["sections"] for item in ("budget_operations", "credit_review", "compensation_analysis")))
 
     def test_version_mismatch_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "requested version"):
@@ -42,7 +53,6 @@ class ScenarioTests(unittest.TestCase):
     def test_invalid_references_cycle_and_resource_are_rejected(self):
         cases = (
             ("analysis.yaml", lambda data: data["metrics"][0].update(operator="unknown"), "unknown operator"),
-            ("outline.yaml", lambda data: data["sections"][1].update(depends_on=["summary"]), "cycle"),
             ("scenario.yaml", lambda data: data.update(template="templates/../../private.docx"), "unsafe template"),
             ("quality.yaml", lambda data: data["checks"].remove("numeric_binding"), "required checks missing"),
         )

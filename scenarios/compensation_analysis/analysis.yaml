@@ -1,8 +1,14 @@
 evidence_selectors:
   - {id: payroll_record, input: payroll, field: pay_components, dimensions: [person, period, component]}
   - {id: roster_record, input: roster, field: employment_record, dimensions: [person, effective_period, group]}
+  - {id: productivity_record, input: productivity_sources, field: output, dimensions: [group, period]}
 metrics: []
 analysis_tasks:
   - {id: group_review, goal: 核对组成、期间、人员范围和小样本展示后分析群体}
   - {id: productivity_review, goal: 仅在公式和分母明确时分析人效，缺失时披露}
 retrieval_tasks: []
+group_aggregation:
+  payroll_columns: {person: person_id, component: component, accrual_period: accrual_period, payment_period: payment_period, amount: amount}
+  roster_columns: {person: person_id, group: group, effective_period: effective_period}
+  metric_id: payroll_total
+  unit: 元

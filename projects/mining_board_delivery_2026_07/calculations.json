@@ -1,0 +1,4064 @@
+[
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-06",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "id": "calc_72114bb33a7cfede1ae9e4aa",
+    "metric_id": "budget_difference",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "budget_version": "time_plan",
+    "operator": "difference",
+    "value": "-26915.45294253456",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_56d643dd24954cc6a82b68060e32a178",
+      "ev_a9710dc3165f4ac88e1f123b1d9c9bd7"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2025-07",
+    "window": "ytd",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "永平铜矿",
+    "period": "2026-06",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "id": "calc_cac6227f3017776b80cf9cb1",
+    "metric_id": "budget_difference",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "budget_version": "time_plan",
+    "operator": "difference",
+    "value": "-70.630908366811",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_975342ebe43e47ce8452e4e9a3595737",
+      "ev_be972406f7ee4bc6928ee95f51a424e2"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "永平铜矿",
+    "period": "2025-07",
+    "window": "ytd",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "武山铜矿",
+    "period": "2026-06",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "id": "calc_93df409edc25fff2e16473bf",
+    "metric_id": "budget_difference",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "budget_version": "time_plan",
+    "operator": "difference",
+    "value": "-624.742712564237",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_65bcdaa7bd714fb2af832d942df97cbf",
+      "ev_76d5da42480d474693f7f543e9b88544"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "武山铜矿",
+    "period": "2025-07",
+    "window": "ytd",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "城门山铜矿",
+    "period": "2026-06",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "id": "calc_eec3858fabc907e489474198",
+    "metric_id": "budget_difference",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "budget_version": "time_plan",
+    "operator": "difference",
+    "value": "-663.57958315275",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_d74ca9c6d11e4869b3c6c0c7da093833",
+      "ev_5626e1f2da68463a8c889a8f93465e41"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "城门山铜矿",
+    "period": "2025-07",
+    "window": "ytd",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "银山矿业",
+    "period": "2026-06",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "id": "calc_32eb31662ed7b3a38f386e73",
+    "metric_id": "budget_difference",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "budget_version": "time_plan",
+    "operator": "difference",
+    "value": "42203.93317264726",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_ecf539d820104fecb7fdb3e7b8c656c7",
+      "ev_34192239370940b69d5cd0f9d2bad89f"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "银山矿业",
+    "period": "2025-07",
+    "window": "ytd",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "银珠山矿业",
+    "period": "2026-06",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "id": "calc_e36478216f3df4790abaa7f0",
+    "metric_id": "budget_difference",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "budget_version": "time_plan",
+    "operator": "difference",
+    "value": "-615.965763026435",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_5211933b68eb4cd49486b704e61bd645",
+      "ev_4567bf7ba1d94531ae3522e1ee1a934a"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "银珠山矿业",
+    "period": "2025-07",
+    "window": "ytd",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "矿山板块合计",
+    "period": "2026-07",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "矿山板块合计",
+    "period": "2026-06",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "id": "calc_75828ebc2ee36a544b79736a",
+    "metric_id": "budget_difference",
+    "subject_id": "矿山板块合计",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "budget_version": "time_plan",
+    "operator": "difference",
+    "value": "13313.5612630022",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_f52d71ef2ee54dceabfaf2e00c7d80b1",
+      "ev_88d79609c8a7462cac06646bce16fd1e"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "metric_id": "budget_difference",
+    "subject_id": "矿山板块合计",
+    "period": "2025-07",
+    "window": "ytd",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-06",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "id": "calc_102deb9202470526329d2770",
+    "metric_id": "budget_completion_rate",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "budget_version": "time_plan",
+    "operator": "positive_base_completion_rate",
+    "value": "94.58792066936185783212145643",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_56d643dd24954cc6a82b68060e32a178",
+      "ev_a9710dc3165f4ac88e1f123b1d9c9bd7"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2025-07",
+    "window": "ytd",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "永平铜矿",
+    "period": "2026-06",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "id": "calc_72fb96799ecc4f4c31440159",
+    "metric_id": "budget_completion_rate",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "budget_version": "time_plan",
+    "operator": "positive_base_completion_rate",
+    "value": "99.30736146620681638291044019",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_975342ebe43e47ce8452e4e9a3595737",
+      "ev_be972406f7ee4bc6928ee95f51a424e2"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "永平铜矿",
+    "period": "2025-07",
+    "window": "ytd",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "武山铜矿",
+    "period": "2026-06",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "id": "calc_c69493c927eca6820d5894d8",
+    "metric_id": "budget_completion_rate",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "budget_version": "time_plan",
+    "operator": "positive_base_completion_rate",
+    "value": "97.92614281281844276873125004",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_65bcdaa7bd714fb2af832d942df97cbf",
+      "ev_76d5da42480d474693f7f543e9b88544"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "武山铜矿",
+    "period": "2025-07",
+    "window": "ytd",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "城门山铜矿",
+    "period": "2026-06",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "id": "calc_7cbf804898156329836d1aa2",
+    "metric_id": "budget_completion_rate",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "budget_version": "time_plan",
+    "operator": "positive_base_completion_rate",
+    "value": "98.92731165302286840898503456",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_d74ca9c6d11e4869b3c6c0c7da093833",
+      "ev_5626e1f2da68463a8c889a8f93465e41"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "城门山铜矿",
+    "period": "2025-07",
+    "window": "ytd",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "银山矿业",
+    "period": "2026-06",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "id": "calc_29a2e53116a9118ed8d045f2",
+    "metric_id": "budget_completion_rate",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "budget_version": "time_plan",
+    "operator": "positive_base_completion_rate",
+    "value": "191.9139763773190346909580361",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_ecf539d820104fecb7fdb3e7b8c656c7",
+      "ev_34192239370940b69d5cd0f9d2bad89f"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "银山矿业",
+    "period": "2025-07",
+    "window": "ytd",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "银珠山矿业",
+    "period": "2026-06",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "id": "calc_7264105ed6650d665594e326",
+    "metric_id": "budget_completion_rate",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "budget_version": "time_plan",
+    "operator": "positive_base_completion_rate",
+    "value": "97.08737864077668089538860397",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_5211933b68eb4cd49486b704e61bd645",
+      "ev_4567bf7ba1d94531ae3522e1ee1a934a"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "银珠山矿业",
+    "period": "2025-07",
+    "window": "ytd",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "矿山板块合计",
+    "period": "2026-07",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "矿山板块合计",
+    "period": "2026-06",
+    "window": "month",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "id": "calc_0b1398db931c8a284dfb4813",
+    "metric_id": "budget_completion_rate",
+    "subject_id": "矿山板块合计",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "budget_version": "time_plan",
+    "operator": "positive_base_completion_rate",
+    "value": "101.9973232570560085222627493",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_f52d71ef2ee54dceabfaf2e00c7d80b1",
+      "ev_88d79609c8a7462cac06646bce16fd1e"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "metric_id": "budget_completion_rate",
+    "subject_id": "矿山板块合计",
+    "period": "2025-07",
+    "window": "ytd",
+    "status": "missing_comparable_baseline",
+    "value": null
+  },
+  {
+    "id": "calc_03f4f32bf5925874c78f4a5a",
+    "metric_id": "month_change",
+    "subject_id": "集团合并",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "-66799.56819236145",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_643d04b1bb174272a7d53da9036be513",
+      "ev_786e03c8d98349278c6c4e383efb4fdf"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_ae0847184f1799addfd39df5",
+    "metric_id": "month_change",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "4288.48736762669",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_c66c11a8abef4ee8bdc2f160b6f86c41",
+      "ev_4ce6a361611a45ad8dd44e41c627d41f"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_2ca61605c980fc43ad114fc2",
+    "metric_id": "month_change",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "464.1723164138552",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_fd2e5f1c0a094df69d4ad32e1e0af8c2",
+      "ev_8d741f269c664de790e4817ccf4a9633"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_17487b725527bad8759f9cf8",
+    "metric_id": "month_change",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "955.9420516383595",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_8deabded07334f3c988c52a1cd6bdf29",
+      "ev_9c99b8b1d40047a7896c92f74c011b26"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_a7bf16acb6a8b3bbe4e747f9",
+    "metric_id": "month_change",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "1490.417457358158",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_36a32480378e4b22bdbb162d1efb7650",
+      "ev_9ce3a8ff8a0444a386d671d3fb7a5b7d"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_7e0a7b183bb91cab2887ddf4",
+    "metric_id": "month_change",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "727.684234803422",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_1433d64f07ee4779a272fad5c81f45d8",
+      "ev_1244d05baf7b420caa2c4b49783a79f7"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_11b78a17f4a0c986f7918388",
+    "metric_id": "month_change",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "51.222925410545",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_f85796b64fb44b66b453fb82533c251b",
+      "ev_dd1d665fc381412eb6bc8a5740678e6b"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_e1b9cc2cafd32d809ef157db",
+    "metric_id": "month_change",
+    "subject_id": "矿山板块合计",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "7977.92635325104",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_d642d043dd4e41849848995db5586805",
+      "ev_877118b3e40f4505bb61e94175f1a373"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_4a0e0111c2086ca6af56e2ee",
+    "metric_id": "ytd_change",
+    "subject_id": "集团合并",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "505120.5014162480",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_0af46057d4824df7bd9af82351d6074d",
+      "ev_e47b64e510094a37bfafdc51d6c65c6d"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_7ada28a240960a862e1b17c3",
+    "metric_id": "ytd_change",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "52789.4679581470",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_56d643dd24954cc6a82b68060e32a178",
+      "ev_0ab1f5388c964acdba488f66e0de8711"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_2f65df1963372d9a97ddbf85",
+    "metric_id": "ytd_change",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "1183.785740800759",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_975342ebe43e47ce8452e4e9a3595737",
+      "ev_a65caca4de8b40d0859e3ce393dc5d34"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_5fdec646ae7c7f28d3792455",
+    "metric_id": "ytd_change",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "2584.680109380146",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_65bcdaa7bd714fb2af832d942df97cbf",
+      "ev_362ccf0e7849462384cb3d0e7a12d746"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_d06de49f2895447ff0f7be5b",
+    "metric_id": "ytd_change",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "5557.39855832581",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_d74ca9c6d11e4869b3c6c0c7da093833",
+      "ev_75566f88b6cc4fc9975a06f4f940cc94"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_140b758fa9ab55d213529c1a",
+    "metric_id": "ytd_change",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "54696.3592938326",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_ecf539d820104fecb7fdb3e7b8c656c7",
+      "ev_828a8977b5d84b9fb2d3e08602f55c11"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_c39b19846fdfa7f7d895f812",
+    "metric_id": "ytd_change",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "17723.853224587683",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_5211933b68eb4cd49486b704e61bd645",
+      "ev_c16ba775277548febfdd2277ea888c23"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_2e621000681360c114ffdcb0",
+    "metric_id": "ytd_change",
+    "subject_id": "矿山板块合计",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "difference",
+    "value": "134535.5448850737",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_f52d71ef2ee54dceabfaf2e00c7d80b1",
+      "ev_e12869f2952e4161bca73c2dc05490be"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_c516237f8b9cb403d504ecfc",
+    "metric_id": "month_change_rate",
+    "subject_id": "集团合并",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "-30.75066097315432186074769383",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_643d04b1bb174272a7d53da9036be513",
+      "ev_786e03c8d98349278c6c4e383efb4fdf"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_499f78ed0e4ad04d3955762c",
+    "metric_id": "month_change_rate",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "6.850072111563257797831801078",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_c66c11a8abef4ee8bdc2f160b6f86c41",
+      "ev_4ce6a361611a45ad8dd44e41c627d41f"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_94f44ac22b5d1e55e7cb563f",
+    "metric_id": "month_change_rate",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "33.67825581372630155377973097",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_fd2e5f1c0a094df69d4ad32e1e0af8c2",
+      "ev_8d741f269c664de790e4817ccf4a9633"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_09e6d9773850e0a361a8aa0f",
+    "metric_id": "month_change_rate",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "22.96481578114206903248194227",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_8deabded07334f3c988c52a1cd6bdf29",
+      "ev_9c99b8b1d40047a7896c92f74c011b26"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_dc1215824d0214523f73311a",
+    "metric_id": "month_change_rate",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "18.04528101767872759772991382",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_36a32480378e4b22bdbb162d1efb7650",
+      "ev_9ce3a8ff8a0444a386d671d3fb7a5b7d"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_61356345027e5579ac944655",
+    "metric_id": "month_change_rate",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "6.260091205059351383346188359",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_1433d64f07ee4779a272fad5c81f45d8",
+      "ev_1244d05baf7b420caa2c4b49783a79f7"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_506c749a964586ea20a21793",
+    "metric_id": "month_change_rate",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "1.849924200857899182063998290",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_f85796b64fb44b66b453fb82533c251b",
+      "ev_dd1d665fc381412eb6bc8a5740678e6b"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_9b99b56314f39ecfe467403f",
+    "metric_id": "month_change_rate",
+    "subject_id": "矿山板块合计",
+    "period": "2026-07",
+    "window": "month",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "8.786426218906226630517994870",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_d642d043dd4e41849848995db5586805",
+      "ev_877118b3e40f4505bb61e94175f1a373"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_e5ebef32bd4e473a24454683",
+    "metric_id": "ytd_change_rate",
+    "subject_id": "集团合并",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "47.47115845787431279765831357",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_0af46057d4824df7bd9af82351d6074d",
+      "ev_e47b64e510094a37bfafdc51d6c65c6d"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_3b1d89ca085e69d72b0d12c4",
+    "metric_id": "ytd_change_rate",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "12.64064374123767622197394365",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_56d643dd24954cc6a82b68060e32a178",
+      "ev_0ab1f5388c964acdba488f66e0de8711"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_d99f9cf9144f37e2f6f57dac",
+    "metric_id": "ytd_change_rate",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "13.23707955346499163117037764",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_975342ebe43e47ce8452e4e9a3595737",
+      "ev_a65caca4de8b40d0859e3ce393dc5d34"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_6131b8ad39bf825491f341ef",
+    "metric_id": "ytd_change_rate",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "9.603031798557629158501137131",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_65bcdaa7bd714fb2af832d942df97cbf",
+      "ev_362ccf0e7849462384cb3d0e7a12d746"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_e623b7c98a45b0e5feed76e3",
+    "metric_id": "ytd_change_rate",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "9.988067172760150180626768478",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_d74ca9c6d11e4869b3c6c0c7da093833",
+      "ev_75566f88b6cc4fc9975a06f4f940cc94"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_3c0a8c4a465411bc42586886",
+    "metric_id": "ytd_change_rate",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "163.6422611510482656337644472",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_ecf539d820104fecb7fdb3e7b8c656c7",
+      "ev_828a8977b5d84b9fb2d3e08602f55c11"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_a5e1e0e2b0353c9bf45bbc0b",
+    "metric_id": "ytd_change_rate",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "631.1151896305655802528207162",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_5211933b68eb4cd49486b704e61bd645",
+      "ev_c16ba775277548febfdd2277ea888c23"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_f75d9518267649f7dc259864",
+    "metric_id": "ytd_change_rate",
+    "subject_id": "矿山板块合计",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "value": "24.66965974542397096584808005",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_f52d71ef2ee54dceabfaf2e00c7d80b1",
+      "ev_e12869f2952e4161bca73c2dc05490be"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_16caf9a01cde477f2877406f",
+    "metric_id": "annual_plan_completion_rate",
+    "subject_id": "集团合并",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_completion_rate",
+    "value": "63.88513012646631716008669634",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_0af46057d4824df7bd9af82351d6074d",
+      "ev_427f1674560d4f969ae96c419274a94e"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_3dc56a842717992631f36395",
+    "metric_id": "annual_plan_completion_rate",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_completion_rate",
+    "value": "55.17628705712774966242525551",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_56d643dd24954cc6a82b68060e32a178",
+      "ev_d89eb1053ec94576adc8c1d3eba5e511"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_65989127660799a7cff71c0f",
+    "metric_id": "annual_plan_completion_rate",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_completion_rate",
+    "value": "57.92929418862063578902136253",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_975342ebe43e47ce8452e4e9a3595737",
+      "ev_59522dd79f1c413881e58ecdca5654cf"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_9bccf87d796a58ae6aec978a",
+    "metric_id": "annual_plan_completion_rate",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_completion_rate",
+    "value": "57.12358330747742589654609571",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_65bcdaa7bd714fb2af832d942df97cbf",
+      "ev_f410e25e9f014c1cb0c7843a2034ca15"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_070f45e3bedd5e9d06927bdb",
+    "metric_id": "annual_plan_completion_rate",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_completion_rate",
+    "value": "57.70759846426334145999747364",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_d74ca9c6d11e4869b3c6c0c7da093833",
+      "ev_28e5444034e74a46aa1ac84b55e1bfe5"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_10773c9afc8edd53c489e7ce",
+    "metric_id": "annual_plan_completion_rate",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_completion_rate",
+    "value": "111.9498195534360974744683398",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_ecf539d820104fecb7fdb3e7b8c656c7",
+      "ev_12f0dafc0d0c4215a0a87242ba4cef6b"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_f80b8efb7edb583b885cad9f",
+    "metric_id": "annual_plan_completion_rate",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_completion_rate",
+    "value": "56.63430420711973498560689899",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_5211933b68eb4cd49486b704e61bd645",
+      "ev_b854aeadbc3b457ab9e7ef989de022d2"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_9ada1fd3f3e25f2f5bc4bf95",
+    "metric_id": "annual_plan_completion_rate",
+    "subject_id": "矿山板块合计",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_completion_rate",
+    "value": "59.49843856661600794667248076",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_f52d71ef2ee54dceabfaf2e00c7d80b1",
+      "ev_e92941a9a1ae434b87fb1d388f27fd30"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_65b4e5efda5710a4f76e523c",
+    "metric_id": "remaining_monthly_target",
+    "subject_id": "集团合并",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "remaining_monthly_target",
+    "value": "177414.25983220616",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_0af46057d4824df7bd9af82351d6074d",
+      "ev_427f1674560d4f969ae96c419274a94e"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_b8f16e35871e10678ba0eb99",
+    "metric_id": "remaining_monthly_target",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "remaining_monthly_target",
+    "value": "76429.06887469348",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_56d643dd24954cc6a82b68060e32a178",
+      "ev_d89eb1053ec94576adc8c1d3eba5e511"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_d7a548af7a7f6ee896a6b517",
+    "metric_id": "remaining_monthly_target",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "remaining_monthly_target",
+    "value": "1470.8932072428812",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_975342ebe43e47ce8452e4e9a3595737",
+      "ev_59522dd79f1c413881e58ecdca5654cf"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_42896b7aaec411bfcb4f06ac",
+    "metric_id": "remaining_monthly_target",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "remaining_monthly_target",
+    "value": "4428.4733700367968",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_65bcdaa7bd714fb2af832d942df97cbf",
+      "ev_f410e25e9f014c1cb0c7843a2034ca15"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_f269438d9e759b65986b7c17",
+    "metric_id": "remaining_monthly_target",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "remaining_monthly_target",
+    "value": "8970.052835100558",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_d74ca9c6d11e4869b3c6c0c7da093833",
+      "ev_28e5444034e74a46aa1ac84b55e1bfe5"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_0aaad0e7ae1d1e6d4e4109cc",
+    "metric_id": "remaining_monthly_target",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "remaining_monthly_target",
+    "value": "-1881.247434932874",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_ecf539d820104fecb7fdb3e7b8c656c7",
+      "ev_12f0dafc0d0c4215a0a87242ba4cef6b"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_4f79063e673256ac69cf85a3",
+    "metric_id": "remaining_monthly_target",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "remaining_monthly_target",
+    "value": "3144.358561734925",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_5211933b68eb4cd49486b704e61bd645",
+      "ev_b854aeadbc3b457ab9e7ef989de022d2"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "id": "calc_2747d0f6ca6a9f4832d02b72",
+    "metric_id": "remaining_monthly_target",
+    "subject_id": "矿山板块合计",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "remaining_monthly_target",
+    "value": "92561.59941387582",
+    "status": "calculated",
+    "input_evidence_ids": [
+      "ev_f52d71ef2ee54dceabfaf2e00c7d80b1",
+      "ev_e92941a9a1ae434b87fb1d388f27fd30"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a"
+  },
+  {
+    "metric_id": "sulfur.r4.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_a7dc3fc3e1994a3b965a14befa46b881",
+      "ev_7ecf9d266b40495aa75beae1aec393d0"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_d7cd7497582920326be772db",
+    "status": "calculated",
+    "value": "11.806414870243946"
+  },
+  {
+    "metric_id": "sulfur.r4.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_a7dc3fc3e1994a3b965a14befa46b881",
+      "ev_7ecf9d266b40495aa75beae1aec393d0"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_79766f9739491505dd6e57cc",
+    "status": "calculated",
+    "value": "25.24214531761996035247345059"
+  },
+  {
+    "metric_id": "sulfur.r4.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_8ae0da39e4d74137ae4dc4865f2fa5dd",
+      "ev_95c644898c3649ccb5f3935f29d77e93"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_69f8e01734372fd7c8a4017b",
+    "status": "calculated",
+    "value": "100.5581163515141"
+  },
+  {
+    "metric_id": "sulfur.r4.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_8ae0da39e4d74137ae4dc4865f2fa5dd",
+      "ev_95c644898c3649ccb5f3935f29d77e93"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_e1a4694396435bd600ebcbab",
+    "status": "calculated",
+    "value": "16.78003206004356288983304116"
+  },
+  {
+    "metric_id": "sulfur.r5.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_ecb70231b2e54a1e9d9e2fa98b2b3296",
+      "ev_82cf4a0122ca45e1b6fe43dad703412c"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_d211ec91ef76bff8fd6f7196",
+    "status": "calculated",
+    "value": "-2.056482472415858"
+  },
+  {
+    "metric_id": "sulfur.r5.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_ecb70231b2e54a1e9d9e2fa98b2b3296",
+      "ev_82cf4a0122ca45e1b6fe43dad703412c"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_ea6caaeb091deafc09b81b61",
+    "status": "calculated",
+    "value": "-9.076739691871135900948519702"
+  },
+  {
+    "metric_id": "sulfur.r5.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_c11e87da2298413080b8461be54e2f36",
+      "ev_e715b0651c1446bb9389497471c3d698"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_eae715bbbd0147b43dcf4a63",
+    "status": "calculated",
+    "value": "121.2521692605391"
+  },
+  {
+    "metric_id": "sulfur.r5.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_c11e87da2298413080b8461be54e2f36",
+      "ev_e715b0651c1446bb9389497471c3d698"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_8793ca20ce594f6da88dd222",
+    "status": "calculated",
+    "value": "22.30208393381945096162319673"
+  },
+  {
+    "metric_id": "sulfur.r6.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_cba8f9a1e0f247c783c2feae45d5514d",
+      "ev_13517972654e4cb6a255cbb4da5a4e5d"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_7cce52639299c202acdd9ff2",
+    "status": "calculated",
+    "value": "1.690020116280843"
+  },
+  {
+    "metric_id": "sulfur.r6.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_cba8f9a1e0f247c783c2feae45d5514d",
+      "ev_13517972654e4cb6a255cbb4da5a4e5d"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_95b7110a3e08df2f25ad423b",
+    "status": "calculated",
+    "value": "6.948612318908010569410742225"
+  },
+  {
+    "metric_id": "sulfur.r6.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_c4d3552679614dd2b3b92f2510ca0248",
+      "ev_7b46489c4f4647ff9be0226092c99897"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_73f48ef415631b6ce371815d",
+    "status": "calculated",
+    "value": "174.0650807750169"
+  },
+  {
+    "metric_id": "sulfur.r6.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_c4d3552679614dd2b3b92f2510ca0248",
+      "ev_7b46489c4f4647ff9be0226092c99897"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_b9984f8c62b3d5edf216f457",
+    "status": "calculated",
+    "value": "33.24123605180706518943728709"
+  },
+  {
+    "metric_id": "sulfur.r7.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_d94780823f234192acf4613964868539",
+      "ev_a052932d7ca640669cbfbf883b70e06d"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_b95d5c223ed9b5883bc8fe3e",
+    "status": "calculated",
+    "value": "2.001766082597939"
+  },
+  {
+    "metric_id": "sulfur.r7.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_d94780823f234192acf4613964868539",
+      "ev_a052932d7ca640669cbfbf883b70e06d"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_f8e8488d12edd56442f7a698",
+    "status": "calculated",
+    "value": "5.440257606950408347905754406"
+  },
+  {
+    "metric_id": "sulfur.r7.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_d61b2ca7c14c40c2832ae3550b01c5de",
+      "ev_e0f632bfe4314c35be13a500d7169cf7"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_7af36d0c790b8321378e016f",
+    "status": "calculated",
+    "value": "178.0897583618621"
+  },
+  {
+    "metric_id": "sulfur.r7.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_d61b2ca7c14c40c2832ae3550b01c5de",
+      "ev_e0f632bfe4314c35be13a500d7169cf7"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_6b2c679a80e50116eacd7eec",
+    "status": "calculated",
+    "value": "32.45542278891603742185281173"
+  },
+  {
+    "metric_id": "sulfur.r8.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_17b97dd69d104aa3aba597d42bdf4bbb",
+      "ev_7706a71e772f4f688a9199ea259c3aad"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_c651d7fd47dd08fd7c427b89",
+    "status": "calculated",
+    "value": "-1.642958624164672"
+  },
+  {
+    "metric_id": "sulfur.r8.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_17b97dd69d104aa3aba597d42bdf4bbb",
+      "ev_7706a71e772f4f688a9199ea259c3aad"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_6fb4188f5e43b2f4dadfbefe",
+    "status": "calculated",
+    "value": "-5.548453090443337639779656624"
+  },
+  {
+    "metric_id": "sulfur.r8.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_43e45b7a15c149cbbb37addd90f5da5e",
+      "ev_9cede3d1c02b41a287c83331644dcaae"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_8d469377b052628d14c3902b",
+    "status": "calculated",
+    "value": "154.8878250628732"
+  },
+  {
+    "metric_id": "sulfur.r8.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_43e45b7a15c149cbbb37addd90f5da5e",
+      "ev_9cede3d1c02b41a287c83331644dcaae"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_c4767e88b1416433afbdfb25",
+    "status": "calculated",
+    "value": "26.59429677440435413234004898"
+  },
+  {
+    "metric_id": "sulfur.r9.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "sulfur:r9:七宝山",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_4b97d43c2e0549259dcd3b0e8ef1e16e",
+      "ev_f5b7ec985dc74fe1af53c4b6e72c2fda"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_038468d06416e8d8c93baf5e",
+    "status": "calculated",
+    "value": "0.6862764402329604"
+  },
+  {
+    "metric_id": "sulfur.r9.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "sulfur:r9:七宝山",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_4b97d43c2e0549259dcd3b0e8ef1e16e",
+      "ev_f5b7ec985dc74fe1af53c4b6e72c2fda"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_079e241c623acf1149a67118",
+    "status": "calculated",
+    "value": "66.89722410981325270842061973"
+  },
+  {
+    "metric_id": "sulfur.r9.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "sulfur:r9:七宝山",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_6b12ee3826e1418cbe9d88bf73439e4d",
+      "ev_c429388434c14b0d975ee227e6dcebc5"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_2b8ec6de7b3c1fe65b62e0da",
+    "status": "calculated",
+    "value": "97.6552181368374"
+  },
+  {
+    "metric_id": "sulfur.r9.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "sulfur:r9:七宝山",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_6b12ee3826e1418cbe9d88bf73439e4d",
+      "ev_c429388434c14b0d975ee227e6dcebc5"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_59fdfd09097c4aa92ef97910",
+    "status": "calculated",
+    "value": "17.45999766588171683827110578"
+  },
+  {
+    "metric_id": "sulfur.r10.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_9fd499583fa44b348cd50b94b744145d",
+      "ev_11312f50780344da846c5427422598bd"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_a2d13a63500051ec7ed96b2e",
+    "status": "calculated",
+    "value": "0.5420461782557014"
+  },
+  {
+    "metric_id": "sulfur.r10.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_9fd499583fa44b348cd50b94b744145d",
+      "ev_11312f50780344da846c5427422598bd"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_ba1ebc9944592062fd21f178",
+    "status": "calculated",
+    "value": "26.04557614604609591238539339"
+  },
+  {
+    "metric_id": "sulfur.r10.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_8856b2bc560f47eab04e225dc1419bda",
+      "ev_7144ffd7ae1f471e9dde223ebf28ab58"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_da89a36a3aabdaf00f2ab062",
+    "status": "calculated",
+    "value": "109.4301234759617"
+  },
+  {
+    "metric_id": "sulfur.r10.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_8856b2bc560f47eab04e225dc1419bda",
+      "ev_7144ffd7ae1f471e9dde223ebf28ab58"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_d564094045c1e4a075cf2b28",
+    "status": "calculated",
+    "value": "18.26163620427343837696271717"
+  },
+  {
+    "metric_id": "cost.r4.ore_cost_yoy_difference",
+    "label": "吨矿成本同比差额",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_331a6db89e3f4f0c8099beb0d7ccccb5",
+      "ev_6c0613b391d64dc694f9b96ef6f3c1f6"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_7748ae6b2f9f89fa51a9a38d",
+    "status": "calculated",
+    "value": "7.27295100996176"
+  },
+  {
+    "metric_id": "cost.r4.ore_cost_yoy_rate",
+    "label": "吨矿成本同比变化率",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_331a6db89e3f4f0c8099beb0d7ccccb5",
+      "ev_6c0613b391d64dc694f9b96ef6f3c1f6"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_1293bb377f50e01f9116aac2",
+    "status": "calculated",
+    "value": "6.988226362818759680566436040"
+  },
+  {
+    "metric_id": "cost.r4.variable_yoy_difference",
+    "label": "变动吨矿成本同比差额",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_cfa6285061534540bf78b0e008bcec2a",
+      "ev_54f0a761ecea41b0ac1f43aabcc3a620"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_3dca874b08d81ba08950e932",
+    "status": "calculated",
+    "value": "1.98875881712473"
+  },
+  {
+    "metric_id": "cost.r4.variable_yoy_rate",
+    "label": "变动吨矿成本同比变化率",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_cfa6285061534540bf78b0e008bcec2a",
+      "ev_54f0a761ecea41b0ac1f43aabcc3a620"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_4b6b5cb0664d5d8203a83346",
+    "status": "calculated",
+    "value": "2.537655704228622241309442617"
+  },
+  {
+    "metric_id": "cost.r4.metal_cost_yoy_difference",
+    "label": "金属成本同比差额",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_ae4d8f35f59f4bdcb99d5c22569c21dc",
+      "ev_757d6158f3a64efcb04a0f34e69ec394"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_5d28cfa2a0f66b051b920d95",
+    "status": "calculated",
+    "value": "1037.569035082708"
+  },
+  {
+    "metric_id": "cost.r4.metal_cost_yoy_rate",
+    "label": "金属成本同比变化率",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_ae4d8f35f59f4bdcb99d5c22569c21dc",
+      "ev_757d6158f3a64efcb04a0f34e69ec394"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_3db3f5e0afc16ec0641e6300",
+    "status": "calculated",
+    "value": "4.630151782709034615881523773"
+  },
+  {
+    "metric_id": "cost.r4.variable_metal_yoy_difference",
+    "label": "变动金属成本同比差额",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_6bdcbb1c080f490caaba751d52b83bc5",
+      "ev_9efde55c2e294b7dbe2a32dccfdfc915"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_028976541611a4bd9addf7bb",
+    "status": "calculated",
+    "value": "46.855722058190"
+  },
+  {
+    "metric_id": "cost.r4.variable_metal_yoy_rate",
+    "label": "变动金属成本同比变化率",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_6bdcbb1c080f490caaba751d52b83bc5",
+      "ev_9efde55c2e294b7dbe2a32dccfdfc915"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_def16d1c69f39023aa487bc7",
+    "status": "calculated",
+    "value": "0.2776739507203316161337136534"
+  },
+  {
+    "metric_id": "cost.r5.ore_cost_yoy_difference",
+    "label": "吨矿成本同比差额",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_917c4ce373794eaaa3124fd24a8ef7ce",
+      "ev_480a7a4ad5964f0b9a80f823e77c4f73"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_440f5703a5fa18e3ae28b298",
+    "status": "calculated",
+    "value": "60.64998850600790"
+  },
+  {
+    "metric_id": "cost.r5.ore_cost_yoy_rate",
+    "label": "吨矿成本同比变化率",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_917c4ce373794eaaa3124fd24a8ef7ce",
+      "ev_480a7a4ad5964f0b9a80f823e77c4f73"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_3c5b16aafcdfbfd5bba00214",
+    "status": "calculated",
+    "value": "25.77987677860145069789650725"
+  },
+  {
+    "metric_id": "cost.r5.variable_yoy_difference",
+    "label": "变动吨矿成本同比差额",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_63f34a4fcad04bc48feeb4c86057288f",
+      "ev_63fcc68bda874ff283fd045cd911e812"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_a83bf5047b3002af4a62aaac",
+    "status": "calculated",
+    "value": "37.03656701874247"
+  },
+  {
+    "metric_id": "cost.r5.variable_yoy_rate",
+    "label": "变动吨矿成本同比变化率",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_63f34a4fcad04bc48feeb4c86057288f",
+      "ev_63fcc68bda874ff283fd045cd911e812"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_2da15419919bec6d3bf416b2",
+    "status": "calculated",
+    "value": "22.07824103534293783504196053"
+  },
+  {
+    "metric_id": "cost.r5.metal_cost_yoy_difference",
+    "label": "金属成本同比差额",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_2e3edd83f8d24fad8ff4f61aeb5f310e",
+      "ev_e487b3fb65714350ae7ac078328bbd11"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_9907cca46a43c28795a00e16",
+    "status": "calculated",
+    "value": "6645.242232004886"
+  },
+  {
+    "metric_id": "cost.r5.metal_cost_yoy_rate",
+    "label": "金属成本同比变化率",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_2e3edd83f8d24fad8ff4f61aeb5f310e",
+      "ev_e487b3fb65714350ae7ac078328bbd11"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_0d163773413e33f17da45b51",
+    "status": "calculated",
+    "value": "24.72273903145277971557898660"
+  },
+  {
+    "metric_id": "cost.r5.variable_metal_yoy_difference",
+    "label": "变动金属成本同比差额",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_6b8655f3823f4992b97b30d5abab4c6e",
+      "ev_5655b0b309c64971aa735b2963011763"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_c18581addc485e4d4eb678cf",
+    "status": "calculated",
+    "value": "4034.859183110650"
+  },
+  {
+    "metric_id": "cost.r5.variable_metal_yoy_rate",
+    "label": "变动金属成本同比变化率",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_6b8655f3823f4992b97b30d5abab4c6e",
+      "ev_5655b0b309c64971aa735b2963011763"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_f7a5bd44522bfba35092d336",
+    "status": "calculated",
+    "value": "21.05221429712998021632689170"
+  },
+  {
+    "metric_id": "cost.r6.ore_cost_yoy_difference",
+    "label": "吨矿成本同比差额",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_de12575487684cb9879a5f8d63f58d74",
+      "ev_25d41af55196495cb46200fe74633264"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_abcf20893b1a71cf6707ba13",
+    "status": "calculated",
+    "value": "56.05401796736509"
+  },
+  {
+    "metric_id": "cost.r6.ore_cost_yoy_rate",
+    "label": "吨矿成本同比变化率",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_de12575487684cb9879a5f8d63f58d74",
+      "ev_25d41af55196495cb46200fe74633264"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_fa55b00edfd3cb46577e873b",
+    "status": "calculated",
+    "value": "13.96791378811385417002298328"
+  },
+  {
+    "metric_id": "cost.r6.variable_yoy_difference",
+    "label": "变动吨矿成本同比差额",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_8784c1f13f40444da02b9f0ebc6e09dd",
+      "ev_ffeb4685044c4ee69c48f5f3407aeb39"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_a42d0d1554bda44e92234e80",
+    "status": "calculated",
+    "value": "58.9343479307847"
+  },
+  {
+    "metric_id": "cost.r6.variable_yoy_rate",
+    "label": "变动吨矿成本同比变化率",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_8784c1f13f40444da02b9f0ebc6e09dd",
+      "ev_ffeb4685044c4ee69c48f5f3407aeb39"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_0b13d14cd1e5e422e35a0a04",
+    "status": "calculated",
+    "value": "19.04394410051185552342998959"
+  },
+  {
+    "metric_id": "cost.r6.metal_cost_yoy_difference",
+    "label": "金属成本同比差额",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_5745205abc12474db9af366c6052a2f3",
+      "ev_8c5ede2396cb4e72984cecc6affff8d4"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_0a57f8afa8859d183cbc12c0",
+    "status": "calculated",
+    "value": "4750.87332384003"
+  },
+  {
+    "metric_id": "cost.r6.metal_cost_yoy_rate",
+    "label": "金属成本同比变化率",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_5745205abc12474db9af366c6052a2f3",
+      "ev_8c5ede2396cb4e72984cecc6affff8d4"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_0794843cd5320b6bde7c2c8f",
+    "status": "calculated",
+    "value": "9.629909563588204802688023694"
+  },
+  {
+    "metric_id": "cost.r6.variable_metal_yoy_difference",
+    "label": "变动金属成本同比差额",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_338f6081619a4c13b44b8266b1517cb6",
+      "ev_241826c89f594bdf807f8ed4f5f69422"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_4d9d3a33fd2e4109eebd4f94",
+    "status": "calculated",
+    "value": "5521.241068289094"
+  },
+  {
+    "metric_id": "cost.r6.variable_metal_yoy_rate",
+    "label": "变动金属成本同比变化率",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_338f6081619a4c13b44b8266b1517cb6",
+      "ev_241826c89f594bdf807f8ed4f5f69422"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_1e00d0a5a6e4d8e16995456c",
+    "status": "calculated",
+    "value": "14.51272899577356389278932332"
+  },
+  {
+    "metric_id": "cost.r7.ore_cost_yoy_difference",
+    "label": "吨矿成本同比差额",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_8bf3761246dd4f898e151106f88054a6",
+      "ev_f9448652d7ca4ff1bb37343e463a5f79"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_56b3c9a67a29a111a6ff4ed1",
+    "status": "calculated",
+    "value": "22.69048705458846"
+  },
+  {
+    "metric_id": "cost.r7.ore_cost_yoy_rate",
+    "label": "吨矿成本同比变化率",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_8bf3761246dd4f898e151106f88054a6",
+      "ev_f9448652d7ca4ff1bb37343e463a5f79"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_4e05848b7b82867263e74e71",
+    "status": "calculated",
+    "value": "10.16704861068654847139639761"
+  },
+  {
+    "metric_id": "cost.r7.variable_yoy_difference",
+    "label": "变动吨矿成本同比差额",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_127f2a53d8994aa392c71fcfc87e199a",
+      "ev_e1c5951abf4c4e30b51117764711ccf8"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_b3b6de67703049120c682991",
+    "status": "calculated",
+    "value": "18.23495851016995"
+  },
+  {
+    "metric_id": "cost.r7.variable_yoy_rate",
+    "label": "变动吨矿成本同比变化率",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_127f2a53d8994aa392c71fcfc87e199a",
+      "ev_e1c5951abf4c4e30b51117764711ccf8"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_76f0658984296399b06087cc",
+    "status": "calculated",
+    "value": "10.02167149005616035761644620"
+  },
+  {
+    "metric_id": "cost.r7.metal_cost_yoy_difference",
+    "label": "金属成本同比差额",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_0bd08798609249918403789ddd473c13",
+      "ev_69c4a2ea224c483097b84f071b06e5ff"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_76a2dfe3a1b120c3357b0706",
+    "status": "calculated",
+    "value": "5431.606802317345"
+  },
+  {
+    "metric_id": "cost.r7.metal_cost_yoy_rate",
+    "label": "金属成本同比变化率",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_0bd08798609249918403789ddd473c13",
+      "ev_69c4a2ea224c483097b84f071b06e5ff"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_bec873a8eebb112379bf0019",
+    "status": "calculated",
+    "value": "20.11298960370087970613752233"
+  },
+  {
+    "metric_id": "cost.r7.variable_metal_yoy_difference",
+    "label": "变动金属成本同比差额",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_fe0d679c005b4a64941b4df66b30e8f0",
+      "ev_005d753d165f4a029a8d13236a8533b3"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_406ebd177a838b6675947f8b",
+    "status": "calculated",
+    "value": "4393.47315341521"
+  },
+  {
+    "metric_id": "cost.r7.variable_metal_yoy_rate",
+    "label": "变动金属成本同比变化率",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_fe0d679c005b4a64941b4df66b30e8f0",
+      "ev_005d753d165f4a029a8d13236a8533b3"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_fc17edda4d581378e742c652",
+    "status": "calculated",
+    "value": "19.95448775764887623617743257"
+  },
+  {
+    "metric_id": "cost.r9.ore_cost_yoy_difference",
+    "label": "吨矿成本同比差额",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_cee9e221c80542f8acd07c52e2ba669d",
+      "ev_45f0283ea45e424bb437e2ae7649380e"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_2e406cb700cfc585393e816f",
+    "status": "calculated",
+    "value": "22.79774807887924"
+  },
+  {
+    "metric_id": "cost.r9.ore_cost_yoy_rate",
+    "label": "吨矿成本同比变化率",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_cee9e221c80542f8acd07c52e2ba669d",
+      "ev_45f0283ea45e424bb437e2ae7649380e"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_ed6cba94ddd3279e9216051b",
+    "status": "calculated",
+    "value": "8.292894639670896316763928928"
+  },
+  {
+    "metric_id": "cost.r9.variable_yoy_difference",
+    "label": "变动吨矿成本同比差额",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_11456963f89f42e583c19c8faa33d9ca",
+      "ev_899ae8db224d427c99fab1f08d507698"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_828f96cb7b1570f627e79080",
+    "status": "calculated",
+    "value": "-1.62483568440248"
+  },
+  {
+    "metric_id": "cost.r9.variable_yoy_rate",
+    "label": "变动吨矿成本同比变化率",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_11456963f89f42e583c19c8faa33d9ca",
+      "ev_899ae8db224d427c99fab1f08d507698"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_bc7e416c467c405ed564d79d",
+    "status": "calculated",
+    "value": "-0.7206097337716715812288375573"
+  },
+  {
+    "metric_id": "cost.r9.metal_cost_yoy_difference",
+    "label": "金属成本同比差额",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_88f1f7f7959b4b0c96ac53ea9fdc284c",
+      "ev_8e956fdfdf0245c192c05e6f554d75ac"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_3e83f8c38adcd55b4a0d3f5a",
+    "status": "calculated",
+    "value": "4816.191372829954"
+  },
+  {
+    "metric_id": "cost.r9.metal_cost_yoy_rate",
+    "label": "金属成本同比变化率",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_88f1f7f7959b4b0c96ac53ea9fdc284c",
+      "ev_8e956fdfdf0245c192c05e6f554d75ac"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_2f9ae23497e03b0f2568c5c2",
+    "status": "calculated",
+    "value": "10.81988427572923953467147137"
+  },
+  {
+    "metric_id": "cost.r9.variable_metal_yoy_difference",
+    "label": "变动金属成本同比差额",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_6441474cabb44c7d9aa0a8ea3f31e8fd",
+      "ev_744f260b95b24bc68677ae4c5148dd59"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_7c6f69131bf08db7325025f3",
+    "status": "calculated",
+    "value": "582.70888610354"
+  },
+  {
+    "metric_id": "cost.r9.variable_metal_yoy_rate",
+    "label": "变动金属成本同比变化率",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_6441474cabb44c7d9aa0a8ea3f31e8fd",
+      "ev_744f260b95b24bc68677ae4c5148dd59"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_75f57832aeee46589e24e01d",
+    "status": "calculated",
+    "value": "1.596051863572359255202191408"
+  },
+  {
+    "metric_id": "cost.r10.ore_cost_yoy_difference",
+    "label": "吨矿成本同比差额",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_68dcd0dd68b4441fb3d5f1617dfeea45",
+      "ev_8a6b57cd1a6f4a2296e88a27e26550be"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_cff1eda44507b0a3af6d1b9d",
+    "status": "calculated",
+    "value": "6.70685362653532"
+  },
+  {
+    "metric_id": "cost.r10.ore_cost_yoy_rate",
+    "label": "吨矿成本同比变化率",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_68dcd0dd68b4441fb3d5f1617dfeea45",
+      "ev_8a6b57cd1a6f4a2296e88a27e26550be"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_e08fef6c2b7d6e00bac5b8ef",
+    "status": "calculated",
+    "value": "4.984818859645095862308843220"
+  },
+  {
+    "metric_id": "cost.r10.variable_yoy_difference",
+    "label": "变动吨矿成本同比差额",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_0b373e74478d421d869df1846d113874",
+      "ev_c615b83066ab4d33936a49c9abad9840"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_b9ef790c2de5c3643efe5afd",
+    "status": "calculated",
+    "value": "-3.61945749716423"
+  },
+  {
+    "metric_id": "cost.r10.variable_yoy_rate",
+    "label": "变动吨矿成本同比变化率",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_0b373e74478d421d869df1846d113874",
+      "ev_c615b83066ab4d33936a49c9abad9840"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_4ecca76196266b8ec3341dbd",
+    "status": "calculated",
+    "value": "-4.240489583068425551600142361"
+  },
+  {
+    "metric_id": "cost.r10.metal_cost_yoy_difference",
+    "label": "金属成本同比差额",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_bada5e0c861d4fcc9e47c11950c29b26",
+      "ev_ad094354fedd405cab40ebf6da651978"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_ca4a9f4422534edb2a8e85a0",
+    "status": "calculated",
+    "value": "-1986.496208246691"
+  },
+  {
+    "metric_id": "cost.r10.metal_cost_yoy_rate",
+    "label": "金属成本同比变化率",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_bada5e0c861d4fcc9e47c11950c29b26",
+      "ev_ad094354fedd405cab40ebf6da651978"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_6e4b60497c8628128636d8a8",
+    "status": "calculated",
+    "value": "-19.62140912131017531343883644"
+  },
+  {
+    "metric_id": "cost.r10.variable_metal_yoy_difference",
+    "label": "变动金属成本同比差额",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_670c5fe854a04a72be832ef77d7951e7",
+      "ev_768c09f8607646a4aee723f5bbaa01ea"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_9a8420d9ad0590ad30c0f308",
+    "status": "calculated",
+    "value": "-1713.857253194659"
+  },
+  {
+    "metric_id": "cost.r10.variable_metal_yoy_rate",
+    "label": "变动金属成本同比变化率",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_670c5fe854a04a72be832ef77d7951e7",
+      "ev_768c09f8607646a4aee723f5bbaa01ea"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_8d6ac0d5cd3eaefc221caa0a",
+    "status": "calculated",
+    "value": "-26.68449977671181633155848353"
+  },
+  {
+    "metric_id": "cost_inputs.r16.processed_yoy_difference",
+    "label": "选矿处理量同比差额",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_b731a5996af8433f92a60ab80b07b150",
+      "ev_bdeb7548816f49d9a21a55d46bcbc566"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_ec24246faa0068af4993b4ff",
+    "status": "calculated",
+    "value": "-1212671.749865705"
+  },
+  {
+    "metric_id": "cost_inputs.r16.processed_yoy_rate",
+    "label": "选矿处理量同比变化率",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_b731a5996af8433f92a60ab80b07b150",
+      "ev_bdeb7548816f49d9a21a55d46bcbc566"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_305e59fa0019a83a683a5f13",
+    "status": "calculated",
+    "value": "-4.531876483398051204623443363"
+  },
+  {
+    "metric_id": "cost_inputs.r16.labor_depr_yoy_difference",
+    "label": "人工及折旧同比差额",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_dec8c364130a4486824836d66355ec19",
+      "ev_871dd0569eba4eff8ddbb141d733cbef"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_a57d1d5afc1300abff21d6d2",
+    "status": "calculated",
+    "value": "10381.91533476543"
+  },
+  {
+    "metric_id": "cost_inputs.r16.labor_depr_yoy_rate",
+    "label": "人工及折旧同比变化率",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_dec8c364130a4486824836d66355ec19",
+      "ev_871dd0569eba4eff8ddbb141d733cbef"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_dc187947a667f6f647982630",
+    "status": "calculated",
+    "value": "15.09400168906271844522107513"
+  },
+  {
+    "metric_id": "cost_inputs.r16.metal_yoy_difference",
+    "label": "金属折合量同比差额",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_68a0df21d3874b8f9762d9755c20b6d7",
+      "ev_a2a6f957841b4768860448a898dbd4ac"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_365da2df9d2eeb6b65d7950b",
+    "status": "calculated",
+    "value": "-2958.12659707609"
+  },
+  {
+    "metric_id": "cost_inputs.r16.metal_yoy_rate",
+    "label": "金属折合量同比变化率",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_68a0df21d3874b8f9762d9755c20b6d7",
+      "ev_a2a6f957841b4768860448a898dbd4ac"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_050a82ab7fa024c18678d262",
+    "status": "calculated",
+    "value": "-2.380288710278930250336061283"
+  },
+  {
+    "metric_id": "cost_inputs.r17.processed_yoy_difference",
+    "label": "选矿处理量同比差额",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_5b7109d442bf4ffdb882ad274db0078a",
+      "ev_b6f432f08b2d4c55ac6e6a1c6fed384f"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_e51e41f94a0d9c5ad1c48a84",
+    "status": "calculated",
+    "value": "37873.6528585982"
+  },
+  {
+    "metric_id": "cost_inputs.r17.processed_yoy_rate",
+    "label": "选矿处理量同比变化率",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_5b7109d442bf4ffdb882ad274db0078a",
+      "ev_b6f432f08b2d4c55ac6e6a1c6fed384f"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_2e8ca39eb3ef9783381d3a0a",
+    "status": "calculated",
+    "value": "3.399761998492495743421848293"
+  },
+  {
+    "metric_id": "cost_inputs.r17.labor_depr_yoy_difference",
+    "label": "人工及折旧同比差额",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_29aa921a910840039c9136864bdef113",
+      "ev_6e01912fe8ab44bebc381198beea1865"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_70284683a1faac2f01e77a26",
+    "status": "calculated",
+    "value": "2975.672194188798"
+  },
+  {
+    "metric_id": "cost_inputs.r17.labor_depr_yoy_rate",
+    "label": "人工及折旧同比变化率",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_29aa921a910840039c9136864bdef113",
+      "ev_6e01912fe8ab44bebc381198beea1865"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_3722e6b9e4ca6c1ab3caa2e7",
+    "status": "calculated",
+    "value": "39.56683463412741542290902552"
+  },
+  {
+    "metric_id": "cost_inputs.r17.metal_yoy_difference",
+    "label": "金属折合量同比差额",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_227f38a7cae24b5db3ef466e8deec2a4",
+      "ev_f893e89b19b24e8ea01ca1565dec3ea0"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_ff65613c40dfdaf0a6ad2a2f",
+    "status": "calculated",
+    "value": "416.945335980763"
+  },
+  {
+    "metric_id": "cost_inputs.r17.metal_yoy_rate",
+    "label": "金属折合量同比变化率",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_227f38a7cae24b5db3ef466e8deec2a4",
+      "ev_f893e89b19b24e8ea01ca1565dec3ea0"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_c1840b58398441868f6d5931",
+    "status": "calculated",
+    "value": "4.276168276157944492821178437"
+  },
+  {
+    "metric_id": "cost_inputs.r18.processed_yoy_difference",
+    "label": "选矿处理量同比差额",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_66611416c6174df480870d570f8dbb57",
+      "ev_5fe05250566a4d3fbf7d52f58a80b75d"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_34a79f27cdb9f739a6edd17d",
+    "status": "calculated",
+    "value": "470568.2632513198"
+  },
+  {
+    "metric_id": "cost_inputs.r18.processed_yoy_rate",
+    "label": "选矿处理量同比变化率",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_66611416c6174df480870d570f8dbb57",
+      "ev_5fe05250566a4d3fbf7d52f58a80b75d"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_8517850068344b99fd249490",
+    "status": "calculated",
+    "value": "38.52967213824662254201614310"
+  },
+  {
+    "metric_id": "cost_inputs.r18.labor_depr_yoy_difference",
+    "label": "人工及折旧同比差额",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_14ec4fb1c65d478096c8bddb8a2daa34",
+      "ev_c7acc66cca824a39a67e901b9a2420d1"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_919656d5b8de7872ea82e351",
+    "status": "calculated",
+    "value": "3834.406932972123"
+  },
+  {
+    "metric_id": "cost_inputs.r18.labor_depr_yoy_rate",
+    "label": "人工及折旧同比变化率",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_14ec4fb1c65d478096c8bddb8a2daa34",
+      "ev_c7acc66cca824a39a67e901b9a2420d1"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_b03828e18a2529144d30dbe5",
+    "status": "calculated",
+    "value": "34.18506441359643160233528815"
+  },
+  {
+    "metric_id": "cost_inputs.r18.metal_yoy_difference",
+    "label": "金属折合量同比差额",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_e211ecc58fef42cba6490a35dfd9362a",
+      "ev_620ea36c492c4bd98f9db510df7cefd2"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_a9363cd85666ec40d489f856",
+    "status": "calculated",
+    "value": "4372.348311761404"
+  },
+  {
+    "metric_id": "cost_inputs.r18.metal_yoy_rate",
+    "label": "金属折合量同比变化率",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_e211ecc58fef42cba6490a35dfd9362a",
+      "ev_620ea36c492c4bd98f9db510df7cefd2"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_3f9899a9e303bbbaa11b478d",
+    "status": "calculated",
+    "value": "44.01122644537030689376908871"
+  },
+  {
+    "metric_id": "cost_inputs.r19.processed_yoy_difference",
+    "label": "选矿处理量同比差额",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_dc78cad0d4e24fd28d4e0db9cf30e7eb",
+      "ev_89beca118aed4e60a3bbd56375d36884"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_c00ad46aa7766c9eb7dc1505",
+    "status": "calculated",
+    "value": "77409.852877758"
+  },
+  {
+    "metric_id": "cost_inputs.r19.processed_yoy_rate",
+    "label": "选矿处理量同比变化率",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_dc78cad0d4e24fd28d4e0db9cf30e7eb",
+      "ev_89beca118aed4e60a3bbd56375d36884"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_65459fb9375b94bc910b617f",
+    "status": "calculated",
+    "value": "5.156488157560853593448550951"
+  },
+  {
+    "metric_id": "cost_inputs.r19.labor_depr_yoy_difference",
+    "label": "人工及折旧同比差额",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_06cbaa655fc94125a20ef3372fd74921",
+      "ev_0013181d37974ad4a49715b248cbf7f4"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_303deff53dc27c1124113a67",
+    "status": "calculated",
+    "value": "1022.454583470440"
+  },
+  {
+    "metric_id": "cost_inputs.r19.labor_depr_yoy_rate",
+    "label": "人工及折旧同比变化率",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_06cbaa655fc94125a20ef3372fd74921",
+      "ev_0013181d37974ad4a49715b248cbf7f4"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_a4853ac728b9aa420e149cfb",
+    "status": "calculated",
+    "value": "16.52259658282754916046742021"
+  },
+  {
+    "metric_id": "cost_inputs.r19.metal_yoy_difference",
+    "label": "金属折合量同比差额",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_bd85c80461194b82b25ca7f8e6a89fb4",
+      "ev_0803877e905c481fbda382c53694c839"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_a11866a72f527adce20ffaea",
+    "status": "calculated",
+    "value": "-440.542553624148"
+  },
+  {
+    "metric_id": "cost_inputs.r19.metal_yoy_rate",
+    "label": "金属折合量同比变化率",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_bd85c80461194b82b25ca7f8e6a89fb4",
+      "ev_0803877e905c481fbda382c53694c839"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_5251d008aa7abe33a1523b08",
+    "status": "calculated",
+    "value": "-3.550981614846567345389492743"
+  },
+  {
+    "metric_id": "cost_inputs.r21.processed_yoy_difference",
+    "label": "选矿处理量同比差额",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_8a6f5b3610e640ecb41376b1a19d8ffa",
+      "ev_f3ce38b0ff274e4d834b0afacb2b3d47"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_4b25867b70cddcbb3d2a4bd8",
+    "status": "calculated",
+    "value": "35389.3543006087"
+  },
+  {
+    "metric_id": "cost_inputs.r21.processed_yoy_rate",
+    "label": "选矿处理量同比变化率",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_8a6f5b3610e640ecb41376b1a19d8ffa",
+      "ev_f3ce38b0ff274e4d834b0afacb2b3d47"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_57b7daa1cf023bdc8e22fbfa",
+    "status": "calculated",
+    "value": "1.281322820113849364136765148"
+  },
+  {
+    "metric_id": "cost_inputs.r21.labor_depr_yoy_difference",
+    "label": "人工及折旧同比差额",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_87ca44bfe92f4d3599d75673279e8344",
+      "ev_6e29ca18ab7342caa919e0fcc2a8961a"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_f78082db81ae26da374408cc",
+    "status": "calculated",
+    "value": "7006.715116839239"
+  },
+  {
+    "metric_id": "cost_inputs.r21.labor_depr_yoy_rate",
+    "label": "人工及折旧同比变化率",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_87ca44bfe92f4d3599d75673279e8344",
+      "ev_6e29ca18ab7342caa919e0fcc2a8961a"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_7ed01fe394b924eba24fddd1",
+    "status": "calculated",
+    "value": "51.32654489304279120782726101"
+  },
+  {
+    "metric_id": "cost_inputs.r21.metal_yoy_difference",
+    "label": "金属折合量同比差额",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_b33cb8ce5553458aac02ea5522264619",
+      "ev_0c36b8a216024d7b88a1e08d889e59b6"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_8a733308fd1bd98a051ee00e",
+    "status": "calculated",
+    "value": "-175.380117780449"
+  },
+  {
+    "metric_id": "cost_inputs.r21.metal_yoy_rate",
+    "label": "金属折合量同比变化率",
+    "subject_id": "银山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_b33cb8ce5553458aac02ea5522264619",
+      "ev_0c36b8a216024d7b88a1e08d889e59b6"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_b475649cb0083cfe5aeaa2e2",
+    "status": "calculated",
+    "value": "-1.028162113618009017153274665"
+  },
+  {
+    "metric_id": "cost_inputs.r22.processed_yoy_difference",
+    "label": "选矿处理量同比差额",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_0f1cf2392a9d4431ba698979ed33dd41",
+      "ev_ad06100b71ae45c3ae504b46f85a8558"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_501fb5af4cb0249910ede2f2",
+    "status": "calculated",
+    "value": "-32251.3469161695"
+  },
+  {
+    "metric_id": "cost_inputs.r22.processed_yoy_rate",
+    "label": "选矿处理量同比变化率",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_0f1cf2392a9d4431ba698979ed33dd41",
+      "ev_ad06100b71ae45c3ae504b46f85a8558"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_08df43cd47c2d85c05c17213",
+    "status": "calculated",
+    "value": "-4.081496610273387539996639155"
+  },
+  {
+    "metric_id": "cost_inputs.r22.labor_depr_yoy_difference",
+    "label": "人工及折旧同比差额",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "万元",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_558b13d42da94fe3adbbde321258f1cd",
+      "ev_c29a6ac525f846c9890d310d62124c1e"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_2c4219c852dfa93ecdff2ca8",
+    "status": "calculated",
+    "value": "624.017986555233"
+  },
+  {
+    "metric_id": "cost_inputs.r22.labor_depr_yoy_rate",
+    "label": "人工及折旧同比变化率",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_558b13d42da94fe3adbbde321258f1cd",
+      "ev_c29a6ac525f846c9890d310d62124c1e"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_b681ca8053e320ae9998326f",
+    "status": "calculated",
+    "value": "16.05403247432194467501897425"
+  },
+  {
+    "metric_id": "cost_inputs.r22.metal_yoy_difference",
+    "label": "金属折合量同比差额",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_e4eadcf5facb4aec9cf5479c214af408",
+      "ev_da2572831b724cdaba871e459a47b503"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_57cbf7e324911a9bbcfd1d0f",
+    "status": "calculated",
+    "value": "2654.916739755266"
+  },
+  {
+    "metric_id": "cost_inputs.r22.metal_yoy_rate",
+    "label": "金属折合量同比变化率",
+    "subject_id": "银珠山矿业",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_e4eadcf5facb4aec9cf5479c214af408",
+      "ev_da2572831b724cdaba871e459a47b503"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_7dfbbe0fcbe01692e34eb03a",
+    "status": "calculated",
+    "value": "25.28195124565790756585075514"
+  },
+  {
+    "metric_id": "concentrate.r4.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_75bdc3497bde46099b00762918f10e8b",
+      "ev_4d8b73c59db04e8c934b60f8d91f12fb"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_021f4ac4aaae39a6a3389ad8",
+    "status": "calculated",
+    "value": "-123.02849951118"
+  },
+  {
+    "metric_id": "concentrate.r4.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_75bdc3497bde46099b00762918f10e8b",
+      "ev_4d8b73c59db04e8c934b60f8d91f12fb"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_268d2f56907296985972855a",
+    "status": "calculated",
+    "value": "-0.1441688576760017113036522253"
+  },
+  {
+    "metric_id": "concentrate.r4.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_8e73c68b483b43be83f3ebe89b8f60db",
+      "ev_c1d5ef0267b94de694bd383135a9a6a2"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_43a38bcf4747ec46d9bb4a40",
+    "status": "calculated",
+    "value": "19205.04561219807"
+  },
+  {
+    "metric_id": "concentrate.r4.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_8e73c68b483b43be83f3ebe89b8f60db",
+      "ev_c1d5ef0267b94de694bd383135a9a6a2"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_9ae50e5f9cd5e5dbd6820baf",
+    "status": "calculated",
+    "value": "29.93287534068253972840740557"
+  },
+  {
+    "metric_id": "concentrate.r5.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_c79316a3163041d09dd500d32c89da0d",
+      "ev_ee95ab7f75af456785048db218f12cce"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_db7136c69d7014b852db7fc4",
+    "status": "calculated",
+    "value": "108.7312558313629"
+  },
+  {
+    "metric_id": "concentrate.r5.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_c79316a3163041d09dd500d32c89da0d",
+      "ev_ee95ab7f75af456785048db218f12cce"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_5f99d5f823b0cd2b20904bb2",
+    "status": "calculated",
+    "value": "5.500915790952477410090427155"
+  },
+  {
+    "metric_id": "concentrate.r5.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_6e22a5bec879435aaec9baae07d059c8",
+      "ev_0cdb099b4dd84b84934d4ef901ed5046"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_afb4b933e345d453bded96dd",
+    "status": "calculated",
+    "value": "178176.4640707586"
+  },
+  {
+    "metric_id": "concentrate.r5.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_6e22a5bec879435aaec9baae07d059c8",
+      "ev_0cdb099b4dd84b84934d4ef901ed5046"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_ce1556e91e2a8e7744abfff1",
+    "status": "calculated",
+    "value": "20.94951078672508541423153226"
+  },
+  {
+    "metric_id": "concentrate.r6.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_31618a7c5ce440f78a94dcfcf43931ee",
+      "ev_c84ab11a40a145709a36ca7d2f5aa561"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_9d6452c889633c5edc8e65ba",
+    "status": "calculated",
+    "value": "393.387197233874"
+  },
+  {
+    "metric_id": "concentrate.r6.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_31618a7c5ce440f78a94dcfcf43931ee",
+      "ev_c84ab11a40a145709a36ca7d2f5aa561"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_8048165cac319427f3af26a1",
+    "status": "calculated",
+    "value": "2.069126724668268918703984000"
+  },
+  {
+    "metric_id": "concentrate.r6.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_8ab9979bfad64e6c938ab4ec92663d60",
+      "ev_6ffe96b2717c44d9922ffe7c80e676a8"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_062171feb2a6a3bd49985dfd",
+    "status": "calculated",
+    "value": "1089.81275539672"
+  },
+  {
+    "metric_id": "concentrate.r6.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "德兴铜矿（含新技术）",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_8ab9979bfad64e6c938ab4ec92663d60",
+      "ev_6ffe96b2717c44d9922ffe7c80e676a8"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_afa288599ceed0af250d6a7b",
+    "status": "calculated",
+    "value": "13.25466292880417220690534119"
+  },
+  {
+    "metric_id": "concentrate.r8.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_99ef5163379f49edac9548d8117acb31",
+      "ev_c0022f1718ce46118db462fbf59c1b6f"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_c8e36fe19ac6e5662912c8d8",
+    "status": "calculated",
+    "value": "-41.6038034688174"
+  },
+  {
+    "metric_id": "concentrate.r8.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_99ef5163379f49edac9548d8117acb31",
+      "ev_c0022f1718ce46118db462fbf59c1b6f"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_1f6c115a6ad809e9aae987cc",
+    "status": "calculated",
+    "value": "-1.109406382809512492646295422"
+  },
+  {
+    "metric_id": "concentrate.r8.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_41254668479b46838e16c03b408eb7b0",
+      "ev_ec05fbc5da7d4863a52eb503a6d92384"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_90644cba01ee18e1e8b67f76",
+    "status": "calculated",
+    "value": "19205.04561219807"
+  },
+  {
+    "metric_id": "concentrate.r8.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_41254668479b46838e16c03b408eb7b0",
+      "ev_ec05fbc5da7d4863a52eb503a6d92384"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_b480490a3f4e5dd5418d262c",
+    "status": "calculated",
+    "value": "29.93287534068253972840740557"
+  },
+  {
+    "metric_id": "concentrate.r9.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_dbe750c3a612498eab38b04e51f63c51",
+      "ev_f95cb7069c7d444b839bd8d27fd2f57b"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_b70a902519454d50510b033f",
+    "status": "calculated",
+    "value": "-0.822546657502512"
+  },
+  {
+    "metric_id": "concentrate.r9.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_dbe750c3a612498eab38b04e51f63c51",
+      "ev_f95cb7069c7d444b839bd8d27fd2f57b"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_56b68904c814d925c10dc264",
+    "status": "calculated",
+    "value": "-8.203997123269667694190983982"
+  },
+  {
+    "metric_id": "concentrate.r9.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_05370c4888b54a018bf353f670bb8447",
+      "ev_fd1dc214a70b4b2d9b59a2d95cab070e"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_a5cefd94184348f48c4556da",
+    "status": "calculated",
+    "value": "178176.4640707586"
+  },
+  {
+    "metric_id": "concentrate.r9.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_05370c4888b54a018bf353f670bb8447",
+      "ev_fd1dc214a70b4b2d9b59a2d95cab070e"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_8b94e26c2e270fa160656155",
+    "status": "calculated",
+    "value": "20.94951078672508541423153226"
+  },
+  {
+    "metric_id": "concentrate.r10.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_26b96c77e56046ca953990c636fb1711",
+      "ev_5fe5cc5a7eaf4ec6a2d1ac6f6a94869a"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_4029e8bb04e76c5b0a27ee9f",
+    "status": "calculated",
+    "value": "-383.437852460865"
+  },
+  {
+    "metric_id": "concentrate.r10.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_26b96c77e56046ca953990c636fb1711",
+      "ev_5fe5cc5a7eaf4ec6a2d1ac6f6a94869a"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_6bfc494ba03cc6649952a21e",
+    "status": "calculated",
+    "value": "-9.497746092020889521743719693"
+  },
+  {
+    "metric_id": "concentrate.r10.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_4700dac0876b46359512feac07eaac71",
+      "ev_c900d1905cc84b69879a05ea62c8db0c"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_ab44010bcec029d0df547ad3",
+    "status": "calculated",
+    "value": "1089.81275539672"
+  },
+  {
+    "metric_id": "concentrate.r10.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "永平铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_4700dac0876b46359512feac07eaac71",
+      "ev_c900d1905cc84b69879a05ea62c8db0c"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_12749f69fc9ff9d066bb7fc1",
+    "status": "calculated",
+    "value": "13.25466292880417220690534119"
+  },
+  {
+    "metric_id": "concentrate.r12.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_ed0ccb1b96514275a3628cd6e6a72e02",
+      "ev_19db9b9e8e594376971ff7878472f785"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_5a3836cc30540dfc88b56600",
+    "status": "calculated",
+    "value": "3430.845969518265"
+  },
+  {
+    "metric_id": "concentrate.r12.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_ed0ccb1b96514275a3628cd6e6a72e02",
+      "ev_19db9b9e8e594376971ff7878472f785"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_a21031d05fda1cbc51725e05",
+    "status": "calculated",
+    "value": "49.27736912548181276732258421"
+  },
+  {
+    "metric_id": "concentrate.r12.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_440ea1a4ab3140ff8c2871b7c81b1da2",
+      "ev_fc793981b8124da6a5651353300ee8fc"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_679a6037d770fdf4dfaab6d7",
+    "status": "calculated",
+    "value": "19205.04561219807"
+  },
+  {
+    "metric_id": "concentrate.r12.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_440ea1a4ab3140ff8c2871b7c81b1da2",
+      "ev_fc793981b8124da6a5651353300ee8fc"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_0a51a902f7be013256802765",
+    "status": "calculated",
+    "value": "29.93287534068253972840740557"
+  },
+  {
+    "metric_id": "concentrate.r13.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_ae958384717f44d79cf41470defc4c37",
+      "ev_81fca8d2d33d41b29f20d0ebc44209f0"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_52ff14092c89dda1701d1b37",
+    "status": "calculated",
+    "value": "39.60115966473283"
+  },
+  {
+    "metric_id": "concentrate.r13.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_ae958384717f44d79cf41470defc4c37",
+      "ev_81fca8d2d33d41b29f20d0ebc44209f0"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_7b5e9511e6444eb146f90ba4",
+    "status": "calculated",
+    "value": "43.62969459898416479011113873"
+  },
+  {
+    "metric_id": "concentrate.r13.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_adf7a0d0289844f1874bc2bcb22d1579",
+      "ev_c692c49350e94bf2805b025b20a1be5e"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_0cecd7894ee4c8720a108314",
+    "status": "calculated",
+    "value": "178176.4640707586"
+  },
+  {
+    "metric_id": "concentrate.r13.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_adf7a0d0289844f1874bc2bcb22d1579",
+      "ev_c692c49350e94bf2805b025b20a1be5e"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_afa356ffab5fbc0416c2ef02",
+    "status": "calculated",
+    "value": "20.94951078672508541423153226"
+  },
+  {
+    "metric_id": "concentrate.r14.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_b402432976da4b3fb404b48cf104a3f4",
+      "ev_d031db8025a3437389b549b0fbfe8e98"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_f27887ec74731f1bcf66dca0",
+    "status": "calculated",
+    "value": "2242.267446298621"
+  },
+  {
+    "metric_id": "concentrate.r14.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_b402432976da4b3fb404b48cf104a3f4",
+      "ev_d031db8025a3437389b549b0fbfe8e98"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_ddee8890262bc6059cc0e879",
+    "status": "calculated",
+    "value": "51.71265709518021941048305228"
+  },
+  {
+    "metric_id": "concentrate.r14.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_28b3b891dcb24ab0868850da8005522c",
+      "ev_ccc441a98cce4ce2a4be51c12707d324"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_31ac8eaca4284a7e9f10a102",
+    "status": "calculated",
+    "value": "1089.81275539672"
+  },
+  {
+    "metric_id": "concentrate.r14.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "武山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_28b3b891dcb24ab0868850da8005522c",
+      "ev_ccc441a98cce4ce2a4be51c12707d324"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_b32a99af9505df4ab38841af",
+    "status": "calculated",
+    "value": "13.25466292880417220690534119"
+  },
+  {
+    "metric_id": "concentrate.r16.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_c6f1d0b0727d433bac435f3de3f9f5c0",
+      "ev_b8d255e3f9cc40949736ee5682dba2b4"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_1b4a785f7c84204dcf502ee9",
+    "status": "calculated",
+    "value": "-698.7907967404925"
+  },
+  {
+    "metric_id": "concentrate.r16.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_c6f1d0b0727d433bac435f3de3f9f5c0",
+      "ev_b8d255e3f9cc40949736ee5682dba2b4"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_fd2cc1e2f35de89b082230a3",
+    "status": "calculated",
+    "value": "-9.420304126476402826068746963"
+  },
+  {
+    "metric_id": "concentrate.r16.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/吨",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_70264ccc93864bebb65c0e576942ad73",
+      "ev_baef0da5d54848cb890efa1e3f2517e4"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_965c86b95664fa72ce5e8032",
+    "status": "calculated",
+    "value": "19205.04561219807"
+  },
+  {
+    "metric_id": "concentrate.r16.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_70264ccc93864bebb65c0e576942ad73",
+      "ev_baef0da5d54848cb890efa1e3f2517e4"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_f4f1be493430a67db861ec65",
+    "status": "calculated",
+    "value": "29.93287534068253972840740557"
+  },
+  {
+    "metric_id": "concentrate.r17.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_6ef03b5231d4405bbaafcb177a00e6cd",
+      "ev_a9a6779423d442c8a41eeed68b402d51"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_e13774ae36450197be19bc6d",
+    "status": "calculated",
+    "value": "-1.58492899420122"
+  },
+  {
+    "metric_id": "concentrate.r17.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_6ef03b5231d4405bbaafcb177a00e6cd",
+      "ev_a9a6779423d442c8a41eeed68b402d51"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_74325e2fe89beaff5ea4d665",
+    "status": "calculated",
+    "value": "-1.882763071116022045996620211"
+  },
+  {
+    "metric_id": "concentrate.r17.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_6952cc0faf4f4d4f97725feae054ce76",
+      "ev_79505e62311844d3badc6fbc6f3288af"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_821ce7e314e8f11b8b93159f",
+    "status": "calculated",
+    "value": "178176.4640707586"
+  },
+  {
+    "metric_id": "concentrate.r17.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_6952cc0faf4f4d4f97725feae054ce76",
+      "ev_79505e62311844d3badc6fbc6f3288af"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_04251b1329128b273b1a301d",
+    "status": "calculated",
+    "value": "20.94951078672508541423153226"
+  },
+  {
+    "metric_id": "concentrate.r18.sales_yoy_difference",
+    "label": "累计销量同比差额",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_5b0bf83fff3945a4a33b891e0abfbd18",
+      "ev_0bf0714e712143419ed15f1c1555db7b"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_b80267af83278f4fe5b22a27",
+    "status": "calculated",
+    "value": "-506.259612478672"
+  },
+  {
+    "metric_id": "concentrate.r18.sales_yoy_rate",
+    "label": "累计销量同比变化率",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_5b0bf83fff3945a4a33b891e0abfbd18",
+      "ev_0bf0714e712143419ed15f1c1555db7b"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_1866277eb4b62b8b663e3da8",
+    "status": "calculated",
+    "value": "-7.541954891853286612564052850"
+  },
+  {
+    "metric_id": "concentrate.r18.price_yoy_difference",
+    "label": "累计单价同比差额",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "元/公斤",
+    "operator": "difference",
+    "input_evidence_ids": [
+      "ev_69473c14ff5e48ec86e6f41cc360d445",
+      "ev_247eba57aef744eeabe289a3d9db1f22"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_958a7839ad33d33cc7332b84",
+    "status": "calculated",
+    "value": "1089.81275539672"
+  },
+  {
+    "metric_id": "concentrate.r18.price_yoy_rate",
+    "label": "累计单价同比变化率",
+    "subject_id": "城门山铜矿",
+    "period": "2026-07",
+    "window": "ytd",
+    "unit": "%",
+    "operator": "positive_base_change_rate",
+    "input_evidence_ids": [
+      "ev_69473c14ff5e48ec86e6f41cc360d445",
+      "ev_247eba57aef744eeabe289a3d9db1f22"
+    ],
+    "evidence_snapshot_id": "5aecf346aaae4edeb001f3b0170a667a",
+    "id": "calc_bc6bf7d3a61542837e590e2a",
+    "status": "calculated",
+    "value": "13.25466292880417220690534119"
+  }
+]

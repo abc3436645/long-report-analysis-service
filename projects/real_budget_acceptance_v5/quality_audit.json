@@ -1,0 +1,16 @@
+{
+  "source_count": 11,
+  "evidence_count": 960,
+  "calculation_count": 42,
+  "mismatched_source_values": [],
+  "unused_evidence": [],
+  "calculation_mismatch": [],
+  "major_sections": 7,
+  "unit_sections": 42,
+  "expected_units_missing": [],
+  "word_tables": 142,
+  "markdown_tables": 142,
+  "unresolved_placeholders": 0,
+  "literal_markdown_headings_in_word": [],
+  "word_size": 68732
+}

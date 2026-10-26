@@ -1,0 +1,562 @@
+{
+  "scenario": {
+    "schema_version": 1,
+    "id": "budget_operations",
+    "title": "预算经营分析",
+    "version": "0.2.0",
+    "subject_model": "organization_and_units",
+    "time_model": "month_and_year_to_date",
+    "inputs": [
+      {
+        "id": "actuals",
+        "required": true,
+        "kinds": [
+          "xlsx",
+          "csv"
+        ]
+      },
+      {
+        "id": "budget",
+        "required": true,
+        "kinds": [
+          "xlsx",
+          "csv"
+        ]
+      },
+      {
+        "id": "prior_period",
+        "required": false,
+        "kinds": [
+          "xlsx",
+          "csv"
+        ]
+      },
+      {
+        "id": "explanations",
+        "required": false,
+        "kinds": [
+          "docx",
+          "pdf",
+          "txt"
+        ]
+      },
+      {
+        "id": "context_materials",
+        "required": false,
+        "kinds": [
+          "xlsx",
+          "csv",
+          "docx",
+          "pdf",
+          "txt"
+        ]
+      }
+    ],
+    "retrieval": {
+      "enabled": false,
+      "task_refs": []
+    },
+    "outline": "outline.yaml",
+    "analysis": "analysis.yaml",
+    "quality": "quality.yaml",
+    "template": "templates/default-v0.2.0.docx",
+    "presentation": {
+      "body_font": "宋体",
+      "heading_font": "黑体",
+      "latin_font": "Times New Roman"
+    },
+    "delivery": {
+      "required_formats": [
+        "md",
+        "docx",
+        "pdf"
+      ],
+      "optional_formats": []
+    },
+    "business_definitions": {
+      "budget_version_rule": "time_plan",
+      "consolidation_rule": null,
+      "measurement_unit": "万元"
+    },
+    "definition_missing": [
+      "consolidation_rule"
+    ],
+    "overridable_fields": {
+      "business_definitions.measurement_unit": {
+        "type": "string",
+        "min_length": 1
+      },
+      "business_definitions.budget_version_rule": {
+        "type": "string",
+        "min_length": 1
+      }
+    }
+  },
+  "outline": {
+    "sections": [
+      {
+        "id": "executive",
+        "title": "第一章 管理层执行摘要",
+        "display_order": 1,
+        "repeat_for": null,
+        "depends_on": [
+          "decisions"
+        ],
+        "evidence_refs": [
+          "actual_amount"
+        ],
+        "analysis_refs": [
+          "budget_difference"
+        ]
+      },
+      {
+        "id": "scope",
+        "title": "第二章 数据来源与分析范围",
+        "display_order": 2,
+        "repeat_for": null,
+        "depends_on": [],
+        "evidence_refs": [],
+        "analysis_refs": []
+      },
+      {
+        "id": "sector",
+        "title": "第三章 矿山板块整体经营及利润分析",
+        "display_order": 3,
+        "repeat_for": null,
+        "depends_on": [
+          "scope"
+        ],
+        "evidence_refs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "analysis_refs": [
+          "ytd_change_rate",
+          "budget_difference"
+        ]
+      },
+      {
+        "id": "units",
+        "title": "第四章 六矿逐户经营分析",
+        "display_order": 4,
+        "repeat_for": "unit",
+        "depends_on": [
+          "sector"
+        ],
+        "evidence_refs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "analysis_refs": [
+          "month_change",
+          "budget_difference",
+          "cost.r4.ore_cost_yoy_rate"
+        ]
+      },
+      {
+        "id": "special",
+        "title": "第五章 专项来源与独立口径分析",
+        "display_order": 5,
+        "repeat_for": null,
+        "depends_on": [
+          "units"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": [
+          "concentrate.r4.sales_yoy_rate",
+          "sulfur.r4.sales_yoy_rate"
+        ]
+      },
+      {
+        "id": "common",
+        "title": "第六章 整体经营与共同关注事项",
+        "display_order": 6,
+        "repeat_for": null,
+        "depends_on": [
+          "special"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": []
+      },
+      {
+        "id": "market",
+        "title": "第七章 市场关联与情景测算边界",
+        "display_order": 7,
+        "repeat_for": null,
+        "depends_on": [
+          "common"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": []
+      },
+      {
+        "id": "decisions",
+        "title": "第八章 建议事项与人工确认",
+        "display_order": 8,
+        "repeat_for": null,
+        "depends_on": [
+          "market"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": []
+      },
+      {
+        "id": "methods",
+        "title": "第九章 来源索引与计算口径",
+        "display_order": 9,
+        "repeat_for": null,
+        "depends_on": [
+          "scope"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": []
+      }
+    ],
+    "unit_names": [
+      "德兴铜矿（含新技术）",
+      "永平铜矿",
+      "武山铜矿",
+      "城门山铜矿",
+      "银山矿业",
+      "银珠山矿业"
+    ],
+    "unit_levels": {
+      "德兴铜矿（含新技术）": 2,
+      "永平铜矿": 2,
+      "武山铜矿": 2,
+      "城门山铜矿": 2,
+      "银山矿业": 2,
+      "银珠山矿业": 2
+    }
+  },
+  "analysis": {
+    "evidence_selectors": [
+      {
+        "id": "actual_amount",
+        "input": "actuals",
+        "field": "amount",
+        "dimensions": [
+          "subject",
+          "period",
+          "metric",
+          "unit"
+        ]
+      },
+      {
+        "id": "budget_amount",
+        "input": "budget",
+        "field": "amount",
+        "dimensions": [
+          "subject",
+          "period",
+          "metric",
+          "unit",
+          "budget_version"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "id": "budget_difference",
+        "label": "较预算差额",
+        "operator": "difference",
+        "inputs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "applies_to": [
+          "profit_total"
+        ],
+        "parameters": {
+          "requires_same_subject_period_metric_unit": true
+        }
+      },
+      {
+        "id": "budget_completion_rate",
+        "label": "预算完成率",
+        "operator": "positive_base_completion_rate",
+        "inputs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "applies_to": [
+          "profit_total"
+        ],
+        "parameters": {
+          "requires_same_subject_period_metric_unit": true,
+          "unit": "percent"
+        }
+      }
+    ],
+    "period_comparisons": [
+      {
+        "id": "month_change",
+        "label": "较上月差额",
+        "operator": "difference",
+        "basis": "actuals",
+        "window": "month",
+        "baseline": "previous_month",
+        "applies_to": [
+          "profit_total"
+        ]
+      },
+      {
+        "id": "ytd_change",
+        "label": "累计同比差额",
+        "operator": "difference",
+        "basis": "actuals",
+        "window": "ytd",
+        "baseline": "previous_year_same_month",
+        "applies_to": [
+          "profit_total"
+        ]
+      },
+      {
+        "id": "month_change_rate",
+        "label": "环比变化率",
+        "operator": "positive_base_change_rate",
+        "basis": "actuals",
+        "window": "month",
+        "baseline": "previous_month",
+        "applies_to": [
+          "profit_total"
+        ]
+      },
+      {
+        "id": "ytd_change_rate",
+        "label": "累计同比变化率",
+        "operator": "positive_base_change_rate",
+        "basis": "actuals",
+        "window": "ytd",
+        "baseline": "previous_year_same_month",
+        "applies_to": [
+          "profit_total"
+        ]
+      },
+      {
+        "id": "annual_plan_completion_rate",
+        "label": "年度计划完成率",
+        "operator": "positive_base_completion_rate",
+        "basis": "actuals",
+        "baseline_basis": "budget",
+        "window": "ytd",
+        "baseline": "annual_plan",
+        "applies_to": [
+          "profit_total"
+        ]
+      },
+      {
+        "id": "remaining_monthly_target",
+        "label": "剩余月份月均利润目标",
+        "operator": "remaining_monthly_target",
+        "basis": "actuals",
+        "baseline_basis": "budget",
+        "window": "ytd",
+        "baseline": "annual_plan",
+        "applies_to": [
+          "profit_total"
+        ]
+      }
+    ],
+    "paired_indicators": {
+      "ore_cost": {
+        "prior": "ore_cost_prior",
+        "label": "吨矿成本"
+      },
+      "variable": {
+        "prior": "variable_prior",
+        "label": "变动吨矿成本"
+      },
+      "metal_cost": {
+        "prior": "metal_cost_prior",
+        "label": "金属成本"
+      },
+      "variable_metal": {
+        "prior": "variable_metal_prior",
+        "label": "变动金属成本"
+      },
+      "processed": {
+        "prior": "processed_prior",
+        "label": "选矿处理量"
+      },
+      "labor_depr": {
+        "prior": "labor_depr_prior",
+        "label": "人工及折旧"
+      },
+      "metal": {
+        "prior": "metal_prior",
+        "label": "金属折合量"
+      },
+      "sales": {
+        "prior": "sales_prior",
+        "label": "累计销量"
+      },
+      "price": {
+        "prior": "price_prior",
+        "label": "累计单价"
+      },
+      "benefit": {
+        "prior": "benefit_prior",
+        "label": "产品或专项效益"
+      },
+      "fee": {
+        "prior": "fee_prior",
+        "label": "加工费"
+      },
+      "cost": {
+        "prior": "cost_prior",
+        "label": "单位成本"
+      },
+      "operating": {
+        "prior": "operating_prior",
+        "label": "生产经营效益"
+      },
+      "hedge": {
+        "prior": "hedge_prior",
+        "label": "保值影响"
+      },
+      "provisional": {
+        "prior": "provisional_prior",
+        "label": "暂估影响"
+      },
+      "ytd": {
+        "prior": "prior",
+        "label": "累计效益"
+      }
+    },
+    "analysis_tasks": [
+      {
+        "id": "performance_review",
+        "goal": "按月度变化、累计同比、序时预算、全年计划、生产与成本、产销专项的顺序形成事实—解释—待核原因—经营影响—行动；不得把专项量价差直接写成利润归因。"
+      }
+    ],
+    "writing_guidance": {
+      "unit_sequence": [
+        "经营综述：有数据时依次写本月与上月、本月与上年同月、累计与上年同期、累计与同期间序时计划、累计与年度计划；区分当月与累计，用注册的剩余月份月均利润目标解释后续压力，超全年计划时说明负差额不是未来盈利目标。",
+        "利润比较：逐户插入本单位表；有哪组可比值就展示哪组，缺上年同月时明确缺口；所有差额和比率引用本轮计算结果。",
+        "对比图：逐户使用本单位同口径数值，紧随利润表，并用一至三句解释图示变化与未确认原因。",
+        "经营变化：先比较本单位利润、生产、成本和产销的方向是否一致，再选最影响管理判断的差异；逐项区分确认事实、业务解释与待核原因，不把指标表改写为流水账。",
+        "经营指标：逐户插入本单位生产经营指标表；按实际业务类型选指标，可确认指标列本期、同期或计划、变化、单位和来源，无对应资料则列缺口与责任部门。",
+        "管理关注与人工确认：每户选一至三项真正不同的经营问题，每项按经营现象、数值证据、可能原因、影响、措施、待确认事项展开；缺库存、品位、回收率、结算或抵销台账时不得补造因果。"
+      ],
+      "source_governance": [
+        "先读全部当轮上传材料及工作表，识别正式主模板、单位身份和原始顺序；找不到可确认主模板时标注结构待确认，不能从专项表推造单位层级。",
+        "利润、成本、产销、专项、集团合并和板块汇总逐项核对主体、期间、产品、单位、预算版本与来源位置；模拟数据必须在报告显著标注，交付日期不能冒充报告期。",
+        "对利润质量、内部抵销、套保暂估、库存和专项重叠列出具体核验问题；无法桥接的专项只作方向性关联，不能把收入侧量价差算作净利润贡献。"
+      ],
+      "mining_focus": [
+        "同时比较选矿处理量与金属折合量的本期、同期和计算差额；两者分母不同，不以比值推断地质品位或回收率。",
+        "区分吨矿成本与金属成本的分母，分别比较本期、同期和变化；把变动成本、人工折旧与处理量的方向联系起来，费用归集和一次性因素未核实前不作确定归因。",
+        "有产品资料时分开分析铜精矿含铜、含金、含银的产销量、单价和专项量价影响；金属吨与公斤不得合计，产量减销量不能直接当库存变化。",
+        "硫精矿单列销量、均价、单位成本及同比或计划差异；生产、销售、结算的期间不一致时不得解释当月利润。",
+        "对每户选出区别于其他矿山的成本、计划或产销矛盾；缺回收率、品位、停机、库存和结算台账时明确需要生产、销售或财务部门补证。"
+      ],
+      "smelting_focus": [
+        "按本轮资料比较铜精矿处理量、电解铜产销、原料结构、TC或RC、能源与单位冶炼成本；金属回收、副产品与硫酸口径单列。",
+        "加工费和原料效益只有在合同、计价、采购量及成本范围对应时才桥接利润；不因TC单项升降直接判断采购优劣。"
+      ],
+      "processing_focus": [
+        "按产品比较铜加工产销、加工费或加价、单位加工成本、单吨毛利、订单和良品率；产品结构与产能利用率有来源时再解释利润。",
+        "不把原料价格波动直接等同加工利润变化，区分库存计价、加工合同与产品结算期间。"
+      ],
+      "trade_finance_focus": [
+        "对贸易和金融单位按经营净收益、现货及套保、投资收益、公允价值、资金占用和应收风险选择相关指标；避免套保与现货重复归因。",
+        "不给没有生产过程的单位套用吨矿成本或生产图表，缺风险敞口与现金流材料时明确判断边界。"
+      ],
+      "chart": [
+        "每户优先展示同期间累计实际、上年同期和序时计划三值；无三值时选本月与上月或同类经营指标，禁止把当月与累计放入同一比较系列。",
+        "图题、主体、期间、单位、数值、来源及一至三句经营解释必须对应本单位；按原模板单位顺序编号，图表不得替代分析文字。"
+      ],
+      "aggregate": [
+        "集团合并、板块原表合计、纳入单位和专项各有独立统计范围；来源表求和相符不等于正式会计合并与抵销规则已签认。",
+        "共同问题应从单位差异归纳成本、计划、产销与利润质量，区分共性与例外，说明证据、经营影响和下一步复核；不能只复述单位利润表。"
+      ],
+      "special": [
+        "铜精矿专项按含铜、含金、含银及原表主体分开，硫精矿按原表主体分开；明确来源表量价分解属于专项统计口径，不等于净利润贡献。",
+        "逐项记录主体、期间、产品、计价单位、成本范围、内部交易与财务入账是否一致；不满足桥接条件时只给方向性关联。"
+      ],
+      "decision": [
+        "重要建议同时写证据、经济影响或待测算原因、行动、责任部门、预算或采购条件及需要人工确认的数据；按可执行、待论证、待核实分级，不套用同一条降本口号。",
+        "净采购需求仅在同物料口径的预计耗用、目标期末库存、期初可用库存、自产供应和有效合同到货齐备时计算；否则不填造采购量或资金需求。",
+        "大额采购、技改或咨询方案比较维持现状、内部改善与新增投入；无投资现金流和成本依据时不编造收益率或回收期。",
+        "市场材料若晚于报告期或未经可靠来源核验，只能作未来风险线索；情景测算需显式参数与公式，无合同和库存资料不得填造采购量或收益。"
+      ]
+    },
+    "retrieval_tasks": []
+  },
+  "quality": {
+    "required_inputs": [
+      "actuals",
+      "budget"
+    ],
+    "required_sections": [
+      "executive",
+      "scope",
+      "sector",
+      "units",
+      "special",
+      "common",
+      "market",
+      "decisions",
+      "methods"
+    ],
+    "checks": [
+      "evidence_location",
+      "numeric_binding",
+      "same_basis",
+      "full_unit_coverage",
+      "independent_review",
+      "md_docx_openable"
+    ],
+    "require_full_unit_scope": true,
+    "require_material_disposition": true,
+    "unit_required_calculations": [
+      "month_change",
+      "ytd_change",
+      "ytd_change_rate",
+      "budget_difference",
+      "annual_plan_completion_rate"
+    ],
+    "unit_required_blocks": [
+      "经营综述",
+      "经营变化分析",
+      "管理关注",
+      "人工确认"
+    ],
+    "unit_min_operating_calculations": 6,
+    "unit_min_operating_narrative_calculations": 2,
+    "unit_evidence_families": [
+      {
+        "id": "mining_cost",
+        "prefixes": [
+          "cost."
+        ]
+      },
+      {
+        "id": "mining_operations",
+        "prefixes": [
+          "cost_inputs."
+        ]
+      },
+      {
+        "id": "copper_concentrate",
+        "prefixes": [
+          "concentrate."
+        ]
+      },
+      {
+        "id": "sulfur_concentrate",
+        "prefixes": [
+          "sulfur."
+        ]
+      }
+    ],
+    "unit_requires_source_citations": true,
+    "unit_requires_numbered_tables_and_chart": true,
+    "formal_requires": "all_required_checks_pass",
+    "visible_fields": [
+      "aggregate_amount",
+      "unit_amount"
+    ]
+  }
+}

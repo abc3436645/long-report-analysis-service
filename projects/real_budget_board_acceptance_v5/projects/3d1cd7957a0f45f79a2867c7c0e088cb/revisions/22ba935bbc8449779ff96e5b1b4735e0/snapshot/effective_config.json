@@ -1,0 +1,2515 @@
+{
+  "scenario": {
+    "schema_version": 1,
+    "id": "budget_operations",
+    "title": "预算经营分析",
+    "version": "0.1.0",
+    "subject_model": "organization_and_units",
+    "time_model": "month_and_year_to_date",
+    "inputs": [
+      {
+        "id": "actuals",
+        "required": true,
+        "kinds": [
+          "xlsx",
+          "csv"
+        ]
+      },
+      {
+        "id": "budget",
+        "required": true,
+        "kinds": [
+          "xlsx",
+          "csv"
+        ]
+      },
+      {
+        "id": "prior_period",
+        "required": false,
+        "kinds": [
+          "xlsx",
+          "csv"
+        ]
+      },
+      {
+        "id": "explanations",
+        "required": false,
+        "kinds": [
+          "docx",
+          "pdf",
+          "txt"
+        ]
+      }
+    ],
+    "retrieval": {
+      "enabled": false,
+      "task_refs": []
+    },
+    "outline": "outline.yaml",
+    "analysis": "analysis.yaml",
+    "quality": "quality.yaml",
+    "template": "templates/default-v0.1.0.docx",
+    "delivery": {
+      "required_formats": [
+        "md",
+        "docx"
+      ],
+      "optional_formats": [
+        "pdf"
+      ]
+    },
+    "business_definitions": {
+      "budget_version_rule": "time_plan",
+      "consolidation_rule": null,
+      "measurement_unit": "万元"
+    },
+    "definition_missing": [
+      "consolidation_rule"
+    ],
+    "overridable_fields": {
+      "business_definitions.measurement_unit": {
+        "type": "string",
+        "min_length": 1
+      },
+      "business_definitions.budget_version_rule": {
+        "type": "string",
+        "min_length": 1
+      }
+    }
+  },
+  "outline": {
+    "sections": [
+      {
+        "id": "summary",
+        "title": "第一章 核心结论与管理重点",
+        "display_order": 1,
+        "repeat_for": null,
+        "depends_on": [
+          "actions",
+          "sources"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": [
+          "performance_review"
+        ]
+      },
+      {
+        "id": "scope",
+        "title": "第二章 数据来源与分析范围",
+        "display_order": 2,
+        "repeat_for": null,
+        "depends_on": [],
+        "evidence_refs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "analysis_refs": []
+      },
+      {
+        "id": "units",
+        "title": "第三章 铜加工板块整体经营与预算执行",
+        "display_order": 3,
+        "repeat_for": "unit",
+        "depends_on": [
+          "scope"
+        ],
+        "evidence_refs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "analysis_refs": [
+          "budget_difference",
+          "performance_review"
+        ]
+      },
+      {
+        "id": "products",
+        "title": "第四章 加工费效益与产品结构",
+        "display_order": 4,
+        "repeat_for": null,
+        "depends_on": [
+          "units"
+        ],
+        "evidence_refs": [
+          "actual_amount"
+        ],
+        "analysis_refs": [
+          "performance_review"
+        ]
+      },
+      {
+        "id": "quality",
+        "title": "第五章 利润质量与效益拆分",
+        "display_order": 5,
+        "repeat_for": null,
+        "depends_on": [
+          "products"
+        ],
+        "evidence_refs": [
+          "actual_amount"
+        ],
+        "analysis_refs": [
+          "performance_review"
+        ]
+      },
+      {
+        "id": "common",
+        "title": "第六章 共同经营特征与风险",
+        "display_order": 6,
+        "repeat_for": null,
+        "depends_on": [
+          "quality"
+        ],
+        "evidence_refs": [
+          "actual_amount"
+        ],
+        "analysis_refs": [
+          "performance_review"
+        ]
+      },
+      {
+        "id": "market",
+        "title": "第七章 市场关联与情景边界",
+        "display_order": 7,
+        "repeat_for": null,
+        "depends_on": [
+          "scope"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": [
+          "performance_review"
+        ]
+      },
+      {
+        "id": "actions",
+        "title": "第八章 管理建议与待确认清单",
+        "display_order": 8,
+        "repeat_for": null,
+        "depends_on": [
+          "common",
+          "market"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": [
+          "performance_review"
+        ]
+      },
+      {
+        "id": "sources",
+        "title": "附录 材料使用与计算口径",
+        "display_order": 9,
+        "repeat_for": null,
+        "depends_on": [
+          "actions"
+        ],
+        "evidence_refs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "analysis_refs": [
+          "budget_difference"
+        ]
+      }
+    ],
+    "unit_names": [
+      "加工事业部",
+      "铜业铜材",
+      "集团铜材",
+      "江铜龙昌",
+      "江铜台意",
+      "华东铜材",
+      "华东电工",
+      "江铜嘉磁",
+      "江铜川禾",
+      "江铜铜箔",
+      "铜板带（不含高精）",
+      "高精铜板带",
+      "江铜华北",
+      "纳米克",
+      "江西电缆",
+      "广州铜材",
+      "广州新材料",
+      "江铜光电"
+    ],
+    "unit_levels": {
+      "铜业铜材": 3,
+      "集团铜材": 3,
+      "江铜龙昌": 3,
+      "江铜台意": 3,
+      "华东铜材": 3,
+      "华东电工": 3,
+      "江铜嘉磁": 3,
+      "江铜川禾": 3
+    }
+  },
+  "analysis": {
+    "evidence_selectors": [
+      {
+        "id": "actual_amount",
+        "input": "actuals",
+        "field": "amount",
+        "dimensions": [
+          "subject",
+          "period",
+          "metric",
+          "unit"
+        ]
+      },
+      {
+        "id": "budget_amount",
+        "input": "budget",
+        "field": "amount",
+        "dimensions": [
+          "subject",
+          "period",
+          "metric",
+          "unit",
+          "budget_version"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "id": "budget_difference",
+        "operator": "difference",
+        "inputs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "applies_to": [
+          "profit_total"
+        ],
+        "parameters": {
+          "requires_same_subject_period_metric_unit": true
+        }
+      }
+    ],
+    "period_comparisons": [
+      {
+        "id": "month_change",
+        "operator": "difference",
+        "basis": "actuals",
+        "window": "month",
+        "baseline": "previous_month",
+        "applies_to": [
+          "profit_total"
+        ]
+      },
+      {
+        "id": "ytd_change",
+        "operator": "difference",
+        "basis": "actuals",
+        "window": "ytd",
+        "baseline": "previous_year_same_month",
+        "applies_to": [
+          "profit_total"
+        ]
+      }
+    ],
+    "analysis_tasks": [
+      {
+        "id": "performance_review",
+        "goal": "区分已证实的表现、原因假设、问题和建议"
+      }
+    ],
+    "retrieval_tasks": [],
+    "source_profiles": [
+      {
+        "id": "reference_2026_07",
+        "report_period": "2026-07",
+        "organization": "集团合并",
+        "aggregate_subjects": [
+          "矿山板块合计",
+          "冶炼板块合计",
+          "加工板块"
+        ],
+        "nested_subjects": [
+          "贵冶",
+          "贸易事业部",
+          "铜业铜材",
+          "集团铜材",
+          "江铜龙昌",
+          "江铜台意",
+          "华东铜材",
+          "华东电工",
+          "江铜嘉磁",
+          "江铜川禾"
+        ],
+        "units": [
+          "德兴铜矿（含新技术）",
+          "永平铜矿",
+          "武山铜矿",
+          "城门山铜矿",
+          "银山矿业",
+          "银珠山矿业",
+          "母公司（冶炼）",
+          "江铜国兴",
+          "恒邦股份",
+          "江铜宏源",
+          "和鼎铜业",
+          "江铜清远",
+          "九江铅锌",
+          "金德铅业",
+          "铅山化工",
+          "德兴化工",
+          "加工事业部",
+          "江铜铜箔",
+          "铜板带（不含高精）",
+          "高精铜板带",
+          "江铜华北",
+          "纳米克",
+          "江西电缆",
+          "广州铜材",
+          "广州新材料",
+          "江铜光电",
+          "产融本部",
+          "财务公司",
+          "金瑞期货",
+          "北京国投",
+          "融资租赁",
+          "供应链金融",
+          "私募基金",
+          "再生资源",
+          "深圳片区（含托管单位）",
+          "上海片区（含托管单位）",
+          "香港公司（不含墨西哥）",
+          "香港投资",
+          "墨西哥渣选",
+          "贵溪物流",
+          "地勘公司",
+          "环境资源"
+        ],
+        "special_subjects": [
+          "acid:r8:铅锌公司",
+          "effect:r13:南方公司(含托管)",
+          "effect:r14:上海国贸（含托管）",
+          "price_plan:r10:铅锭",
+          "price_plan:r11:锌锭",
+          "price_plan:r4:阴极铜",
+          "price_plan:r5:黄金",
+          "price_plan:r6:白银",
+          "price_plan:r7:硫酸",
+          "price_plan:r8:硫精矿(35%)",
+          "price_plan:r9:钼精矿(45%)",
+          "processing:r10:铜杆8.0（华东铜材）",
+          "processing:r11:铜杆8.0（铜业铜材）",
+          "processing:r12:铜杆3.0（铜业铜材）",
+          "processing:r13:铜杆2.6（铜业铜材）",
+          "processing:r18:裸铜线（集团铜材）",
+          "processing:r19:镀锡线（集团铜材）",
+          "processing:r20:漆包线（台意）",
+          "processing:r21:漆包圆线（华东电工）",
+          "processing:r22:漆包扁线（华东电工）",
+          "processing:r23:裸铜线（华东电工）",
+          "processing:r26:标箔",
+          "processing:r27:锂电",
+          "processing:r29:青铜",
+          "processing:r30:紫铜",
+          "processing:r31:高铜",
+          "processing:r5:光管",
+          "processing:r6:内螺纹管",
+          "sulfur:r9:七宝山"
+        ],
+        "tables": [
+          {
+            "id": "profit",
+            "filename": "利润计划执行情况表_2026-10-14.xlsx",
+            "sheet": "Sheet1",
+            "subject_column": "B",
+            "input_ids": [
+              "actuals",
+              "budget"
+            ],
+            "rows": [
+              {
+                "row": 6,
+                "source_subject": "集团合并",
+                "targets": [
+                  "集团合并"
+                ]
+              },
+              {
+                "row": 7,
+                "source_subject": "          德兴铜矿（含新技术）",
+                "targets": [
+                  "德兴铜矿（含新技术）"
+                ]
+              },
+              {
+                "row": 8,
+                "source_subject": "          永平铜矿",
+                "targets": [
+                  "永平铜矿"
+                ]
+              },
+              {
+                "row": 9,
+                "source_subject": "          武山铜矿",
+                "targets": [
+                  "武山铜矿"
+                ]
+              },
+              {
+                "row": 10,
+                "source_subject": "          城门山铜矿",
+                "targets": [
+                  "城门山铜矿"
+                ]
+              },
+              {
+                "row": 11,
+                "source_subject": "          银山矿业",
+                "targets": [
+                  "银山矿业"
+                ]
+              },
+              {
+                "row": 12,
+                "source_subject": "          银珠山矿业",
+                "targets": [
+                  "银珠山矿业"
+                ]
+              },
+              {
+                "row": 13,
+                "source_subject": "       矿山板块合计",
+                "targets": [
+                  "矿山板块合计"
+                ]
+              },
+              {
+                "row": 14,
+                "source_subject": "          母公司（冶炼）",
+                "targets": [
+                  "母公司（冶炼）"
+                ]
+              },
+              {
+                "row": 15,
+                "source_subject": "             其中：贵冶",
+                "targets": [
+                  "贵冶"
+                ]
+              },
+              {
+                "row": 16,
+                "source_subject": "             其中：贸易事业部",
+                "targets": [
+                  "贸易事业部"
+                ]
+              },
+              {
+                "row": 19,
+                "source_subject": "          江铜国兴",
+                "targets": [
+                  "江铜国兴"
+                ]
+              },
+              {
+                "row": 20,
+                "source_subject": "          恒邦股份",
+                "targets": [
+                  "恒邦股份"
+                ]
+              },
+              {
+                "row": 21,
+                "source_subject": "          江铜宏源",
+                "targets": [
+                  "江铜宏源"
+                ]
+              },
+              {
+                "row": 22,
+                "source_subject": "          和鼎铜业",
+                "targets": [
+                  "和鼎铜业"
+                ]
+              },
+              {
+                "row": 23,
+                "source_subject": "          江铜清远",
+                "targets": [
+                  "江铜清远"
+                ]
+              },
+              {
+                "row": 25,
+                "source_subject": "          九江铅锌",
+                "targets": [
+                  "九江铅锌"
+                ]
+              },
+              {
+                "row": 26,
+                "source_subject": "          金德铅业",
+                "targets": [
+                  "金德铅业"
+                ]
+              },
+              {
+                "row": 28,
+                "source_subject": "       冶炼板块合计",
+                "targets": [
+                  "冶炼板块合计"
+                ]
+              },
+              {
+                "row": 29,
+                "source_subject": "          铅山化工",
+                "targets": [
+                  "铅山化工"
+                ]
+              },
+              {
+                "row": 30,
+                "source_subject": "          德兴化工",
+                "targets": [
+                  "德兴化工"
+                ]
+              },
+              {
+                "row": 32,
+                "source_subject": "          加工事业部",
+                "targets": [
+                  "加工事业部"
+                ]
+              },
+              {
+                "row": 33,
+                "source_subject": "              其中：铜业铜材",
+                "targets": [
+                  "铜业铜材"
+                ]
+              },
+              {
+                "row": 34,
+                "source_subject": "              集团铜材",
+                "targets": [
+                  "集团铜材"
+                ]
+              },
+              {
+                "row": 35,
+                "source_subject": "              江铜龙昌",
+                "targets": [
+                  "江铜龙昌"
+                ]
+              },
+              {
+                "row": 36,
+                "source_subject": "              江铜台意",
+                "targets": [
+                  "江铜台意"
+                ]
+              },
+              {
+                "row": 37,
+                "source_subject": "              华东铜材",
+                "targets": [
+                  "华东铜材"
+                ]
+              },
+              {
+                "row": 38,
+                "source_subject": "              华东电工",
+                "targets": [
+                  "华东电工"
+                ]
+              },
+              {
+                "row": 39,
+                "source_subject": "              江铜嘉磁",
+                "targets": [
+                  "江铜嘉磁"
+                ]
+              },
+              {
+                "row": 40,
+                "source_subject": "              江铜川禾",
+                "targets": [
+                  "江铜川禾"
+                ]
+              },
+              {
+                "row": 41,
+                "source_subject": "          江铜铜箔",
+                "targets": [
+                  "江铜铜箔"
+                ]
+              },
+              {
+                "row": 42,
+                "source_subject": "          铜板带（不含高精）",
+                "targets": [
+                  "铜板带（不含高精）"
+                ]
+              },
+              {
+                "row": 43,
+                "source_subject": "          高精铜板带",
+                "targets": [
+                  "高精铜板带"
+                ]
+              },
+              {
+                "row": 44,
+                "source_subject": "          江铜华北",
+                "targets": [
+                  "江铜华北"
+                ]
+              },
+              {
+                "row": 45,
+                "source_subject": "          纳米克",
+                "targets": [
+                  "纳米克"
+                ]
+              },
+              {
+                "row": 46,
+                "source_subject": "          江西电缆",
+                "targets": [
+                  "江西电缆"
+                ]
+              },
+              {
+                "row": 47,
+                "source_subject": "          广州铜材",
+                "targets": [
+                  "广州铜材"
+                ]
+              },
+              {
+                "row": 48,
+                "source_subject": "          广州新材料",
+                "targets": [
+                  "广州新材料"
+                ]
+              },
+              {
+                "row": 49,
+                "source_subject": "          江铜光电",
+                "targets": [
+                  "江铜光电"
+                ]
+              },
+              {
+                "row": 50,
+                "source_subject": "       加工板块",
+                "targets": [
+                  "加工板块"
+                ]
+              },
+              {
+                "row": 51,
+                "source_subject": "          产融本部",
+                "targets": [
+                  "产融本部"
+                ]
+              },
+              {
+                "row": 52,
+                "source_subject": "          财务公司",
+                "targets": [
+                  "财务公司"
+                ]
+              },
+              {
+                "row": 53,
+                "source_subject": "          金瑞期货",
+                "targets": [
+                  "金瑞期货"
+                ]
+              },
+              {
+                "row": 54,
+                "source_subject": "          北京国投",
+                "targets": [
+                  "北京国投"
+                ]
+              },
+              {
+                "row": 55,
+                "source_subject": "          融资租赁",
+                "targets": [
+                  "融资租赁"
+                ]
+              },
+              {
+                "row": 56,
+                "source_subject": "          供应链金融",
+                "targets": [
+                  "供应链金融"
+                ]
+              },
+              {
+                "row": 57,
+                "source_subject": "          私募基金",
+                "targets": [
+                  "私募基金"
+                ]
+              },
+              {
+                "row": 58,
+                "source_subject": "          再生资源",
+                "targets": [
+                  "再生资源"
+                ]
+              },
+              {
+                "row": 60,
+                "source_subject": "           深圳片区（含托管单位）",
+                "targets": [
+                  "深圳片区（含托管单位）"
+                ]
+              },
+              {
+                "row": 64,
+                "source_subject": "           上海片区（含托管单位）",
+                "targets": [
+                  "上海片区（含托管单位）"
+                ]
+              },
+              {
+                "row": 68,
+                "source_subject": "           香港公司（不含墨西哥）",
+                "targets": [
+                  "香港公司（不含墨西哥）"
+                ]
+              },
+              {
+                "row": 70,
+                "source_subject": "          香港投资",
+                "targets": [
+                  "香港投资"
+                ]
+              },
+              {
+                "row": 71,
+                "source_subject": "          墨西哥渣选",
+                "targets": [
+                  "墨西哥渣选"
+                ]
+              },
+              {
+                "row": 73,
+                "source_subject": "          贵溪物流",
+                "targets": [
+                  "贵溪物流"
+                ]
+              },
+              {
+                "row": 74,
+                "source_subject": "          地勘公司",
+                "targets": [
+                  "地勘公司"
+                ]
+              },
+              {
+                "row": 75,
+                "source_subject": "          环境资源",
+                "targets": [
+                  "环境资源"
+                ]
+              }
+            ],
+            "fields": [
+              {
+                "id": "month",
+                "column": "D",
+                "period": "2026-07",
+                "window": "month",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "previous",
+                "column": "E",
+                "period": "2026-06",
+                "window": "month",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "ytd",
+                "column": "F",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "prior",
+                "column": "G",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "annual",
+                "column": "H",
+                "period": "2026",
+                "window": "annual",
+                "basis": "budget",
+                "unit": "万元",
+                "budget_version": "annual_plan"
+              },
+              {
+                "id": "time_plan",
+                "column": "I",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "budget",
+                "unit": "万元",
+                "budget_version": "time_plan"
+              }
+            ]
+          },
+          {
+            "id": "effect",
+            "filename": "主要单位效益同比分析_2026-10-14.xlsx",
+            "sheet": "Sheet1",
+            "subject_column": "B",
+            "input_ids": [
+              "actuals"
+            ],
+            "rows": [
+              {
+                "row": 5,
+                "source_subject": "集团合并",
+                "targets": [
+                  "集团合并"
+                ]
+              },
+              {
+                "row": 6,
+                "source_subject": "母公司",
+                "targets": [
+                  "母公司（冶炼）"
+                ]
+              },
+              {
+                "row": 7,
+                "source_subject": "恒邦股份",
+                "targets": [
+                  "恒邦股份"
+                ]
+              },
+              {
+                "row": 8,
+                "source_subject": "九江铅锌",
+                "targets": [
+                  "九江铅锌"
+                ]
+              },
+              {
+                "row": 9,
+                "source_subject": "金德铅业",
+                "targets": [
+                  "金德铅业"
+                ]
+              },
+              {
+                "row": 10,
+                "source_subject": "江铜宏源",
+                "targets": [
+                  "江铜宏源"
+                ]
+              },
+              {
+                "row": 11,
+                "source_subject": "江铜国兴",
+                "targets": [
+                  "江铜国兴"
+                ]
+              },
+              {
+                "row": 12,
+                "source_subject": "江铜华北",
+                "targets": [
+                  "江铜华北"
+                ]
+              },
+              {
+                "row": 13,
+                "source_subject": "南方公司(含托管)",
+                "targets": [
+                  "effect:r13:南方公司(含托管)"
+                ]
+              },
+              {
+                "row": 14,
+                "source_subject": "上海国贸（含托管）",
+                "targets": [
+                  "effect:r14:上海国贸（含托管）"
+                ]
+              },
+              {
+                "row": 15,
+                "source_subject": "再生资源",
+                "targets": [
+                  "再生资源"
+                ]
+              },
+              {
+                "row": 16,
+                "source_subject": "加工事业部",
+                "targets": [
+                  "加工事业部"
+                ]
+              }
+            ],
+            "fields": [
+              {
+                "id": "ytd",
+                "column": "C",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "operating",
+                "column": "D",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "hedge",
+                "column": "E",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "provisional",
+                "column": "F",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "prior",
+                "column": "G",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "operating_prior",
+                "column": "H",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "hedge_prior",
+                "column": "I",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "provisional_prior",
+                "column": "J",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              }
+            ]
+          },
+          {
+            "id": "tc",
+            "filename": "TC增减利分析_2026-10-14.xlsx",
+            "sheet": "Sheet1",
+            "subject_column": "B",
+            "input_ids": [
+              "actuals",
+              "budget"
+            ],
+            "rows": [
+              {
+                "row": 4,
+                "source_subject": "股份母公司",
+                "targets": [
+                  "母公司（冶炼）"
+                ]
+              },
+              {
+                "row": 5,
+                "source_subject": "恒邦股份",
+                "targets": [
+                  "恒邦股份"
+                ]
+              },
+              {
+                "row": 6,
+                "source_subject": "江铜国兴",
+                "targets": [
+                  "江铜国兴"
+                ]
+              },
+              {
+                "row": 7,
+                "source_subject": "和鼎铜业",
+                "targets": [
+                  "和鼎铜业"
+                ]
+              }
+            ],
+            "fields": [
+              {
+                "id": "metal",
+                "column": "C",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万吨",
+                "budget_version": null
+              },
+              {
+                "id": "physical",
+                "column": "D",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万吨",
+                "budget_version": null
+              },
+              {
+                "id": "grade",
+                "column": "E",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "比例",
+                "budget_version": null
+              },
+              {
+                "id": "recovery",
+                "column": "F",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "比例",
+                "budget_version": null
+              },
+              {
+                "id": "current_tc",
+                "column": "G",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "美元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "planned_tc",
+                "column": "H",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "budget",
+                "unit": "美元/吨",
+                "budget_version": "time_plan"
+              },
+              {
+                "id": "prior_tc",
+                "column": "I",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "美元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "source_yoy",
+                "column": "J",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "source_plan",
+                "column": "K",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "budget",
+                "unit": "万元",
+                "budget_version": "time_plan"
+              }
+            ]
+          },
+          {
+            "id": "cost",
+            "filename": "矿山成本指标完成情况_2026-10-14.xlsx",
+            "sheet": "Sheet1",
+            "subject_column": "B",
+            "input_ids": [
+              "actuals"
+            ],
+            "rows": [
+              {
+                "row": 4,
+                "source_subject": "德兴铜矿",
+                "targets": [
+                  "德兴铜矿（含新技术）"
+                ]
+              },
+              {
+                "row": 5,
+                "source_subject": "永平铜矿",
+                "targets": [
+                  "永平铜矿"
+                ]
+              },
+              {
+                "row": 6,
+                "source_subject": "武山铜矿",
+                "targets": [
+                  "武山铜矿"
+                ]
+              },
+              {
+                "row": 7,
+                "source_subject": "城门山铜矿",
+                "targets": [
+                  "城门山铜矿"
+                ]
+              },
+              {
+                "row": 9,
+                "source_subject": "银山矿业",
+                "targets": [
+                  "银山矿业"
+                ]
+              },
+              {
+                "row": 10,
+                "source_subject": "银珠山矿业",
+                "targets": [
+                  "银珠山矿业"
+                ]
+              }
+            ],
+            "fields": [
+              {
+                "id": "ore_cost",
+                "column": "C",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "ore_cost_prior",
+                "column": "D",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "variable",
+                "column": "E",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "variable_prior",
+                "column": "F",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "metal_cost",
+                "column": "G",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "metal_cost_prior",
+                "column": "H",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "variable_metal",
+                "column": "I",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "variable_metal_prior",
+                "column": "J",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              }
+            ]
+          },
+          {
+            "id": "cost_inputs",
+            "filename": "矿山成本指标完成情况_2026-10-14.xlsx",
+            "sheet": "Sheet1",
+            "subject_column": "B",
+            "input_ids": [
+              "actuals"
+            ],
+            "rows": [
+              {
+                "row": 16,
+                "source_subject": "德兴铜矿",
+                "targets": [
+                  "德兴铜矿（含新技术）"
+                ]
+              },
+              {
+                "row": 17,
+                "source_subject": "永平铜矿",
+                "targets": [
+                  "永平铜矿"
+                ]
+              },
+              {
+                "row": 18,
+                "source_subject": "武山铜矿",
+                "targets": [
+                  "武山铜矿"
+                ]
+              },
+              {
+                "row": 19,
+                "source_subject": "城门山铜矿",
+                "targets": [
+                  "城门山铜矿"
+                ]
+              },
+              {
+                "row": 21,
+                "source_subject": "银山矿业",
+                "targets": [
+                  "银山矿业"
+                ]
+              },
+              {
+                "row": 22,
+                "source_subject": "银珠山矿业",
+                "targets": [
+                  "银珠山矿业"
+                ]
+              }
+            ],
+            "fields": [
+              {
+                "id": "processed",
+                "column": "C",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "吨",
+                "budget_version": null
+              },
+              {
+                "id": "processed_prior",
+                "column": "D",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "吨",
+                "budget_version": null
+              },
+              {
+                "id": "labor_depr",
+                "column": "E",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "labor_depr_prior",
+                "column": "F",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "metal",
+                "column": "G",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "吨",
+                "budget_version": null
+              },
+              {
+                "id": "metal_prior",
+                "column": "H",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "吨",
+                "budget_version": null
+              }
+            ]
+          },
+          {
+            "id": "concentrate",
+            "filename": "四矿铜精矿产销增减利情况_2026-10-14.xlsx",
+            "sheet": "Sheet1",
+            "subject_column": "C",
+            "input_ids": [
+              "actuals"
+            ],
+            "rows": [
+              {
+                "row": 4,
+                "source_subject": "铜精矿含铜",
+                "targets": [
+                  "德兴铜矿（含新技术）"
+                ]
+              },
+              {
+                "row": 5,
+                "source_subject": "铜精矿含金",
+                "targets": [
+                  "德兴铜矿（含新技术）"
+                ]
+              },
+              {
+                "row": 6,
+                "source_subject": "铜精矿含银",
+                "targets": [
+                  "德兴铜矿（含新技术）"
+                ]
+              },
+              {
+                "row": 8,
+                "source_subject": "铜精矿含铜",
+                "targets": [
+                  "永平铜矿"
+                ]
+              },
+              {
+                "row": 9,
+                "source_subject": "铜精矿含金",
+                "targets": [
+                  "永平铜矿"
+                ]
+              },
+              {
+                "row": 10,
+                "source_subject": "铜精矿含银",
+                "targets": [
+                  "永平铜矿"
+                ]
+              },
+              {
+                "row": 12,
+                "source_subject": "铜精矿含铜",
+                "targets": [
+                  "武山铜矿"
+                ]
+              },
+              {
+                "row": 13,
+                "source_subject": "铜精矿含金",
+                "targets": [
+                  "武山铜矿"
+                ]
+              },
+              {
+                "row": 14,
+                "source_subject": "铜精矿含银",
+                "targets": [
+                  "武山铜矿"
+                ]
+              },
+              {
+                "row": 16,
+                "source_subject": "铜精矿含铜",
+                "targets": [
+                  "城门山铜矿"
+                ]
+              },
+              {
+                "row": 17,
+                "source_subject": "铜精矿含金",
+                "targets": [
+                  "城门山铜矿"
+                ]
+              },
+              {
+                "row": 18,
+                "source_subject": "铜精矿含银",
+                "targets": [
+                  "城门山铜矿"
+                ]
+              }
+            ],
+            "fields": [
+              {
+                "id": "production",
+                "column": "E",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "吨或公斤，见产品",
+                "budget_version": null,
+                "units_by_row": {
+                  "4": "吨",
+                  "5": "公斤",
+                  "6": "公斤",
+                  "8": "吨",
+                  "9": "公斤",
+                  "10": "公斤",
+                  "12": "吨",
+                  "13": "公斤",
+                  "14": "公斤",
+                  "16": "吨",
+                  "17": "公斤",
+                  "18": "公斤"
+                }
+              },
+              {
+                "id": "sales",
+                "column": "F",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "吨或公斤，见产品",
+                "budget_version": null,
+                "units_by_row": {
+                  "4": "吨",
+                  "5": "公斤",
+                  "6": "公斤",
+                  "8": "吨",
+                  "9": "公斤",
+                  "10": "公斤",
+                  "12": "吨",
+                  "13": "公斤",
+                  "14": "公斤",
+                  "16": "吨",
+                  "17": "公斤",
+                  "18": "公斤"
+                }
+              },
+              {
+                "id": "sales_prior",
+                "column": "G",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "吨或公斤，见产品",
+                "budget_version": null,
+                "units_by_row": {
+                  "4": "吨",
+                  "5": "公斤",
+                  "6": "公斤",
+                  "8": "吨",
+                  "9": "公斤",
+                  "10": "公斤",
+                  "12": "吨",
+                  "13": "公斤",
+                  "14": "公斤",
+                  "16": "吨",
+                  "17": "公斤",
+                  "18": "公斤"
+                }
+              },
+              {
+                "id": "price",
+                "column": "H",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨或公斤，见产品",
+                "budget_version": null,
+                "units_by_row": {
+                  "4": "元/吨",
+                  "5": "元/公斤",
+                  "6": "元/公斤",
+                  "8": "元/吨",
+                  "9": "元/公斤",
+                  "10": "元/公斤",
+                  "12": "元/吨",
+                  "13": "元/公斤",
+                  "14": "元/公斤",
+                  "16": "元/吨",
+                  "17": "元/公斤",
+                  "18": "元/公斤"
+                }
+              },
+              {
+                "id": "price_prior",
+                "column": "I",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨或公斤，见产品",
+                "budget_version": null,
+                "units_by_row": {
+                  "4": "元/吨",
+                  "5": "元/公斤",
+                  "6": "元/公斤",
+                  "8": "元/吨",
+                  "9": "元/公斤",
+                  "10": "元/公斤",
+                  "12": "元/吨",
+                  "13": "元/公斤",
+                  "14": "元/公斤",
+                  "16": "元/吨",
+                  "17": "元/公斤",
+                  "18": "元/公斤"
+                }
+              },
+              {
+                "id": "volume_effect",
+                "column": "J",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "price_effect",
+                "column": "K",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              }
+            ]
+          },
+          {
+            "id": "acid",
+            "filename": "硫酸增减利分析_2026-10-14.xlsx",
+            "sheet": "Sheet1",
+            "subject_column": "B",
+            "input_ids": [
+              "actuals",
+              "budget"
+            ],
+            "rows": [
+              {
+                "row": 4,
+                "source_subject": "股份母公司",
+                "targets": [
+                  "母公司（冶炼）"
+                ]
+              },
+              {
+                "row": 5,
+                "source_subject": "德兴化工",
+                "targets": [
+                  "德兴化工"
+                ]
+              },
+              {
+                "row": 6,
+                "source_subject": "铅山化工",
+                "targets": [
+                  "铅山化工"
+                ]
+              },
+              {
+                "row": 7,
+                "source_subject": "金德铅业",
+                "targets": [
+                  "金德铅业"
+                ]
+              },
+              {
+                "row": 8,
+                "source_subject": "铅锌公司",
+                "targets": [
+                  "acid:r8:铅锌公司"
+                ]
+              },
+              {
+                "row": 9,
+                "source_subject": "恒邦股份",
+                "targets": [
+                  "恒邦股份"
+                ]
+              },
+              {
+                "row": 10,
+                "source_subject": "和鼎铜业",
+                "targets": [
+                  "和鼎铜业"
+                ]
+              },
+              {
+                "row": 11,
+                "source_subject": "江铜国兴",
+                "targets": [
+                  "江铜国兴"
+                ]
+              }
+            ],
+            "fields": [
+              {
+                "id": "sales",
+                "column": "C",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万吨",
+                "budget_version": null
+              },
+              {
+                "id": "sales_plan",
+                "column": "D",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "budget",
+                "unit": "万吨",
+                "budget_version": "time_plan"
+              },
+              {
+                "id": "sales_prior",
+                "column": "E",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万吨",
+                "budget_version": null
+              },
+              {
+                "id": "price",
+                "column": "F",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "price_plan",
+                "column": "G",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "budget",
+                "unit": "元/吨",
+                "budget_version": "time_plan"
+              },
+              {
+                "id": "price_prior",
+                "column": "H",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "volume_effect",
+                "column": "I",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "price_effect",
+                "column": "J",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "plan_volume",
+                "column": "K",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "budget",
+                "unit": "万元",
+                "budget_version": "time_plan"
+              },
+              {
+                "id": "plan_price",
+                "column": "L",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "budget",
+                "unit": "万元",
+                "budget_version": "time_plan"
+              },
+              {
+                "id": "cost",
+                "column": "M",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              }
+            ]
+          },
+          {
+            "id": "sulfur",
+            "filename": "硫精矿增减利分析_2026-10-14.xlsx",
+            "sheet": "Sheet1",
+            "subject_column": "B",
+            "input_ids": [
+              "actuals",
+              "budget"
+            ],
+            "rows": [
+              {
+                "row": 4,
+                "source_subject": "德兴铜矿",
+                "targets": [
+                  "德兴铜矿（含新技术）"
+                ]
+              },
+              {
+                "row": 5,
+                "source_subject": "永平铜矿",
+                "targets": [
+                  "永平铜矿"
+                ]
+              },
+              {
+                "row": 6,
+                "source_subject": "武山铜矿",
+                "targets": [
+                  "武山铜矿"
+                ]
+              },
+              {
+                "row": 7,
+                "source_subject": "城门山铜矿",
+                "targets": [
+                  "城门山铜矿"
+                ]
+              },
+              {
+                "row": 8,
+                "source_subject": "银山矿业",
+                "targets": [
+                  "银山矿业"
+                ]
+              },
+              {
+                "row": 9,
+                "source_subject": "七宝山",
+                "targets": [
+                  "sulfur:r9:七宝山"
+                ]
+              },
+              {
+                "row": 10,
+                "source_subject": "银珠山",
+                "targets": [
+                  "银珠山矿业"
+                ]
+              }
+            ],
+            "fields": [
+              {
+                "id": "sales",
+                "column": "C",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万吨",
+                "budget_version": null
+              },
+              {
+                "id": "sales_plan",
+                "column": "D",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "budget",
+                "unit": "万吨",
+                "budget_version": "time_plan"
+              },
+              {
+                "id": "sales_prior",
+                "column": "E",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万吨",
+                "budget_version": null
+              },
+              {
+                "id": "price",
+                "column": "F",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "price_plan",
+                "column": "G",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "budget",
+                "unit": "元/吨",
+                "budget_version": "time_plan"
+              },
+              {
+                "id": "price_prior",
+                "column": "H",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "volume_effect",
+                "column": "I",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "price_effect",
+                "column": "J",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "plan_volume",
+                "column": "K",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "budget",
+                "unit": "万元",
+                "budget_version": "time_plan"
+              },
+              {
+                "id": "plan_price",
+                "column": "L",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "budget",
+                "unit": "万元",
+                "budget_version": "time_plan"
+              },
+              {
+                "id": "cost",
+                "column": "M",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              }
+            ]
+          },
+          {
+            "id": "processing",
+            "filename": "铜加工板块加工费效益_2026-10-14.xlsx",
+            "sheet": "Sheet1",
+            "subject_column": "B",
+            "input_ids": [
+              "actuals"
+            ],
+            "rows": [
+              {
+                "row": 5,
+                "source_subject": "   光管",
+                "targets": [
+                  "processing:r5:光管"
+                ]
+              },
+              {
+                "row": 6,
+                "source_subject": "   内螺纹管",
+                "targets": [
+                  "processing:r6:内螺纹管"
+                ]
+              },
+              {
+                "row": 8,
+                "source_subject": "   铜杆8.0（江铜华北）",
+                "targets": [
+                  "江铜华北"
+                ]
+              },
+              {
+                "row": 9,
+                "source_subject": "   铜杆2.6（江铜华北）",
+                "targets": [
+                  "江铜华北"
+                ]
+              },
+              {
+                "row": 10,
+                "source_subject": "   铜杆8.0（华东铜材）",
+                "targets": [
+                  "processing:r10:铜杆8.0（华东铜材）"
+                ]
+              },
+              {
+                "row": 11,
+                "source_subject": "   铜杆8.0（铜业铜材）",
+                "targets": [
+                  "processing:r11:铜杆8.0（铜业铜材）"
+                ]
+              },
+              {
+                "row": 12,
+                "source_subject": "   铜杆3.0（铜业铜材）",
+                "targets": [
+                  "processing:r12:铜杆3.0（铜业铜材）"
+                ]
+              },
+              {
+                "row": 13,
+                "source_subject": "   铜杆2.6（铜业铜材）",
+                "targets": [
+                  "processing:r13:铜杆2.6（铜业铜材）"
+                ]
+              },
+              {
+                "row": 14,
+                "source_subject": "   铜杆8.0（广州铜材）",
+                "targets": [
+                  "广州铜材"
+                ]
+              },
+              {
+                "row": 15,
+                "source_subject": "   铜杆2.6（广州铜材）",
+                "targets": [
+                  "广州铜材"
+                ]
+              },
+              {
+                "row": 16,
+                "source_subject": "   铜杆2.0（广州铜材）",
+                "targets": [
+                  "广州铜材"
+                ]
+              },
+              {
+                "row": 18,
+                "source_subject": "   裸铜线（集团铜材）",
+                "targets": [
+                  "processing:r18:裸铜线（集团铜材）"
+                ]
+              },
+              {
+                "row": 19,
+                "source_subject": "   镀锡线（集团铜材）",
+                "targets": [
+                  "processing:r19:镀锡线（集团铜材）"
+                ]
+              },
+              {
+                "row": 20,
+                "source_subject": "   漆包线（台意）",
+                "targets": [
+                  "processing:r20:漆包线（台意）"
+                ]
+              },
+              {
+                "row": 21,
+                "source_subject": "   漆包圆线（华东电工）",
+                "targets": [
+                  "processing:r21:漆包圆线（华东电工）"
+                ]
+              },
+              {
+                "row": 22,
+                "source_subject": "   漆包扁线（华东电工）",
+                "targets": [
+                  "processing:r22:漆包扁线（华东电工）"
+                ]
+              },
+              {
+                "row": 23,
+                "source_subject": "   裸铜线（华东电工）",
+                "targets": [
+                  "processing:r23:裸铜线（华东电工）"
+                ]
+              },
+              {
+                "row": 24,
+                "source_subject": "   深加工线（广州新材料）",
+                "targets": [
+                  "广州新材料"
+                ]
+              },
+              {
+                "row": 26,
+                "source_subject": "   标箔",
+                "targets": [
+                  "processing:r26:标箔"
+                ]
+              },
+              {
+                "row": 27,
+                "source_subject": "   锂电",
+                "targets": [
+                  "processing:r27:锂电"
+                ]
+              },
+              {
+                "row": 29,
+                "source_subject": "   青铜",
+                "targets": [
+                  "processing:r29:青铜"
+                ]
+              },
+              {
+                "row": 30,
+                "source_subject": "   紫铜",
+                "targets": [
+                  "processing:r30:紫铜"
+                ]
+              },
+              {
+                "row": 31,
+                "source_subject": "   高铜",
+                "targets": [
+                  "processing:r31:高铜"
+                ]
+              }
+            ],
+            "fields": [
+              {
+                "id": "sales",
+                "column": "C",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万吨",
+                "budget_version": null
+              },
+              {
+                "id": "sales_prior",
+                "column": "D",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万吨",
+                "budget_version": null
+              },
+              {
+                "id": "fee",
+                "column": "E",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "fee_prior",
+                "column": "F",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "cost",
+                "column": "G",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "cost_prior",
+                "column": "H",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "元/吨",
+                "budget_version": null
+              },
+              {
+                "id": "benefit",
+                "column": "I",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "benefit_prior",
+                "column": "J",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              }
+            ]
+          },
+          {
+            "id": "raw_material",
+            "filename": "母公司原料效益完成情况_2026-10-14.xlsx",
+            "sheet": "Sheet1",
+            "subject_column": "B",
+            "input_ids": [
+              "actuals"
+            ],
+            "rows": [
+              {
+                "row": 4,
+                "source_subject": "1、阴极铜",
+                "targets": [
+                  "母公司（冶炼）"
+                ]
+              },
+              {
+                "row": 5,
+                "source_subject": "矿产阴极铜",
+                "targets": [
+                  "母公司（冶炼）"
+                ]
+              },
+              {
+                "row": 8,
+                "source_subject": "杂产阴极铜",
+                "targets": [
+                  "母公司（冶炼）"
+                ]
+              },
+              {
+                "row": 10,
+                "source_subject": "外购阳极铜产阴极铜",
+                "targets": [
+                  "母公司（冶炼）"
+                ]
+              },
+              {
+                "row": 12,
+                "source_subject": "2、硫酸",
+                "targets": [
+                  "母公司（冶炼）"
+                ]
+              },
+              {
+                "row": 13,
+                "source_subject": "3、阳极泥金",
+                "targets": [
+                  "母公司（冶炼）"
+                ]
+              },
+              {
+                "row": 14,
+                "source_subject": "4、阳极泥银",
+                "targets": [
+                  "母公司（冶炼）"
+                ]
+              },
+              {
+                "row": 15,
+                "source_subject": "5、稀散金属等",
+                "targets": [
+                  "母公司（冶炼）"
+                ]
+              }
+            ],
+            "fields": [
+              {
+                "id": "benefit",
+                "column": "H",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              },
+              {
+                "id": "benefit_prior",
+                "column": "M",
+                "period": "2025-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "万元",
+                "budget_version": null
+              }
+            ]
+          },
+          {
+            "id": "equity",
+            "filename": "江铜产融所持上市公司股权收益_2026-10-14.xlsx",
+            "sheet": "Sheet1",
+            "subject_column": "B",
+            "input_ids": [
+              "actuals"
+            ],
+            "rows": [
+              {
+                "row": 3,
+                "source_subject": "盛龙矿业",
+                "targets": [
+                  "产融本部"
+                ]
+              },
+              {
+                "row": 4,
+                "source_subject": "红板科技",
+                "targets": [
+                  "产融本部"
+                ]
+              },
+              {
+                "row": 5,
+                "source_subject": "海安集团",
+                "targets": [
+                  "产融本部"
+                ]
+              }
+            ],
+            "fields": [
+              {
+                "id": "shares",
+                "column": "C",
+                "period": "2026-07",
+                "window": "month",
+                "basis": "actuals",
+                "unit": "万股",
+                "budget_version": null
+              },
+              {
+                "id": "initial",
+                "column": "D",
+                "period": "2026-01",
+                "window": "month",
+                "basis": "actuals",
+                "unit": "元/股",
+                "budget_version": null
+              },
+              {
+                "id": "previous",
+                "column": "E",
+                "period": "2026-06",
+                "window": "month",
+                "basis": "actuals",
+                "unit": "元/股",
+                "budget_version": null
+              },
+              {
+                "id": "month",
+                "column": "F",
+                "period": "2026-07",
+                "window": "month",
+                "basis": "actuals",
+                "unit": "元/股",
+                "budget_version": null
+              },
+              {
+                "id": "ytd_gain",
+                "column": "G",
+                "period": "2026-07",
+                "window": "ytd",
+                "basis": "actuals",
+                "unit": "亿元",
+                "budget_version": null
+              },
+              {
+                "id": "month_gain",
+                "column": "H",
+                "period": "2026-07",
+                "window": "month",
+                "basis": "actuals",
+                "unit": "亿元",
+                "budget_version": null
+              },
+              {
+                "id": "mom_gain",
+                "column": "I",
+                "period": "2026-07",
+                "window": "month",
+                "basis": "actuals",
+                "unit": "亿元",
+                "budget_version": null
+              }
+            ]
+          },
+          {
+            "id": "price_plan",
+            "filename": "年度计划主要数据_2026-10-14.xlsx",
+            "sheet": "Sheet1",
+            "subject_column": "C",
+            "input_ids": [
+              "actuals",
+              "budget"
+            ],
+            "rows": [
+              {
+                "row": 4,
+                "source_subject": "阴极铜",
+                "targets": [
+                  "price_plan:r4:阴极铜"
+                ]
+              },
+              {
+                "row": 5,
+                "source_subject": "黄金",
+                "targets": [
+                  "price_plan:r5:黄金"
+                ]
+              },
+              {
+                "row": 6,
+                "source_subject": "白银",
+                "targets": [
+                  "price_plan:r6:白银"
+                ]
+              },
+              {
+                "row": 7,
+                "source_subject": "硫酸",
+                "targets": [
+                  "price_plan:r7:硫酸"
+                ]
+              },
+              {
+                "row": 8,
+                "source_subject": "硫精矿(35%)",
+                "targets": [
+                  "price_plan:r8:硫精矿(35%)"
+                ]
+              },
+              {
+                "row": 9,
+                "source_subject": "钼精矿(45%)",
+                "targets": [
+                  "price_plan:r9:钼精矿(45%)"
+                ]
+              },
+              {
+                "row": 10,
+                "source_subject": "铅锭",
+                "targets": [
+                  "price_plan:r10:铅锭"
+                ]
+              },
+              {
+                "row": 11,
+                "source_subject": "锌锭",
+                "targets": [
+                  "price_plan:r11:锌锭"
+                ]
+              }
+            ],
+            "fields": [
+              {
+                "id": "gross",
+                "column": "E",
+                "period": "2026",
+                "window": "annual",
+                "basis": "budget",
+                "unit": "元/吨或公斤，见产品",
+                "budget_version": "annual_plan"
+              },
+              {
+                "id": "net",
+                "column": "F",
+                "period": "2026",
+                "window": "annual",
+                "basis": "budget",
+                "unit": "元/吨或公斤，见产品",
+                "budget_version": "annual_plan"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "quality": {
+    "required_inputs": [
+      "actuals",
+      "budget"
+    ],
+    "required_sections": [
+      "summary",
+      "scope",
+      "units",
+      "products",
+      "quality",
+      "common",
+      "market",
+      "actions",
+      "sources"
+    ],
+    "checks": [
+      "evidence_location",
+      "numeric_binding",
+      "same_basis",
+      "full_unit_coverage",
+      "independent_review",
+      "md_docx_openable"
+    ],
+    "formal_requires": "all_required_checks_pass",
+    "visible_fields": [
+      "aggregate_amount",
+      "unit_amount"
+    ]
+  }
+}

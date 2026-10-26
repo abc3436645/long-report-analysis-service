@@ -1,7 +1,10 @@
 evidence_selectors:
   - {id: application_record, input: application, field: text, dimensions: [unit, application, evaluation_date]}
+  - {id: professional_record, input: professional_records, field: text, dimensions: [unit, evaluation_date]}
+  - {id: external_credit_record, input: external_credit_results, field: text, dimensions: [unit, application, evaluation_date]}
 metrics: []
 analysis_tasks:
   - {id: risk_review, goal: 按适用专题审查证据、风险事项和策略依据}
   - {id: external_result_check, goal: 核对外部额度、等级、期限的主体、时点、版本和适用范围}
-retrieval_tasks: []
+retrieval_tasks:
+  - {id: enterprise_events, input: professional_records, need: 担保、诉讼和在建项目的专业记录, ttl_days: 7}

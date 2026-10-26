@@ -1,0 +1,346 @@
+{
+  "scenario": {
+    "schema_version": 1,
+    "id": "budget_operations",
+    "title": "预算经营分析",
+    "version": "0.2.0",
+    "subject_model": "organization_and_units",
+    "time_model": "month_and_year_to_date",
+    "inputs": [
+      {
+        "id": "actuals",
+        "required": true,
+        "kinds": [
+          "xlsx",
+          "csv"
+        ]
+      },
+      {
+        "id": "budget",
+        "required": true,
+        "kinds": [
+          "xlsx",
+          "csv"
+        ]
+      },
+      {
+        "id": "prior_period",
+        "required": false,
+        "kinds": [
+          "xlsx",
+          "csv"
+        ]
+      },
+      {
+        "id": "explanations",
+        "required": false,
+        "kinds": [
+          "docx",
+          "pdf",
+          "txt"
+        ]
+      }
+    ],
+    "retrieval": {
+      "enabled": false,
+      "task_refs": []
+    },
+    "outline": "outline.yaml",
+    "analysis": "analysis.yaml",
+    "quality": "quality.yaml",
+    "template": "templates/default-v0.2.0.docx",
+    "presentation": {
+      "body_font": "宋体",
+      "heading_font": "黑体",
+      "latin_font": "Times New Roman"
+    },
+    "delivery": {
+      "required_formats": [
+        "md",
+        "docx"
+      ],
+      "optional_formats": [
+        "pdf"
+      ]
+    },
+    "business_definitions": {
+      "budget_version_rule": "time_plan",
+      "consolidation_rule": null,
+      "measurement_unit": "万元"
+    },
+    "definition_missing": [
+      "consolidation_rule"
+    ],
+    "overridable_fields": {
+      "business_definitions.measurement_unit": {
+        "type": "string",
+        "min_length": 1
+      },
+      "business_definitions.budget_version_rule": {
+        "type": "string",
+        "min_length": 1
+      }
+    }
+  },
+  "outline": {
+    "sections": [
+      {
+        "id": "scope",
+        "title": "资料与口径",
+        "display_order": 1,
+        "repeat_for": null,
+        "depends_on": [],
+        "evidence_refs": [],
+        "analysis_refs": []
+      },
+      {
+        "id": "unit_analysis",
+        "title": "矿山单位分析",
+        "display_order": 2,
+        "repeat_for": "unit",
+        "depends_on": [
+          "scope"
+        ],
+        "evidence_refs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "analysis_refs": [
+          "budget_difference",
+          "ytd_change_rate",
+          "annual_plan_completion_rate"
+        ]
+      },
+      {
+        "id": "summary",
+        "title": "结论与待核事项",
+        "display_order": 3,
+        "repeat_for": null,
+        "depends_on": [
+          "unit_analysis"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": []
+      }
+    ],
+    "unit_names": [
+      "德兴铜矿（含新技术）"
+    ],
+    "unit_levels": {}
+  },
+  "analysis": {
+    "evidence_selectors": [
+      {
+        "id": "actual_amount",
+        "input": "actuals",
+        "field": "amount",
+        "dimensions": [
+          "subject",
+          "period",
+          "metric",
+          "unit"
+        ]
+      },
+      {
+        "id": "budget_amount",
+        "input": "budget",
+        "field": "amount",
+        "dimensions": [
+          "subject",
+          "period",
+          "metric",
+          "unit",
+          "budget_version"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "id": "budget_difference",
+        "label": "较预算差额",
+        "operator": "difference",
+        "inputs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "applies_to": [
+          "profit_total"
+        ],
+        "parameters": {
+          "requires_same_subject_period_metric_unit": true
+        }
+      },
+      {
+        "id": "budget_completion_rate",
+        "label": "预算完成率",
+        "operator": "positive_base_completion_rate",
+        "inputs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "applies_to": [
+          "profit_total"
+        ],
+        "parameters": {
+          "requires_same_subject_period_metric_unit": true,
+          "unit": "percent"
+        }
+      }
+    ],
+    "period_comparisons": [
+      {
+        "id": "month_change",
+        "label": "较上月差额",
+        "operator": "difference",
+        "basis": "actuals",
+        "window": "month",
+        "baseline": "previous_month",
+        "applies_to": [
+          "profit_total"
+        ]
+      },
+      {
+        "id": "ytd_change",
+        "label": "累计同比差额",
+        "operator": "difference",
+        "basis": "actuals",
+        "window": "ytd",
+        "baseline": "previous_year_same_month",
+        "applies_to": [
+          "profit_total"
+        ]
+      },
+      {
+        "id": "month_change_rate",
+        "label": "环比变化率",
+        "operator": "positive_base_change_rate",
+        "basis": "actuals",
+        "window": "month",
+        "baseline": "previous_month",
+        "applies_to": [
+          "profit_total"
+        ]
+      },
+      {
+        "id": "ytd_change_rate",
+        "label": "累计同比变化率",
+        "operator": "positive_base_change_rate",
+        "basis": "actuals",
+        "window": "ytd",
+        "baseline": "previous_year_same_month",
+        "applies_to": [
+          "profit_total"
+        ]
+      },
+      {
+        "id": "annual_plan_completion_rate",
+        "label": "年度计划完成率",
+        "operator": "positive_base_completion_rate",
+        "basis": "actuals",
+        "baseline_basis": "budget",
+        "window": "ytd",
+        "baseline": "annual_plan",
+        "applies_to": [
+          "profit_total"
+        ]
+      }
+    ],
+    "paired_indicators": {
+      "ore_cost": {
+        "prior": "ore_cost_prior",
+        "label": "吨矿成本"
+      },
+      "variable": {
+        "prior": "variable_prior",
+        "label": "变动吨矿成本"
+      },
+      "metal_cost": {
+        "prior": "metal_cost_prior",
+        "label": "金属成本"
+      },
+      "variable_metal": {
+        "prior": "variable_metal_prior",
+        "label": "变动金属成本"
+      },
+      "processed": {
+        "prior": "processed_prior",
+        "label": "选矿处理量"
+      },
+      "labor_depr": {
+        "prior": "labor_depr_prior",
+        "label": "人工及折旧"
+      },
+      "metal": {
+        "prior": "metal_prior",
+        "label": "金属折合量"
+      },
+      "sales": {
+        "prior": "sales_prior",
+        "label": "累计销量"
+      },
+      "price": {
+        "prior": "price_prior",
+        "label": "累计单价"
+      },
+      "benefit": {
+        "prior": "benefit_prior",
+        "label": "产品或专项效益"
+      },
+      "fee": {
+        "prior": "fee_prior",
+        "label": "加工费"
+      },
+      "cost": {
+        "prior": "cost_prior",
+        "label": "单位成本"
+      },
+      "operating": {
+        "prior": "operating_prior",
+        "label": "生产经营效益"
+      },
+      "hedge": {
+        "prior": "hedge_prior",
+        "label": "保值影响"
+      },
+      "provisional": {
+        "prior": "provisional_prior",
+        "label": "暂估影响"
+      },
+      "ytd": {
+        "prior": "prior",
+        "label": "累计效益"
+      }
+    },
+    "analysis_tasks": [
+      {
+        "id": "performance_review",
+        "goal": "区分已证实的表现、原因假设、问题和建议"
+      }
+    ],
+    "retrieval_tasks": []
+  },
+  "quality": {
+    "required_inputs": [
+      "actuals",
+      "budget"
+    ],
+    "required_sections": [
+      "scope",
+      "unit_analysis",
+      "summary"
+    ],
+    "checks": [
+      "evidence_location",
+      "numeric_binding",
+      "same_basis",
+      "full_unit_coverage",
+      "independent_review",
+      "md_docx_openable"
+    ],
+    "formal_requires": "all_required_checks_pass",
+    "visible_fields": [
+      "aggregate_amount",
+      "unit_amount"
+    ]
+  }
+}

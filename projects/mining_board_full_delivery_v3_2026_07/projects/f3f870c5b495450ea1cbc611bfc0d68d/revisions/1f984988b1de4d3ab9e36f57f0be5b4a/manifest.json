@@ -1,0 +1,107 @@
+{
+  "id": "1f984988b1de4d3ab9e36f57f0be5b4a",
+  "run_id": "f71527c60e8c4ae291ab1f2dd7b02410",
+  "project_id": "f3f870c5b495450ea1cbc611bfc0d68d",
+  "status": "pending_review",
+  "scenario_id": "budget_operations",
+  "scenario_version": "0.2.0",
+  "effective_config_fingerprint": "fb71cf78820435580a257a0f9e334cc8f02283359e4e2c3ba9eebbe2b2e0a04b",
+  "evidence_snapshot_id": "f7fad1805acc4eddbe5f791d6a68ce43",
+  "material_fingerprints": {
+    "src_0478defcbe5a910d8bf32bb3": "0478defcbe5a910d8bf32bb393e14fc962a58ef6b88a5c02ea6aeb57c3324865",
+    "src_0daecd6ba2d5483047c4def1": "0daecd6ba2d5483047c4def157d00be0ac83d659394e927f21b5e77352250dd8",
+    "src_0fbdeaaf74793762b4cc8238": "0fbdeaaf74793762b4cc823859ae718137790ffaf5aac6d315dfa18006e8ec65",
+    "src_1cc11dcc9032d51b042e3abc": "1cc11dcc9032d51b042e3abcc50e4365f74c0e43262ea043bd05e0f4b4e69b09",
+    "src_20d24cab255727a31ebbd778": "20d24cab255727a31ebbd778e9e9f0a2a288f4d05d889f5f24314ece420ba0aa",
+    "src_38fd9f7fe6d88fa866433669": "38fd9f7fe6d88fa8664336698748fca0a26cffb6c79f85aa4c3aa803589b5958",
+    "src_7b7e4f6c7483e5f03b94d66c": "7b7e4f6c7483e5f03b94d66c3d23d83afbe3fe70a64829e5c63f6a1781ecb32d",
+    "src_8135d4d6f23cdd51c91bfd84": "8135d4d6f23cdd51c91bfd84983a007c051e6fdca071cc852d84f240993b378f",
+    "src_a564a567c56b145c39abf4e1": "a564a567c56b145c39abf4e1ee87c14d86d924b0568058f61bc1244d53a2ff2d",
+    "src_b4c4b3db3f909aa59da4b05a": "b4c4b3db3f909aa59da4b05ab676541f6f6c2a76c50e53a0b36e6d15be5d1e72",
+    "src_ca990f10b6830f97c10ef776": "ca990f10b6830f97c10ef776562a73e7ab8ec19b0d9b67049b354fc3aa94eff7",
+    "src_d9cf3d839c4bf107e78d5bd7": "d9cf3d839c4bf107e78d5bd777f20138adfc886ce0812ca7028e6f5e9fc469e8",
+    "src_f3c745004c776d1735050c26": "f3c745004c776d1735050c26904721c7fb0cc88c8b011527882f6226f65dc174"
+  },
+  "material_uses": [
+    {
+      "material_id": "src_0478defcbe5a910d8bf32bb3",
+      "use": "context",
+      "reason": "金融投资收益，不属于六矿采选经营。"
+    },
+    {
+      "material_id": "src_0daecd6ba2d5483047c4def1",
+      "use": "context",
+      "reason": "列示集团与其他单位效益构成，未列六矿独立主体；不并入矿山利润。"
+    },
+    {
+      "material_id": "src_0fbdeaaf74793762b4cc8238",
+      "use": "context",
+      "reason": "市场背景形成于报告期后，且未核实原始行情来源，仅作前瞻风险线索。"
+    },
+    {
+      "material_id": "src_1cc11dcc9032d51b042e3abc",
+      "use": "context",
+      "reason": "对应冶炼进口矿采购与TC，非六矿采选经营口径。"
+    },
+    {
+      "material_id": "src_20d24cab255727a31ebbd778",
+      "use": "analysis",
+      "reason": "与本轮矿山利润、成本、产销或硫精矿主体对应，已逐行核验并抽取。"
+    },
+    {
+      "material_id": "src_38fd9f7fe6d88fa866433669",
+      "use": "context",
+      "reason": "仅有设备报价，未给矿山采购需求、用量和预算授权，不推造采购决策。"
+    },
+    {
+      "material_id": "src_7b7e4f6c7483e5f03b94d66c",
+      "use": "context",
+      "reason": "铜加工业务，不属于矿山板块六矿。"
+    },
+    {
+      "material_id": "src_8135d4d6f23cdd51c91bfd84",
+      "use": "context",
+      "reason": "对应母公司冶炼原料效益，非六矿利润桥。"
+    },
+    {
+      "material_id": "src_a564a567c56b145c39abf4e1",
+      "use": "analysis",
+      "reason": "与本轮矿山利润、成本、产销或硫精矿主体对应，已逐行核验并抽取。"
+    },
+    {
+      "material_id": "src_b4c4b3db3f909aa59da4b05a",
+      "use": "context",
+      "reason": "化工硫酸不同于本轮六矿硫精矿，主体与产品不能混并。"
+    },
+    {
+      "material_id": "src_ca990f10b6830f97c10ef776",
+      "use": "context",
+      "reason": "含产品年度计划，当前缺同范围产量台账，不能与六矿销量直接计算完成率；仅用于口径提示。"
+    },
+    {
+      "material_id": "src_d9cf3d839c4bf107e78d5bd7",
+      "use": "analysis",
+      "reason": "与本轮矿山利润、成本、产销或硫精矿主体对应，已逐行核验并抽取。"
+    },
+    {
+      "material_id": "src_f3c745004c776d1735050c26",
+      "use": "analysis",
+      "reason": "与本轮矿山利润、成本、产销或硫精矿主体对应，已逐行核验并抽取。"
+    }
+  ],
+  "scope_exclusions": [],
+  "file_hashes": {
+    "markdown": "dd36f6e2c5d1f4a6b6740f923d688497cc78a1d6f7e87773bc3c01e6de3a4737",
+    "docx": "078960e1923f75beb777472f7c0f6b3b1a6bb5c498bf34d549cc416b3e1e2084",
+    "pdf": "9c0113aedaedccfcb3e5a65d6bc3e8c07fa695796ac589a79a976d7d6e3b3b53"
+  },
+  "chart_hashes": {
+    "chart_57753957e2938ea79d1a2193": "0c0036aef7540043f4ed7f34f940758ae44223b9cdd7a778c9d880d1f5dccc2b",
+    "chart_0fcd9b5e66a7adeddbab6709": "48369313a95a68410ca1332a95d06ffdc87baa372a8d1dd3d435cd3124b1d706",
+    "chart_e28ec165f1bd001ab76ff768": "d2da3f020a4ee6230307fd85266fdeb340df6c05ae3fa88a302daba51c844564",
+    "chart_2a98f129e19a9780599a695c": "73ba7620702287709113bb07c0f9d7f1a02c0674116900e862de236c1eddc25c",
+    "chart_db79ddba4669d3aa44153f19": "0e35a65d07ddaefe202a54584efe465c495aebb47d16f4b443603ca2d8e53ad8",
+    "chart_f5cc2481da00363c3b558ec7": "33b17dc0cfd18ae6e3ef951a914c35ea1e7ba5dbacdfb8c644b4ff4309a86e1d",
+    "chart_488ee5447445b01a9392df59": "fb257fdb1b8008e80a6f6a9144c83ab26d633ced58566ae59294f664c685f7a3"
+  }
+}

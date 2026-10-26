@@ -1,0 +1,15 @@
+{
+  "document": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/docs/技术方案设计-长报告分析工作台-评审稿.md",
+  "document_version": "V0.1",
+  "sha256": "ddbe97945cfce2ae81253bab694ba33ddef7d41c984469ddcca69375f2ee86dc",
+  "checked_at": "2026-10-26T13:54:10",
+  "links_checked": 36,
+  "unittest": {
+    "count": 43,
+    "status": "passed",
+    "elapsed_seconds": 187.371,
+    "log": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.archify/architecture-project-framework-20261026-132709/review-document-tests.log"
+  },
+  "source_changes_since_diagrams": [],
+  "scope": "One new review document; existing source and scenario definitions unchanged."
+}

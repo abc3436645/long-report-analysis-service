@@ -1,0 +1,507 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "长报告项目｜业务执行与修订流程",
+    "locale": "zh-CN",
+    "output": ".archify/architecture-project-framework-20261026-132709/business-workflow.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://local.invalid/jxcc-analysis-report-skills-project-snapshot",
+      "revision": "5bfc39774c1cdf5e544e33d03609f70987e2ce4a",
+      "link_mode": "local-only"
+    }
+  },
+  "lanes": [
+    {
+      "id": "source",
+      "label": "按配置启用的专业检索"
+    },
+    {
+      "id": "render_exception",
+      "label": "渲染失败恢复",
+      "variant": "exception"
+    },
+    {
+      "id": "main",
+      "label": "主控 Skill 与 CLI 的完整报告执行链"
+    },
+    {
+      "id": "exception",
+      "label": "冲突与硬失败",
+      "variant": "exception"
+    },
+    {
+      "id": "revision",
+      "label": "补件与改稿的新运行"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "intake",
+      "lane": "main",
+      "col": 0,
+      "type": "backend",
+      "label": "建项并冻结输入",
+      "sublabel": "需求 / 范围 / 材料 / run",
+      "sources": [
+        {
+          "path": ".agents/skills/long-report/SKILL.md",
+          "line": 8,
+          "end_line": 9
+        },
+        {
+          "path": "src/long_report/application.py",
+          "line": 71,
+          "end_line": 140
+        },
+        {
+          "path": "src/long_report/application.py",
+          "line": 156,
+          "end_line": 293
+        }
+      ],
+      "tag": "单项目单活动运行"
+    },
+    {
+      "id": "evidence",
+      "lane": "main",
+      "col": 1,
+      "type": "backend",
+      "label": "取证与证据封存",
+      "sublabel": "候选定位 → 裁决 → 快照",
+      "sources": [
+        {
+          "path": "src/long_report/application.py",
+          "line": 407,
+          "end_line": 626
+        }
+      ],
+      "tag": "有冲突不能封存"
+    },
+    {
+      "id": "analysis",
+      "lane": "main",
+      "col": 2,
+      "type": "backend",
+      "label": "指标与章节规划",
+      "sublabel": "注册计算 / 图表 / 章节 DAG",
+      "sources": [
+        {
+          "path": "src/long_report/application.py",
+          "line": 629,
+          "end_line": 781
+        },
+        {
+          "path": "src/long_report/application.py",
+          "line": 788,
+          "end_line": 868
+        },
+        {
+          "path": "src/long_report/application.py",
+          "line": 888,
+          "end_line": 1018
+        }
+      ],
+      "tag": "按本轮需求动态规划"
+    },
+    {
+      "id": "composition",
+      "lane": "main",
+      "col": 3,
+      "type": "backend",
+      "label": "分章写作与合稿",
+      "sublabel": "按依赖写作 / 引用绑定 / 全文",
+      "sources": [
+        {
+          "path": "src/long_report/application.py",
+          "line": 1021,
+          "end_line": 1235
+        },
+        {
+          "path": ".agents/skills/long-report/SKILL.md",
+          "line": 12,
+          "end_line": 13
+        }
+      ],
+      "tag": "预算核对逐户、逐份覆盖"
+    },
+    {
+      "id": "quality",
+      "lane": "main",
+      "col": 4,
+      "type": "security",
+      "label": "独立审阅与校验",
+      "sublabel": "语义审阅 / 来源与内容硬检",
+      "sources": [
+        {
+          "path": "src/long_report/application.py",
+          "line": 1238,
+          "end_line": 1359
+        }
+      ],
+      "tag": "硬失败阻断；缺口可披露"
+    },
+    {
+      "id": "delivery",
+      "lane": "main",
+      "col": 5,
+      "type": "backend",
+      "label": "渲染并发布修订",
+      "sublabel": "MD / DOCX / PDF / QA",
+      "sources": [
+        {
+          "path": "src/long_report/application.py",
+          "line": 1370,
+          "end_line": 1485
+        },
+        {
+          "path": "src/long_report/rendering.py",
+          "line": 152,
+          "end_line": 199
+        }
+      ],
+      "tag": "formal 或 pending_review"
+    },
+    {
+      "id": "retrieval",
+      "lane": "source",
+      "col": 0,
+      "type": "cloud",
+      "label": "专业来源检索",
+      "sublabel": "HTTP/MCP 原响应归档核对",
+      "sources": [
+        {
+          "path": "src/long_report/application.py",
+          "line": 271,
+          "end_line": 292
+        },
+        {
+          "path": "src/long_report/application.py",
+          "line": 342,
+          "end_line": 404
+        },
+        {
+          "path": "src/long_report/retrieval.py",
+          "line": 8,
+          "end_line": 55
+        }
+      ],
+      "tag": "失败与部分结果进入缺口"
+    },
+    {
+      "id": "conflict",
+      "lane": "exception",
+      "col": 1,
+      "type": "security",
+      "label": "裁决来源冲突",
+      "sublabel": "明确依据 / 替代理由",
+      "sources": [
+        {
+          "path": "src/long_report/application.py",
+          "line": 565,
+          "end_line": 585
+        },
+        {
+          "path": "src/long_report/application.py",
+          "line": 607,
+          "end_line": 610
+        }
+      ],
+      "tag": "不能按上传顺序覆盖"
+    },
+    {
+      "id": "blocked",
+      "lane": "exception",
+      "col": 4,
+      "type": "security",
+      "label": "硬检查未通过",
+      "sublabel": "修复、重建、重审后再验",
+      "sources": [
+        {
+          "path": "src/long_report/application.py",
+          "line": 1302,
+          "end_line": 1359
+        },
+        {
+          "path": "src/long_report/application.py",
+          "line": 1389,
+          "end_line": 1395
+        }
+      ],
+      "tag": "技术错误不能待复核绕过"
+    },
+    {
+      "id": "renderfail",
+      "lane": "render_exception",
+      "col": 5,
+      "type": "security",
+      "label": "渲染或导出失败",
+      "sublabel": "不切换 latest · 保留旧版",
+      "sources": [
+        {
+          "path": "src/long_report/application.py",
+          "line": 1434,
+          "end_line": 1485
+        }
+      ],
+      "tag": "重试渲染前先修复"
+    },
+    {
+      "id": "revision",
+      "lane": "revision",
+      "col": 0,
+      "type": "external",
+      "label": "补件或对话改稿",
+      "sublabel": "新运行重评受影响章节",
+      "sources": [
+        {
+          "path": "src/long_report/application.py",
+          "line": 218,
+          "end_line": 293
+        },
+        {
+          "path": "src/long_report/application.py",
+          "line": 956,
+          "end_line": 1017
+        },
+        {
+          "path": ".agents/skills/long-report/SKILL.md",
+          "line": 8,
+          "end_line": 12
+        }
+      ],
+      "tag": "复用未受影响章；锁定冲突报错"
+    }
+  ],
+  "edges": [
+    {
+      "id": "intake-evidence",
+      "from": "intake",
+      "to": "evidence",
+      "label": "未启用检索",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "intake-retrieval",
+      "from": "intake",
+      "to": "retrieval",
+      "role": "branch",
+      "label": "启用检索",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "retrieval-evidence",
+      "from": "retrieval",
+      "to": "evidence",
+      "label": "归档结果与缺口",
+      "fromSide": "right",
+      "toSide": "top"
+    },
+    {
+      "id": "evidence-analysis",
+      "from": "evidence",
+      "to": "analysis",
+      "label": "快照已封存"
+    },
+    {
+      "id": "analysis-composition",
+      "from": "analysis",
+      "to": "composition"
+    },
+    {
+      "id": "composition-quality",
+      "from": "composition",
+      "to": "quality"
+    },
+    {
+      "id": "quality-delivery",
+      "from": "quality",
+      "to": "delivery",
+      "variant": "emphasis",
+      "label": "硬检通过"
+    },
+    {
+      "id": "evidence-conflict",
+      "from": "evidence",
+      "to": "conflict",
+      "variant": "security",
+      "role": "error",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "label": "有冲突"
+    },
+    {
+      "id": "conflict-evidence",
+      "from": "conflict",
+      "to": "evidence",
+      "role": "return",
+      "fromSide": "left",
+      "toSide": "bottom",
+      "label": "依规则裁决"
+    },
+    {
+      "id": "quality-blocked",
+      "from": "quality",
+      "to": "blocked",
+      "variant": "security",
+      "role": "error",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "label": "硬检失败"
+    },
+    {
+      "id": "blocked-quality",
+      "from": "blocked",
+      "to": "quality",
+      "role": "return",
+      "fromSide": "left",
+      "toSide": "left",
+      "route": "return-left",
+      "label": "修复后重验",
+      "labelSegment": 1
+    },
+    {
+      "id": "delivery-failed",
+      "from": "delivery",
+      "to": "renderfail",
+      "variant": "security",
+      "role": "error",
+      "fromSide": "top",
+      "toSide": "bottom",
+      "label": "导出失败"
+    },
+    {
+      "id": "failed-delivery",
+      "from": "renderfail",
+      "to": "delivery",
+      "role": "return",
+      "fromSide": "right",
+      "toSide": "right",
+      "route": "outside-right",
+      "label": "修复后重试",
+      "labelSegment": 1
+    },
+    {
+      "id": "delivery-revision",
+      "from": "delivery",
+      "to": "revision",
+      "role": "return",
+      "label": "同期间补件与改稿",
+      "fromSide": "bottom",
+      "toSide": "bottom",
+      "route": "bottom-channel",
+      "labelSegment": 1
+    },
+    {
+      "id": "revision-intake",
+      "from": "revision",
+      "to": "intake",
+      "role": "return",
+      "route": "return-left",
+      "label": "开启新运行",
+      "fromSide": "left",
+      "toSide": "left",
+      "labelSegment": 1
+    }
+  ],
+  "mainPath": [
+    "intake",
+    "evidence",
+    "analysis",
+    "composition",
+    "quality",
+    "delivery"
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "六阶段与 CLI 操作对应",
+      "items": [
+        "建项：scenarios / scenario → project create → material add → run start；固定本轮材料与有效配置。",
+        "取证：task list/context → submit 或 auto-submit（本轮映射）→ evidence decide → evidence freeze。",
+        "分析规划：calculate → chart create；draft plan 提交 report_request、outline，预算另交 material_uses。",
+        "写作合稿：draft context / submit 按 DAG 执行；draft build 解析 fact、calc、ev、chart 引用并输出全文。",
+        "审阅校验：review submit 绑定全文哈希；validate 检查来源完整性、独立审阅、图表、章节及适用覆盖。",
+        "发布修订：publish 暂存完整文件、渲染校验、保存 manifest / QA / 问题 / 变更，再登记修订并切换 latest。"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "判断与程序执行分工",
+      "items": [
+        "宿主提交候选事实、章节计划、解释文字和审阅结论；CLI 不自动调用写作模型。",
+        "程序校验原件定位与口径，执行注册指标、章节依赖、引用替换、完整性检查与版本写入。",
+        "专业检索由场景开启；取证链共享，不是授信专属。"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "三个场景共用流程",
+      "items": [
+        "预算：单位 / 板块 / 专项各守口径；逐户覆盖，逐份声明材料用途；可比时生成注册差额、变化率、完成率及单位图。",
+        "授信：围绕业务单位与授信事项写风险审查；额度、等级与期限依据来自外部流程，不由报告引擎推算。",
+        "薪酬：工资与花名册由注册程序聚合；未配置小样本阈值或口径时隐藏，正文检查个人信息。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "版本身份与修订条件",
+      "items": [
+        "硬检查失败＝blocked；硬检查通过但缺材料 / 定义 / 检索结果＝pending_review；均无记录缺口＝formal。",
+        "同一报告期内补件、纠错、改稿产生新运行与新修订；新期间、授信事项或评价基准建立关联新项目。",
+        "图中“重评影响”发生在新运行的 draft plan；新增要点若改变已冻结章节计划，须取消旧未发布运行后重开。",
+        "复用按证据、计算和章节依赖判断；锁定冲突需处理，不能沿用已失效结论。"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "可运行能力不等于业务签认",
+      "items": [
+        "核心只用 reviewer_id 与作者 ID 区分审阅者；真实独立上下文及专业语义复核由宿主保证。",
+        "当前发布实现统一依赖 LibreOffice，授信/薪酬 YAML 的 PDF 可选声明尚未反映到执行路径。",
+        "本图依据当前未提交文件的本地快照；真实供应商、宿主自主写作、真实规模与最终逐页版式仍待验收。"
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": "intake",
+      "label": "建项与运行",
+      "fromCol": 0,
+      "toCol": 0
+    },
+    {
+      "id": "evidence",
+      "label": "取证与封存",
+      "fromCol": 1,
+      "toCol": 1
+    },
+    {
+      "id": "analysis",
+      "label": "计算与规划",
+      "fromCol": 2,
+      "toCol": 2
+    },
+    {
+      "id": "writing",
+      "label": "写作与合稿",
+      "fromCol": 3,
+      "toCol": 3
+    },
+    {
+      "id": "qa",
+      "label": "审阅与校验",
+      "fromCol": 4,
+      "toCol": 4
+    },
+    {
+      "id": "delivery",
+      "label": "发布与更新",
+      "fromCol": 5,
+      "toCol": 5
+    }
+  ]
+}

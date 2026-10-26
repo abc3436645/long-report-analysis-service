@@ -1,0 +1,67 @@
+{
+  "scenario_fingerprint": "a0f6d9d5f3adbb3f1879746ec632147e7e6181d9ab5ed1df2e928a299c068252",
+  "project_id": "1c59cd4835c3464497137109acab9730",
+  "run_id": "c718d6c2b5de4f609b798909634bf592",
+  "source_count": 13,
+  "analysis_sources": 4,
+  "context_sources": 9,
+  "frozen_evidence": 293,
+  "calculation_count": 264,
+  "missing_unit_error": "report outline must cover all project units with a repeated unit section",
+  "missing_source_error": "material_uses must decide every current source",
+  "planned_unit_tasks": 6,
+  "unit_evidence_families": {
+    "德兴铜矿（含新技术）": {
+      "profit": 6,
+      "mining_cost": 8,
+      "mining_operations": 6,
+      "copper_concentrate": 21,
+      "sulfur_concentrate": 11
+    },
+    "永平铜矿": {
+      "profit": 6,
+      "mining_cost": 8,
+      "mining_operations": 6,
+      "copper_concentrate": 21,
+      "sulfur_concentrate": 11
+    },
+    "武山铜矿": {
+      "profit": 6,
+      "mining_cost": 8,
+      "mining_operations": 6,
+      "copper_concentrate": 21,
+      "sulfur_concentrate": 11
+    },
+    "城门山铜矿": {
+      "profit": 6,
+      "mining_cost": 8,
+      "mining_operations": 6,
+      "copper_concentrate": 21,
+      "sulfur_concentrate": 11
+    },
+    "银山矿业": {
+      "profit": 6,
+      "mining_cost": 8,
+      "mining_operations": 6,
+      "copper_concentrate": 0,
+      "sulfur_concentrate": 11
+    },
+    "银珠山矿业": {
+      "profit": 6,
+      "mining_cost": 8,
+      "mining_operations": 6,
+      "copper_concentrate": 0,
+      "sulfur_concentrate": 11
+    }
+  },
+  "pre_draft_validation": {
+    "material_disposition": true,
+    "unit_scope_coverage": true,
+    "analysis_material_coverage": false,
+    "unit_evidence_coverage": false,
+    "special_subject_coverage": false,
+    "required_sections": false,
+    "draft_exists": false
+  },
+  "scope_exclusions": []
+}

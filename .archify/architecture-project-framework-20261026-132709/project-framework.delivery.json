@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "af9144db-0b64-4606-8063-84502791cb7b",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.archify/architecture-project-framework-20261026-132709/candidate.json",
+  "output": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.archify/architecture-project-framework-20261026-132709/project-framework.html",
+  "specification": {
+    "sha256": "a8914b12f94e46569aeaf432e1e406c4a93ebc88662caa4a2035597a5e2beb97",
+    "bytes": 8485
+  },
+  "artifact": {
+    "sha256": "20e48f5b831761f28b0a9e7180b2791458e349b42ec097f47d17f16f0eb53427",
+    "bytes": 829630
+  }
+}

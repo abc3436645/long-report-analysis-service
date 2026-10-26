@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.archify/architecture-project-framework-20261026-132709/candidate.json",
+    "sha256": "a8914b12f94e46569aeaf432e1e406c4a93ebc88662caa4a2035597a5e2beb97",
+    "bytes": 8485
+  },
+  "artifact": {
+    "path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.archify/architecture-project-framework-20261026-132709/project-framework.html",
+    "sha256": "20e48f5b831761f28b0a9e7180b2791458e349b42ec097f47d17f16f0eb53427",
+    "bytes": 829630
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.archify/architecture-project-framework-20261026-132709/project-framework.finalize.json",
+    "summaryReceipt": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.archify/architecture-project-framework-20261026-132709/project-framework.finalize-summary.json",
+    "browserCheckReceipt": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.archify/architecture-project-framework-20261026-132709/project-framework.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.2.0",
+    "availableVersion": "3.2.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-21T08:07:22.704Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 2190,
+  "browserCheck": {
+    "requested": true,
+    "ran": true
+  }
+}

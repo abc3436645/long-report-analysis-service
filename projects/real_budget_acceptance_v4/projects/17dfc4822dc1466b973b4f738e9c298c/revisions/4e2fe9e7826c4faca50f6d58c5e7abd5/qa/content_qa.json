@@ -1,0 +1,19 @@
+{
+  "run_id": "a845402406b64c9fa1a1f5c1e729aaef",
+  "status": "pending_review",
+  "hard_checks_passed": true,
+  "checks": {
+    "evidence_frozen": true,
+    "required_sections": true,
+    "draft_exists": true,
+    "independent_review": true,
+    "source_integrity": true
+  },
+  "gaps": {
+    "missing_inputs": [],
+    "definition_missing": [
+      "consolidation_rule"
+    ]
+  },
+  "draft_sha256": "e7165180247207361e0a1fc617a4165312dfa3085b4e99cabe2b6e85abf844c5"
+}

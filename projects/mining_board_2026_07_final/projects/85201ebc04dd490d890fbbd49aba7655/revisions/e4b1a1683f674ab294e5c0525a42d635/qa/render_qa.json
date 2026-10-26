@@ -1,0 +1,20 @@
+{
+  "docx_openable": true,
+  "headings_match": true,
+  "tables_match": true,
+  "heading_count": 16,
+  "table_count": 16,
+  "embedded_chart_count": 7,
+  "chart_count": 7,
+  "verified_chart_hashes": {
+    "chart_d8537f8af5678a1cd9df1d1a": "43f6f229834b1d17f3464dcbc14b6536c6b203a202f9753f2b3858f3a1ce0e44",
+    "chart_031299b6d6789c1fae649cd7": "8fad0d68e7f58e49da1ed78a285d18456fbe59bf6d4a0b7cb77521172c34d01c",
+    "chart_94a635aab02427b00740cc15": "982d2293dd4c771109bc2858b583a4403573d46e9e17aaae6e33b0f651b98ede",
+    "chart_c0e50bdb39288b263fe37400": "5818e6dea695a214379c31200f056fef0e8f5894227e2d94c2ea52cb5b914170",
+    "chart_cb64eac93798a95fcf5cf4f1": "47047216aa472d6ff53acee6d98ac4bcd571215696cbab6125f45962d2092363",
+    "chart_b5c4ed6886fafecdfafb0e68": "8f9f499de1dca532b0a8cc6f6cff60924bbc060bab195ede49987806f370c5a7",
+    "chart_733d9bf102f267e705c2d1a9": "d7088a0da670e1e6949decbab561f1391a4523c3c13d05687a0a1542a3b9756c"
+  },
+  "charts_nonblank": true,
+  "sha256": "cf0d380f1a8ad502f7c5592f6a2e85bded46bbc1910cecf8278dda0054327433"
+}

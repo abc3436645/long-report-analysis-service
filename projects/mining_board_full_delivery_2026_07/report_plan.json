@@ -1,0 +1,206 @@
+{
+  "outline": {
+    "unit_names": [
+      "德兴铜矿（含新技术）",
+      "永平铜矿",
+      "武山铜矿",
+      "城门山铜矿",
+      "银山矿业",
+      "银珠山矿业"
+    ],
+    "unit_levels": {
+      "德兴铜矿（含新技术）": 2,
+      "永平铜矿": 2,
+      "武山铜矿": 2,
+      "城门山铜矿": 2,
+      "银山矿业": 2,
+      "银珠山矿业": 2
+    },
+    "sections": [
+      {
+        "id": "executive",
+        "title": "第一章 管理层执行摘要",
+        "display_order": 1,
+        "repeat_for": null,
+        "depends_on": [
+          "decisions"
+        ],
+        "evidence_refs": [
+          "actual_amount"
+        ],
+        "analysis_refs": [
+          "budget_difference"
+        ]
+      },
+      {
+        "id": "scope",
+        "title": "第二章 数据来源与分析范围",
+        "display_order": 2,
+        "repeat_for": null,
+        "depends_on": [],
+        "evidence_refs": [],
+        "analysis_refs": []
+      },
+      {
+        "id": "sector",
+        "title": "第三章 矿山板块整体经营及利润分析",
+        "display_order": 3,
+        "repeat_for": null,
+        "depends_on": [
+          "scope"
+        ],
+        "evidence_refs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "analysis_refs": [
+          "ytd_change_rate",
+          "budget_difference"
+        ]
+      },
+      {
+        "id": "units",
+        "title": "第四章 六矿逐户经营分析",
+        "display_order": 4,
+        "repeat_for": "unit",
+        "depends_on": [
+          "sector"
+        ],
+        "evidence_refs": [
+          "actual_amount",
+          "budget_amount"
+        ],
+        "analysis_refs": [
+          "month_change",
+          "budget_difference",
+          "cost.r4.ore_cost_yoy_rate"
+        ]
+      },
+      {
+        "id": "special",
+        "title": "第五章 专项来源与独立口径分析",
+        "display_order": 5,
+        "repeat_for": null,
+        "depends_on": [
+          "units"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": [
+          "concentrate.r4.sales_yoy_rate",
+          "sulfur.r4.sales_yoy_rate"
+        ]
+      },
+      {
+        "id": "common",
+        "title": "第六章 整体经营与共同关注事项",
+        "display_order": 6,
+        "repeat_for": null,
+        "depends_on": [
+          "special"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": []
+      },
+      {
+        "id": "market",
+        "title": "第七章 市场关联与情景测算边界",
+        "display_order": 7,
+        "repeat_for": null,
+        "depends_on": [
+          "common"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": []
+      },
+      {
+        "id": "decisions",
+        "title": "第八章 建议事项与人工确认",
+        "display_order": 8,
+        "repeat_for": null,
+        "depends_on": [
+          "market"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": []
+      },
+      {
+        "id": "methods",
+        "title": "第九章 来源索引与计算口径",
+        "display_order": 9,
+        "repeat_for": null,
+        "depends_on": [
+          "scope"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": []
+      }
+    ]
+  },
+  "material_uses": [
+    {
+      "material_id": "src_0478defcbe5a910d8bf32bb3",
+      "use": "context",
+      "reason": "金融投资收益，不属于六矿采选经营。"
+    },
+    {
+      "material_id": "src_0daecd6ba2d5483047c4def1",
+      "use": "context",
+      "reason": "列示集团与其他单位效益构成，未列六矿独立主体；不并入矿山利润。"
+    },
+    {
+      "material_id": "src_0fbdeaaf74793762b4cc8238",
+      "use": "context",
+      "reason": "市场背景形成于报告期后，且未核实原始行情来源，仅作前瞻风险线索。"
+    },
+    {
+      "material_id": "src_1cc11dcc9032d51b042e3abc",
+      "use": "context",
+      "reason": "对应冶炼进口矿采购与TC，非六矿采选经营口径。"
+    },
+    {
+      "material_id": "src_20d24cab255727a31ebbd778",
+      "use": "analysis",
+      "reason": "与本轮矿山利润、成本、产销或硫精矿主体对应，已逐行核验并抽取。"
+    },
+    {
+      "material_id": "src_38fd9f7fe6d88fa866433669",
+      "use": "context",
+      "reason": "仅有设备报价，未给矿山采购需求、用量和预算授权，不推造采购决策。"
+    },
+    {
+      "material_id": "src_7b7e4f6c7483e5f03b94d66c",
+      "use": "context",
+      "reason": "铜加工业务，不属于矿山板块六矿。"
+    },
+    {
+      "material_id": "src_8135d4d6f23cdd51c91bfd84",
+      "use": "context",
+      "reason": "对应母公司冶炼原料效益，非六矿利润桥。"
+    },
+    {
+      "material_id": "src_a564a567c56b145c39abf4e1",
+      "use": "analysis",
+      "reason": "与本轮矿山利润、成本、产销或硫精矿主体对应，已逐行核验并抽取。"
+    },
+    {
+      "material_id": "src_b4c4b3db3f909aa59da4b05a",
+      "use": "context",
+      "reason": "化工硫酸不同于本轮六矿硫精矿，主体与产品不能混并。"
+    },
+    {
+      "material_id": "src_ca990f10b6830f97c10ef776",
+      "use": "context",
+      "reason": "含产品年度计划，当前缺同范围产量台账，不能与六矿销量直接计算完成率；仅用于口径提示。"
+    },
+    {
+      "material_id": "src_d9cf3d839c4bf107e78d5bd7",
+      "use": "analysis",
+      "reason": "与本轮矿山利润、成本、产销或硫精矿主体对应，已逐行核验并抽取。"
+    },
+    {
+      "material_id": "src_f3c745004c776d1735050c26",
+      "use": "analysis",
+      "reason": "与本轮矿山利润、成本、产销或硫精矿主体对应，已逐行核验并抽取。"
+    }
+  ]
+}

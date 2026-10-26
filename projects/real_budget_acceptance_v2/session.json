@@ -1,0 +1,20 @@
+{
+  "project_id": "839bc509853a4ac4990e4239ea7af9f7",
+  "run_id": "e023b8827bc944eab929c7adfad656d6",
+  "source_ids": [
+    "src_f3c745004c776d1735050c26",
+    "src_0daecd6ba2d5483047c4def1",
+    "src_1cc11dcc9032d51b042e3abc",
+    "src_a564a567c56b145c39abf4e1",
+    "src_20d24cab255727a31ebbd778",
+    "src_b4c4b3db3f909aa59da4b05a",
+    "src_d9cf3d839c4bf107e78d5bd7",
+    "src_7b7e4f6c7483e5f03b94d66c",
+    "src_8135d4d6f23cdd51c91bfd84",
+    "src_0478defcbe5a910d8bf32bb3",
+    "src_ca990f10b6830f97c10ef776"
+  ],
+  "evidence_count": 960,
+  "calculated_count": 42,
+  "gaps": []
+}

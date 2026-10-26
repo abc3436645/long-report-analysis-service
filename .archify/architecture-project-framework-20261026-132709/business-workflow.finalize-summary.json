@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.archify/architecture-project-framework-20261026-132709/workflow-candidate.json",
+    "sha256": "a8132e4b133d146aac0f541d4c789f1593387d9a5b22f1e01247d78a1d4dd029",
+    "bytes": 13548
+  },
+  "artifact": {
+    "path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.archify/architecture-project-framework-20261026-132709/business-workflow.html",
+    "sha256": "a5577e2cb656827d1cddcd5c9ae7880b21a7686047a79d9ba341c5197fac6499",
+    "bytes": 840719
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.archify/architecture-project-framework-20261026-132709/business-workflow.finalize.json",
+    "summaryReceipt": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.archify/architecture-project-framework-20261026-132709/business-workflow.finalize-summary.json",
+    "browserCheckReceipt": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.archify/architecture-project-framework-20261026-132709/business-workflow.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.2.0",
+    "availableVersion": "3.2.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-21T08:07:22.704Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 1988,
+  "browserCheck": {
+    "requested": true,
+    "ran": true
+  }
+}

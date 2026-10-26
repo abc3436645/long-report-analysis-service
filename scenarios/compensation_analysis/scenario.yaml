@@ -1,7 +1,7 @@
 schema_version: 1
 id: compensation_analysis
 title: 人力薪酬分析
-version: "0.1.0"
+version: "0.2.0"
 subject_model: workforce_groups
 time_model: analysis_and_comparison_periods
 inputs:
@@ -12,7 +12,8 @@ retrieval: {enabled: false, task_refs: []}
 outline: outline.yaml
 analysis: analysis.yaml
 quality: quality.yaml
-template: templates/default-v0.1.0.docx
+template: templates/default-v0.2.0.docx
+presentation: {body_font: Songti SC, heading_font: Heiti SC, latin_font: Times New Roman}
 delivery: {required_formats: [md, docx], optional_formats: [pdf]}
 business_definitions:
   pay_components: null
@@ -21,3 +22,9 @@ business_definitions:
   productivity_formula: null
   minimum_group_size: null
 definition_missing: [pay_components, accounting_basis, headcount_or_fte_rule, productivity_formula, minimum_group_size]
+overridable_fields:
+  business_definitions.pay_components: {type: string, min_length: 1}
+  business_definitions.accounting_basis: {type: string, min_length: 1}
+  business_definitions.headcount_or_fte_rule: {type: string, min_length: 1}
+  business_definitions.productivity_formula: {type: string, min_length: 1}
+  business_definitions.minimum_group_size: {type: integer, minimum: 2}

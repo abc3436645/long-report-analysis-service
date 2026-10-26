@@ -1,0 +1,7 @@
+person_id,component,accrual_period,payment_period,amount
+P1,base,2026-07,2026-07,100
+P1,bonus,2026-07,2026-07,20
+P2,base,2026-07,2026-07,130
+P3,base,2026-07,2026-07,110
+P4,base,2026-07,2026-07,200
+P1,bonus,2026-06,2026-07,50

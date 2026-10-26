@@ -1,0 +1,12 @@
+{
+  "source": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project",
+  "source_head": "91d622c7aceda2f603d3238844842d0a97abda6b",
+  "repository": {
+    "url": "https://local.invalid/jxcc-analysis-report-skills-project-snapshot",
+    "revision": "5bfc39774c1cdf5e544e33d03609f70987e2ce4a",
+    "link_mode": "local-only"
+  },
+  "scope": "Current source, scenario definitions, design docs and master Skill; excludes business originals and report outputs.",
+  "dirty_paths": "workspace-status.txt",
+  "repository_identity_note": "Synthetic local-only snapshot identity; original working repository has no remote. Not a hosted repository or network source."
+}

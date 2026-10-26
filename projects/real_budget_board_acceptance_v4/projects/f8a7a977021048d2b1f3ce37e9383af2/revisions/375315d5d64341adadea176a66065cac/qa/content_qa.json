@@ -1,0 +1,22 @@
+{
+  "run_id": "f587d7b5010640ed84a13be9ef346c96",
+  "status": "pending_review",
+  "hard_checks_passed": true,
+  "checks": {
+    "evidence_frozen": true,
+    "required_sections": true,
+    "draft_exists": true,
+    "independent_review": true,
+    "source_integrity": true,
+    "retrieval_integrity": true,
+    "chart_integrity": true
+  },
+  "gaps": {
+    "missing_inputs": [],
+    "definition_missing": [
+      "consolidation_rule"
+    ],
+    "retrieval_gaps": []
+  },
+  "draft_sha256": "3c51bef7c9769a7ae48871ad1b4fed8a97fddcc31dbc33059001a65ef92d68fe"
+}

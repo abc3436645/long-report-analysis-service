@@ -1,0 +1,110 @@
+unit_levels: {贵冶: 3, 贸易事业部: 3, 铜业铜材: 3, 集团铜材: 3, 江铜龙昌: 3, 江铜台意: 3, 华东铜材: 3, 华东电工: 3, 江铜嘉磁: 3, 江铜川禾: 3}
+sections:
+  - id: scope
+    title: 报告口径与资料范围
+    display_order: 1
+    repeat_for: null
+    goal: 交代报告期、材料覆盖、预算版本、合并范围与分析限制
+    questions: [哪些口径已确认，哪些仍需人工确认]
+    evidence_refs: [actual_amount, budget_amount]
+    analysis_refs: []
+    required_assets: []
+    depends_on: []
+  - id: units
+    title: 各单位经营分析
+    display_order: 2
+    repeat_for: unit
+    goal: 按本项目单位范围逐户分析表现、原因、问题和建议
+    questions: [每户结论有何来源和同口径计算支持]
+    evidence_refs: [actual_amount, budget_amount]
+    analysis_refs: [budget_difference, performance_review]
+    required_assets: []
+    depends_on: [scope]
+  - id: special
+    title: 专项来源的独立口径
+    display_order: 3
+    repeat_for: null
+    goal: 单列不能直接归入单位的专项资料与局部口径
+    questions: [专项数字是否被误并入单位或集团结果]
+    evidence_refs: [actual_amount, budget_amount]
+    analysis_refs: [performance_review]
+    required_assets: []
+    depends_on: [scope]
+  - id: group
+    title: 整体经营与共同关注事项
+    display_order: 4
+    repeat_for: null
+    goal: 汇总已有的单位和专项发现，区分集团合并与单位汇总
+    questions: [共同问题、原因假设和待核实项如何区分]
+    evidence_refs: [actual_amount, budget_amount]
+    analysis_refs: [budget_difference, performance_review]
+    required_assets: []
+    depends_on: [units, special]
+  - id: market
+    title: 市场关联及情景测算
+    display_order: 5
+    repeat_for: null
+    goal: 说明市场资料适用范围及有依据的敏感性情景
+    questions: [情景假设是否被写成已发生事实]
+    evidence_refs: []
+    analysis_refs: [performance_review]
+    required_assets: []
+    depends_on: [scope]
+  - id: actions
+    title: 建议事项与人工确认
+    display_order: 6
+    repeat_for: null
+    goal: 给出逐户复核、协同方向、需确认口径和补件清单
+    questions: [建议对应哪些依据、影响及适用条件]
+    evidence_refs: []
+    analysis_refs: [performance_review]
+    required_assets: []
+    depends_on: [group, market]
+  - id: sources
+    title: 来源索引与计算口径
+    display_order: 7
+    repeat_for: null
+    goal: 列明来源、定位、计算定义、材料缺口和保留的模板差异
+    questions: [读者能否回到原件复核数字和限制]
+    evidence_refs: [actual_amount, budget_amount]
+    analysis_refs: [budget_difference]
+    required_assets: []
+    depends_on: [units, special, group, market, actions]
+profiles:
+  mining:
+    unit_names: [德兴铜矿（含新技术）, 永平铜矿, 武山铜矿, 城门山铜矿, 银山矿业, 银珠山矿业]
+    sections:
+      - {id: summary, title: 第一章 管理层执行摘要, display_order: 1, repeat_for: null, depends_on: [actions, sources], evidence_refs: [], analysis_refs: [performance_review]}
+      - {id: scope, title: 第二章 数据来源与分析范围, display_order: 2, repeat_for: null, depends_on: [], evidence_refs: [actual_amount, budget_amount], analysis_refs: []}
+      - {id: group, title: 第三章 集团整体经营及利润分析, display_order: 3, repeat_for: null, depends_on: [scope], evidence_refs: [actual_amount, budget_amount], analysis_refs: [budget_difference]}
+      - {id: units, title: 第四章 产业板块与二级单位经营分析, display_order: 4, repeat_for: unit, depends_on: [scope], evidence_refs: [actual_amount, budget_amount], analysis_refs: [budget_difference, performance_review]}
+      - {id: special, title: 第五章 专项来源与独立口径分析, display_order: 5, repeat_for: null, depends_on: [scope], evidence_refs: [actual_amount], analysis_refs: [performance_review]}
+      - {id: common, title: 第六章 整体经营与共同关注事项, display_order: 6, repeat_for: null, depends_on: [units, special], evidence_refs: [actual_amount], analysis_refs: [performance_review]}
+      - {id: market, title: 第七章 市场关联与情景测算, display_order: 7, repeat_for: null, depends_on: [scope], evidence_refs: [], analysis_refs: [performance_review]}
+      - {id: actions, title: 第八章 建议事项与人工确认, display_order: 8, repeat_for: null, depends_on: [common, market], evidence_refs: [], analysis_refs: [performance_review]}
+      - {id: sources, title: 第九章 来源索引与计算口径, display_order: 9, repeat_for: null, depends_on: [units, special, group, common, market, actions], evidence_refs: [actual_amount, budget_amount], analysis_refs: [budget_difference]}
+  smelting:
+    unit_names: [母公司（冶炼）, 贵冶, 贸易事业部, 江铜国兴, 恒邦股份, 江铜宏源, 和鼎铜业, 江铜清远, 九江铅锌, 金德铅业]
+    unit_levels: {贵冶: 3, 贸易事业部: 3}
+    sections:
+      - {id: summary, title: 第一章 核心结论与管理重点, display_order: 1, repeat_for: null, depends_on: [actions, sources], evidence_refs: [], analysis_refs: [performance_review]}
+      - {id: scope, title: 第二章 数据来源与分析范围, display_order: 2, repeat_for: null, depends_on: [], evidence_refs: [actual_amount, budget_amount], analysis_refs: []}
+      - {id: units, title: 第三章 冶炼板块与单位经营分析, display_order: 3, repeat_for: unit, depends_on: [scope], evidence_refs: [actual_amount, budget_amount], analysis_refs: [budget_difference, performance_review]}
+      - {id: tc, title: 第四章 加工费压力与合同边界, display_order: 4, repeat_for: null, depends_on: [units], evidence_refs: [actual_amount], analysis_refs: [performance_review]}
+      - {id: acid, title: 第五章 硫酸量价与原料效益, display_order: 5, repeat_for: null, depends_on: [units], evidence_refs: [actual_amount], analysis_refs: [performance_review]}
+      - {id: quality, title: 第六章 利润质量与专项归属, display_order: 6, repeat_for: null, depends_on: [tc, acid], evidence_refs: [actual_amount], analysis_refs: [performance_review]}
+      - {id: actions, title: 第七章 管理措施与待确认清单, display_order: 7, repeat_for: null, depends_on: [quality], evidence_refs: [], analysis_refs: [performance_review]}
+      - {id: sources, title: 附录 材料使用与计算口径, display_order: 8, repeat_for: null, depends_on: [actions], evidence_refs: [actual_amount, budget_amount], analysis_refs: [budget_difference]}
+  processing:
+    unit_names: [加工事业部, 铜业铜材, 集团铜材, 江铜龙昌, 江铜台意, 华东铜材, 华东电工, 江铜嘉磁, 江铜川禾, 江铜铜箔, 铜板带（不含高精）, 高精铜板带, 江铜华北, 纳米克, 江西电缆, 广州铜材, 广州新材料, 江铜光电]
+    unit_levels: {铜业铜材: 3, 集团铜材: 3, 江铜龙昌: 3, 江铜台意: 3, 华东铜材: 3, 华东电工: 3, 江铜嘉磁: 3, 江铜川禾: 3}
+    sections:
+      - {id: summary, title: 第一章 核心结论与管理重点, display_order: 1, repeat_for: null, depends_on: [actions, sources], evidence_refs: [], analysis_refs: [performance_review]}
+      - {id: scope, title: 第二章 数据来源与分析范围, display_order: 2, repeat_for: null, depends_on: [], evidence_refs: [actual_amount, budget_amount], analysis_refs: []}
+      - {id: units, title: 第三章 铜加工板块整体经营与预算执行, display_order: 3, repeat_for: unit, depends_on: [scope], evidence_refs: [actual_amount, budget_amount], analysis_refs: [budget_difference, performance_review]}
+      - {id: products, title: 第四章 加工费效益与产品结构, display_order: 4, repeat_for: null, depends_on: [units], evidence_refs: [actual_amount], analysis_refs: [performance_review]}
+      - {id: quality, title: 第五章 利润质量与效益拆分, display_order: 5, repeat_for: null, depends_on: [products], evidence_refs: [actual_amount], analysis_refs: [performance_review]}
+      - {id: common, title: 第六章 共同经营特征与风险, display_order: 6, repeat_for: null, depends_on: [quality], evidence_refs: [actual_amount], analysis_refs: [performance_review]}
+      - {id: market, title: 第七章 市场关联与情景边界, display_order: 7, repeat_for: null, depends_on: [scope], evidence_refs: [], analysis_refs: [performance_review]}
+      - {id: actions, title: 第八章 管理建议与待确认清单, display_order: 8, repeat_for: null, depends_on: [common, market], evidence_refs: [], analysis_refs: [performance_review]}
+      - {id: sources, title: 附录 材料使用与计算口径, display_order: 9, repeat_for: null, depends_on: [actions], evidence_refs: [actual_amount, budget_amount], analysis_refs: [budget_difference]}

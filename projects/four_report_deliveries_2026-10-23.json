@@ -1,0 +1,269 @@
+{
+  "budget_office": {
+    "project_id": "8317c0e18aa34726bfe233700a131f30",
+    "run_id": "311c5292878d4e2bad0a20927ac50e79",
+    "revision": {
+      "id": "d2dc8f8473fd4ed7a93da65891699dd7",
+      "run_id": "311c5292878d4e2bad0a20927ac50e79",
+      "project_id": "8317c0e18aa34726bfe233700a131f30",
+      "status": "pending_review",
+      "scenario_id": "budget_operations",
+      "scenario_version": "0.1.0",
+      "effective_config_fingerprint": "2090ad26ecc69bfc5418af0d5020e28316edcbc52367ad23b5ee097e087c0991",
+      "evidence_snapshot_id": "545b4e5412554a5b88dd762f7a922393",
+      "material_fingerprints": {
+        "src_0478defcbe5a910d8bf32bb3": "0478defcbe5a910d8bf32bb393e14fc962a58ef6b88a5c02ea6aeb57c3324865",
+        "src_0daecd6ba2d5483047c4def1": "0daecd6ba2d5483047c4def157d00be0ac83d659394e927f21b5e77352250dd8",
+        "src_0fbdeaaf74793762b4cc8238": "0fbdeaaf74793762b4cc823859ae718137790ffaf5aac6d315dfa18006e8ec65",
+        "src_1cc11dcc9032d51b042e3abc": "1cc11dcc9032d51b042e3abcc50e4365f74c0e43262ea043bd05e0f4b4e69b09",
+        "src_20d24cab255727a31ebbd778": "20d24cab255727a31ebbd778e9e9f0a2a288f4d05d889f5f24314ece420ba0aa",
+        "src_7b7e4f6c7483e5f03b94d66c": "7b7e4f6c7483e5f03b94d66c3d23d83afbe3fe70a64829e5c63f6a1781ecb32d",
+        "src_8135d4d6f23cdd51c91bfd84": "8135d4d6f23cdd51c91bfd84983a007c051e6fdca071cc852d84f240993b378f",
+        "src_a564a567c56b145c39abf4e1": "a564a567c56b145c39abf4e1ee87c14d86d924b0568058f61bc1244d53a2ff2d",
+        "src_b4c4b3db3f909aa59da4b05a": "b4c4b3db3f909aa59da4b05ab676541f6f6c2a76c50e53a0b36e6d15be5d1e72",
+        "src_ca990f10b6830f97c10ef776": "ca990f10b6830f97c10ef776562a73e7ab8ec19b0d9b67049b354fc3aa94eff7",
+        "src_d9cf3d839c4bf107e78d5bd7": "d9cf3d839c4bf107e78d5bd777f20138adfc886ce0812ca7028e6f5e9fc469e8",
+        "src_f3c745004c776d1735050c26": "f3c745004c776d1735050c26904721c7fb0cc88c8b011527882f6226f65dc174"
+      },
+      "file_hashes": {
+        "markdown": "dca4717c6361b38b8a26ca46b446d954be9d5238af971ea673107443d0303f0a",
+        "docx": "d0dfe7d475cde446f5a7aa4a5bb950b7ea105ac90a195589c9c672fbad5e0863"
+      },
+      "chart_hashes": {},
+      "markdown_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/real_budget_acceptance_v8/projects/8317c0e18aa34726bfe233700a131f30/revisions/d2dc8f8473fd4ed7a93da65891699dd7/dist/full_report.md",
+      "docx_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/real_budget_acceptance_v8/projects/8317c0e18aa34726bfe233700a131f30/revisions/d2dc8f8473fd4ed7a93da65891699dd7/dist/full_report.docx"
+    },
+    "validation": {
+      "run_id": "311c5292878d4e2bad0a20927ac50e79",
+      "status": "pending_review",
+      "hard_checks_passed": true,
+      "checks": {
+        "evidence_frozen": true,
+        "required_sections": true,
+        "draft_exists": true,
+        "independent_review": true,
+        "source_integrity": true,
+        "retrieval_integrity": true,
+        "chart_integrity": true
+      },
+      "gaps": {
+        "missing_inputs": [],
+        "definition_missing": [
+          "consolidation_rule"
+        ],
+        "retrieval_gaps": []
+      },
+      "draft_sha256": "dca4717c6361b38b8a26ca46b446d954be9d5238af971ea673107443d0303f0a"
+    }
+  },
+  "mining": {
+    "project_id": "99d33ad3ab8c42d5b3b5a518a8b9d468",
+    "run_id": "49cfb72aafe745f6bc0bdcfacc77dc83",
+    "revision": {
+      "id": "d91fc3375be247349d3aeef2d993e09a",
+      "run_id": "49cfb72aafe745f6bc0bdcfacc77dc83",
+      "project_id": "99d33ad3ab8c42d5b3b5a518a8b9d468",
+      "status": "pending_review",
+      "scenario_id": "budget_operations",
+      "scenario_version": "0.1.0",
+      "effective_config_fingerprint": "7078f1f55eb9655d4cb7c811277810a7c3413568afcdbf0fe09e3b7ee5366b78",
+      "evidence_snapshot_id": "99f1b6252f8d4ea4bd835ce144640b03",
+      "material_fingerprints": {
+        "src_0478defcbe5a910d8bf32bb3": "0478defcbe5a910d8bf32bb393e14fc962a58ef6b88a5c02ea6aeb57c3324865",
+        "src_0daecd6ba2d5483047c4def1": "0daecd6ba2d5483047c4def157d00be0ac83d659394e927f21b5e77352250dd8",
+        "src_0fbdeaaf74793762b4cc8238": "0fbdeaaf74793762b4cc823859ae718137790ffaf5aac6d315dfa18006e8ec65",
+        "src_1cc11dcc9032d51b042e3abc": "1cc11dcc9032d51b042e3abcc50e4365f74c0e43262ea043bd05e0f4b4e69b09",
+        "src_20d24cab255727a31ebbd778": "20d24cab255727a31ebbd778e9e9f0a2a288f4d05d889f5f24314ece420ba0aa",
+        "src_7b7e4f6c7483e5f03b94d66c": "7b7e4f6c7483e5f03b94d66c3d23d83afbe3fe70a64829e5c63f6a1781ecb32d",
+        "src_8135d4d6f23cdd51c91bfd84": "8135d4d6f23cdd51c91bfd84983a007c051e6fdca071cc852d84f240993b378f",
+        "src_a564a567c56b145c39abf4e1": "a564a567c56b145c39abf4e1ee87c14d86d924b0568058f61bc1244d53a2ff2d",
+        "src_b4c4b3db3f909aa59da4b05a": "b4c4b3db3f909aa59da4b05ab676541f6f6c2a76c50e53a0b36e6d15be5d1e72",
+        "src_ca990f10b6830f97c10ef776": "ca990f10b6830f97c10ef776562a73e7ab8ec19b0d9b67049b354fc3aa94eff7",
+        "src_d9cf3d839c4bf107e78d5bd7": "d9cf3d839c4bf107e78d5bd777f20138adfc886ce0812ca7028e6f5e9fc469e8",
+        "src_f3c745004c776d1735050c26": "f3c745004c776d1735050c26904721c7fb0cc88c8b011527882f6226f65dc174"
+      },
+      "file_hashes": {
+        "markdown": "75d11eb58e0f26cf53c1869fca99999f8cfd69915af8639e698a313bf9c2109b",
+        "docx": "6ce8a234a68c4ea58e4dbc1aa7a4b39c20345bbe242f8d46323afc34866df8ae"
+      },
+      "chart_hashes": {
+        "chart_40f4824da0ee58bab0421b4f": "6e17f40a482ca7a5164b95fd83f614d335a7a12e888a84c262b552bd9c58d1fb",
+        "chart_0a12fb34c65b1640f78c719d": "0be85e6aca88e150f3ac541cb2274835b56f0b9ec8b9549604e1ded7a1c1d2d5",
+        "chart_e7aa511c5720fdd402bf0a35": "78577bd7b950077972b070f9ec98399752d8643b17efd6901ed3143e34a07ce8",
+        "chart_ccfbc7fcdfa952dc3360ff20": "f77ac90cd0415057da52f23e63ea145913f46bd02856a1fc61cbec72b342a9b2",
+        "chart_90ba25ae0d6cd4058e064721": "ce237dd3258afbd0b78eb7465ba3443790aef1e20a754d782f4b6fd382e17825",
+        "chart_f5544e999b799795d990cddf": "e6e24990336d60d09d66a0625b57fd43c891b303a9b6c7e393cf66c066b1c6a1"
+      },
+      "markdown_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/real_budget_board_acceptance_v5/projects/99d33ad3ab8c42d5b3b5a518a8b9d468/revisions/d91fc3375be247349d3aeef2d993e09a/dist/full_report.md",
+      "docx_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/real_budget_board_acceptance_v5/projects/99d33ad3ab8c42d5b3b5a518a8b9d468/revisions/d91fc3375be247349d3aeef2d993e09a/dist/full_report.docx"
+    },
+    "validation": {
+      "run_id": "49cfb72aafe745f6bc0bdcfacc77dc83",
+      "status": "pending_review",
+      "hard_checks_passed": true,
+      "checks": {
+        "evidence_frozen": true,
+        "required_sections": true,
+        "draft_exists": true,
+        "independent_review": true,
+        "source_integrity": true,
+        "retrieval_integrity": true,
+        "chart_integrity": true
+      },
+      "gaps": {
+        "missing_inputs": [],
+        "definition_missing": [
+          "consolidation_rule"
+        ],
+        "retrieval_gaps": []
+      },
+      "draft_sha256": "75d11eb58e0f26cf53c1869fca99999f8cfd69915af8639e698a313bf9c2109b"
+    }
+  },
+  "smelting": {
+    "project_id": "9191c6df820b4b9882377b9ac1e168d4",
+    "run_id": "81fe1b955cfd46b686210e7886c0758e",
+    "revision": {
+      "id": "af8b280c2a59463d974f162291e61c77",
+      "run_id": "81fe1b955cfd46b686210e7886c0758e",
+      "project_id": "9191c6df820b4b9882377b9ac1e168d4",
+      "status": "pending_review",
+      "scenario_id": "budget_operations",
+      "scenario_version": "0.1.0",
+      "effective_config_fingerprint": "247ae8286aa31031094c7efa6a82e4e52a85e33b798b8136f3fb46e2897bd828",
+      "evidence_snapshot_id": "926d9a2f776d4210bb8e9aa3d4de56cd",
+      "material_fingerprints": {
+        "src_0478defcbe5a910d8bf32bb3": "0478defcbe5a910d8bf32bb393e14fc962a58ef6b88a5c02ea6aeb57c3324865",
+        "src_0daecd6ba2d5483047c4def1": "0daecd6ba2d5483047c4def157d00be0ac83d659394e927f21b5e77352250dd8",
+        "src_0fbdeaaf74793762b4cc8238": "0fbdeaaf74793762b4cc823859ae718137790ffaf5aac6d315dfa18006e8ec65",
+        "src_1cc11dcc9032d51b042e3abc": "1cc11dcc9032d51b042e3abcc50e4365f74c0e43262ea043bd05e0f4b4e69b09",
+        "src_20d24cab255727a31ebbd778": "20d24cab255727a31ebbd778e9e9f0a2a288f4d05d889f5f24314ece420ba0aa",
+        "src_7b7e4f6c7483e5f03b94d66c": "7b7e4f6c7483e5f03b94d66c3d23d83afbe3fe70a64829e5c63f6a1781ecb32d",
+        "src_8135d4d6f23cdd51c91bfd84": "8135d4d6f23cdd51c91bfd84983a007c051e6fdca071cc852d84f240993b378f",
+        "src_a564a567c56b145c39abf4e1": "a564a567c56b145c39abf4e1ee87c14d86d924b0568058f61bc1244d53a2ff2d",
+        "src_b4c4b3db3f909aa59da4b05a": "b4c4b3db3f909aa59da4b05ab676541f6f6c2a76c50e53a0b36e6d15be5d1e72",
+        "src_ca990f10b6830f97c10ef776": "ca990f10b6830f97c10ef776562a73e7ab8ec19b0d9b67049b354fc3aa94eff7",
+        "src_d9cf3d839c4bf107e78d5bd7": "d9cf3d839c4bf107e78d5bd777f20138adfc886ce0812ca7028e6f5e9fc469e8",
+        "src_f3c745004c776d1735050c26": "f3c745004c776d1735050c26904721c7fb0cc88c8b011527882f6226f65dc174"
+      },
+      "file_hashes": {
+        "markdown": "750785231e4b131a9a311b78630ea0c90b45909a6e69ef3864f2078b9236c4cc",
+        "docx": "ece03a5fd29bfbf4b7928e6d136883c68d4c4fd75db6443960a5385ee939845b"
+      },
+      "chart_hashes": {
+        "chart_fe6950d3fb204c3e7f92653c": "d6e71c73275c23839e097f593ee014dc0110e2b01f24ab4e291d79e383b4dd5a",
+        "chart_7e2bf3d773eb6e3befd9ce57": "97950522d9af22f39f317ad52b1ac2ddba172aa8ea4217058d543ea156dbda62",
+        "chart_df81797407000da31750bb1f": "1f419f1f59a7a7b57c90ab561de4bc8fab546ceb8f889550b0ad5897711563ab",
+        "chart_e60b0c3c01008a427fe56641": "f17ead7ae46792464f7d3b19e5111426cf87297f326356d590eea10639212e26",
+        "chart_6a9474ce3ffe9751fd9679ab": "79aa246c31e18c42e9b98fb8af6d30046a168f6c751dea74eda8694a0fb6558d",
+        "chart_cf286da29865c08adc4b0994": "0a3c0ca41560111a6563963eedd75819637555706239a6176aa0b750dbf3be9e",
+        "chart_f0b024050e8280d31771331c": "a4264a6cb25afac9baa98b47ff178ce3519012c7b1144aa739538aa9225a6fdf",
+        "chart_ad19edcedf19b62302ab1a83": "167f825142418229829427e8700866423157d036722081c0164df315819ab2f5",
+        "chart_213b25fd63afc17a4d228794": "c23557bfd4260ba6c860b551f8444053a83d14aca60c267a8e32a9cfd2b111b7",
+        "chart_b67b96276bdbe52d3076e427": "ce55458d5ac368b66223bca03baa0ea34f354e06aa39196f1831d3fd19662a07",
+        "chart_4e829b0e38e240681d096395": "1976b9ff805660fd5c7cff5f6487886a1f6bbbebef57fa769c9e215b4bbd8b16"
+      },
+      "markdown_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/real_budget_board_acceptance_v5/projects/9191c6df820b4b9882377b9ac1e168d4/revisions/af8b280c2a59463d974f162291e61c77/dist/full_report.md",
+      "docx_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/real_budget_board_acceptance_v5/projects/9191c6df820b4b9882377b9ac1e168d4/revisions/af8b280c2a59463d974f162291e61c77/dist/full_report.docx"
+    },
+    "validation": {
+      "run_id": "81fe1b955cfd46b686210e7886c0758e",
+      "status": "pending_review",
+      "hard_checks_passed": true,
+      "checks": {
+        "evidence_frozen": true,
+        "required_sections": true,
+        "draft_exists": true,
+        "independent_review": true,
+        "source_integrity": true,
+        "retrieval_integrity": true,
+        "chart_integrity": true
+      },
+      "gaps": {
+        "missing_inputs": [],
+        "definition_missing": [
+          "consolidation_rule"
+        ],
+        "retrieval_gaps": []
+      },
+      "draft_sha256": "750785231e4b131a9a311b78630ea0c90b45909a6e69ef3864f2078b9236c4cc"
+    }
+  },
+  "processing": {
+    "project_id": "3d1cd7957a0f45f79a2867c7c0e088cb",
+    "run_id": "0e0e9dae31094434bfc4105e399e3476",
+    "revision": {
+      "id": "22ba935bbc8449779ff96e5b1b4735e0",
+      "run_id": "0e0e9dae31094434bfc4105e399e3476",
+      "project_id": "3d1cd7957a0f45f79a2867c7c0e088cb",
+      "status": "pending_review",
+      "scenario_id": "budget_operations",
+      "scenario_version": "0.1.0",
+      "effective_config_fingerprint": "2fdc290c6112a7a44ad5c2ce6fabd6695341ceab2eb5b5cc5bd12b8020932e6f",
+      "evidence_snapshot_id": "f196209e65c549bca4f79c494116c9b3",
+      "material_fingerprints": {
+        "src_0478defcbe5a910d8bf32bb3": "0478defcbe5a910d8bf32bb393e14fc962a58ef6b88a5c02ea6aeb57c3324865",
+        "src_0daecd6ba2d5483047c4def1": "0daecd6ba2d5483047c4def157d00be0ac83d659394e927f21b5e77352250dd8",
+        "src_0fbdeaaf74793762b4cc8238": "0fbdeaaf74793762b4cc823859ae718137790ffaf5aac6d315dfa18006e8ec65",
+        "src_1cc11dcc9032d51b042e3abc": "1cc11dcc9032d51b042e3abcc50e4365f74c0e43262ea043bd05e0f4b4e69b09",
+        "src_20d24cab255727a31ebbd778": "20d24cab255727a31ebbd778e9e9f0a2a288f4d05d889f5f24314ece420ba0aa",
+        "src_7b7e4f6c7483e5f03b94d66c": "7b7e4f6c7483e5f03b94d66c3d23d83afbe3fe70a64829e5c63f6a1781ecb32d",
+        "src_8135d4d6f23cdd51c91bfd84": "8135d4d6f23cdd51c91bfd84983a007c051e6fdca071cc852d84f240993b378f",
+        "src_a564a567c56b145c39abf4e1": "a564a567c56b145c39abf4e1ee87c14d86d924b0568058f61bc1244d53a2ff2d",
+        "src_b4c4b3db3f909aa59da4b05a": "b4c4b3db3f909aa59da4b05ab676541f6f6c2a76c50e53a0b36e6d15be5d1e72",
+        "src_ca990f10b6830f97c10ef776": "ca990f10b6830f97c10ef776562a73e7ab8ec19b0d9b67049b354fc3aa94eff7",
+        "src_d9cf3d839c4bf107e78d5bd7": "d9cf3d839c4bf107e78d5bd777f20138adfc886ce0812ca7028e6f5e9fc469e8",
+        "src_f3c745004c776d1735050c26": "f3c745004c776d1735050c26904721c7fb0cc88c8b011527882f6226f65dc174"
+      },
+      "file_hashes": {
+        "markdown": "bc033a2a6e37c50e8c7d84dee37ddd3d97e22b91f29fa6d0498a00e0afa9eaec",
+        "docx": "4092b1c82fec1796a7ff5d435fc513f07aae71368abca46e0a0da8083cb2ce71"
+      },
+      "chart_hashes": {
+        "chart_80077479b7931e96fbc15550": "ac082a795c4600077e5ee4d4637a446a4b0cc3302636ef5178ed1c433fbbc9e6",
+        "chart_15eee2935860cc1b87b2104f": "c33fd8b046e4f9ec9f7ac45a00830d0d33b2a4e38489d22dc259635b330bd26c",
+        "chart_6e905e616d0c4f94f44c32fe": "8620e955d045be8791bf808b31775eeacdab6aace12fc9081e22b45e154b9eab",
+        "chart_17809f54cc0a4ea75b650050": "49d1557995c5affd8d7e7317d21c584060136df6239a10f0a784dc7ba6db79ed",
+        "chart_bd86c03d3a33d9b03b72e403": "2ea87365a495abd67c5970dc406f61903b0c41ebb2cfcbefe79984ccb8096da5",
+        "chart_06b98478f9bba13cf54df29b": "6f4be3c2933b847ff415ce08f9bc2041616f6bbdb5f4ea37c9748590fe5dacdd",
+        "chart_e302b77e5641b3932658607e": "aad01d15ad6a1def697078ccb7e0933c44f836f37778929a9304cd2b60549215",
+        "chart_8e95172818a7f04961a62a35": "af060a3af91bca1017b45844ce219710ed5e2905c9e13a12cb42dce005b8360d",
+        "chart_0a846b13eebb5af44f8caac6": "c0c408bded297cb253fe882f2b2ea7e8257cefefc24bb88b53feceee48368a40",
+        "chart_15605a85a75beea4ac03b2f0": "5789a910eb50b91e7283e525f1a31eef63d655417101f7eb209b3bd1f44666ff",
+        "chart_7704cbe2432f605754088aef": "e8e6617d980cc740e7f5036ab3f77373c89eeaa706ccf7397f8db1fd5ad86ec6",
+        "chart_2851f40d2b1b9e52b8cf8f62": "960ef50901c9e9956da5e85c1e71733a979f13317bc2c059dd22921ebf3b2a48",
+        "chart_a97771d7068365eef8b102b3": "9758eeb32d9b511d21884d9e483088fd0924353061cc0a863981a098a7397985",
+        "chart_3e217c88aaaf27dba7816347": "76e6764dba66c90575127611dd5f888a22c2a18566152bc597d59189cd15eb2e",
+        "chart_140c8492a276348ba1014ab1": "b29f5abb5b438c83afab17fbda6c3ad4d948f3c6c8f0ba8010a63c65ad039d70",
+        "chart_910de1f734de9e6a5db549bc": "50de8b1588c7ff3eb0b75134c57d89046109088d9d84545509f449e23120cc1c",
+        "chart_638b73bd2461186a5e4216d1": "af6a726a65a73dc4955df2edb675237eca0db6a97cc108617e499ba6fea085d7",
+        "chart_57f3ef5b2941557573736d0a": "ba5ab545e87d92cd0845492fbf91533ef43bd1fc2dabf88e50bc990ddd1d8d4b",
+        "chart_e47601fd23a8bc6f0d08dee8": "77aff4d3987a8fcb080102b9f55a31cf47b4b3a1d6d540a09f415f68fcf40b36"
+      },
+      "markdown_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/real_budget_board_acceptance_v5/projects/3d1cd7957a0f45f79a2867c7c0e088cb/revisions/22ba935bbc8449779ff96e5b1b4735e0/dist/full_report.md",
+      "docx_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/projects/real_budget_board_acceptance_v5/projects/3d1cd7957a0f45f79a2867c7c0e088cb/revisions/22ba935bbc8449779ff96e5b1b4735e0/dist/full_report.docx"
+    },
+    "validation": {
+      "run_id": "0e0e9dae31094434bfc4105e399e3476",
+      "status": "pending_review",
+      "hard_checks_passed": true,
+      "checks": {
+        "evidence_frozen": true,
+        "required_sections": true,
+        "draft_exists": true,
+        "independent_review": true,
+        "source_integrity": true,
+        "retrieval_integrity": true,
+        "chart_integrity": true
+      },
+      "gaps": {
+        "missing_inputs": [],
+        "definition_missing": [
+          "consolidation_rule"
+        ],
+        "retrieval_gaps": []
+      },
+      "draft_sha256": "bc033a2a6e37c50e8c7d84dee37ddd3d97e22b91f29fa6d0498a00e0afa9eaec"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "87bd3d4988a8457699bce05d57e8ca6e",
+  "run_id": "bc46a7048a5e467785fc0420c2fca198",
+  "project_id": "7138144905ee41bf9b09f3d42f93f5a9",
+  "status": "pending_review",
+  "scenario_id": "credit_review",
+  "scenario_version": "0.1.0",
+  "effective_config_fingerprint": "12ed4b478d98b86690df794ada702db802adafef68683b8a7c57b32e8ecddbfc",
+  "evidence_snapshot_id": "facf822176b54eec862178b9bbef1630",
+  "material_fingerprints": {
+    "src_5cfd3cb1b1535e39eaa33e2b": "5cfd3cb1b1535e39eaa33e2b710a908d0d5b43feee33fa6122d73dbb17b9d2df",
+    "src_9562edc0a51c130e6eea5d46": "9562edc0a51c130e6eea5d46938e0655b49794b8efdf43e494ea4c9c12b5e9ef",
+    "src_b98342636f70dc63cf7a7653": "b98342636f70dc63cf7a7653f663ac68da43eee614bf6bf01f47460cb2ff45da"
+  },
+  "file_hashes": {
+    "markdown": "7aecad96cf824a3c629363d2b03f6cf302e670e988aa6a5de9858bd6b95b61c4",
+    "docx": "7525cb62edf82d5578912f7740f3b897255d31edd9d34bfd1bd68aaa2703e33c"
+  }
+}

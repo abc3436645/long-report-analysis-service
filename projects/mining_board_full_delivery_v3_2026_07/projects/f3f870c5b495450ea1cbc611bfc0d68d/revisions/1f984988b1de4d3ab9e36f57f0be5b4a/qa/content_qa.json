@@ -1,0 +1,28 @@
+{
+  "run_id": "f71527c60e8c4ae291ab1f2dd7b02410",
+  "status": "pending_review",
+  "hard_checks_passed": true,
+  "checks": {
+    "evidence_frozen": true,
+    "required_sections": true,
+    "draft_exists": true,
+    "independent_review": true,
+    "source_integrity": true,
+    "retrieval_integrity": true,
+    "chart_integrity": true,
+    "material_disposition": true,
+    "analysis_material_coverage": true,
+    "unit_evidence_coverage": true,
+    "special_subject_coverage": true,
+    "unit_scope_coverage": true
+  },
+  "gaps": {
+    "missing_inputs": [],
+    "definition_missing": [
+      "consolidation_rule"
+    ],
+    "retrieval_gaps": []
+  },
+  "scope_exclusions": [],
+  "draft_sha256": "dd36f6e2c5d1f4a6b6740f923d688497cc78a1d6f7e87773bc3c01e6de3a4737"
+}

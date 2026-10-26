@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "90bdff43-882b-4852-a054-defc753f1aa8",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.archify/architecture-project-framework-20261026-132709/workflow-candidate.json",
+  "output": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.archify/architecture-project-framework-20261026-132709/business-workflow.html",
+  "specification": {
+    "sha256": "a8132e4b133d146aac0f541d4c789f1593387d9a5b22f1e01247d78a1d4dd029",
+    "bytes": 13548
+  },
+  "artifact": {
+    "sha256": "a5577e2cb656827d1cddcd5c9ae7880b21a7686047a79d9ba341c5197fac6499",
+    "bytes": 840719
+  }
+}

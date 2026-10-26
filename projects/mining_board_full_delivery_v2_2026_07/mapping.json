@@ -1,0 +1,774 @@
+{
+  "id": "inspected_mining_sources_2026_07",
+  "report_period": "2026-07",
+  "organization": "集团合并",
+  "aggregate_subjects": [
+    "矿山板块合计"
+  ],
+  "nested_subjects": [],
+  "units": [
+    "德兴铜矿（含新技术）",
+    "永平铜矿",
+    "武山铜矿",
+    "城门山铜矿",
+    "银山矿业",
+    "银珠山矿业"
+  ],
+  "special_subjects": [
+    "sulfur:r9:七宝山"
+  ],
+  "tables": [
+    {
+      "id": "profit",
+      "filename": "利润计划执行情况表_2026-10-14.xlsx",
+      "sheet": "Sheet1",
+      "subject_column": "B",
+      "input_ids": [
+        "actuals",
+        "budget"
+      ],
+      "rows": [
+        {
+          "row": 6,
+          "source_subject": "集团合并",
+          "targets": [
+            "集团合并"
+          ]
+        },
+        {
+          "row": 7,
+          "source_subject": "          德兴铜矿（含新技术）",
+          "targets": [
+            "德兴铜矿（含新技术）"
+          ]
+        },
+        {
+          "row": 8,
+          "source_subject": "          永平铜矿",
+          "targets": [
+            "永平铜矿"
+          ]
+        },
+        {
+          "row": 9,
+          "source_subject": "          武山铜矿",
+          "targets": [
+            "武山铜矿"
+          ]
+        },
+        {
+          "row": 10,
+          "source_subject": "          城门山铜矿",
+          "targets": [
+            "城门山铜矿"
+          ]
+        },
+        {
+          "row": 11,
+          "source_subject": "          银山矿业",
+          "targets": [
+            "银山矿业"
+          ]
+        },
+        {
+          "row": 12,
+          "source_subject": "          银珠山矿业",
+          "targets": [
+            "银珠山矿业"
+          ]
+        },
+        {
+          "row": 13,
+          "source_subject": "       矿山板块合计",
+          "targets": [
+            "矿山板块合计"
+          ]
+        }
+      ],
+      "fields": [
+        {
+          "id": "month",
+          "column": "D",
+          "period": "2026-07",
+          "window": "month",
+          "basis": "actuals",
+          "unit": "万元",
+          "budget_version": null
+        },
+        {
+          "id": "previous",
+          "column": "E",
+          "period": "2026-06",
+          "window": "month",
+          "basis": "actuals",
+          "unit": "万元",
+          "budget_version": null
+        },
+        {
+          "id": "ytd",
+          "column": "F",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "万元",
+          "budget_version": null
+        },
+        {
+          "id": "prior",
+          "column": "G",
+          "period": "2025-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "万元",
+          "budget_version": null
+        },
+        {
+          "id": "annual",
+          "column": "H",
+          "period": "2026",
+          "window": "annual",
+          "basis": "budget",
+          "unit": "万元",
+          "budget_version": "annual_plan"
+        },
+        {
+          "id": "time_plan",
+          "column": "I",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "budget",
+          "unit": "万元",
+          "budget_version": "time_plan"
+        }
+      ]
+    },
+    {
+      "id": "cost",
+      "filename": "矿山成本指标完成情况_2026-10-14.xlsx",
+      "sheet": "Sheet1",
+      "subject_column": "B",
+      "input_ids": [
+        "actuals"
+      ],
+      "rows": [
+        {
+          "row": 4,
+          "source_subject": "德兴铜矿",
+          "targets": [
+            "德兴铜矿（含新技术）"
+          ]
+        },
+        {
+          "row": 5,
+          "source_subject": "永平铜矿",
+          "targets": [
+            "永平铜矿"
+          ]
+        },
+        {
+          "row": 6,
+          "source_subject": "武山铜矿",
+          "targets": [
+            "武山铜矿"
+          ]
+        },
+        {
+          "row": 7,
+          "source_subject": "城门山铜矿",
+          "targets": [
+            "城门山铜矿"
+          ]
+        },
+        {
+          "row": 9,
+          "source_subject": "银山矿业",
+          "targets": [
+            "银山矿业"
+          ]
+        },
+        {
+          "row": 10,
+          "source_subject": "银珠山矿业",
+          "targets": [
+            "银珠山矿业"
+          ]
+        }
+      ],
+      "fields": [
+        {
+          "id": "ore_cost",
+          "column": "C",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "元/吨",
+          "budget_version": null
+        },
+        {
+          "id": "ore_cost_prior",
+          "column": "D",
+          "period": "2025-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "元/吨",
+          "budget_version": null
+        },
+        {
+          "id": "variable",
+          "column": "E",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "元/吨",
+          "budget_version": null
+        },
+        {
+          "id": "variable_prior",
+          "column": "F",
+          "period": "2025-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "元/吨",
+          "budget_version": null
+        },
+        {
+          "id": "metal_cost",
+          "column": "G",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "元/吨",
+          "budget_version": null
+        },
+        {
+          "id": "metal_cost_prior",
+          "column": "H",
+          "period": "2025-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "元/吨",
+          "budget_version": null
+        },
+        {
+          "id": "variable_metal",
+          "column": "I",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "元/吨",
+          "budget_version": null
+        },
+        {
+          "id": "variable_metal_prior",
+          "column": "J",
+          "period": "2025-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "元/吨",
+          "budget_version": null
+        }
+      ]
+    },
+    {
+      "id": "cost_inputs",
+      "filename": "矿山成本指标完成情况_2026-10-14.xlsx",
+      "sheet": "Sheet1",
+      "subject_column": "B",
+      "input_ids": [
+        "actuals"
+      ],
+      "rows": [
+        {
+          "row": 16,
+          "source_subject": "德兴铜矿",
+          "targets": [
+            "德兴铜矿（含新技术）"
+          ]
+        },
+        {
+          "row": 17,
+          "source_subject": "永平铜矿",
+          "targets": [
+            "永平铜矿"
+          ]
+        },
+        {
+          "row": 18,
+          "source_subject": "武山铜矿",
+          "targets": [
+            "武山铜矿"
+          ]
+        },
+        {
+          "row": 19,
+          "source_subject": "城门山铜矿",
+          "targets": [
+            "城门山铜矿"
+          ]
+        },
+        {
+          "row": 21,
+          "source_subject": "银山矿业",
+          "targets": [
+            "银山矿业"
+          ]
+        },
+        {
+          "row": 22,
+          "source_subject": "银珠山矿业",
+          "targets": [
+            "银珠山矿业"
+          ]
+        }
+      ],
+      "fields": [
+        {
+          "id": "processed",
+          "column": "C",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "吨",
+          "budget_version": null
+        },
+        {
+          "id": "processed_prior",
+          "column": "D",
+          "period": "2025-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "吨",
+          "budget_version": null
+        },
+        {
+          "id": "labor_depr",
+          "column": "E",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "万元",
+          "budget_version": null
+        },
+        {
+          "id": "labor_depr_prior",
+          "column": "F",
+          "period": "2025-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "万元",
+          "budget_version": null
+        },
+        {
+          "id": "metal",
+          "column": "G",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "吨",
+          "budget_version": null
+        },
+        {
+          "id": "metal_prior",
+          "column": "H",
+          "period": "2025-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "吨",
+          "budget_version": null
+        }
+      ]
+    },
+    {
+      "id": "concentrate",
+      "filename": "四矿铜精矿产销增减利情况_2026-10-14.xlsx",
+      "sheet": "Sheet1",
+      "subject_column": "C",
+      "input_ids": [
+        "actuals"
+      ],
+      "rows": [
+        {
+          "row": 4,
+          "source_subject": "铜精矿含铜",
+          "targets": [
+            "德兴铜矿（含新技术）"
+          ]
+        },
+        {
+          "row": 5,
+          "source_subject": "铜精矿含金",
+          "targets": [
+            "德兴铜矿（含新技术）"
+          ]
+        },
+        {
+          "row": 6,
+          "source_subject": "铜精矿含银",
+          "targets": [
+            "德兴铜矿（含新技术）"
+          ]
+        },
+        {
+          "row": 8,
+          "source_subject": "铜精矿含铜",
+          "targets": [
+            "永平铜矿"
+          ]
+        },
+        {
+          "row": 9,
+          "source_subject": "铜精矿含金",
+          "targets": [
+            "永平铜矿"
+          ]
+        },
+        {
+          "row": 10,
+          "source_subject": "铜精矿含银",
+          "targets": [
+            "永平铜矿"
+          ]
+        },
+        {
+          "row": 12,
+          "source_subject": "铜精矿含铜",
+          "targets": [
+            "武山铜矿"
+          ]
+        },
+        {
+          "row": 13,
+          "source_subject": "铜精矿含金",
+          "targets": [
+            "武山铜矿"
+          ]
+        },
+        {
+          "row": 14,
+          "source_subject": "铜精矿含银",
+          "targets": [
+            "武山铜矿"
+          ]
+        },
+        {
+          "row": 16,
+          "source_subject": "铜精矿含铜",
+          "targets": [
+            "城门山铜矿"
+          ]
+        },
+        {
+          "row": 17,
+          "source_subject": "铜精矿含金",
+          "targets": [
+            "城门山铜矿"
+          ]
+        },
+        {
+          "row": 18,
+          "source_subject": "铜精矿含银",
+          "targets": [
+            "城门山铜矿"
+          ]
+        }
+      ],
+      "fields": [
+        {
+          "id": "production",
+          "column": "E",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "吨或公斤，见产品",
+          "budget_version": null,
+          "units_by_row": {
+            "4": "吨",
+            "5": "公斤",
+            "6": "公斤",
+            "8": "吨",
+            "9": "公斤",
+            "10": "公斤",
+            "12": "吨",
+            "13": "公斤",
+            "14": "公斤",
+            "16": "吨",
+            "17": "公斤",
+            "18": "公斤"
+          }
+        },
+        {
+          "id": "sales",
+          "column": "F",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "吨或公斤，见产品",
+          "budget_version": null,
+          "units_by_row": {
+            "4": "吨",
+            "5": "公斤",
+            "6": "公斤",
+            "8": "吨",
+            "9": "公斤",
+            "10": "公斤",
+            "12": "吨",
+            "13": "公斤",
+            "14": "公斤",
+            "16": "吨",
+            "17": "公斤",
+            "18": "公斤"
+          }
+        },
+        {
+          "id": "sales_prior",
+          "column": "G",
+          "period": "2025-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "吨或公斤，见产品",
+          "budget_version": null,
+          "units_by_row": {
+            "4": "吨",
+            "5": "公斤",
+            "6": "公斤",
+            "8": "吨",
+            "9": "公斤",
+            "10": "公斤",
+            "12": "吨",
+            "13": "公斤",
+            "14": "公斤",
+            "16": "吨",
+            "17": "公斤",
+            "18": "公斤"
+          }
+        },
+        {
+          "id": "price",
+          "column": "H",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "元/吨或公斤，见产品",
+          "budget_version": null,
+          "units_by_row": {
+            "4": "元/吨",
+            "5": "元/公斤",
+            "6": "元/公斤",
+            "8": "元/吨",
+            "9": "元/公斤",
+            "10": "元/公斤",
+            "12": "元/吨",
+            "13": "元/公斤",
+            "14": "元/公斤",
+            "16": "元/吨",
+            "17": "元/公斤",
+            "18": "元/公斤"
+          }
+        },
+        {
+          "id": "price_prior",
+          "column": "I",
+          "period": "2025-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "元/吨或公斤，见产品",
+          "budget_version": null,
+          "units_by_row": {
+            "4": "元/吨",
+            "5": "元/公斤",
+            "6": "元/公斤",
+            "8": "元/吨",
+            "9": "元/公斤",
+            "10": "元/公斤",
+            "12": "元/吨",
+            "13": "元/公斤",
+            "14": "元/公斤",
+            "16": "元/吨",
+            "17": "元/公斤",
+            "18": "元/公斤"
+          }
+        },
+        {
+          "id": "volume_effect",
+          "column": "J",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "万元",
+          "budget_version": null
+        },
+        {
+          "id": "price_effect",
+          "column": "K",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "万元",
+          "budget_version": null
+        }
+      ]
+    },
+    {
+      "id": "sulfur",
+      "filename": "硫精矿增减利分析_2026-10-14.xlsx",
+      "sheet": "Sheet1",
+      "subject_column": "B",
+      "input_ids": [
+        "actuals",
+        "budget"
+      ],
+      "rows": [
+        {
+          "row": 4,
+          "source_subject": "德兴铜矿",
+          "targets": [
+            "德兴铜矿（含新技术）"
+          ]
+        },
+        {
+          "row": 5,
+          "source_subject": "永平铜矿",
+          "targets": [
+            "永平铜矿"
+          ]
+        },
+        {
+          "row": 6,
+          "source_subject": "武山铜矿",
+          "targets": [
+            "武山铜矿"
+          ]
+        },
+        {
+          "row": 7,
+          "source_subject": "城门山铜矿",
+          "targets": [
+            "城门山铜矿"
+          ]
+        },
+        {
+          "row": 8,
+          "source_subject": "银山矿业",
+          "targets": [
+            "银山矿业"
+          ]
+        },
+        {
+          "row": 9,
+          "source_subject": "七宝山",
+          "targets": [
+            "sulfur:r9:七宝山"
+          ]
+        },
+        {
+          "row": 10,
+          "source_subject": "银珠山",
+          "targets": [
+            "银珠山矿业"
+          ]
+        }
+      ],
+      "fields": [
+        {
+          "id": "sales",
+          "column": "C",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "万吨",
+          "budget_version": null
+        },
+        {
+          "id": "sales_plan",
+          "column": "D",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "budget",
+          "unit": "万吨",
+          "budget_version": "time_plan"
+        },
+        {
+          "id": "sales_prior",
+          "column": "E",
+          "period": "2025-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "万吨",
+          "budget_version": null
+        },
+        {
+          "id": "price",
+          "column": "F",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "元/吨",
+          "budget_version": null
+        },
+        {
+          "id": "price_plan",
+          "column": "G",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "budget",
+          "unit": "元/吨",
+          "budget_version": "time_plan"
+        },
+        {
+          "id": "price_prior",
+          "column": "H",
+          "period": "2025-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "元/吨",
+          "budget_version": null
+        },
+        {
+          "id": "volume_effect",
+          "column": "I",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "万元",
+          "budget_version": null
+        },
+        {
+          "id": "price_effect",
+          "column": "J",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "万元",
+          "budget_version": null
+        },
+        {
+          "id": "plan_volume",
+          "column": "K",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "budget",
+          "unit": "万元",
+          "budget_version": "time_plan"
+        },
+        {
+          "id": "plan_price",
+          "column": "L",
+          "period": "2026-07",
+          "window": "ytd",
+          "basis": "budget",
+          "unit": "万元",
+          "budget_version": "time_plan"
+        },
+        {
+          "id": "cost_prior",
+          "column": "M",
+          "period": "2025-07",
+          "window": "ytd",
+          "basis": "actuals",
+          "unit": "元/吨",
+          "budget_version": null
+        }
+      ]
+    }
+  ]
+}

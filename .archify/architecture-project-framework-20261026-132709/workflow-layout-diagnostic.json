@@ -1,0 +1,759 @@
+{
+  "contract": "readable-v2",
+  "viewBox": [
+    1296,
+    834
+  ],
+  "requiredViewBox": [
+    1296,
+    834
+  ],
+  "columns": [
+    297.8,
+    471.8,
+    651.8,
+    823.8,
+    991.8,
+    1168.2
+  ],
+  "nodes": [
+    {
+      "id": "retrieval",
+      "lane": "source",
+      "col": 0,
+      "x": 251.8,
+      "y": 86,
+      "width": 92,
+      "height": 68
+    },
+    {
+      "id": "renderfail",
+      "lane": "render_exception",
+      "col": 5,
+      "x": 1106.2,
+      "y": 224,
+      "width": 124,
+      "height": 68
+    },
+    {
+      "id": "intake",
+      "lane": "main",
+      "col": 0,
+      "x": 235.8,
+      "y": 362,
+      "width": 124,
+      "height": 68
+    },
+    {
+      "id": "evidence",
+      "lane": "main",
+      "col": 1,
+      "x": 425.8,
+      "y": 362,
+      "width": 92,
+      "height": 68
+    },
+    {
+      "id": "analysis",
+      "lane": "main",
+      "col": 2,
+      "x": 583.8,
+      "y": 362,
+      "width": 136,
+      "height": 68
+    },
+    {
+      "id": "composition",
+      "lane": "main",
+      "col": 3,
+      "x": 751.8,
+      "y": 362,
+      "width": 144,
+      "height": 68
+    },
+    {
+      "id": "quality",
+      "lane": "main",
+      "col": 4,
+      "x": 927.8,
+      "y": 362,
+      "width": 128,
+      "height": 68
+    },
+    {
+      "id": "delivery",
+      "lane": "main",
+      "col": 5,
+      "x": 1112.2,
+      "y": 362,
+      "width": 112,
+      "height": 68
+    },
+    {
+      "id": "conflict",
+      "lane": "exception",
+      "col": 1,
+      "x": 425.8,
+      "y": 500,
+      "width": 92,
+      "height": 68
+    },
+    {
+      "id": "blocked",
+      "lane": "exception",
+      "col": 4,
+      "x": 945.8,
+      "y": 500,
+      "width": 92,
+      "height": 68
+    },
+    {
+      "id": "revision",
+      "lane": "revision",
+      "col": 0,
+      "x": 233.8,
+      "y": 638,
+      "width": 128,
+      "height": 68
+    }
+  ],
+  "edges": [
+    {
+      "id": "analysis-composition",
+      "from": "analysis",
+      "to": "composition",
+      "points": [
+        [
+          719.8,
+          396
+        ],
+        [
+          751.8,
+          396
+        ]
+      ]
+    },
+    {
+      "id": "blocked-quality",
+      "from": "blocked",
+      "to": "quality",
+      "points": [
+        [
+          945.8,
+          534
+        ],
+        [
+          899.8,
+          534
+        ],
+        [
+          899.8,
+          396
+        ],
+        [
+          927.8,
+          396
+        ]
+      ]
+    },
+    {
+      "id": "composition-quality",
+      "from": "composition",
+      "to": "quality",
+      "points": [
+        [
+          823.8,
+          362
+        ],
+        [
+          823.8,
+          346
+        ],
+        [
+          991.8,
+          346
+        ],
+        [
+          991.8,
+          362
+        ]
+      ]
+    },
+    {
+      "id": "conflict-evidence",
+      "from": "conflict",
+      "to": "evidence",
+      "points": [
+        [
+          425.8,
+          534
+        ],
+        [
+          409.8,
+          534
+        ],
+        [
+          409.8,
+          450
+        ],
+        [
+          464.8,
+          450
+        ],
+        [
+          464.8,
+          430
+        ]
+      ]
+    },
+    {
+      "id": "delivery-failed",
+      "from": "delivery",
+      "to": "renderfail",
+      "points": [
+        [
+          1168.2,
+          362
+        ],
+        [
+          1168.2,
+          292
+        ]
+      ]
+    },
+    {
+      "id": "delivery-revision",
+      "from": "delivery",
+      "to": "revision",
+      "points": [
+        [
+          1168.2,
+          430
+        ],
+        [
+          1168.2,
+          738
+        ],
+        [
+          297.8,
+          738
+        ],
+        [
+          297.8,
+          706
+        ]
+      ]
+    },
+    {
+      "id": "evidence-analysis",
+      "from": "evidence",
+      "to": "analysis",
+      "points": [
+        [
+          517.8,
+          396
+        ],
+        [
+          583.8,
+          396
+        ]
+      ]
+    },
+    {
+      "id": "evidence-conflict",
+      "from": "evidence",
+      "to": "conflict",
+      "points": [
+        [
+          478.8,
+          430
+        ],
+        [
+          478.8,
+          446
+        ],
+        [
+          499.3,
+          446
+        ],
+        [
+          499.3,
+          484
+        ],
+        [
+          471.8,
+          484
+        ],
+        [
+          471.8,
+          500
+        ]
+      ]
+    },
+    {
+      "id": "failed-delivery",
+      "from": "renderfail",
+      "to": "delivery",
+      "points": [
+        [
+          1230.2,
+          258
+        ],
+        [
+          1251,
+          258
+        ],
+        [
+          1251,
+          396
+        ],
+        [
+          1224.2,
+          396
+        ]
+      ]
+    },
+    {
+      "id": "intake-evidence",
+      "from": "intake",
+      "to": "evidence",
+      "points": [
+        [
+          359.8,
+          396
+        ],
+        [
+          425.8,
+          396
+        ]
+      ]
+    },
+    {
+      "id": "intake-retrieval",
+      "from": "intake",
+      "to": "retrieval",
+      "points": [
+        [
+          297.8,
+          362
+        ],
+        [
+          297.8,
+          154
+        ]
+      ]
+    },
+    {
+      "id": "quality-blocked",
+      "from": "quality",
+      "to": "blocked",
+      "points": [
+        [
+          991.8,
+          430
+        ],
+        [
+          991.8,
+          500
+        ]
+      ]
+    },
+    {
+      "id": "quality-delivery",
+      "from": "quality",
+      "to": "delivery",
+      "points": [
+        [
+          1055.8,
+          396
+        ],
+        [
+          1112.2,
+          396
+        ]
+      ]
+    },
+    {
+      "id": "retrieval-evidence",
+      "from": "retrieval",
+      "to": "evidence",
+      "points": [
+        [
+          343.8,
+          120
+        ],
+        [
+          471.8,
+          120
+        ],
+        [
+          471.8,
+          362
+        ]
+      ]
+    },
+    {
+      "id": "revision-intake",
+      "from": "revision",
+      "to": "intake",
+      "points": [
+        [
+          233.8,
+          672
+        ],
+        [
+          205.8,
+          672
+        ],
+        [
+          205.8,
+          396
+        ],
+        [
+          235.8,
+          396
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": "blocked-quality",
+      "label": "修复后重验",
+      "x": 899.8,
+      "y": 455,
+      "width": 58,
+      "height": 14
+    },
+    {
+      "edge": "conflict-evidence",
+      "label": "依规则裁决",
+      "x": 437.3,
+      "y": 440,
+      "width": 58,
+      "height": 14
+    },
+    {
+      "edge": "delivery-failed",
+      "label": "导出失败",
+      "x": 1168.2,
+      "y": 327,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "delivery-revision",
+      "label": "同期间补件与改稿",
+      "x": 733,
+      "y": 728,
+      "width": 86.8,
+      "height": 14
+    },
+    {
+      "edge": "evidence-analysis",
+      "label": "快照已封存",
+      "x": 550.8,
+      "y": 386,
+      "width": 58,
+      "height": 14
+    },
+    {
+      "edge": "evidence-conflict",
+      "label": "有冲突",
+      "x": 485.55,
+      "y": 474,
+      "width": 38.8,
+      "height": 14
+    },
+    {
+      "edge": "failed-delivery",
+      "label": "修复后重试",
+      "x": 1251,
+      "y": 317,
+      "width": 58,
+      "height": 14
+    },
+    {
+      "edge": "intake-evidence",
+      "label": "未启用检索",
+      "x": 392.8,
+      "y": 386,
+      "width": 58,
+      "height": 14
+    },
+    {
+      "edge": "intake-retrieval",
+      "label": "启用检索",
+      "x": 297.8,
+      "y": 258,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "quality-blocked",
+      "label": "硬检失败",
+      "x": 991.8,
+      "y": 465,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "quality-delivery",
+      "label": "硬检通过",
+      "x": 1084,
+      "y": 386,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "retrieval-evidence",
+      "label": "归档结果与缺口",
+      "x": 407.8,
+      "y": 110,
+      "width": 77.2,
+      "height": 14
+    },
+    {
+      "edge": "revision-intake",
+      "label": "开启新运行",
+      "x": 205.8,
+      "y": 524,
+      "width": 58,
+      "height": 14
+    }
+  ],
+  "diagnostics": [
+    {
+      "code": "workflow/sublabel-readability",
+      "severity": "error",
+      "message": "Sublabel \"HTTP/MCP 原响应归档核对\" needs a 8.4px minimum that stays readable on this 1296px canvas, above the supported 8px text row — compact the column spacing or node widths so the canvas is at most 1240px wide; preserve the sublabel's role or protocol.",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "retrieval",
+        "path": "/nodes/6/sublabel"
+      },
+      "evidence": {
+        "requiredFontPx": 8.4,
+        "maximumSlotFontPx": 8,
+        "canvasWidthPx": 1296,
+        "maximumCanvasWidthPx": 1240,
+        "requiredTextWidthPx": 115.92,
+        "availableTextWidthPx": 84
+      },
+      "supportedFixes": [
+        "compact column spacing or node widths until the implicit canvas is at most 1240px wide, preserving every node and relationship"
+      ]
+    },
+    {
+      "code": "workflow/sublabel-readability",
+      "severity": "error",
+      "message": "Sublabel \"不切换 latest · 保留旧版\" needs a 8.4px minimum that stays readable on this 1296px canvas, above the supported 8px text row — compact the column spacing or node widths so the canvas is at most 1240px wide; preserve the sublabel's role or protocol.",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "renderfail",
+        "path": "/nodes/9/sublabel"
+      },
+      "evidence": {
+        "requiredFontPx": 8.4,
+        "maximumSlotFontPx": 8,
+        "canvasWidthPx": 1296,
+        "maximumCanvasWidthPx": 1240,
+        "requiredTextWidthPx": 120.96000000000001,
+        "availableTextWidthPx": 116
+      },
+      "supportedFixes": [
+        "compact column spacing or node widths until the implicit canvas is at most 1240px wide, preserving every node and relationship"
+      ]
+    },
+    {
+      "code": "workflow/sublabel-readability",
+      "severity": "error",
+      "message": "Sublabel \"需求 / 范围 / 材料 / run\" needs a 8.4px minimum that stays readable on this 1296px canvas, above the supported 8px text row — compact the column spacing or node widths so the canvas is at most 1240px wide; preserve the sublabel's role or protocol.",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "intake",
+        "path": "/nodes/0/sublabel"
+      },
+      "evidence": {
+        "requiredFontPx": 8.4,
+        "maximumSlotFontPx": 8,
+        "canvasWidthPx": 1296,
+        "maximumCanvasWidthPx": 1240,
+        "requiredTextWidthPx": 120.96000000000001,
+        "availableTextWidthPx": 116
+      },
+      "supportedFixes": [
+        "compact column spacing or node widths until the implicit canvas is at most 1240px wide, preserving every node and relationship"
+      ]
+    },
+    {
+      "code": "workflow/sublabel-readability",
+      "severity": "error",
+      "message": "Sublabel \"候选定位 → 裁决 → 快照\" needs a 8.4px minimum that stays readable on this 1296px canvas, above the supported 8px text row — compact the column spacing or node widths so the canvas is at most 1240px wide; preserve the sublabel's role or protocol.",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "evidence",
+        "path": "/nodes/1/sublabel"
+      },
+      "evidence": {
+        "requiredFontPx": 8.4,
+        "maximumSlotFontPx": 8,
+        "canvasWidthPx": 1296,
+        "maximumCanvasWidthPx": 1240,
+        "requiredTextWidthPx": 110.88000000000001,
+        "availableTextWidthPx": 84
+      },
+      "supportedFixes": [
+        "compact column spacing or node widths until the implicit canvas is at most 1240px wide, preserving every node and relationship"
+      ]
+    },
+    {
+      "code": "workflow/sublabel-readability",
+      "severity": "error",
+      "message": "Sublabel \"注册计算 / 图表 / 章节 DAG\" needs a 8.4px minimum that stays readable on this 1296px canvas, above the supported 8px text row — compact the column spacing or node widths so the canvas is at most 1240px wide; preserve the sublabel's role or protocol.",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "analysis",
+        "path": "/nodes/2/sublabel"
+      },
+      "evidence": {
+        "requiredFontPx": 8.4,
+        "maximumSlotFontPx": 8,
+        "canvasWidthPx": 1296,
+        "maximumCanvasWidthPx": 1240,
+        "requiredTextWidthPx": 131.04,
+        "availableTextWidthPx": 128
+      },
+      "supportedFixes": [
+        "compact column spacing or node widths until the implicit canvas is at most 1240px wide, preserving every node and relationship"
+      ]
+    },
+    {
+      "code": "workflow/sublabel-readability",
+      "severity": "error",
+      "message": "Sublabel \"按依赖写作 / 引用绑定 / 全文\" needs a 8.4px minimum that stays readable on this 1296px canvas, above the supported 8px text row — compact the column spacing or node widths so the canvas is at most 1240px wide; preserve the sublabel's role or protocol.",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "composition",
+        "path": "/nodes/3/sublabel"
+      },
+      "evidence": {
+        "requiredFontPx": 8.4,
+        "maximumSlotFontPx": 8,
+        "canvasWidthPx": 1296,
+        "maximumCanvasWidthPx": 1240,
+        "requiredTextWidthPx": 141.12,
+        "availableTextWidthPx": 136
+      },
+      "supportedFixes": [
+        "compact column spacing or node widths until the implicit canvas is at most 1240px wide, preserving every node and relationship"
+      ]
+    },
+    {
+      "code": "workflow/sublabel-readability",
+      "severity": "error",
+      "message": "Sublabel \"语义审阅 / 来源与内容硬检\" needs a 8.4px minimum that stays readable on this 1296px canvas, above the supported 8px text row — compact the column spacing or node widths so the canvas is at most 1240px wide; preserve the sublabel's role or protocol.",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "quality",
+        "path": "/nodes/4/sublabel"
+      },
+      "evidence": {
+        "requiredFontPx": 8.4,
+        "maximumSlotFontPx": 8,
+        "canvasWidthPx": 1296,
+        "maximumCanvasWidthPx": 1240,
+        "requiredTextWidthPx": 126,
+        "availableTextWidthPx": 120
+      },
+      "supportedFixes": [
+        "compact column spacing or node widths until the implicit canvas is at most 1240px wide, preserving every node and relationship"
+      ]
+    },
+    {
+      "code": "workflow/sublabel-readability",
+      "severity": "error",
+      "message": "Sublabel \"MD / DOCX / PDF / QA\" needs a 8.4px minimum that stays readable on this 1296px canvas, above the supported 8px text row — compact the column spacing or node widths so the canvas is at most 1240px wide; preserve the sublabel's role or protocol.",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "delivery",
+        "path": "/nodes/5/sublabel"
+      },
+      "evidence": {
+        "requiredFontPx": 8.4,
+        "maximumSlotFontPx": 8,
+        "canvasWidthPx": 1296,
+        "maximumCanvasWidthPx": 1240,
+        "requiredTextWidthPx": 100.8,
+        "availableTextWidthPx": 104
+      },
+      "supportedFixes": [
+        "compact column spacing or node widths until the implicit canvas is at most 1240px wide, preserving every node and relationship"
+      ]
+    },
+    {
+      "code": "workflow/sublabel-readability",
+      "severity": "error",
+      "message": "Sublabel \"明确依据 / 替代理由\" needs a 8.4px minimum that stays readable on this 1296px canvas, above the supported 8px text row — compact the column spacing or node widths so the canvas is at most 1240px wide; preserve the sublabel's role or protocol.",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "conflict",
+        "path": "/nodes/7/sublabel"
+      },
+      "evidence": {
+        "requiredFontPx": 8.4,
+        "maximumSlotFontPx": 8,
+        "canvasWidthPx": 1296,
+        "maximumCanvasWidthPx": 1240,
+        "requiredTextWidthPx": 95.75999999999999,
+        "availableTextWidthPx": 84
+      },
+      "supportedFixes": [
+        "compact column spacing or node widths until the implicit canvas is at most 1240px wide, preserving every node and relationship"
+      ]
+    },
+    {
+      "code": "workflow/sublabel-readability",
+      "severity": "error",
+      "message": "Sublabel \"修复、重建、重审后再验\" needs a 8.4px minimum that stays readable on this 1296px canvas, above the supported 8px text row — compact the column spacing or node widths so the canvas is at most 1240px wide; preserve the sublabel's role or protocol.",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "blocked",
+        "path": "/nodes/8/sublabel"
+      },
+      "evidence": {
+        "requiredFontPx": 8.4,
+        "maximumSlotFontPx": 8,
+        "canvasWidthPx": 1296,
+        "maximumCanvasWidthPx": 1240,
+        "requiredTextWidthPx": 110.88000000000001,
+        "availableTextWidthPx": 84
+      },
+      "supportedFixes": [
+        "compact column spacing or node widths until the implicit canvas is at most 1240px wide, preserving every node and relationship"
+      ]
+    },
+    {
+      "code": "workflow/sublabel-readability",
+      "severity": "error",
+      "message": "Sublabel \"新运行重评受影响章节\" needs a 8.4px minimum that stays readable on this 1296px canvas, above the supported 8px text row — compact the column spacing or node widths so the canvas is at most 1240px wide; preserve the sublabel's role or protocol.",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "revision",
+        "path": "/nodes/10/sublabel"
+      },
+      "evidence": {
+        "requiredFontPx": 8.4,
+        "maximumSlotFontPx": 8,
+        "canvasWidthPx": 1296,
+        "maximumCanvasWidthPx": 1240,
+        "requiredTextWidthPx": 100.8,
+        "availableTextWidthPx": 120
+      },
+      "supportedFixes": [
+        "compact column spacing or node widths until the implicit canvas is at most 1240px wide, preserving every node and relationship"
+      ]
+    }
+  ],
+  "ok": false
+}

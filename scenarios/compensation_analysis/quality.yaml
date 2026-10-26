@@ -1,5 +1,5 @@
 required_inputs: [payroll, roster]
-required_sections: [summary, population, pay_structure, group_differences, budget_productivity, recommendations, appendix]
+required_sections: []
 checks: [evidence_location, numeric_binding, population_period_match, personal_pay_hidden, small_group_and_cross_table_review, independent_review, md_docx_openable]
 formal_requires: all_required_checks_pass
 visible_fields: [safe_group_aggregate, documented_limit]

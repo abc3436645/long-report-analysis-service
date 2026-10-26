@@ -1,0 +1,18 @@
+{
+  "id": "5b880620a83249a6bd3457d0da17400f",
+  "run_id": "4ecac112130a4fa38b00aca9f649a8da",
+  "project_id": "07406d9c5d4b454d854396898f263f21",
+  "status": "pending_review",
+  "scenario_id": "compensation_analysis",
+  "scenario_version": "0.1.0",
+  "effective_config_fingerprint": "ccfe9e47fb05ec165410d25cc7145fb0f9e77005f1269cc6d00af30b024195ba",
+  "evidence_snapshot_id": "38066de6e43649eba17acf7860ab1b22",
+  "material_fingerprints": {
+    "src_0c45b5333fdbbe6d3fb3e435": "0c45b5333fdbbe6d3fb3e4352575fe3f84c43022fafe11f8a316caa44c3b8b58",
+    "src_2e6ba3dc78d06e833a5cd859": "2e6ba3dc78d06e833a5cd8590e5bd24aebe169d104bb624f4d247abaffd5cd21"
+  },
+  "file_hashes": {
+    "markdown": "7d1a11b6015c62b1c14ca8dd7cabcf8e151ced497edf535858d42f83a22e4ec9",
+    "docx": "80a4abfe063f66ca41834b8becc1a59e25022b8da83752c18b38fc8e963a1a4f"
+  }
+}

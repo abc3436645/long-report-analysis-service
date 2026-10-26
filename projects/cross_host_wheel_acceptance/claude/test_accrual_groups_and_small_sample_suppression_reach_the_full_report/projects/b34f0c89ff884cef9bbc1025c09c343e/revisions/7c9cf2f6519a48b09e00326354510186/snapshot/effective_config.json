@@ -1,0 +1,324 @@
+{
+  "scenario": {
+    "schema_version": 1,
+    "id": "compensation_analysis",
+    "title": "人力薪酬分析",
+    "version": "0.1.0",
+    "subject_model": "workforce_groups",
+    "time_model": "analysis_and_comparison_periods",
+    "inputs": [
+      {
+        "id": "payroll",
+        "required": true,
+        "kinds": [
+          "xlsx",
+          "csv"
+        ]
+      },
+      {
+        "id": "roster",
+        "required": true,
+        "kinds": [
+          "xlsx",
+          "csv"
+        ]
+      },
+      {
+        "id": "productivity_sources",
+        "required": false,
+        "kinds": [
+          "xlsx",
+          "csv"
+        ]
+      }
+    ],
+    "retrieval": {
+      "enabled": false,
+      "task_refs": []
+    },
+    "outline": "outline.yaml",
+    "analysis": "analysis.yaml",
+    "quality": "quality.yaml",
+    "template": "templates/default-v0.1.0.docx",
+    "delivery": {
+      "required_formats": [
+        "md",
+        "docx"
+      ],
+      "optional_formats": [
+        "pdf"
+      ]
+    },
+    "business_definitions": {
+      "pay_components": "base,bonus",
+      "accounting_basis": "accrual",
+      "headcount_or_fte_rule": "distinct_people_at_period_end",
+      "productivity_formula": null,
+      "minimum_group_size": 3
+    },
+    "definition_missing": [
+      "productivity_formula"
+    ],
+    "overridable_fields": {
+      "business_definitions.pay_components": {
+        "type": "string",
+        "min_length": 1
+      },
+      "business_definitions.accounting_basis": {
+        "type": "string",
+        "min_length": 1
+      },
+      "business_definitions.headcount_or_fte_rule": {
+        "type": "string",
+        "min_length": 1
+      },
+      "business_definitions.productivity_formula": {
+        "type": "string",
+        "min_length": 1
+      },
+      "business_definitions.minimum_group_size": {
+        "type": "integer",
+        "minimum": 2
+      }
+    }
+  },
+  "outline": {
+    "sections": [
+      {
+        "id": "summary",
+        "title": "摘要与范围限制",
+        "display_order": 1,
+        "repeat_for": null,
+        "goal": "汇总已核实发现并说明限制",
+        "questions": [
+          "哪些指标因定义缺口无法计算或展示"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": [
+          "group_review"
+        ],
+        "required_assets": [],
+        "depends_on": [
+          "population",
+          "pay_structure",
+          "group_differences",
+          "budget_productivity",
+          "recommendations"
+        ]
+      },
+      {
+        "id": "population",
+        "title": "人员及群体口径",
+        "display_order": 2,
+        "repeat_for": null,
+        "goal": "说明人员范围、群体映射及跨期变化",
+        "questions": [
+          "转岗或兼任人员如何计数"
+        ],
+        "evidence_refs": [
+          "roster_record"
+        ],
+        "analysis_refs": [
+          "group_review"
+        ],
+        "required_assets": [],
+        "depends_on": []
+      },
+      {
+        "id": "pay_structure",
+        "title": "薪酬总量与结构",
+        "display_order": 3,
+        "repeat_for": null,
+        "goal": "依据已声明组成和期间口径分析薪酬",
+        "questions": [
+          "跨期奖金是否重复计入"
+        ],
+        "evidence_refs": [
+          "payroll_record"
+        ],
+        "analysis_refs": [
+          "group_review"
+        ],
+        "required_assets": [],
+        "depends_on": [
+          "population"
+        ]
+      },
+      {
+        "id": "group_differences",
+        "title": "群体差异",
+        "display_order": 4,
+        "repeat_for": null,
+        "goal": "分析可展示的群体差异及可比性",
+        "questions": [
+          "小样本和交叉表是否可能反推个人"
+        ],
+        "evidence_refs": [
+          "payroll_record",
+          "roster_record"
+        ],
+        "analysis_refs": [
+          "group_review"
+        ],
+        "required_assets": [],
+        "depends_on": [
+          "population",
+          "pay_structure"
+        ]
+      },
+      {
+        "id": "budget_productivity",
+        "title": "预算与人效",
+        "display_order": 5,
+        "repeat_for": null,
+        "goal": "在定义和来源齐全时分析预算及人效",
+        "questions": [
+          "分子、分母、期间和统计范围是否一致"
+        ],
+        "evidence_refs": [
+          "payroll_record",
+          "productivity_record"
+        ],
+        "analysis_refs": [
+          "productivity_review"
+        ],
+        "required_assets": [],
+        "depends_on": [
+          "population",
+          "pay_structure"
+        ]
+      },
+      {
+        "id": "recommendations",
+        "title": "问题及建议",
+        "display_order": 6,
+        "repeat_for": null,
+        "goal": "给出有依据且不暴露个人薪资的建议",
+        "questions": [
+          "建议受哪些定义或材料缺口限制"
+        ],
+        "evidence_refs": [],
+        "analysis_refs": [
+          "group_review",
+          "productivity_review"
+        ],
+        "required_assets": [],
+        "depends_on": [
+          "group_differences",
+          "budget_productivity"
+        ]
+      },
+      {
+        "id": "appendix",
+        "title": "口径与证据附录",
+        "display_order": 7,
+        "repeat_for": null,
+        "goal": "列示口径、来源、缺口和展示限制",
+        "questions": [
+          "相关正文是否同步披露关键限制"
+        ],
+        "evidence_refs": [
+          "payroll_record",
+          "roster_record",
+          "productivity_record"
+        ],
+        "analysis_refs": [],
+        "required_assets": [],
+        "depends_on": [
+          "group_differences",
+          "budget_productivity"
+        ]
+      }
+    ]
+  },
+  "analysis": {
+    "evidence_selectors": [
+      {
+        "id": "payroll_record",
+        "input": "payroll",
+        "field": "pay_components",
+        "dimensions": [
+          "person",
+          "period",
+          "component"
+        ]
+      },
+      {
+        "id": "roster_record",
+        "input": "roster",
+        "field": "employment_record",
+        "dimensions": [
+          "person",
+          "effective_period",
+          "group"
+        ]
+      },
+      {
+        "id": "productivity_record",
+        "input": "productivity_sources",
+        "field": "output",
+        "dimensions": [
+          "group",
+          "period"
+        ]
+      }
+    ],
+    "metrics": [],
+    "analysis_tasks": [
+      {
+        "id": "group_review",
+        "goal": "核对组成、期间、人员范围和小样本展示后分析群体"
+      },
+      {
+        "id": "productivity_review",
+        "goal": "仅在公式和分母明确时分析人效，缺失时披露"
+      }
+    ],
+    "retrieval_tasks": [],
+    "group_aggregation": {
+      "payroll_columns": {
+        "person": "person_id",
+        "component": "component",
+        "accrual_period": "accrual_period",
+        "payment_period": "payment_period",
+        "amount": "amount"
+      },
+      "roster_columns": {
+        "person": "person_id",
+        "group": "group",
+        "effective_period": "effective_period"
+      },
+      "metric_id": "payroll_total",
+      "unit": "元"
+    }
+  },
+  "quality": {
+    "required_inputs": [
+      "payroll",
+      "roster"
+    ],
+    "required_sections": [
+      "summary",
+      "population",
+      "pay_structure",
+      "group_differences",
+      "budget_productivity",
+      "recommendations",
+      "appendix"
+    ],
+    "checks": [
+      "evidence_location",
+      "numeric_binding",
+      "population_period_match",
+      "personal_pay_hidden",
+      "small_group_and_cross_table_review",
+      "independent_review",
+      "md_docx_openable"
+    ],
+    "formal_requires": "all_required_checks_pass",
+    "visible_fields": [
+      "safe_group_aggregate",
+      "documented_limit"
+    ]
+  }
+}

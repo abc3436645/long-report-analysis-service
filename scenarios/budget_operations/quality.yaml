@@ -1,5 +1,18 @@
 required_inputs: [actuals, budget]
-required_sections: [summary, group, income_cost, units, risks, appendix]
+required_sections: []
 checks: [evidence_location, numeric_binding, same_basis, full_unit_coverage, independent_review, md_docx_openable]
+require_full_unit_scope: true
+require_material_disposition: true
+unit_required_calculations: [month_change, ytd_change, ytd_change_rate, budget_difference, annual_plan_completion_rate]
+unit_required_blocks: [经营综述, 经营变化分析, 管理关注, 人工确认]
+unit_min_operating_calculations: 6
+unit_min_operating_narrative_calculations: 2
+unit_evidence_families:
+  - {id: mining_cost, prefixes: ["cost."]}
+  - {id: mining_operations, prefixes: ["cost_inputs."]}
+  - {id: copper_concentrate, prefixes: ["concentrate."]}
+  - {id: sulfur_concentrate, prefixes: ["sulfur."]}
+unit_requires_source_citations: true
+unit_requires_numbered_tables_and_chart: true
 formal_requires: all_required_checks_pass
 visible_fields: [aggregate_amount, unit_amount]

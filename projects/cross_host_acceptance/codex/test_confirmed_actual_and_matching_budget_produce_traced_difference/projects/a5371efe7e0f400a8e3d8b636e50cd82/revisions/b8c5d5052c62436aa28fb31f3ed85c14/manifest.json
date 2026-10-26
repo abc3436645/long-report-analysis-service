@@ -1,0 +1,19 @@
+{
+  "id": "b8c5d5052c62436aa28fb31f3ed85c14",
+  "run_id": "9623464baa144f6b8cea4a7115e19922",
+  "project_id": "a5371efe7e0f400a8e3d8b636e50cd82",
+  "status": "pending_review",
+  "scenario_id": "budget_operations",
+  "scenario_version": "0.1.0",
+  "effective_config_fingerprint": "b74441623441fde2c499a8a4d4efcef834bc204efdbb997d1d92abbe4bf24b8d",
+  "evidence_snapshot_id": "df40aa4a678444319257f04d102c5923",
+  "material_fingerprints": {
+    "src_4e768eefb4009078a94e8a8b": "4e768eefb4009078a94e8a8b5156d1a3df198f38310868153d5a7b30df580729",
+    "src_a7cdaa4c72fdbd071e418bed": "a7cdaa4c72fdbd071e418bed08c09de81435cfac998ed706240a989b1f9fae75",
+    "src_da799ce7d63e57e70c931bfb": "da799ce7d63e57e70c931bfb1830419577240fcf9792541c5b84bc8deba9f1b6"
+  },
+  "file_hashes": {
+    "markdown": "a1da663b4f9471980b670d9849ab0be879a91ac279d7d52d4ff63ae3a1b9a9d5",
+    "docx": "1c43926e88eff7a8e9cd2c15b9be3cc261333c7e694fddbce47d1e06b86c7023"
+  }
+}

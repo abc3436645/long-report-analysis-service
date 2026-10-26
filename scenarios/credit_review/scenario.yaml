@@ -1,7 +1,7 @@
 schema_version: 1
 id: credit_review
 title: 财务公司授信评审
-version: "0.1.0"
+version: "0.2.0"
 subject_model: credit_application_and_business_unit
 time_model: evaluation_date
 inputs:
@@ -9,14 +9,17 @@ inputs:
   - {id: financials, required: false, kinds: [xlsx, csv, pdf]}
   - {id: professional_records, required: false, kinds: [pdf, docx, txt]}
   - {id: external_credit_results, required: false, kinds: [pdf, docx, txt]}
-retrieval: {enabled: false, task_refs: []}
+retrieval: {enabled: false, task_refs: [enterprise_events]}
 outline: outline.yaml
 analysis: analysis.yaml
 quality: quality.yaml
-template: templates/default-v0.1.0.docx
+template: templates/default-v0.2.0.docx
+presentation: {body_font: Songti SC, heading_font: Heiti SC, latin_font: Times New Roman}
 delivery: {required_formats: [md, docx], optional_formats: [pdf]}
 business_definitions:
   credit_policy: null
   professional_source_provider: null
   grade_term_mapping: null
 definition_missing: [credit_policy, professional_source_provider, grade_term_mapping]
+overridable_fields:
+  retrieval.enabled: {type: boolean}

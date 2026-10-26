@@ -1,0 +1,20 @@
+{
+  "id": "56a1278e665a499c971168afd314945b",
+  "run_id": "055ee7710c1e4c889e8f8ed3ce420122",
+  "project_id": "57bf1738f24643eea80c29e39387abd6",
+  "status": "pending_review",
+  "scenario_id": "credit_review",
+  "scenario_version": "0.1.0",
+  "effective_config_fingerprint": "12ed4b478d98b86690df794ada702db802adafef68683b8a7c57b32e8ecddbfc",
+  "evidence_snapshot_id": "fe882b46f5c34fa094f9ffc6cf3c1413",
+  "material_fingerprints": {
+    "src_172f3c854fe5f2a58ea5b27c": "172f3c854fe5f2a58ea5b27c5e43e412b29a6c69d0f003403385ab77f11f3541",
+    "src_5cfd3cb1b1535e39eaa33e2b": "5cfd3cb1b1535e39eaa33e2b710a908d0d5b43feee33fa6122d73dbb17b9d2df",
+    "src_9562edc0a51c130e6eea5d46": "9562edc0a51c130e6eea5d46938e0655b49794b8efdf43e494ea4c9c12b5e9ef",
+    "src_cfe6869ce4de6a5ae2964d6c": "cfe6869ce4de6a5ae2964d6c208e4b81118cd6c9e61f47e25f2f16fd986433a8"
+  },
+  "file_hashes": {
+    "markdown": "bacee883a51fdbd7977a56ea1590ce05001192799e342268a2c11867cd73ce46",
+    "docx": "3938d2c2f49f5361bfaa293b638bc633cc17f1fbc5a190c2a46ae4bd249f4195"
+  }
+}

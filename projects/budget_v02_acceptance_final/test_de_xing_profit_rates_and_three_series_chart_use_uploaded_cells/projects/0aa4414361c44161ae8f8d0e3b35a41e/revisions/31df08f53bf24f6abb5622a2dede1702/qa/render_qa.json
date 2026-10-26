@@ -1,0 +1,37 @@
+{
+  "docx_openable": true,
+  "headings_match": true,
+  "tables_match": true,
+  "heading_count": 4,
+  "table_count": 2,
+  "embedded_chart_count": 1,
+  "chart_count": 1,
+  "verified_chart_hashes": {
+    "chart_8a758e18a93d41f2ac57151d": "8a519078ebf5a1f823567afaa026291e407aae39b4fcc37a6e3d95a0a3d73eeb"
+  },
+  "charts_nonblank": true,
+  "sha256": "47d151b0da840a710f01d77e23abe1b2d8c88e5dee33997720b83246d866a35a",
+  "toc_entries": [
+    [
+      1,
+      "资料与口径",
+      3
+    ],
+    [
+      1,
+      "矿山单位分析",
+      4
+    ],
+    [
+      2,
+      "德兴铜矿（含新技术）",
+      4
+    ],
+    [
+      1,
+      "结论与待核事项",
+      6
+    ]
+  ],
+  "pdf_sha256": "be424c5392d201ce14d4ec0944e4964121b07d6a4b959852eb6ff4e97159c04a"
+}
