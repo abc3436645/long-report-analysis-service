@@ -1,5 +1,8 @@
 """Render a reviewed Markdown body with the scenario's Word styles."""
 
+from datetime import date
+from functools import lru_cache
+from unicodedata import east_asian_width
 from pathlib import Path
 import os
 import re
@@ -12,13 +15,15 @@ from io import BytesIO
 from zipfile import ZipFile
 
 from docx import Document
-from PIL import Image, ImageStat
+from PIL import Image, ImageFont, ImageStat
 from pypdf import PdfReader
-from docx.shared import Cm, RGBColor, Pt
+from docx.shared import Cm, RGBColor, Pt, Twips
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.enum.style import WD_STYLE_TYPE
-from docx.enum.text import WD_TAB_ALIGNMENT, WD_TAB_LEADER
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT, WD_TAB_LEADER
+from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT
+from docx.enum.section import WD_ORIENT, WD_SECTION_START
 
 
 def _headings(markdown: str) -> list[tuple[int, str]]:
@@ -26,113 +31,326 @@ def _headings(markdown: str) -> list[tuple[int, str]]:
             if (match := re.fullmatch(r"(#{1,3}) (.+)", line))]
 
 
+STYLE_SIZES = {"Normal": 10.5, "Title": 22, "Heading 1": 16, "Heading 2": 14,
+               "Heading 3": 12, "Heading 4": 11, "Caption": 10.5, "TOC Heading": 16,
+               "TOC 1": 10.5, "TOC 2": 10.5, "TOC 3": 10.5, "Table Body": 10,
+               "Table Header": 10, "Header": 9, "Footer": 9, "Cover Metadata": 11}
+
+
+@lru_cache(maxsize=1)
+def _installed_fonts() -> set[str]:
+    command = shutil.which("fc-list")
+    if command:
+        result = subprocess.run([command, "--format", "%{family}\n"], capture_output=True, text=True, timeout=30)
+        if result.returncode:
+            raise ValueError("cannot inspect installed report fonts: " + result.stderr[-400:])
+        return {name.strip().casefold() for line in result.stdout.splitlines() for name in line.split(",")}
+    # Font files also make the renderer usable on hosts without fontconfig's CLI.
+    names = set()
+    for path in ("/System/Library/Fonts/Supplemental/Songti.ttc", "/System/Library/Fonts/STHeiti Medium.ttc",
+                 "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+                 "/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc",
+                 "/usr/share/fonts/truetype/liberation2/LiberationSerif-Regular.ttf",
+                 "/System/Library/Fonts/Supplemental/Times New Roman.ttf"):
+        if Path(path).is_file():
+            names.add(ImageFont.truetype(path, 12).getname()[0].casefold())
+    return names
+
+
+def report_fonts(presentation: dict | None = None) -> dict[str, str]:
+    requested = presentation or {"body_font": "宋体", "heading_font": "黑体", "latin_font": "Times New Roman"}
+    installed = _installed_fonts()
+    result = {}
+    for key, fallback in (("body_font", ("Noto Serif CJK SC", "Source Han Serif SC", "Songti SC")),
+                          ("heading_font", ("Noto Sans CJK SC", "Source Han Sans SC", "Heiti SC", "Hiragino Sans GB")),
+                          ("latin_font", ("Liberation Serif", "Times"))):
+        result[key] = next((name for name in (requested[key], *fallback) if name.casefold() in installed), None)
+        if result[key] is None:
+            raise ValueError("reliable installed report font unavailable: " + key)
+    return result
+
+
+def _set_fonts(properties, chinese: str, latin: str) -> None:
+    fonts = properties.get_or_add_rFonts()
+    for key, value in (("eastAsia", chinese), ("ascii", latin), ("hAnsi", latin), ("cs", latin)):
+        fonts.set(qn("w:" + key), value)
+    for theme in ("asciiTheme", "hAnsiTheme", "eastAsiaTheme", "csTheme", "cstheme"):
+        fonts.attrib.pop(qn("w:" + theme), None)
+    language = properties.find(qn("w:lang"))
+    if language is None:
+        language = OxmlElement("w:lang")
+        properties.append(language)
+    language.set(qn("w:eastAsia"), "zh-CN")
+    language.set(qn("w:val"), "en-US")
+
+
+def _validate_cover(title: str, metadata: dict) -> None:
+    required = ("统计期间", "报告生成日期", "分析对象", "编制部门", "数据性质", "报告版本", "数据版本", "保密说明")
+    if any(not isinstance(metadata.get(key), str) or not metadata[key].strip() for key in required):
+        raise ValueError("report cover metadata is incomplete")
+    if not re.fullmatch(r"V[1-9][0-9]*\.[0-9]+", metadata["报告版本"]):
+        raise ValueError("report cover version must be readable Vmajor.minor")
+    try:
+        date.fromisoformat(metadata["报告生成日期"])
+    except ValueError as error:
+        raise ValueError("report cover generation date is invalid") from error
+    periods = re.findall(r"[0-9]{4}年(?:[0-9]{1,2}[—–－至-])?[0-9]{1,2}月", title)
+    normalize = lambda value: re.sub(r"[—–－至-]", "-", value)
+    if any(normalize(period) not in normalize(metadata["统计期间"]) for period in periods):
+        raise ValueError("report cover period conflicts with report title")
+
+
+def _page_setup(section, landscape: bool = False) -> int:
+    section.orientation = WD_ORIENT.LANDSCAPE if landscape else WD_ORIENT.PORTRAIT
+    section.page_width, section.page_height = (Cm(29.7), Cm(21)) if landscape else (Cm(21), Cm(29.7))
+    section.left_margin = section.right_margin = Cm(2.3)
+    section.top_margin, section.bottom_margin = Cm(2.15), Cm(2.0)
+    return section.page_width - section.left_margin - section.right_margin
+
+
+def _effective(paragraph, name):
+    value = getattr(paragraph.paragraph_format, name)
+    return getattr(paragraph.style.paragraph_format, name) if value is None else value
+
+
+def _table_section(document, landscape: bool) -> int:
+    preceding = []
+    while len(document._element.body) > 1 and document._element.body[-2].tag == qn("w:p"):
+        paragraph = document.paragraphs[-1]
+        if not _effective(paragraph, "keep_with_next"):
+            break
+        preceding.insert(0, paragraph._p)
+        document._element.body.remove(paragraph._p)
+    if len(document._element.body) > 1 and document._element.body[-2].xpath('.//w:br[@w:type="page"]'):
+        document._element.body.remove(document._element.body[-2])
+    section = document.add_section(WD_SECTION_START.NEW_PAGE)
+    section.different_first_page_header_footer = False
+    width = _page_setup(section, landscape)
+    for paragraph in preceding:
+        document._element.body.insert(-1, paragraph)
+    return width
+
+
+def _block_widths(document) -> dict:
+    widths, pending = {}, []
+    for block in document._element.body:
+        pending.append(block)
+        properties = block if block.tag == qn("w:sectPr") else block.find("w:pPr/w:sectPr", block.nsmap)
+        if properties is not None:
+            size, margins = properties.find(qn("w:pgSz")), properties.find(qn("w:pgMar"))
+            width = Twips(int(size.get(qn("w:w"))) - int(margins.get(qn("w:left"))) - int(margins.get(qn("w:right"))))
+            widths.update((item, width) for item in pending)
+            pending = []
+    return widths
+
+
 def render_docx(markdown: str, template: Path, output: Path, title: str, toc_units: dict[str, int] | None = None,
                 presentation: dict | None = None, toc_entries: list[tuple[int, str, int]] | None = None,
                 metadata: dict | None = None) -> None:
+    if metadata is not None:
+        _validate_cover(title, metadata)
     document = Document(template)
-    presentation = presentation or {"body_font": "宋体", "heading_font": "黑体", "latin_font": "Times New Roman"}
+    fonts = report_fonts(presentation)
     section = document.sections[0]
-    section.page_width, section.page_height = Cm(21), Cm(29.7)
-    section.left_margin = section.right_margin = Cm(2.3)
-    section.top_margin, section.bottom_margin = Cm(2.15), Cm(2.0)
-    for name in ("Normal", "Title", "Heading 1", "Heading 2", "Heading 3", "Heading 4",
-                 "TOC Heading", "TOC 1", "TOC 2", "TOC 3", "Caption"):
-        if name.startswith("TOC ") and name not in document.styles:
+    _page_setup(section)
+    for name, points in STYLE_SIZES.items():
+        if name not in document.styles:
             document.styles.add_style(name, WD_STYLE_TYPE.PARAGRAPH)
         style = document.styles[name]
-        font = presentation["body_font"] if name == "Normal" or name.startswith("TOC ") or name == "Caption" else presentation["heading_font"]
-        style.font.name = presentation["latin_font"]
+        if name != "Normal":
+            style.base_style = document.styles["Normal"]
+        heading = name == "Title" or name.startswith("Heading ") or name == "TOC Heading"
+        _set_fonts(style.element.get_or_add_rPr(), fonts["heading_font"] if heading else fonts["body_font"], fonts["latin_font"])
+        style.font.size = Pt(points)
+        style.font.bold = heading or name == "Table Header"
+        style.font.italic = False
         style.font.color.rgb = RGBColor(0, 0, 0)
-        fonts = style.element.get_or_add_rPr().get_or_add_rFonts()
-        for key, value in (("eastAsia", font), ("ascii", presentation["latin_font"]),
-                           ("hAnsi", presentation["latin_font"]), ("cs", presentation["latin_font"])):
-            fonts.set(qn("w:" + key), value)
-        for theme in ("asciiTheme", "hAnsiTheme", "eastAsiaTheme", "cstheme"):
-            fonts.attrib.pop(qn("w:" + theme), None)
-    for name, points in {"Normal": 10.5, "Title": 24, "Heading 1": 15, "Heading 2": 12.5,
-                         "Heading 3": 12, "Heading 4": 11, "Caption": 9, "TOC 1": 10.5,
-                         "TOC 2": 10.5, "TOC 3": 10.5}.items():
-        document.styles[name].font.size = Pt(points)
-    for name in ("Title", "Heading 1", "Heading 2", "Heading 3", "Heading 4", "Caption"):
-        document.styles[name].paragraph_format.keep_with_next = True
-    document.styles["Normal"].paragraph_format.line_spacing = 1.3
-    document.styles["Normal"].paragraph_format.space_after = Pt(6)
-    title_properties = document.styles["Title"].element.pPr
-    if title_properties is not None:
-        for border in title_properties.findall(qn("w:pBdr")):
-            title_properties.remove(border)
+        size_cs = style.element.rPr.find(qn("w:szCs"))
+        if size_cs is None:
+            size_cs = OxmlElement("w:szCs")
+            style.element.rPr.append(size_cs)
+        size_cs.set(qn("w:val"), str(int(points * 2)))
+        fmt = style.paragraph_format
+        fmt.line_spacing = 1.3
+        fmt.space_before = Pt(0)
+        fmt.space_after = Pt(6)
+        fmt.widow_control = True
+        fmt.keep_with_next = heading or name == "Caption"
+        fmt.keep_together = heading or name == "Caption"
+        fmt.page_break_before = False
+        snap = style.element.get_or_add_pPr().find(qn("w:snapToGrid"))
+        if snap is None:
+            snap = OxmlElement("w:snapToGrid")
+            style.element.pPr.append(snap)
+        snap.set(qn("w:val"), "0")
+        if heading:
+            fmt.space_before, fmt.space_after = Pt(12), Pt(8)
+        if name.startswith("TOC ") and name != "TOC Heading":
+            fmt.line_spacing, fmt.space_after = 1.15, Pt(2)
+            fmt.left_indent = Cm((int(name[-1]) - 1) * .45)
+        if name.startswith("Table "):
+            fmt.line_spacing, fmt.space_after = 1.15, Pt(3)
+            fmt.keep_with_next = name == "Table Header"
+        if name == "Cover Metadata":
+            fmt.alignment, fmt.space_after = WD_ALIGN_PARAGRAPH.CENTER, Pt(10)
+        if name == "Title":
+            fmt.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            fmt.space_before, fmt.space_after = Pt(54), Pt(28)
+        if style.element.pPr is not None:
+            for border in style.element.pPr.findall(qn("w:pBdr")):
+                style.element.pPr.remove(border)
+    defaults = document.styles.element.find(qn("w:docDefaults"))
+    if defaults is None:
+        defaults = OxmlElement("w:docDefaults")
+        document.styles.element.insert(0, defaults)
+    run_defaults = defaults.find(qn("w:rPrDefault"))
+    if run_defaults is None:
+        run_defaults = OxmlElement("w:rPrDefault")
+        defaults.append(run_defaults)
+    properties = run_defaults.find(qn("w:rPr"))
+    if properties is None:
+        properties = OxmlElement("w:rPr")
+        run_defaults.append(properties)
+    _set_fonts(properties, fonts["body_font"], fonts["latin_font"])
     body = document._element.body
     for child in list(body):
-        if child.tag.rsplit("}", 1)[-1] != "sectPr":
+        if child.tag != qn("w:sectPr"):
             body.remove(child)
+    section.different_first_page_header_footer = True
+    footer = section.footer.paragraphs[0]
+    footer.clear()
+    footer.style = document.styles["Footer"]
+    footer.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    field = OxmlElement("w:fldSimple")
+    field.set(qn("w:instr"), "PAGE")
+    footer._p.append(field)
     document.core_properties.title = title
     document.add_paragraph(title, style="Title")
     for label, value in (metadata or {}).items():
-        document.add_paragraph(f"{label}：{value}")
+        document.add_paragraph(f"{label}：{value}", style="Cover Metadata")
     document.add_page_break()
     document.add_paragraph("目录", style="TOC Heading")
     entries = toc_entries if toc_entries is not None else [(level, name, 0) for level, name in _headings(markdown)]
     width = section.page_width - section.left_margin - section.right_margin
-    for level, name, page in entries:
+    portrait_width = width
+    for index, (level, name, page) in enumerate(entries):
         paragraph = document.add_paragraph(style=f"TOC {level}")
         paragraph.paragraph_format.tab_stops.add_tab_stop(width, WD_TAB_ALIGNMENT.RIGHT, WD_TAB_LEADER.DOTS)
-        paragraph.add_run(name + "\t" + str(page))
+        link = OxmlElement("w:hyperlink")
+        link.set(qn("w:anchor"), f"report_heading_{index}")
+        link.set(qn("w:history"), "1")
+        for text in (name, "\t", str(page)):
+            run = OxmlElement("w:r")
+            item = OxmlElement("w:tab" if text == "\t" else "w:t")
+            if text != "\t":
+                item.text = text
+            run.append(item)
+            link.append(run)
+        paragraph._p.append(link)
     document.add_page_break()
-    first_heading = True
-    for block in markdown.strip().split("\n\n"):
+    first_heading, heading_index = True, 0
+    landscape, following_note = False, False
+    blocks = markdown.strip().split("\n\n")
+    for block_index, block in enumerate(blocks):
         lines = block.splitlines()
         chart = re.fullmatch(r"!\[([^\]]+)\]\((assets/chart_[0-9a-f]{24}\.png)\)", block.strip())
+        heading = re.fullmatch(r"(#{1,4}) (.+)", block.strip())
+        if landscape:
+            if block.startswith(("|", "表")):
+                pass
+            elif not following_note and not heading and not chart:
+                following_note = True
+            else:
+                section = document.add_section(WD_SECTION_START.NEW_PAGE)
+                section.different_first_page_header_footer = False
+                width = _page_setup(section)
+                landscape = False
         if chart:
-            section = document.sections[0]
-            document.add_picture(str(output.parent / chart[2]), width=section.page_width - section.left_margin - section.right_margin)
-            document.add_paragraph(chart[1], style="Caption")
+            document.add_picture(str(output.parent / chart[2]), width=width)
+            document.paragraphs[-1].paragraph_format.keep_with_next = True
+            caption = document.add_paragraph(chart[1], style="Caption")
+            caption.paragraph_format.keep_with_next = (block_index + 1 < len(blocks)
+                                                       and blocks[block_index + 1].startswith("图表数据来源"))
         elif len(lines) >= 3 and all(line.startswith("|") and line.endswith("|") for line in lines) and all(set(cell.strip()) <= {"-", ":"} for cell in lines[1].strip("|").split("|")):
             rows = [[cell.strip() for cell in line.strip("|").split("|")] for line in (lines[0], *lines[2:])]
             if any(len(row) != len(rows[0]) for row in rows):
                 raise ValueError("Markdown table has inconsistent columns")
+            weights = [min(30, max(10, max(sum(2 if east_asian_width(c) in "WF" else 1 for c in row[col]) for row in rows)))
+                       for col in range(len(rows[0]))]
+            minimums = [Pt(max((len(row[col]) * 5.2 + 12 for row in rows[1:]
+                                if re.fullmatch(r"[+−-]?[0-9][0-9,]*(?:\.[0-9]+)?%?", row[col])), default=24))
+                        for col in range(len(rows[0]))]
+            # shortcut: minimums assume 10 pt serif digits; remeasure when the table font changes.
+            needs_landscape = sum(minimums) > portrait_width
+            if needs_landscape != landscape:
+                width = _table_section(document, needs_landscape)
+                landscape = needs_landscape
+            following_note = False
+            if sum(minimums) > width:
+                raise ValueError("financial table exceeds A4 landscape width; split the source table into appendix panels")
             table = document.add_table(rows=1, cols=len(rows[0]))
-            table.style = "Table Grid"
+            table.style, table.autofit = "Table Grid", False
+            indent = OxmlElement("w:tblInd")
+            indent.set(qn("w:w"), "108")
+            indent.set(qn("w:type"), "dxa")
+            table._tbl.tblPr.append(indent)
             borders = OxmlElement("w:tblBorders")
             for side in ("top", "left", "bottom", "right", "insideH", "insideV"):
                 border = OxmlElement("w:" + side)
-                border.set(qn("w:val"), "single")
-                border.set(qn("w:sz"), "4")
-                border.set(qn("w:color"), "C8D0D8")
+                for key, value in (("val", "single"), ("sz", "4"), ("color", "C8D0D8")):
+                    border.set(qn("w:" + key), value)
                 borders.append(border)
             table._tbl.tblPr.append(borders)
+            widths = [int(width * weight / sum(weights)) for weight in weights]
+            deficit = sum(max(0, minimum - current) for minimum, current in zip(minimums, widths))
+            surplus = sum(max(0, current - minimum) for minimum, current in zip(minimums, widths))
+            if deficit:
+                widths = [int(max(current, minimum) - max(0, current - minimum) * deficit / surplus)
+                          for current, minimum in zip(widths, minimums)]
+            for column, cell_width in zip(table.columns, widths):
+                column.width = cell_width
             table.rows[0]._tr.get_or_add_trPr().append(OxmlElement("w:tblHeader"))
             for index, row in enumerate(rows):
                 cells = table.rows[0].cells if index == 0 else table.add_row().cells
-                for cell, value in zip(cells, row):
-                    cell.text = value
+                for cell, value, cell_width in zip(cells, row, widths):
+                    cell.text, cell.width = value, cell_width
+                    cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
+                    paragraph = cell.paragraphs[0]
+                    paragraph.style = document.styles["Table Header" if index == 0 else "Table Body"]
+                    numeric = re.fullmatch(r"[+−-]?(?:[0-9][0-9,]*)(?:\.[0-9]+)?%?", value)
+                    paragraph.alignment = WD_ALIGN_PARAGRAPH.RIGHT if index and numeric else WD_ALIGN_PARAGRAPH.LEFT
                     if index == 0:
                         shade = OxmlElement("w:shd")
                         shade.set(qn("w:fill"), "E9EFF5")
                         cell._tc.get_or_add_tcPr().append(shade)
-                        for run in cell.paragraphs[0].runs:
-                            run.bold = True
-            for row in table.rows:
-                row._tr.get_or_add_trPr().append(OxmlElement("w:cantSplit"))
-        elif block.startswith("#### "):
-            document.add_paragraph(block[5:].strip(), style="Heading 4")
-        elif block.startswith("### "):
-            document.add_paragraph(block[4:].strip(), style="Heading 3")
-        elif block.startswith("## "):
-            document.add_paragraph(block[3:].strip(), style="Heading 2")
-        elif block.startswith("# "):
-            heading = document.add_paragraph(block[2:].strip(), style="Heading 1")
-            if not first_heading:
-                heading.paragraph_format.page_break_before = True
-            first_heading = False
-        elif re.match(r"^表\d+-\d+", block):
+                table.rows[index]._tr.get_or_add_trPr().append(OxmlElement("w:cantSplit"))
+        elif heading:
+            level, name = len(heading[1]), heading[2].strip()
+            paragraph = document.add_paragraph(name, style=f"Heading {level}")
+            if level <= 3:
+                start, end = OxmlElement("w:bookmarkStart"), OxmlElement("w:bookmarkEnd")
+                start.set(qn("w:id"), str(heading_index))
+                start.set(qn("w:name"), f"report_heading_{heading_index}")
+                end.set(qn("w:id"), str(heading_index))
+                paragraph._p.insert(1, start)
+                paragraph._p.append(end)
+                heading_index += 1
+            if level == 1:
+                paragraph.paragraph_format.page_break_before = not first_heading
+                first_heading = False
+        elif re.match(r"^表\s*[0-9]+[-－—][0-9]+", block):
             document.add_paragraph(block.strip(), style="Caption")
         else:
-            paragraph = document.add_paragraph()
+            paragraph = document.add_paragraph(style="Normal")
+            if (block.startswith("图表数据来源") or "〔来源：" in block
+                    or block_index + 1 < len(blocks) and blocks[block_index + 1].startswith("# ")):
+                paragraph.paragraph_format.keep_together = True
             # shortcut: inline Markdown supports simple bold spans; extend only when report prompts need more syntax.
             for part in re.split(r"(\*\*[^*\n]+\*\*)", block.strip()):
                 if part:
                     bold = part.startswith("**") and part.endswith("**")
                     paragraph.add_run(part[2:-2] if bold else part).bold = bold
+    output.parent.mkdir(parents=True, exist_ok=True)
     document.save(output)
 
 
@@ -158,7 +376,9 @@ def _convert_pdf(docx: Path) -> Path:
     with tempfile.TemporaryDirectory(prefix="long-report-office-") as temporary:
         profile = Path(temporary)
         config = ET.Element("fontconfig")
-        for directory in ("/System/Library/Fonts", "/System/Library/Fonts/Supplemental", "/Library/Fonts"):
+        for directory in ("/System/Library/Fonts", "/System/Library/Fonts/Supplemental", "/Library/Fonts",
+                          "/usr/share/fonts", "/usr/local/share/fonts", str(Path.home() / "Library/Fonts"),
+                          str(Path.home() / ".local/share/fonts"), str(Path.home() / ".fonts")):
             if Path(directory).is_dir():
                 ET.SubElement(config, "dir").text = directory
         ET.SubElement(config, "cachedir").text = str(profile / "font-cache")
@@ -199,15 +419,73 @@ def render_paginated_docx(markdown: str, template: Path, output: Path, title: st
     raise ValueError("Word directory page numbers did not converge")
 
 
-def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str]) -> dict:
+def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str], *, metadata: dict | None = None,
+                toc_entries: list[tuple[int, str, int]] | None = None, pdf: Path | None = None) -> dict:
     """Read the delivered Word body back before the revision becomes visible."""
     document = Document(path)
+    for index, section in enumerate(document.sections):
+        portrait = abs(section.page_width - Cm(21)) < Cm(.02) and abs(section.page_height - Cm(29.7)) < Cm(.02)
+        landscape = abs(section.page_width - Cm(29.7)) < Cm(.02) and abs(section.page_height - Cm(21)) < Cm(.02)
+        if not (portrait or index > 0 and landscape):
+            raise ValueError("report page size must be A4, with a portrait cover")
+        if section.orientation != (WD_ORIENT.PORTRAIT if portrait else WD_ORIENT.LANDSCAPE):
+            raise ValueError("report page orientation conflicts with paper dimensions")
+        if any(abs(actual - expected) > Cm(.02) for actual, expected in (
+                (section.left_margin, Cm(2.3)), (section.right_margin, Cm(2.3)),
+                (section.top_margin, Cm(2.15)), (section.bottom_margin, Cm(2.0)))):
+            raise ValueError("report page margins differ from the report layout")
+    widths = _block_widths(document)
+    titles = [paragraph.text for paragraph in document.paragraphs if paragraph.style.name == "Title"]
+    if titles != [document.core_properties.title]:
+        raise ValueError("report cover title is missing, duplicated or inconsistent")
     headings = [block.lstrip("#").strip() for block in markdown.strip().split("\n\n")
                 if re.match(r"^#{1,4} ", block)]
     rendered_headings = [paragraph.text for paragraph in document.paragraphs
                          if re.fullmatch(r"Heading [1-4]", paragraph.style.name)]
     if headings != rendered_headings:
         raise ValueError("rendered Word headings differ from reviewed Markdown")
+    if document.core_properties.title in rendered_headings:
+        raise ValueError("report body repeats the cover title")
+    if document.styles["Normal"].paragraph_format.line_spacing != 1.3:
+        raise ValueError("report body line spacing must be 1.3")
+    heading_seen = False
+    for paragraph in document.paragraphs:
+        if re.fullmatch(r"Heading [1-4]", paragraph.style.name):
+            if not all(_effective(paragraph, key) for key in ("keep_with_next", "keep_together", "widow_control")):
+                raise ValueError("report heading pagination binding is invalid")
+            if paragraph.style.name == "Heading 1":
+                if heading_seen and not _effective(paragraph, "page_break_before"):
+                    raise ValueError("report main chapter must begin on a new page")
+                heading_seen = True
+        if paragraph.style.name == "Normal" and paragraph.text:
+            if _effective(paragraph, "line_spacing") != 1.3 or not _effective(paragraph, "widow_control"):
+                raise ValueError("report body paragraph spacing or widow control is invalid")
+    for name, points in STYLE_SIZES.items():
+        if name not in document.styles or document.styles[name].font.size != Pt(points):
+            raise ValueError("report style size is invalid: " + name)
+        fonts = document.styles[name].element.rPr.rFonts
+        if fonts is None or any(not fonts.get(qn("w:" + key)) for key in ("eastAsia", "ascii", "hAnsi")):
+            raise ValueError("report style font is incomplete: " + name)
+    if metadata is not None:
+        _validate_cover(document.core_properties.title, metadata)
+        cover_text = [paragraph.text for paragraph in document.paragraphs if paragraph.style.name == "Cover Metadata"]
+        if cover_text != [f"{key}：{value}" for key, value in metadata.items()]:
+            raise ValueError("report cover differs from verified metadata")
+    directory = [paragraph for paragraph in document.paragraphs if re.fullmatch(r"TOC [1-3]", paragraph.style.name)]
+    if [p.text for p in document.paragraphs if p.style.name == "TOC Heading"] != ["目录"]:
+        raise ValueError("report directory must have one Chinese title")
+    expected = toc_entries if toc_entries is not None else [(level, name, 0) for level, name in _headings(markdown)]
+    if not expected or [p.text for p in directory] != [f"{name}\t{page}" for _, name, page in expected]:
+        raise ValueError("report directory differs from report headings or measured pages")
+    if [(level, name) for level, name, _ in expected] != _headings(markdown):
+        raise ValueError("report directory contains missing, stale or reordered headings")
+    if [p.style.name for p in directory] != [f"TOC {level}" for level, _, _ in expected]:
+        raise ValueError("report directory levels differ from heading styles")
+    anchors = document.element.xpath('//w:hyperlink/@w:anchor')
+    if anchors != [f"report_heading_{index}" for index in range(len(expected))]:
+        raise ValueError("report directory links are incomplete")
+    if not set(anchors) <= set(document.element.xpath('//w:bookmarkStart/@w:name')):
+        raise ValueError("report directory link targets are missing")
     table_blocks = []
     for block in markdown.strip().split("\n\n"):
         lines = block.splitlines()
@@ -219,6 +497,40 @@ def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str]) -> dict
     rendered_tables = [[[cell.text for cell in row.cells] for row in table.rows] for table in document.tables]
     if table_blocks != rendered_tables:
         raise ValueError("rendered Word tables differ from reviewed Markdown")
+    for table in document.tables:
+        width = widths[table._tbl]
+        if sum(column.width for column in table.columns) > width + Cm(.02):
+            raise ValueError("report table exceeds page width")
+        if table.rows[0]._tr.get_or_add_trPr().find(qn("w:tblHeader")) is None:
+            raise ValueError("report table has no repeating header")
+        for index, row in enumerate(table.rows):
+            if row._tr.get_or_add_trPr().find(qn("w:cantSplit")) is None:
+                raise ValueError("report table record can split across pages")
+            for cell in row.cells:
+                paragraph = cell.paragraphs[0]
+                if paragraph.style.name != ("Table Header" if index == 0 else "Table Body"):
+                    raise ValueError("report table text has no dedicated style")
+                if index and re.fullmatch(r"[+−-]?[0-9][0-9,]*(?:\.[0-9]+)?%?", cell.text) and paragraph.alignment != WD_ALIGN_PARAGRAPH.RIGHT:
+                    raise ValueError("report table amount is not right aligned")
+    if any(shape.width > widths[shape._inline.xpath('ancestor::w:p')[0]] for shape in document.inline_shapes):
+        raise ValueError("report chart exceeds page width")
+    if pdf is not None:
+        outline = _pdf_outline(pdf)
+        measured, cursor = [], 0
+        for level, name in _headings(markdown):
+            index = next((i for i in range(cursor, len(outline)) if " ".join(outline[i][1].split()) == " ".join(name.split())), None)
+            if index is None:
+                raise ValueError("PDF directory heading is missing: " + name)
+            measured.append((level, name, outline[index][2]))
+            cursor = index + 1
+        if measured != expected or any(page < 3 for _, _, page in measured):
+            raise ValueError("report directory page numbers differ from final PDF")
+        reader = PdfReader(pdf)
+        text = re.sub(r"\s+", "", reader.pages[0].extract_text() or "")
+        if metadata and any(re.sub(r"\s+", "", f"{key}：{value}") not in text for key, value in metadata.items()):
+            raise ValueError("report cover is incomplete or exceeds one PDF page")
+        if "目录" not in re.sub(r"\s+", "", reader.pages[1].extract_text() or ""):
+            raise ValueError("report directory does not begin on page two")
     chart_mentions = re.findall(r"!\[[^\]]*\]\(assets/(chart_[0-9a-f]{24})\.png\)", markdown)
     if len(document.inline_shapes) != len(chart_mentions) or set(chart_mentions) != set(chart_hashes):
         raise ValueError("rendered Word chart count differs from reviewed Markdown")
@@ -233,6 +545,12 @@ def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str]) -> dict
             if max(ImageStat.Stat(chart.convert("RGB")).stddev) == 0:
                 raise ValueError("rendered Word chart is blank")
     return {"docx_openable": True, "headings_match": True, "tables_match": True,
+            "styles_valid": True, "cover_valid": metadata is not None, "directory_links_valid": True,
+            "directory_pages_verified": pdf is not None, "table_layout_valid": True,
+            "toc_mode": "static-measured", "toc_fallback_reason": "当前转换入口不提供可靠的Word目录字段更新；采用最终PDF实测页码迭代收敛及内部跳转。",
+            "resolved_fonts": {"body_font": document.styles["Normal"].element.rPr.rFonts.get(qn("w:eastAsia")),
+                               "heading_font": document.styles["Heading 1"].element.rPr.rFonts.get(qn("w:eastAsia")),
+                               "latin_font": document.styles["Normal"].element.rPr.rFonts.get(qn("w:ascii"))},
             "heading_count": len(rendered_headings), "table_count": len(rendered_tables),
             "embedded_chart_count": len(document.inline_shapes), "chart_count": len(chart_hashes),
             "verified_chart_hashes": chart_hashes, "charts_nonblank": True}

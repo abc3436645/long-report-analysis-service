@@ -26,6 +26,7 @@ share/python-wheels/
 *.egg
 MANIFEST
 data/
+results/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -184,3 +185,5 @@ tasks/
 /.zcode/
 /.comet/
 /.archify/
+/.comet/
+/.scratch/

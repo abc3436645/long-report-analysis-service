@@ -14,3 +14,5 @@ description: 根据用户需求和当轮原始材料，为预算经营分析、�
 7. `report draft build` 后用预算办参考稿与本轮场景指引审查内容深度、数值与来源；逐项核对 `material_uses` 的分析材料、本轮单位与独立专项在正文中的实际落点，由真正独立于作者的审阅者按事实、解释、决策和版式复核，再调用 `report review submit`。运行 `report validate`，尤其检查 `material_disposition`、`analysis_material_coverage`、`unit_scope_coverage`、`unit_evidence_coverage` 与 `special_subject_coverage`；失败逐项修复，再调用 `report publish`。检查最终 MD、DOCX 与可用时的 PDF：逐户确认表图位置、字体、封面、目录实际页码、图片可见和来源；目录只是标题列表或页码不符时不能称为完成。`pending_review` 明确列出未确认口径、业务签认和实际未执行的验收。
 
 当前旧版 MOCK 报告和三宿主脚本化 CLI 回归是历史工程证据，不能当作新动态规划流程、开放式 Agent 写作或业务签认已通过的证明。`results/budget_operations/` 为参考交付样本，不是预生成证据库。CLI 是首期北向入口；真实供应商检索和宿主自主写作需另行验收。
+
+预算报告排版遵从场景规格第8节及ADR 0012。项目创建时按用户授权填写`report_metadata.analysis_subject`、`prepared_by`和`confidentiality`，不要沿用与本轮范围不符的“集团合并”标签或自行指定保密等级。章节采用第一章/1.1/1.1.1并保留单位原编号和顺序，每张表图注明编号、标题、期间、单位、来源及模拟性质；逐户双表和必要图不能因50页限制删减。封面须区分经营期间、数据快照、实际生成日期和可读报告版本，不以材料日期或内部ID替代。最终PDF须逐页检查，不能用抽查代表全篇验收；静态目录按最终排版实测收敛且含跳转，在Word编辑后需重新生成，不宣称为动态目录。未实际运行Word 2019/Microsoft 365/WPS时只列为目标兼容环境。

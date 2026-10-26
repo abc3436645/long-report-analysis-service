@@ -282,10 +282,10 @@ class BudgetReferenceIndicatorsCliTests(unittest.TestCase):
             delivered = Document(revision["docx_path"])
             self.assertEqual((len(delivered.tables), len(delivered.inline_shapes)), (2, 1))
             self.assertEqual([item.text for item in delivered.paragraphs if item.text.startswith("数据性质：")],
-                             ["数据性质：技术工作稿（来源含模拟数据）"])
+                             ["数据性质：含模拟数据（MOCK，技术工作稿）"])
             self.assertIn("55.18", " ".join(item.text for item in delivered.paragraphs))
-            self.assertEqual(delivered.styles["Title"].font.size.pt, 24)
-            self.assertEqual(delivered.styles["Heading 1"].font.size.pt, 15)
+            self.assertEqual(delivered.styles["Title"].font.size.pt, 22)
+            self.assertEqual(delivered.styles["Heading 1"].font.size.pt, 16)
             render_qa = json.loads((Path(revision["docx_path"]).parents[1] / "qa/render_qa.json").read_text(encoding="utf-8"))
             self.assertTrue(render_qa["headings_match"])
             self.assertTrue(render_qa["tables_match"])

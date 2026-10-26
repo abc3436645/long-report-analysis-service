@@ -96,6 +96,12 @@ def create_project(workspace: Path, request: dict) -> dict:
     report_title = request.get("report_title")
     if report_title is not None and (not isinstance(report_title, str) or not report_title.strip() or len(report_title) > 120 or "\n" in report_title or "\r" in report_title):
         raise ValueError("report_title must be a single line of at most 120 characters")
+    report_metadata = request.get("report_metadata", {})
+    if (not isinstance(report_metadata, dict)
+            or set(report_metadata) - {"analysis_subject", "prepared_by", "confidentiality"}
+            or any(not isinstance(value, str) or not value.strip() or len(value) > 120 or "\n" in value or "\r" in value
+                   for value in report_metadata.values())):
+        raise ValueError("invalid report_metadata: analysis_subject, prepared_by and confidentiality must be single-line text")
     time_field = "evaluation_date" if scenario["scenario"]["time_model"] == "evaluation_date" else "report_period"
     period = request.get(time_field)
     if not isinstance(period, str) or not period:
@@ -130,6 +136,8 @@ def create_project(workspace: Path, request: dict) -> dict:
         project["credit_application_id"] = request["credit_application_id"]
     if report_title is not None:
         project["report_title"] = report_title.strip()
+    if report_metadata:
+        project["report_metadata"] = {key: value.strip() for key, value in report_metadata.items()}
     if related is not None:
         project["related_project_id"] = related
     directory = workspace / project["id"]
@@ -1171,6 +1179,60 @@ def submit_draft(workspace: Path, request: dict) -> dict:
     return task
 
 
+def _number_budget_headings(markdown: str, unit_names: list[str] | None = None) -> str:
+    counters, lines = [0, 0, 0], []
+    digits = "零一二三四五六七八九"
+    units, has_second_level = set(unit_names or []), False
+    for line in markdown.splitlines():
+        match = re.fullmatch(r"(#{1,3}) (.+)", line)
+        if match:
+            level, title = len(match[1]), match[2]
+            if level == 1:
+                has_second_level = False
+            elif level == 2:
+                has_second_level = True
+            elif (not has_second_level and title not in units
+                  and not re.match(r"^[0-9]+(?:\.[0-9]+)*[ .、．]", title)):
+                level, line = 2, "## " + title
+            for parent in range(level - 1):
+                if not counters[parent]:
+                    counters[parent] = 1
+            counters[level - 1] += 1
+            counters[level:] = [0] * (3 - level)
+            chapter = re.match(r"^第([零〇一二三四五六七八九十百千万0-9]+)章", title)
+            path = re.match(r"^([0-9]+(?:\.[0-9]+)*)(?:[ .、．]|$)", title)
+            if level == 1 and chapter:
+                label = chapter[1].replace("〇", "零")
+                if label.isascii() and label.isdigit():
+                    counters[0] = int(label)
+                elif not any(character in "十百千万" for character in label):
+                    counters[0] = int("".join(str(digits.index(character)) for character in label))
+                else:
+                    total, value = 0, 0
+                    for character in label:
+                        if character in digits:
+                            value = digits.index(character)
+                        elif character == "万":
+                            total, value = (total + value) * 10000, 0
+                        else:
+                            total, value = total + (value or 1) * {"十": 10, "百": 100, "千": 1000}[character], 0
+                    counters[0] = total + value
+            elif path and len(path[1].split(".")) == level:
+                counters[:level] = map(int, path[1].split("."))
+            if not (chapter or path or title.startswith("附录")):
+                if level == 1:
+                    number = counters[0]
+                    ordinal = (digits[number] if number < 10 else
+                               ("十" if number // 10 == 1 else digits[number // 10] + "十") + (digits[number % 10] if number % 10 else "")
+                               if number < 100 else str(number))
+                    prefix = f"第{ordinal}章"
+                else:
+                    prefix = ".".join(map(str, counters[:level]))
+                line = f"{'#' * level} {prefix} {title}"
+        lines.append(line)
+    return "\n".join(lines) + ("\n" if markdown.endswith("\n") else "")
+
+
 def build_draft(workspace: Path, request: dict) -> dict:
     project = get_project(workspace, request["project_id"])
     project_dir = workspace / project["id"]
@@ -1217,9 +1279,22 @@ def build_draft(workspace: Path, request: dict) -> dict:
             raise ValueError(f"missing report reference: {identifier}")
 
         rendered = re.sub(REFERENCE, replace, bodies[task["id"]])
-        rendered = re.sub(CHART_REFERENCE, lambda match: f"![{charts[match[1]]['title']}](assets/{match[1]}.png)\n\n{charts[match[1]].get('source_caption', '')}", rendered)
+        def replace_chart(match):
+            chart = charts[match[1]]
+            point = evidence[chart["source_evidence_ids"][0]]
+            year, month = chart["period"].split("-")[:2]
+            period = (chart["period"] if len(chart["period"]) == 10 else
+                      f"{year}年1—{int(month)}月" if point.get("window") == "ytd" else f"{year}年{int(month)}月")
+            source_text = json.dumps([materials[evidence[identifier]["source_id"]]["parsed"]
+                                      for identifier in chart["source_evidence_ids"]], ensure_ascii=False)
+            nature = "含MOCK模拟数据" if re.search(r"(?i)\bMOCK\b|模拟数据|模拟报表", source_text) else "数据性质以原件标识为准"
+            caption = f"{chart['title']}（统计期间：{period}；单位：{chart['unit']}；{nature}）"
+            return f"![{caption}](assets/{chart['id']}.png)\n\n{chart.get('source_caption', '')}"
+        rendered = re.sub(CHART_REFERENCE, replace_chart, rendered)
         parts.append(rendered)
     content = "\n\n".join(parts) + "\n"
+    if project["scenario_id"] == "budget_operations":
+        content = _number_budget_headings(content, project["subject_scope"]["units"])
     output = project_dir / "runs" / run["id"] / "draft" / "full_report.md"
     output.parent.mkdir(parents=True, exist_ok=True)
     for identifier in set(re.findall(r"!\[[^\]]*\]\(assets/(chart_[0-9a-f]{24})\.png\)", content)):
@@ -1367,6 +1442,33 @@ def _material_intact(workspace: Path, project_id: str, material_id: str) -> bool
     return True
 
 
+def _cover_metadata(project: dict, run: dict, evidence: list[dict], materials: list[dict], revisions: list[dict]) -> dict:
+    period = project.get("report_period", project.get("evaluation_date"))
+    year, month, *day = period.split("-")
+    label = f"{year}年{int(month)}月" + (f"{int(day[0])}日" if day else "")
+    windows = {item.get("window") for item in evidence if item.get("period") == period and item.get("basis") == "actuals"}
+    if "ytd" in windows:
+        label = ("当月：" if "month" in windows else "报告期：") + label + f"；累计：{year}年1—{int(month)}月"
+    elif project["scenario_id"] == "budget_operations" and not windows:
+        label += "（项目报告期，源数据期间待核实）"
+    raw = json.dumps([item["parsed"] for item in materials], ensure_ascii=False)
+    nature = ("含模拟数据（MOCK，技术工作稿）" if re.search(r"(?i)\bMOCK\b|模拟数据|模拟报表", raw)
+              else "实际数据（来源明确标识）" if re.search(r"(?:数据性质|数据标识)[：:]\s*(?:实际数据|真实数据)", raw) else "未明确标识（待核实）")
+    versions = [tuple(map(int, match.groups())) for revision in revisions
+                if (match := re.fullmatch(r"V([1-9][0-9]*)\.([0-9]+)", revision.get("report_version", "")))]
+    major, minor = max(versions) if versions else (1, -1)
+    scope, specified = project["subject_scope"], project.get("report_metadata", {})
+    subject = scope.get("business_unit", scope.get("organization"))
+    if scope.get("units"):
+        subject += f"；纳入{len(scope['units'])}家单位，详见分析范围"
+    return {"统计期间": label, "报告生成日期": date.today().isoformat(),
+            "分析对象": specified.get("analysis_subject", subject),
+            "编制部门": specified.get("prepared_by", "预算办" if project["scenario_id"] == "budget_operations" else "未指定（待确认）"),
+            "数据性质": nature, "报告版本": f"V{major}.{minor + 1}",
+            "数据版本": run["evidence_snapshot_id"],
+            "保密说明": specified.get("confidentiality", "保密要求及等级未指定（待确认）")}
+
+
 def publish_run(workspace: Path, request: dict) -> dict:
     project = get_project(workspace, request["project_id"])
     project_dir = workspace / project["id"]
@@ -1410,8 +1512,18 @@ def publish_run(workspace: Path, request: dict) -> dict:
             charts = _chart_records(connection)
             source_materials = [item for row in connection.execute("SELECT data FROM material")
                                 if (item := json.loads(row[0]))["id"] in run["material_ids"]]
-        source_has_mock = any(re.search(r"(?i)\bMOCK\b|模拟数据|模拟报表", json.dumps(item["parsed"], ensure_ascii=False))
-                              for item in source_materials)
+            evidence = [json.loads(row[0]) for row in connection.execute("SELECT data FROM evidence")]
+            snapshot = json.loads(connection.execute("SELECT data FROM evidence_snapshot WHERE id = ?", (run["evidence_snapshot_id"],)).fetchone()[0])
+            evidence = [item for item in evidence if item["id"] in snapshot["evidence_ids"]]
+            previous = ([json.loads(row[0]) for row in connection.execute("SELECT data FROM revision")]
+                        if connection.execute("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'revision'").fetchone() else [])
+        cover = _cover_metadata(project, run, evidence, source_materials, previous)
+        metadata_gaps = [f"{key}：{value}" for key, value in cover.items() if "待核实" in value or "待确认" in value]
+        if "MOCK" in cover["数据性质"]:
+            metadata_gaps.append("来源包含模拟数据，只能作为技术工作稿。")
+        if metadata_gaps:
+            validation["gaps"]["report_metadata"] = metadata_gaps
+            validation["status"] = "pending_review"
         chart_hashes = {}
         for identifier in set(re.findall(r"!\[[^\]]*\]\(assets/(chart_[0-9a-f]{24})\.png\)", markdown.read_text(encoding="utf-8"))):
             asset = source_markdown.parent / "assets" / (identifier + ".png")
@@ -1433,13 +1545,12 @@ def publish_run(workspace: Path, request: dict) -> dict:
         toc_units = {name: outline.get("unit_levels", {}).get(name, 2) for name in outline.get("unit_names", project["subject_scope"].get("units", []))}
         pdf, toc_entries = render_paginated_docx(
             markdown.read_text(encoding="utf-8"), snapshot_dir / "template.docx", word, title, toc_units,
-            run["effective_config"]["scenario"]["presentation"],
-            {"统计期间": period_label, "数据性质": "技术工作稿（来源含模拟数据）" if source_has_mock else "技术工作稿",
-             "报告日期": date.today().isoformat(), "版本标识": revision_id[:8]})
+            run["effective_config"]["scenario"]["presentation"], cover)
         with ZipFile(word) as archive:
             if archive.testzip() is not None or "word/document.xml" not in archive.namelist():
                 raise ValueError("rendered Word file is damaged")
-        render_checks = verify_docx(markdown.read_text(encoding="utf-8"), word, chart_hashes)
+        render_checks = verify_docx(markdown.read_text(encoding="utf-8"), word, chart_hashes,
+                                    metadata=cover, toc_entries=toc_entries, pdf=pdf)
         render_checks.update(verify_pdf_charts(pdf, chart_hashes))
         hashes = {name: sha256(path.read_bytes()).hexdigest() for name, path in (("markdown", markdown), ("docx", word), ("pdf", pdf))}
         manifest = {
@@ -1451,6 +1562,7 @@ def publish_run(workspace: Path, request: dict) -> dict:
             "scope_exclusions": validation["scope_exclusions"],
             "file_hashes": hashes,
             "chart_hashes": chart_hashes,
+            "report_version": cover["报告版本"], "report_metadata": cover,
         }
         (stage / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
         (qa_dir / "content_qa.json").write_text(json.dumps(validation, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -1468,6 +1580,9 @@ def publish_run(workspace: Path, request: dict) -> dict:
             added = [material_names[identifier] for identifier in run["material_ids"] if identifier not in base_run["material_ids"]]
             updated = [item["section_id"] for item in section_tasks if not item.get("reused_from_task_id")]
             changes = "# 本版本变化\n\n基础版本：" + run["base_revision_id"] + "\n\n新增材料：" + ("、".join(added) if added else "无") + "\n\n更新章节：" + ("、".join(updated) if updated else "无") + "\n\n沿用章节：" + str(len(section_tasks) - len(updated)) + "。\n"
+            if not base.get("report_version"):
+                changes += "\n历史版本只有内部修订ID；本次首次建立可读报告版本，不回写旧文件版本号。\n"
+        changes += "\n报告版本：" + cover["报告版本"] + "\n"
         (dist / "changes.md").write_text(changes, encoding="utf-8")
         stage.rename(final)
         revision = {**manifest, "markdown_path": str(final / "dist" / "full_report.md"), "docx_path": str(final / "dist" / "full_report.docx"),

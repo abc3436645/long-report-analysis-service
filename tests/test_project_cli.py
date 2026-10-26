@@ -10,6 +10,19 @@ REPORT = Path(sys.executable).with_name("report")
 
 
 class ProjectCliTests(unittest.TestCase):
+    def test_cover_metadata_preserves_user_scope_but_rejects_forged_generation_fields(self):
+        from long_report.application import create_project
+
+        with tempfile.TemporaryDirectory() as temporary:
+            workspace = Path(temporary)
+            request = {"scenario_id": "budget_operations", "scenario_version": "0.2.0", "report_period": "2026-07",
+                       "subject_scope": {"organization": "合成集团", "units": ["甲矿"]},
+                       "report_metadata": {"analysis_subject": "矿山板块", "prepared_by": "预算办", "confidentiality": "内部资料"}}
+            self.assertEqual(create_project(workspace, request)["report_metadata"], request["report_metadata"])
+            for value in ({"generation_date": "2026-01-01"}, {"prepared_by": "甲\n乙"}, {"analysis_subject": ""}, []):
+                with self.subTest(value=value), self.assertRaisesRegex(ValueError, "report_metadata"):
+                    create_project(workspace, {**request, "report_metadata": value})
+
     def test_budget_project_can_be_created_and_reopened(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

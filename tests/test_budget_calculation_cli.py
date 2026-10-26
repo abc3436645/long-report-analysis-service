@@ -224,15 +224,15 @@ class BudgetCalculationCliTests(unittest.TestCase):
             candidate_report = call("draft", "build", request={"project_id": project["id"], "run_id": run["id"]})
             content = Path(candidate_report["markdown_path"]).read_text(encoding="utf-8")
             self.assertIn("专项材料仍待核实归属", content)
-            self.assertEqual(content.count("## 甲单位"), 1)
+            self.assertEqual(content.count("## 2.1 甲单位"), 1)
             self.assertIn("甲单位本月实际利润为 120.50 万元", content)
             self.assertIn("差额为 20.50 万元", content)
             self.assertIn("展示一位小数为 120.5 万元", content)
             self.assertIn("sheet:CSV/cell:B2", content)
             self.assertIn("图表数据来源：", content)
             self.assertEqual([line[2:] for line in content.splitlines() if line.startswith("# ")], [
-                "报告口径与资料范围", "各单位经营分析", "专项来源的独立口径",
-                "整体经营与共同关注事项", "市场关联及情景测算", "建议事项与人工确认", "来源索引与计算口径",
+                "第一章 报告口径与资料范围", "第二章 各单位经营分析", "第三章 专项来源的独立口径",
+                "第四章 整体经营与共同关注事项", "第五章 市场关联及情景测算", "第六章 建议事项与人工确认", "第七章 来源索引与计算口径",
             ])
 
             request_file.write_text(json.dumps({"project_id": project["id"], "run_id": run["id"]}), encoding="utf-8")
@@ -256,25 +256,28 @@ class BudgetCalculationCliTests(unittest.TestCase):
                 document_xml = word.read("word/document.xml").decode("utf-8")
             from docx import Document
             from docx.oxml.ns import qn
+            from long_report.rendering import report_fonts
             delivered = Document(revision["docx_path"])
-            self.assertEqual(delivered.styles["Normal"].element.rPr.rFonts.get(qn("w:eastAsia")), "宋体")
-            self.assertEqual(delivered.styles["Heading 1"].element.rPr.rFonts.get(qn("w:eastAsia")), "黑体")
+            self.assertEqual(delivered.styles["Normal"].element.rPr.rFonts.get(qn("w:eastAsia")), report_fonts()["body_font"])
+            self.assertEqual(delivered.styles["Heading 1"].element.rPr.rFonts.get(qn("w:eastAsia")), report_fonts()["heading_font"])
             self.assertEqual(delivered.paragraphs[0].text, "预算办月度经营分析报告（模拟验收）")
             self.assertEqual([paragraph.text for paragraph in delivered.paragraphs if paragraph.style.name == "TOC Heading"], ["目录"])
             self.assertEqual([paragraph.text for paragraph in delivered.paragraphs if paragraph.text.startswith("数据性质：")],
-                             ["数据性质：技术工作稿"])
+                             ["数据性质：未明确标识（待核实）"])
+            self.assertEqual(revision["report_version"], "V1.0")
             self.assertEqual(len(delivered.inline_shapes), 1)
             self.assertEqual([paragraph.text.split("\t")[0] for paragraph in delivered.paragraphs if paragraph.style.name == "TOC 1"], [
-                "报告口径与资料范围", "各单位经营分析", "专项来源的独立口径",
-                "整体经营与共同关注事项", "市场关联及情景测算", "建议事项与人工确认", "来源索引与计算口径",
+                "第一章 报告口径与资料范围", "第二章 各单位经营分析", "第三章 专项来源的独立口径",
+                "第四章 整体经营与共同关注事项", "第五章 市场关联及情景测算", "第六章 建议事项与人工确认", "第七章 来源索引与计算口径",
             ])
-            self.assertEqual([paragraph.text.split("\t")[0] for paragraph in delivered.paragraphs if paragraph.style.name == "TOC 2"], ["甲单位"])
+            self.assertEqual([paragraph.text.split("\t")[0] for paragraph in delivered.paragraphs if paragraph.style.name == "TOC 2"],
+                             ["2.1 甲单位", "3.1 专项核验"])
             self.assertIn("甲单位", document_xml)
             self.assertIn("20.50", document_xml)
             self.assertIn("<w:tbl>", document_xml)
             self.assertIn("<w:tblHeader", document_xml)
             self.assertIn("<w:tblBorders>", document_xml)
-            self.assertIn('<w:pStyle w:val="Heading3"/>', document_xml)
+            self.assertIn('<w:pStyle w:val="Heading2"/>', document_xml)
             latest = call("revision", "latest", "--project", project["id"])
             self.assertEqual(latest["id"], revision["id"])
             self.assertEqual(latest["file_hashes"], revision["file_hashes"])
@@ -332,14 +335,23 @@ class BudgetCalculationCliTests(unittest.TestCase):
             second_draft = call("draft", "build", request={"project_id": project["id"], "run_id": next_run["id"]})
             second_content = Path(second_draft["markdown_path"]).read_text(encoding="utf-8")
             def section(text, title):
-                return text.split("# " + title + "\n", 1)[1].split("\n# ", 1)[0]
+                heading = next(line for line in text.splitlines() if line.startswith("# ") and line.endswith(" " + title))
+                return text.split(heading + "\n", 1)[1].split("\n# ", 1)[0]
             self.assertEqual(section(second_content, "专项来源的独立口径"), section(content, "专项来源的独立口径"))
             self.assertEqual(section(second_content, "市场关联及情景测算"), section(content, "市场关联及情景测算"))
             call("review", "submit", request={
                 "project_id": project["id"], "run_id": next_run["id"], "draft_sha256": second_draft["sha256"],
                 "reviewer_id": "reviewer-2", "verdict": "pass", "issues": [],
             })
+            from unittest.mock import patch
+            from long_report.application import publish_run, get_latest_revision
+            with patch("long_report.application.verify_docx", side_effect=ValueError("report style size is invalid")):
+                with self.assertRaisesRegex(ValueError, "style size"):
+                    publish_run(workspace, {"project_id": project["id"], "run_id": next_run["id"]})
+            self.assertEqual(get_latest_revision(workspace, project["id"])["id"], revision["id"])
+            self.assertFalse(list((workspace / project["id"] / "revisions").glob(".staging_*")))
             second_revision = call("publish", request={"project_id": project["id"], "run_id": next_run["id"]})
+            self.assertEqual(second_revision["report_version"], "V1.1")
             self.assertIn("supplement.csv", Path(second_revision["markdown_path"]).read_text(encoding="utf-8"))
             self.assertIn("supplement.csv", (Path(second_revision["markdown_path"]).parent / "changes.md").read_text(encoding="utf-8"))
             self.assertEqual(call("revision", "latest", "--project", project["id"])["id"], second_revision["id"])
