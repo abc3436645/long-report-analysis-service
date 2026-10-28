@@ -6,10 +6,11 @@ import sys
 import tempfile
 import threading
 import unittest
-import yaml
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
+
+from credit_test_support import synthetic_credit_cli, registration_table, equity_details
 
 REPORT = Path(sys.executable).with_name("report")
 
@@ -64,7 +65,7 @@ class RetrievalCliTests(unittest.TestCase):
 
                 for expected in ("partial", "mismatch", "empty", "failed"):
                     project = call("project", "create", request={
-                        "scenario_id": "credit_review", "scenario_version": "0.2.0", "credit_application_id": "SYN-1",
+                        "scenario_id": "financial_due_diligence", "scenario_version": "0.2.0", "credit_application_id": "SYN-1",
                         "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-07-31",
                         "overrides": {"retrieval.enabled": True},
                     })
@@ -119,9 +120,10 @@ class RetrievalCliTests(unittest.TestCase):
                 root = Path(temporary)
                 workspace = root / "projects"
                 request_path = root / "request.json"
+                cli = synthetic_credit_cli(root)
 
                 def call(*args, request=None):
-                    command = [REPORT, *args, "--workspace", str(workspace)]
+                    command = [*cli, *args, "--workspace", str(workspace)]
                     if request is not None:
                         request_path.write_text(json.dumps(request, ensure_ascii=False), encoding="utf-8")
                         command += ["--request", str(request_path)]
@@ -130,10 +132,11 @@ class RetrievalCliTests(unittest.TestCase):
                     return json.loads(result.stdout)["data"]
 
                 project = call("project", "create", request={
-                    "scenario_id": "credit_review", "scenario_version": "0.2.0",
+                    "scenario_id": "financial_due_diligence", "scenario_version": "0.2.0",
                     "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-07-31",
                     "credit_application_id": "SYN-001", "overrides": {"retrieval.enabled": True},
                 })
+                outline = {"sections": project["effective_config"]["outline"]["sections"]}
                 run = call("run", "start", request={"project_id": project["id"], "retrieval_provider_id": "synthetic"})
                 task = next(item for item in call("task", "list", "--project", project["id"], "--run", run["id"])
                             if item["kind"] == "retrieve")
@@ -170,18 +173,24 @@ class RetrievalCliTests(unittest.TestCase):
                     if not active_run.get("report_plan"):
                         call("draft", "plan", request={"project_id": project["id"], "run_id": active_run["id"],
                                                       "report_request": "评审甲公司授信风险与专业记录",
-                                                      "outline": yaml.safe_load((Path(__file__).parent / "fixtures/credit_reference_outline.yaml").read_text(encoding="utf-8"))})
+                                                      "outline": outline})
                     event_lines = "；".join("{{fact:" + item["id"] + "}}（{{ev:" + item["id"] + "}}）" for item in records)
-                    bodies = {
-                        "scope": "本次评审对象为甲公司；申请原件尚缺，已取得的专业记录不能代替申请材料。",
-                        "overview": "业务概况资料仍待补齐；外部专业记录只覆盖其实际记载的事项。",
-                        "financial_risks": "专业来源记载：" + event_lines + "。事件状态和影响仍待业务核验。",
-                        "external_results": "未取得外部授信模型额度、等级及期限结果，不作授信决定。",
-                        "strategy": "建议核实专业记录原文、合同和后续状态，再制定附条件策略。",
-                        "appendix": "专业记录来源：" + "、".join("{{ev:" + item["id"] + "}}" for item in records) + "；申请和财务材料待补。",
-                        "summary": "本稿依据已归档专业记录提示担保和诉讼线索；必要申请材料及政策缺失，结论待复核。",
-                    }
-                    for section_id in ("scope", "overview", "financial_risks", "external_results", "strategy", "appendix", "summary"):
+                    bodies = {}
+                    for definition in outline["sections"]:
+                        text = "本小节材料待补，结论待核实；未取得外部授信结果，不作授信决定。"
+                        if definition["id"] == "company":
+                            text = "本次评审对象为甲公司；申请原件尚缺，专业记录不能代替申请材料。"
+                        elif definition["id"] == "risks":
+                            text = "专业来源记载：" + event_lines + "。事件状态和影响仍待核验，建议核对合同与后续状态。"
+                        elif definition["id"] == "conclusion":
+                            text = "本稿依据归档专业记录提示担保和诉讼线索；必要材料及政策缺失，结论待复核。"
+                        bodies[definition["id"]] = "\n\n".join("## " + heading + "\n\n" + text
+                            for heading in definition["subheadings"]) if definition["subheadings"] else text
+                    bodies["company"] = bodies["company"].replace("## 一、工商信息\n\n",
+                        "## 一、工商信息\n\n" + registration_table(outline["sections"][0]) + "\n\n", 1)
+                    bodies["company"] = bodies["company"].replace("## 四、股权、股东及投资情况\n\n",
+                        "## 四、股权、股东及投资情况\n\n" + equity_details(outline["sections"][0]) + "\n\n", 1)
+                    for section_id in (item["id"] for item in outline["sections"]):
                         section = next(item for item in call("draft", "plan", request={"project_id": project["id"], "run_id": active_run["id"]})
                                        if item["section_id"] == section_id)
                         if section["status"] != "submitted":

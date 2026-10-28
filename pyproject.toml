@@ -7,7 +7,14 @@ name = "long-report-agent"
 version = "0.2.0"
 description = "CLI and scenario contracts for long-form analysis reports"
 requires-python = ">=3.12"
-dependencies = ["PyYAML>=6.0,<7", "openpyxl>=3.1,<4", "python-docx>=1.2,<2", "pypdf>=5,<7", "Pillow>=11,<14"]
+dependencies = [
+    "PyYAML>=6.0,<7",
+    "openpyxl>=3.1,<4",
+    "python-docx>=1.2,<2",
+    "pypdf>=5,<7",
+    "Pillow>=11,<14",
+    "pytest>=9.1.1",
+]
 
 [project.scripts]
 report = "long_report.adapters.cli:main"

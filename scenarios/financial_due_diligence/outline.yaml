@@ -1,5 +1,213 @@
-sections: []
+fixed: true
+sections:
+- id: company
+  title: 第一章 公司基本情况
+  display_order: 1
+  repeat_for: null
+  subheadings:
+  - 一、工商信息
+  - 二、背景情况
+  - 三、基本组织机构情况
+  - 四、股权、股东及投资情况
+  - 五、对外投资情况
+  - 六、法人代表及主要管理人情况
+  goal: 核对主体身份、沿革、组织、股权控制链、对外投资及管理情况，关联适用的担保和关联交易。
+  questions:
+  - 核对主体身份、沿革、组织、股权控制链、对外投资及管理情况，关联适用的担保和关联交易。
+  evidence_refs:
+  - application_record
+  - professional_record
+  analysis_refs:
+  - risk_review
+  required_subsections:
+    四、股权、股东及投资情况:
+    - {title: （一）股权结构, content: table}
+    - {title: （二）股东简介、持股情况, content: narrative}
+  required_tables:
+  - subheading: 一、工商信息
+    columns: [项目, 内容]
+    required_fields: [企业名称, 统一社会信用代码, 法人代表, 成立日期, 有效期, 注册资本, 实收资本, 注册地址, 经营范围]
+    style: compact
+  - subheading: 四、股权、股东及投资情况
+    child_heading: （一）股权结构
+    columns: [排名, 股东名称, 认缴资本（万元）, 持股比例（%）]
+    total_row:
+      label_column: 股东名称
+      label: 合计
+      blank_columns: [排名]
+      sum_columns: [认缴资本（万元）, 持股比例（%）]
+  required_assets: []
+  depends_on: []
+- id: operations
+  title: 第二章 公司运营情况
+  display_order: 2
+  repeat_for: null
+  subheadings:
+  - 一、主营业务情况
+  - 二、主营产销情况
+  - 三、原料采购、产品销售情况
+  goal: 解释主营产品、产能工艺、盈利模式、产销收支与供应商客户集中度；适用时纳入在建项目与资金安排。
+  questions:
+  - 解释主营产品、产能工艺、盈利模式、产销收支与供应商客户集中度；适用时纳入在建项目与资金安排。
+  evidence_refs:
+  - application_record
+  - professional_record
+  analysis_refs:
+  - risk_review
+  required_assets: []
+  depends_on:
+  - company
+- id: financials
+  title: 第三章 公司财务情况
+  display_order: 3
+  repeat_for: null
+  subheadings:
+  - 资产负债表
+  - 利润表：
+  - 现金流量表：
+  - 财务比率及分析
+  goal: 核对多期财务报表及口径，解释主要科目变动、盈利、营运、偿债、现金流与持续经营能力。
+  questions:
+  - 核对多期财务报表及口径，解释主要科目变动、盈利、营运、偿债、现金流与持续经营能力。
+  evidence_refs:
+  - application_record
+  - financial_record
+  analysis_refs:
+  - risk_review
+  required_assets: []
+  depends_on:
+  - operations
+- id: financing
+  title: 第四章 外部融资情况
+  display_order: 4
+  repeat_for: null
+  subheadings: []
+  goal: 核对机构授信、用信、未用额度、债务品种、到期结构及偿付情况，区分额度与余额。
+  questions:
+  - 核对机构授信、用信、未用额度、债务品种、到期结构及偿付情况，区分额度与余额。
+  evidence_refs:
+  - application_record
+  - financial_record
+  - professional_record
+  analysis_refs:
+  - risk_review
+  required_assets: []
+  depends_on:
+  - financials
+- id: industry
+  title: 第五章 行业情况及行业地位
+  display_order: 5
+  repeat_for: null
+  subheadings:
+  - 一、公司所处行业情况
+  - 二、主要行业政策
+  - 三、企业优势及行业地位
+  goal: 按实际业务说明行业环境、适用政策与竞争位置，区分时点事实、来源观点与分析推断。
+  questions:
+  - 按实际业务说明行业环境、适用政策与竞争位置，区分时点事实、来源观点与分析推断。
+  evidence_refs:
+  - application_record
+  - professional_record
+  analysis_refs:
+  - risk_review
+  required_assets: []
+  depends_on:
+  - operations
+- id: risks
+  title: 第六章 风险评价和风控措施
+  display_order: 6
+  repeat_for: null
+  subheadings:
+  - 一、行业竞争、加工费下行风险
+  - 二、市场价格波动风险
+  - 三、应收账款坏账风险
+  - 四、财务与流动性风险
+  goal: 逐项关联风险证据、影响、反向证据、既有措施与有条件建议；适用的新增风险放入相关固定小节。
+  questions:
+  - 逐项关联风险证据、影响、反向证据、既有措施与有条件建议；适用的新增风险放入相关固定小节。
+  evidence_refs:
+  - application_record
+  - financial_record
+  - professional_record
+  analysis_refs:
+  - risk_review
+  required_assets: []
+  depends_on:
+  - financials
+  - financing
+  - industry
+- id: credit
+  title: 第七章 信用能力评估
+  display_order: 7
+  repeat_for: null
+  subheadings:
+  - 一、信用评级
+  - 二、征信情况
+  - 三、涉诉情况
+  goal: 核对外部评级依据与版本、征信和涉诉状态；未取得评级或查询记录时披露，不自行评级。
+  questions:
+  - 核对外部评级依据与版本、征信和涉诉状态；未取得评级或查询记录时披露，不自行评级。
+  evidence_refs:
+  - application_record
+  - professional_record
+  - external_credit_record
+  analysis_refs:
+  - risk_review
+  - external_result_check
+  required_assets: []
+  depends_on:
+  - company
+  - financing
+- id: terms
+  title: 第八章 授信要素评估
+  display_order: 8
+  repeat_for: null
+  subheadings:
+  - 一、授信额度
+  - 二、授信期限
+  - 三、担保方式
+  - 四、授信利率
+  - 五、借款用途
+  - 六、还款来源
+  goal: 核对已提供的额度模型结果、等级期限依据、担保、利率、用途与还款来源，区分申请、结果、建议和批准。
+  questions:
+  - 核对已提供的额度模型结果、等级期限依据、担保、利率、用途与还款来源，区分申请、结果、建议和批准。
+  evidence_refs:
+  - application_record
+  - financial_record
+  - professional_record
+  - external_credit_record
+  analysis_refs:
+  - risk_review
+  - external_result_check
+  required_assets: []
+  depends_on:
+  - risks
+  - credit
+- id: conclusion
+  title: 第九章 综合结论
+  display_order: 9
+  repeat_for: null
+  subheadings:
+  - 一、调查结论
+  - 二、授信方案
+  goal: 综合审查发现、策略及重大限制，核对方案各要素与前文一致，不以报告交付替代授信审批。
+  questions:
+  - 综合审查发现、策略及重大限制，核对方案各要素与前文一致，不以报告交付替代授信审批。
+  evidence_refs:
+  - application_record
+  - professional_record
+  - external_credit_record
+  analysis_refs:
+  - risk_review
+  - external_result_check
+  required_assets: []
+  depends_on:
+  - terms
 planning_guidance:
-  - 按本轮授信事项、评价基准、已有资料和用户关注的风险生成章节与依赖。
-  - 区分原始材料、专业检索线索、已核验事实、外部授信结果及审查判断。
-  - 风险事项写明依据、影响、既有缓释与有条件的策略建议；缺口在结论处披露。
+- 按真实交付样本固定九章及各章二级标题、编号、原文标点和顺序；固定的是呈现结构，正文依据仍按本轮材料确定。
+- 每轮 draft plan 提交本配置 sections；不得另加执行摘要、证据附录或替换七章历史参考目录。范围、评价基准和重大限制在首章及结论就地披露，来源随正文引用。
+- 正文用 Markdown 二级标题承载 subheadings；缺材料也保留标题并写明限制或补件，明确不适用须有依据。第四章无二级标题，不补造小节。
+- 第三章的四个未编号同级内容标题按原文保留；（一）类三级标题随本轮实际分析规划，不升级为固定二级标题。
+- 第六章四类风险标题按用户标准固定，风险适用性仍须逐项审查；非铜加工主体不能套用加工费结论，其他适用风险在相关小节内补充三级标题。
+- 样本只确定结构和字体；企业名称、金额、人员、评级、期限、政策条文和测算公式不作为通用业务事实或算法。

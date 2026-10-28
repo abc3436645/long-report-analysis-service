@@ -23,6 +23,8 @@ from docx.oxml.ns import qn
 from docx.enum.style import WD_STYLE_TYPE
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT, WD_TAB_LEADER
 from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT
+
+from long_report.scenario import markdown_table_rows
 from docx.enum.section import WD_ORIENT, WD_SECTION_START
 
 
@@ -60,6 +62,12 @@ def _installed_fonts() -> set[str]:
 def report_fonts(presentation: dict | None = None) -> dict[str, str]:
     requested = presentation or {"body_font": "宋体", "heading_font": "黑体", "latin_font": "Times New Roman"}
     installed = _installed_fonts()
+    if not requested.get("allow_font_fallback", True):
+        missing = [requested[key] for key in ("body_font", "heading_font", "latin_font")
+                   if requested[key].casefold() not in installed]
+        if missing:
+            raise ValueError("required report font unavailable: " + ", ".join(sorted(set(missing))))
+        return {key: requested[key] for key in ("body_font", "heading_font", "latin_font")}
     result = {}
     for key, fallback in (("body_font", ("Noto Serif CJK SC", "Source Han Serif SC", "Songti SC")),
                           ("heading_font", ("Noto Sans CJK SC", "Source Han Sans SC", "Heiti SC", "Hiragino Sans GB")),
@@ -84,8 +92,16 @@ def _set_fonts(properties, chinese: str, latin: str) -> None:
     language.set(qn("w:val"), "en-US")
 
 
-def _validate_cover(title: str, metadata: dict) -> None:
+def _cover_items(metadata: dict | None, presentation: dict | None) -> list[tuple[str, str]]:
+    if metadata is None:
+        return []
+    profile = (presentation or {}).get("cover")
+    return [(field["label"], metadata[field["label"]]) for field in profile["fields"]] if profile else list(metadata.items())
+
+
+def _validate_cover(title: str, metadata: dict, presentation: dict | None = None) -> None:
     required = ("统计期间", "报告生成日期", "分析对象", "编制部门", "数据性质", "报告版本", "数据版本", "保密说明")
+    required += tuple(field["label"] for field in (presentation or {}).get("cover", {}).get("fields", []))
     if any(not isinstance(metadata.get(key), str) or not metadata[key].strip() for key in required):
         raise ValueError("report cover metadata is incomplete")
     if not re.fullmatch(r"V[1-9][0-9]*\.[0-9]+", metadata["报告版本"]):
@@ -144,23 +160,55 @@ def _block_widths(document) -> dict:
     return widths
 
 
+def _table_rules(markdown: str, outline: dict | None, presentation: dict | None = None) -> list[dict | None]:
+    definitions = {section["title"]: section for section in (outline or {}).get("sections", [])}
+    chapter, subheading, child, rules = {}, None, None, []
+    for block in markdown.strip().split("\n\n"):
+        heading = re.fullmatch(r"(#{1,3}) (.+)", block.strip())
+        if heading and heading[1] == "#":
+            chapter, subheading, child = definitions.get(heading[2].strip(), {}), None, None
+        elif heading and heading[1] == "##":
+            subheading, child = heading[2].strip(), None
+        elif heading:
+            child = heading[2].strip()
+        elif markdown_table_rows(block) is not None:
+            rule = next((rule for rule in chapter.get("required_tables", [])
+                         if rule["subheading"] == subheading
+                         and ("child_heading" not in rule or rule["child_heading"] == child)), None)
+            if rule and ("font" in rule or "font_size_pt" in rule):
+                raise ValueError("table fonts must be defined in presentation.table_styles")
+            if rule and "style" in rule:
+                style = (presentation or {}).get("table_styles", {}).get(rule["style"])
+                if style is None:
+                    raise ValueError("unknown table style: " + rule["style"])
+                rule = {**rule, **style}
+            rules.append(rule)
+    return rules
+
+
 def render_docx(markdown: str, template: Path, output: Path, title: str, toc_units: dict[str, int] | None = None,
                 presentation: dict | None = None, toc_entries: list[tuple[int, str, int]] | None = None,
-                metadata: dict | None = None) -> None:
+                metadata: dict | None = None, outline: dict | None = None) -> None:
     if metadata is not None:
-        _validate_cover(title, metadata)
+        _validate_cover(title, metadata, presentation)
     document = Document(template)
     fonts = report_fonts(presentation)
     section = document.sections[0]
     _page_setup(section)
     for name, points in STYLE_SIZES.items():
+        rule = (presentation or {}).get("styles", {}).get(name)
+        if rule:
+            points = rule["font_size_pt"]
+            report_fonts({"body_font": rule["font"], "heading_font": rule["font"],
+                          "latin_font": rule["font"], "allow_font_fallback": False})
         if name not in document.styles:
             document.styles.add_style(name, WD_STYLE_TYPE.PARAGRAPH)
         style = document.styles[name]
         if name != "Normal":
             style.base_style = document.styles["Normal"]
         heading = name == "Title" or name.startswith("Heading ") or name == "TOC Heading"
-        _set_fonts(style.element.get_or_add_rPr(), fonts["heading_font"] if heading else fonts["body_font"], fonts["latin_font"])
+        _set_fonts(style.element.get_or_add_rPr(), rule["font"] if rule else fonts["heading_font"] if heading else fonts["body_font"],
+                   rule["font"] if rule else fonts["latin_font"])
         style.font.size = Pt(points)
         style.font.bold = heading or name == "Table Header"
         style.font.italic = False
@@ -226,7 +274,7 @@ def render_docx(markdown: str, template: Path, output: Path, title: str, toc_uni
     footer._p.append(field)
     document.core_properties.title = title
     document.add_paragraph(title, style="Title")
-    for label, value in (metadata or {}).items():
+    for label, value in _cover_items(metadata, presentation):
         document.add_paragraph(f"{label}：{value}", style="Cover Metadata")
     document.add_page_break()
     document.add_paragraph("目录", style="TOC Heading")
@@ -250,6 +298,7 @@ def render_docx(markdown: str, template: Path, output: Path, title: str, toc_uni
     document.add_page_break()
     first_heading, heading_index = True, 0
     landscape, following_note = False, False
+    table_rules, table_index = _table_rules(markdown, outline, presentation), 0
     blocks = markdown.strip().split("\n\n")
     for block_index, block in enumerate(blocks):
         lines = block.splitlines()
@@ -271,10 +320,12 @@ def render_docx(markdown: str, template: Path, output: Path, title: str, toc_uni
             caption = document.add_paragraph(chart[1], style="Caption")
             caption.paragraph_format.keep_with_next = (block_index + 1 < len(blocks)
                                                        and blocks[block_index + 1].startswith("图表数据来源"))
-        elif len(lines) >= 3 and all(line.startswith("|") and line.endswith("|") for line in lines) and all(set(cell.strip()) <= {"-", ":"} for cell in lines[1].strip("|").split("|")):
-            rows = [[cell.strip() for cell in line.strip("|").split("|")] for line in (lines[0], *lines[2:])]
-            if any(len(row) != len(rows[0]) for row in rows):
-                raise ValueError("Markdown table has inconsistent columns")
+        elif (rows := markdown_table_rows(block)) is not None:
+            rule = table_rules[table_index]
+            table_index += 1
+            if rule and "font" in rule:
+                report_fonts({"body_font": rule["font"], "heading_font": rule["font"],
+                              "latin_font": rule["font"], "allow_font_fallback": False})
             weights = [min(30, max(10, max(sum(2 if east_asian_width(c) in "WF" else 1 for c in row[col]) for row in rows)))
                        for col in range(len(rows[0]))]
             minimums = [Pt(max((len(row[col]) * 5.2 + 12 for row in rows[1:]
@@ -317,6 +368,13 @@ def render_docx(markdown: str, template: Path, output: Path, title: str, toc_uni
                     cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
                     paragraph = cell.paragraphs[0]
                     paragraph.style = document.styles["Table Header" if index == 0 else "Table Body"]
+                    if rule and "font" in rule:
+                        for run in paragraph.runs:
+                            _set_fonts(run._r.get_or_add_rPr(), rule["font"], rule["font"])
+                            run.font.size = Pt(rule["font_size_pt"])
+                            size_cs = OxmlElement("w:szCs")
+                            size_cs.set(qn("w:val"), str(int(rule["font_size_pt"] * 2)))
+                            run._r.rPr.append(size_cs)
                     numeric = re.fullmatch(r"[+−-]?(?:[0-9][0-9,]*)(?:\.[0-9]+)?%?", value)
                     paragraph.alignment = WD_ALIGN_PARAGRAPH.RIGHT if index and numeric else WD_ALIGN_PARAGRAPH.LEFT
                     if index == 0:
@@ -395,23 +453,23 @@ def _convert_pdf(docx: Path) -> Path:
 
 def render_paginated_docx(markdown: str, template: Path, output: Path, title: str,
                           toc_units: dict[str, int] | None = None, presentation: dict | None = None,
-                          metadata: dict | None = None) -> tuple[Path, list[tuple[int, str, int]]]:
+                          metadata: dict | None = None, outline: dict | None = None) -> tuple[Path, list[tuple[int, str, int]]]:
     """Settle visible directory page numbers against the rendered final DOCX."""
     titles = _headings(markdown)
     if not titles:
         raise ValueError("report has no headings for directory")
     entries = [(level, name, 0) for level, name in titles]
     for _ in range(4):
-        render_docx(markdown, template, output, title, toc_units, presentation, entries, metadata)
+        render_docx(markdown, template, output, title, toc_units, presentation, entries, metadata, outline)
         pdf = _convert_pdf(output)
-        outline = _pdf_outline(pdf)
+        pdf_outline = _pdf_outline(pdf)
         cursor, measured = 0, []
         for level, name in titles:
-            index = next((i for i in range(cursor, len(outline))
-                          if " ".join(outline[i][1].split()) == " ".join(name.split())), None)
+            index = next((i for i in range(cursor, len(pdf_outline))
+                          if " ".join(pdf_outline[i][1].split()) == " ".join(name.split())), None)
             if index is None:
                 raise ValueError("rendered PDF directory heading missing: " + name)
-            measured.append((level, name, outline[index][2]))
+            measured.append((level, name, pdf_outline[index][2]))
             cursor = index + 1
         if measured == entries:
             return pdf, entries
@@ -420,7 +478,8 @@ def render_paginated_docx(markdown: str, template: Path, output: Path, title: st
 
 
 def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str], *, metadata: dict | None = None,
-                toc_entries: list[tuple[int, str, int]] | None = None, pdf: Path | None = None) -> dict:
+                toc_entries: list[tuple[int, str, int]] | None = None, pdf: Path | None = None,
+                outline: dict | None = None, presentation: dict | None = None) -> dict:
     """Read the delivered Word body back before the revision becomes visible."""
     document = Document(path)
     for index, section in enumerate(document.sections):
@@ -461,15 +520,37 @@ def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str], *, meta
             if _effective(paragraph, "line_spacing") != 1.3 or not _effective(paragraph, "widow_control"):
                 raise ValueError("report body paragraph spacing or widow control is invalid")
     for name, points in STYLE_SIZES.items():
+        rule = (presentation or {}).get("styles", {}).get(name)
+        if rule:
+            points = rule["font_size_pt"]
         if name not in document.styles or document.styles[name].font.size != Pt(points):
             raise ValueError("report style size is invalid: " + name)
         fonts = document.styles[name].element.rPr.rFonts
         if fonts is None or any(not fonts.get(qn("w:" + key)) for key in ("eastAsia", "ascii", "hAnsi")):
             raise ValueError("report style font is incomplete: " + name)
+        if rule:
+            size_cs = document.styles[name].element.rPr.find(qn("w:szCs"))
+            if (any(fonts.get(qn("w:" + key)) != rule["font"] for key in ("eastAsia", "ascii", "hAnsi", "cs"))
+                    or size_cs is None or size_cs.get(qn("w:val")) != str(int(points * 2))):
+                raise ValueError("report style typography differs from presentation: " + name)
+    for paragraph in document.paragraphs:
+        rule = (presentation or {}).get("styles", {}).get(paragraph.style.name)
+        if rule:
+            for run in paragraph.runs:
+                if not run.text:
+                    continue
+                properties = run._r.rPr
+                fonts = properties.rFonts if properties is not None else None
+                size_cs = properties.find(qn("w:szCs")) if properties is not None else None
+                if ((run.font.size is not None and run.font.size != Pt(rule["font_size_pt"]))
+                        or fonts is not None and any(fonts.get(qn("w:" + key)) not in (None, rule["font"])
+                                                    for key in ("eastAsia", "ascii", "hAnsi", "cs"))
+                        or size_cs is not None and size_cs.get(qn("w:val")) != str(int(rule["font_size_pt"] * 2))):
+                    raise ValueError("paragraph typography overrides its document style")
     if metadata is not None:
-        _validate_cover(document.core_properties.title, metadata)
+        _validate_cover(document.core_properties.title, metadata, presentation)
         cover_text = [paragraph.text for paragraph in document.paragraphs if paragraph.style.name == "Cover Metadata"]
-        if cover_text != [f"{key}：{value}" for key, value in metadata.items()]:
+        if cover_text != [f"{key}：{value}" for key, value in _cover_items(metadata, presentation)]:
             raise ValueError("report cover differs from verified metadata")
     directory = [paragraph for paragraph in document.paragraphs if re.fullmatch(r"TOC [1-3]", paragraph.style.name)]
     if [p.text for p in document.paragraphs if p.style.name == "TOC Heading"] != ["目录"]:
@@ -488,16 +569,12 @@ def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str], *, meta
         raise ValueError("report directory link targets are missing")
     table_blocks = []
     for block in markdown.strip().split("\n\n"):
-        lines = block.splitlines()
-        if len(lines) >= 3 and all(line.startswith("|") and line.endswith("|") for line in lines) and all(
-            set(cell.strip()) <= {"-", ":"} for cell in lines[1].strip("|").split("|")
-        ):
-            table_blocks.append([[cell.strip() for cell in line.strip("|").split("|")]
-                                 for line in (lines[0], *lines[2:])])
+        if (rows := markdown_table_rows(block)) is not None:
+            table_blocks.append(rows)
     rendered_tables = [[[cell.text for cell in row.cells] for row in table.rows] for table in document.tables]
     if table_blocks != rendered_tables:
         raise ValueError("rendered Word tables differ from reviewed Markdown")
-    for table in document.tables:
+    for table, rule in zip(document.tables, _table_rules(markdown, outline, presentation)):
         width = widths[table._tbl]
         if sum(column.width for column in table.columns) > width + Cm(.02):
             raise ValueError("report table exceeds page width")
@@ -510,6 +587,15 @@ def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str], *, meta
                 paragraph = cell.paragraphs[0]
                 if paragraph.style.name != ("Table Header" if index == 0 else "Table Body"):
                     raise ValueError("report table text has no dedicated style")
+                if rule and "font" in rule:
+                    for run in paragraph.runs:
+                        properties = run._r.rPr
+                        fonts = properties.rFonts if properties is not None else None
+                        size_cs = properties.find(qn("w:szCs")) if properties is not None else None
+                        if (run.font.size != Pt(rule["font_size_pt"]) or fonts is None
+                                or any(fonts.get(qn("w:" + key)) != rule["font"] for key in ("eastAsia", "ascii", "hAnsi", "cs"))
+                                or size_cs is None or size_cs.get(qn("w:val")) != str(int(rule["font_size_pt"] * 2))):
+                            raise ValueError("required table font or size differs from scenario configuration")
                 if index and re.fullmatch(r"[+−-]?[0-9][0-9,]*(?:\.[0-9]+)?%?", cell.text) and paragraph.alignment != WD_ALIGN_PARAGRAPH.RIGHT:
                     raise ValueError("report table amount is not right aligned")
     if any(shape.width > widths[shape._inline.xpath('ancestor::w:p')[0]] for shape in document.inline_shapes):
@@ -527,7 +613,7 @@ def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str], *, meta
             raise ValueError("report directory page numbers differ from final PDF")
         reader = PdfReader(pdf)
         text = re.sub(r"\s+", "", reader.pages[0].extract_text() or "")
-        if metadata and any(re.sub(r"\s+", "", f"{key}：{value}") not in text for key, value in metadata.items()):
+        if metadata and any(re.sub(r"\s+", "", f"{key}：{value}") not in text for key, value in _cover_items(metadata, presentation)):
             raise ValueError("report cover is incomplete or exceeds one PDF page")
         if "目录" not in re.sub(r"\s+", "", reader.pages[1].extract_text() or ""):
             raise ValueError("report directory does not begin on page two")

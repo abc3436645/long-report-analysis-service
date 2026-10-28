@@ -2,14 +2,13 @@ import json
 import os
 import shutil
 import subprocess
-import sys
 import tempfile
 import unittest
 from contextlib import nullcontext
 from pathlib import Path
-import yaml
 
-REPORT = Path(sys.executable).with_name("report")
+from credit_test_support import synthetic_credit_cli, registration_table, equity_details
+
 PDF = Path(__file__).parent / "fixtures" / "credit_pdf_fixture.pdf"
 PROFESSIONAL = Path(__file__).parent / "fixtures" / "credit_professional_records.docx"
 
@@ -24,9 +23,10 @@ class CreditReportCliTests(unittest.TestCase):
             root = Path(temporary)
             workspace = root / "projects"
             request_file = root / "request.json"
+            cli = synthetic_credit_cli(root)
 
             def call(*args, request=None):
-                command = [REPORT, *args, "--workspace", str(workspace)]
+                command = [*cli, *args, "--workspace", str(workspace)]
                 if request is not None:
                     request_file.write_text(json.dumps(request, ensure_ascii=False), encoding="utf-8")
                     command += ["--request", str(request_file)]
@@ -35,11 +35,11 @@ class CreditReportCliTests(unittest.TestCase):
                 return json.loads(result.stdout)["data"]
 
             project = call("project", "create", request={
-                "scenario_id": "credit_review", "scenario_version": "0.2.0", "credit_application_id": "SYN-001",
+                "scenario_id": "financial_due_diligence", "scenario_version": "0.2.0", "credit_application_id": "SYN-001",
                 "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-07-31",
             })
             financial = root / "financial.csv"
-            financial.write_text("指标,金额（万元）\n营业收入,800\n有息负债,300\n", encoding="utf-8")
+            financial.write_text('指标,金额（万元）\n营业收入,800\n有息负债,300\n备注,"记录\n\n# 额外章节\n\n## 额外小节\n\n资料。"\n', encoding="utf-8")
             records = root / "professional.docx"
             shutil.copyfile(PROFESSIONAL, records)
             for input_id, source in (("application", PDF), ("financials", financial), ("professional_records", records)):
@@ -54,7 +54,7 @@ class CreditReportCliTests(unittest.TestCase):
                     records_to_submit = [("application_amount_text", fragments[0])]
                 elif source["input_id"] == "financials":
                     cells = source["parsed"]["sheets"]["CSV"]["cells"]
-                    records_to_submit = [("revenue", cells["B2"]), ("debt", cells["B3"])]
+                    records_to_submit = [("revenue", cells["B2"]), ("debt", cells["B3"]), ("note", cells["B4"])]
                 else:
                     records_to_submit = [(metric, item) for metric, item in zip(("construction", "guarantee", "lawsuit"), source["parsed"]["fragments"])]
                 submitted = call("task", "submit", request={
@@ -71,13 +71,22 @@ class CreditReportCliTests(unittest.TestCase):
                         "project_id": project["id"], "run_id": run["id"], "candidate_id": candidate["id"], "decision": "accept",
                     })
             frozen = call("evidence", "freeze", request={"project_id": project["id"], "run_id": run["id"]})
-            self.assertEqual(len(frozen["evidence_ids"]), 6)
+            self.assertEqual(len(frozen["evidence_ids"]), 7)
             self.assertEqual(call("calculate", request={"project_id": project["id"], "run_id": run["id"]}), [])
+            standard_outline = {"sections": project["effective_config"]["outline"]["sections"]}
+            invalid_outline = json.loads(json.dumps(standard_outline))
+            invalid_outline["sections"][0]["title"] = "任意替换章节"
+            request_file.write_text(json.dumps({"project_id": project["id"], "run_id": run["id"],
+                "report_request": "审查甲公司", "outline": invalid_outline}, ensure_ascii=False), encoding="utf-8")
+            rejected = subprocess.run([*cli, "draft", "plan", "--workspace", str(workspace),
+                                       "--request", str(request_file)], capture_output=True, text=True)
+            self.assertNotEqual(rejected.returncode, 0)
+            self.assertIn("fixed chapter titles", rejected.stderr)
             sections = call("draft", "plan", request={"project_id": project["id"], "run_id": run["id"],
                                                      "report_request": "审查甲公司授信风险与策略",
-                                                     "outline": yaml.safe_load((Path(__file__).parent / "fixtures/credit_reference_outline.yaml").read_text(encoding="utf-8"))})
+                                                     "outline": standard_outline})
             by_id = {item["section_id"]: item for item in sections}
-            self.assertEqual(set(by_id), {"summary", "scope", "overview", "financial_risks", "external_results", "strategy", "appendix"})
+            self.assertEqual(set(by_id), {"company", "operations", "financials", "financing", "industry", "risks", "credit", "terms", "conclusion"})
 
             def fact(metric):
                 return "{{fact:" + facts[metric]["id"] + "}}"
@@ -85,23 +94,50 @@ class CreditReportCliTests(unittest.TestCase):
             def cite(metric):
                 return "{{ev:" + facts[metric]["id"] + "}}"
 
+            outline = standard_outline
+            self.assertEqual(call("draft", "context", by_id["credit"]["id"], "--project", project["id"])["section"]["subheadings"],
+                             ["一、信用评级", "二、征信情况", "三、涉诉情况"])
+
+            def chapter(section_id, text):
+                headings = next(item["subheadings"] for item in outline["sections"] if item["id"] == section_id)
+                return "\n\n".join("## " + title + "\n\n" + (text if i == 0 else "本小节资料未提供，相关判断待核实。")
+                                      for i, title in enumerate(headings)) if headings else text
+
             bodies = {
-                "scope": "评审对象为甲公司，评价基准为 2026-07-31。申请材料记载：" + fact("application_amount_text") + "，来源 " + cite("application_amount_text") + "。其中 units 的计量与币种尚未核实，不转换为万元。",
-                "overview": "在建项目记录：" + fact("construction") + "，来源 " + cite("construction") + "。项目进度和资金安排还需底稿。",
-                "financial_risks": "财务表营业收入为 " + fact("revenue") + " 万元，有息负债为 " + fact("debt") + " 万元。担保记录：" + fact("guarantee") + "；诉讼记录：" + fact("lawsuit") + "。担保、诉讼是不同事项，不按材料出现次数重复累计；偿债、关联交易和控制措施仍缺支持。\n\n| 财务指标 | 金额（万元） |\n| --- | ---: |\n| 营业收入 | " + fact("revenue") + " |\n| 有息负债 | " + fact("debt") + " |",
-                "external_results": "本批未提供可核对的外部授信额度、等级和期限结果；不从申请金额自行推定。",
-                "strategy": "建议先核实有息负债的到期结构、担保合同、诉讼状态及在建项目资金安排，再按已确认制度提出条件性授信策略。本报告不作批准决定。",
-                "appendix": "申请来源 " + cite("application_amount_text") + "；担保来源 " + cite("guarantee") + "；诉讼来源 " + cite("lawsuit") + "。需补外部结果、偿债计划及关联交易记录。",
-                "summary": "已核对申请、财务和专业记录，担保、诉讼及在建项目均需进一步核验。外部结果和内部政策缺失，本稿为待复核评审材料，不给出授信等级或期限。",
+                "company": chapter("company", "评审对象为甲公司，评价基准为2026-07-31。申请记载：" + fact("application_amount_text") + "，来源 " + cite("application_amount_text") + "。units币种与计量待核，不转换为万元。"),
+                "operations": chapter("operations", "在建项目记录：" + fact("construction") + "，来源 " + cite("construction") + "。项目进度和资金安排还需底稿。"),
+                "financials": chapter("financials", "财务表营业收入为 " + fact("revenue") + " 万元，有息负债为 " + fact("debt") + " 万元。\n\n| 财务指标 | 金额（万元） |\n| --- | ---: |\n| 营业收入 | " + fact("revenue") + " |\n| 有息负债 | " + fact("debt") + " |"),
+                "financing": "机构授信与用信、到期结构资料未提供，不能推断无债务违约。",
+                "industry": chapter("industry", "行业政策和竞争地位仍待补充证据。"),
+                "risks": chapter("risks", "担保记录：" + fact("guarantee") + "；诉讼记录：" + fact("lawsuit") + "。是不同事项，偿债、关联交易和控制措施仍缺支持。建议核实担保合同、诉讼状态及在建项目资金安排。"),
+                "credit": chapter("credit", "未提供正式评级、征信及完整涉诉记录，不推定评级与无诉讼。"),
+                "terms": chapter("terms", "本批未提供可核对的外部授信额度、等级和期限结果；不从申请金额自行推定。"),
+                "conclusion": chapter("conclusion", "已核对申请、财务和专业记录，担保、诉讼及在建项目均需进一步核验。外部结果和内部政策缺失，本稿待复核，不作批准决定。"),
             }
-            for section_id in ("scope", "overview", "financial_risks", "external_results", "strategy", "appendix", "summary"):
+            bodies["company"] = bodies["company"].replace("## 一、工商信息\n\n",
+                "## 一、工商信息\n\n" + registration_table(outline["sections"][0]) + "\n\n", 1)
+            bodies["company"] = bodies["company"].replace("## 四、股权、股东及投资情况\n\n",
+                "## 四、股权、股东及投资情况\n\n" + equity_details(outline["sections"][0]) + "\n\n", 1)
+            order = ("company", "operations", "financials", "financing", "industry", "risks", "credit", "terms", "conclusion")
+            for section_id in order:
                 call("draft", "submit", request={
                     "project_id": project["id"], "run_id": run["id"], "task_id": by_id[section_id]["id"],
                     "author_id": "credit-writer", "body": bodies[section_id],
                 })
+            call("draft", "submit", request={"project_id": project["id"], "run_id": run["id"],
+                "task_id": by_id["conclusion"]["id"], "author_id": "credit-writer", "replace": True,
+                "body": bodies["conclusion"] + "\n\n" + fact("note")})
+            request_file.write_text(json.dumps({"project_id": project["id"], "run_id": run["id"]}), encoding="utf-8")
+            expanded = subprocess.run([*cli, "draft", "build", "--workspace", str(workspace),
+                                       "--request", str(request_file)], capture_output=True, text=True)
+            self.assertNotEqual(expanded.returncode, 0)
+            self.assertIn("fixed second-level headings", expanded.stderr)
+            call("draft", "submit", request={"project_id": project["id"], "run_id": run["id"],
+                "task_id": by_id["conclusion"]["id"], "author_id": "credit-writer", "replace": True,
+                "body": bodies["conclusion"]})
             draft = call("draft", "build", request={"project_id": project["id"], "run_id": run["id"]})
             content = Path(draft["markdown_path"]).read_text(encoding="utf-8")
-            self.assertEqual(content.count("\n# "), 6)
+            self.assertEqual(content.count("\n# "), 8)
             self.assertIn("Requested amount 100 units", content)
             self.assertIn("案件A已受理", content)
             self.assertIn("未提供可核对的外部授信额度", content)
@@ -135,12 +171,11 @@ class CreditReportCliTests(unittest.TestCase):
                 call("evidence", "freeze", request={"project_id": project["id"], "run_id": update["id"]})
                 call("calculate", request={"project_id": project["id"], "run_id": update["id"]})
                 plan = call("draft", "plan", request={"project_id": project["id"], "run_id": update["id"]})
-                self.assertNotEqual(next(item for item in plan if item["section_id"] == "external_results")["status"], "submitted")
+                self.assertNotEqual(next(item for item in plan if item["section_id"] == "terms")["status"], "submitted")
                 revised = dict(bodies)
-                revised["external_results"] = "已收到外部结果：{{fact:" + accepted["id"] + "}}，来源 {{ev:" + accepted["id"] + "}}。仍须核对模型版本、等级流程和期限规则。"
-                revised["appendix"] = bodies["appendix"] + " 外部结果来源 {{ev:" + accepted["id"] + "}}。"
-                revised["summary"] = "已核对申请、财务、专业记录和本次外部结果；等级及期限仍按独立流程确认，本稿待复核。"
-                for section_id in ("scope", "overview", "financial_risks", "external_results", "strategy", "appendix", "summary"):
+                revised["terms"] = chapter("terms", "已收到外部结果：{{fact:" + accepted["id"] + "}}，来源 {{ev:" + accepted["id"] + "}}。仍须核对模型版本、等级流程和期限规则。")
+                revised["conclusion"] = chapter("conclusion", "已核对申请、财务、专业记录和本次外部结果；等级及期限仍按独立流程确认，本稿待复核。")
+                for section_id in order:
                     task = next(item for item in call("draft", "plan", request={"project_id": project["id"], "run_id": update["id"]})
                                 if item["section_id"] == section_id)
                     if task["status"] != "submitted":
@@ -164,10 +199,10 @@ class CreditReportCliTests(unittest.TestCase):
             call("calculate", request={"project_id": project["id"], "run_id": wording["id"]})
             wording_plan = call("draft", "plan", request={"project_id": project["id"], "run_id": wording["id"]})
             self.assertTrue(all(item["status"] == "submitted" for item in wording_plan))
-            strategy_task = next(item for item in wording_plan if item["section_id"] == "strategy")
+            strategy_task = next(item for item in wording_plan if item["section_id"] == "risks")
             call("draft", "submit", request={"project_id": project["id"], "run_id": wording["id"],
                 "task_id": strategy_task["id"], "author_id": "credit-writer", "replace": True,
-                "body": bodies["strategy"] + " 补充核验后再提交有条件建议。"})
+                "body": bodies["risks"] + " 补充核验后再提交有条件建议。"})
             final_draft = call("draft", "build", request={"project_id": project["id"], "run_id": wording["id"]})
             call("review", "submit", request={"project_id": project["id"], "run_id": wording["id"],
                 "draft_sha256": final_draft["sha256"], "reviewer_id": "credit-reviewer", "verdict": "pass", "issues": []})

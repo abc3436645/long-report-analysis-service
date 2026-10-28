@@ -10,7 +10,7 @@
 uv pip install --python .venv/bin/python -e .
 .venv/bin/report scenarios
 .venv/bin/report scenario budget_operations --version 0.2.0
-.venv/bin/report scenario credit_review --version 0.2.0
+.venv/bin/report scenario financial_due_diligence --version 0.2.0
 .venv/bin/report scenario compensation_analysis --version 0.2.0
 ```
 
@@ -19,10 +19,16 @@ uv pip install --python .venv/bin/python -e .
 | 场景 ID | 用途 | 当前定义缺口 |
 |---|---|---|
 | `budget_operations` | 预算经营分析 | 预算版本规则、合并口径、计量单位 |
-| `credit_review` | 财务公司授信评审 | 授信政策、专业来源接入、等级期限映射 |
+| `financial_due_diligence` | 财务公司授信评审 | 授信政策、专业来源接入、等级期限映射 |
 | `compensation_analysis` | 人力薪酬分析 | 薪酬组成与期间、人数口径、人效公式、小样本阈值 |
 
+授信场景 ID 已统一为 `financial_due_diligence`，调用方需使用新 ID；历史 `credit_review` 项目和验收记录保留原始身份，本次不自动迁移，见 [ADR 0013](docs/adr/0013-financial-due-diligence-scenario-id.md)。
+
+财务公司尽调按真实交付样本固定9章和31个二级标题，见[场景规格第10节](docs/scenarios/财务公司授信评审-场景规格.md#10-真实交付样本固定结构与字体)及[ADR 0014](docs/adr/0014-financial-due-diligence-fixed-report-contract.md)。每轮计划提交已加载的`outline.sections`；正文保留各章`subheadings`，缺材料写缺口。正文、标题和拉丁字符指定仿宋，主机缺该字体时渲染明确失败；字体字号按[ADR 0015](docs/adr/0015-scenario-document-typography.md)统一配置：封面26磅、章标题15磅、二级标题和正文14磅，工商表五号样式集中定义；未宣称完整版式复刻。
+
 配置在 `scenarios/<id>/`，每个场景有 `scenario.yaml`、`outline.yaml`、`analysis.yaml`、`quality.yaml` 和版本化 Word 模板。`outline.yaml` 只含稳定的规划要点，不含默认章节或单位名单。主控 Skill 的维护源是 [.agents/skills/long-report/SKILL.md](.agents/skills/long-report/SKILL.md)；Claude Code 入口链接到同一文件。场景配置只引用核心注册算子，不执行场景脚本。
+
+尽调封面按[ADR 0016](docs/adr/0016-financial-cover-bindings.md)生成公司＋额度标题，呈报部门／客户经理默认XXXX，呈报时间取本轮北京时间；缺可核验额度时显式待核实。
 
 ## 当前 CLI 工作流
 

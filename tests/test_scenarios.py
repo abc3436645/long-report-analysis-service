@@ -32,7 +32,7 @@ class ScenarioTests(unittest.TestCase):
         summaries = list_scenarios()
         self.assertEqual(
             {item["id"] for item in summaries},
-            {"budget_operations", "credit_review", "compensation_analysis"},
+            {"budget_operations", "financial_due_diligence", "compensation_analysis"},
         )
         for item in summaries:
             with self.subTest(item=item["id"]):
@@ -41,7 +41,7 @@ class ScenarioTests(unittest.TestCase):
                 self.assertEqual(set(detail["quality"]["required_sections"]),
                                  {section["id"] for section in detail["outline"]["sections"]})
                 self.assertTrue(detail["definition_missing"])
-        self.assertTrue(all(not get_scenario(item)["outline"]["sections"] for item in ("budget_operations", "credit_review", "compensation_analysis")))
+        self.assertTrue(all(not get_scenario(item)["outline"]["sections"] for item in ("budget_operations", "compensation_analysis")))
 
     def test_version_mismatch_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "requested version"):

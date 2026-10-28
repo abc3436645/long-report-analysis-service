@@ -1,10 +1,87 @@
 evidence_selectors:
-  - {id: application_record, input: application, field: text, dimensions: [unit, application, evaluation_date]}
-  - {id: professional_record, input: professional_records, field: text, dimensions: [unit, evaluation_date]}
-  - {id: external_credit_record, input: external_credit_results, field: text, dimensions: [unit, application, evaluation_date]}
+- id: application_record
+  input: application
+  field: text
+  dimensions:
+  - unit
+  - application
+  - evaluation_date
+- id: financial_record
+  input: financials
+  field: text
+  dimensions:
+  - unit
+  - evaluation_date
+- id: professional_record
+  input: professional_records
+  field: text
+  dimensions:
+  - unit
+  - evaluation_date
+- id: external_credit_record
+  input: external_credit_results
+  field: text
+  dimensions:
+  - unit
+  - application
+  - evaluation_date
+- id: application_credit_amount
+  input: application
+  field: credit_amount
+  dimensions: [unit, application, evaluation_date]
 metrics: []
 analysis_tasks:
-  - {id: risk_review, goal: 按适用专题审查证据、风险事项和策略依据}
-  - {id: external_result_check, goal: 核对外部额度、等级、期限的主体、时点、版本和适用范围}
+- id: risk_review
+  goal: 按适用专题审查证据、风险事项和策略依据
+- id: external_result_check
+  goal: 核对外部额度、等级、期限的主体、时点、版本和适用范围
 retrieval_tasks:
-  - {id: enterprise_events, input: professional_records, need: 担保、诉讼和在建项目的专业记录, ttl_days: 7}
+- id: enterprise_events
+  input: professional_records
+  need: 担保、诉讼和在建项目的专业记录
+  ttl_days: 7
+writing_guidance:
+  boundaries:
+  - 所有业务事实来自本轮归档、核验及冻结材料；参考报告只用于标题、字体与内容深度，不自动成为当前证据。
+  - 外部额度、信用等级、期限及其适用政策按主体、事项、评价基准、版本和来源核对；缺失时逐项披露，不移植样本的额度公式、AA等级或三年期限。
+  company:
+  - 一、工商信息必须用项目／内容两列表格呈现企业名称、统一社会信用代码、法人代表、成立日期、有效期、注册资本、实收资本、注册地址、经营范围；表头和全部单元格使用presentation.table_styles.compact统一定义的仿宋五号（10.5磅），章节内不写字体字号。缺资料保留字段并标明未提供／待核实，资本金额引用本轮事实，不从样本填充。
+  - 核对主体身份、沿革、组织、股权控制链、对外投资及管理情况，关联适用的担保和关联交易。
+  - 将授信事项、评价基准、材料范围及重大资料限制放入固定小节的相关正文，不新增同级章节。
+  - 四、股权、股东及投资情况按三级标题“（一）股权结构”“（二）股东简介、持股情况”依次展开。股权结构必须为排名、股东名称、认缴资本（万元）、持股比例（%）四列表格，股东逐行列示并在末行列合计，合计行排名留空；完整已知数据由程序核对两项合计，来源说明放在表后，数值列只用事实／计算引用或明确缺口。
+  - 股东人数、名单和资本金额均来自本轮材料，不预填参考样本。认缴资本不等同实缴资本；金额和比例可用引用精度参数保留两位小数，比例列单位为百分比，不混用0.51与51.00；不因存在合计行就默认100.00，部分信息缺失或合计差异须披露并核实，未确认舍入规则不擅自容差放行。
+  - 股东简介按本轮股权表顺序逐户以“1、股东名称……”呈现，说明有依据的持股情况、股东背景与控制关系；仅凭持股比例不推定实际控制人。成立日期、主营业务、行业地位等均须有本轮来源，用户未完成的简介句子不能凭模型补写成事实。
+  operations:
+  - 解释主营产品、产能工艺、盈利模式、产销收支与供应商客户集中度；适用时纳入在建项目与资金安排。
+  - 区分自产、来料加工、贸易等业务及产能与产量；产销表、收入成本表、供应商与客户表只使用本轮资料，有缺口则保留分析位置并说明。
+  financials:
+  - 核对多期财务报表及口径，解释主要科目变动、盈利、营运、偿债、现金流与持续经营能力。
+  - 三张报表及财务比率须注明主体、期间、币种、单位、合并范围、审计状态和来源；年度与中期数据不可直接同比，计算使用已注册且定义明确的算子或已提供可核验结果。
+  - 财务比率及分析按盈利能力、营运能力、偿债能力、持续经营能力展开三级内容；缺公式或口径先披露，不臆造行业阈值。
+  financing:
+  - 核对机构授信、用信、未用额度、债务品种、到期结构及偿付情况，区分额度与余额。
+  - 核对征信查询日与评价基准日，逾期、欠息、担保及或有负债结论须有当前证据；未提供不等于不存在。
+  industry:
+  - 按实际业务说明行业环境、适用政策与竞争位置，区分时点事实、来源观点与分析推断。
+  - 行业、政策与地位引用实际执行的专业检索或本轮材料；未执行查询不能写成经查询未发现。
+  risks:
+  - 逐项关联风险证据、影响、反向证据、既有措施与有条件建议；适用的新增风险放入相关固定小节。
+  - 经营与财务、偿债现金流、担保或有事项、诉讼负面事件、关联交易资金占用、控制措施及在建项目逐项判断适用性，不能因固定目录漏掉适用专题。
+  - 风险程度与授信等级分开；缺规则不自行打分或判低风险，措施是否已落实以证据为准。
+  credit:
+  - 核对外部评级依据与版本、征信和涉诉状态；未取得评级或查询记录时披露，不自行评级。
+  - 信用等级由既有专门流程给出；专业数据库摘要先作为线索，关键征信及涉诉事实核对原文、状态与时点。
+  terms:
+  - 核对已提供的额度模型结果、等级期限依据、担保、利率、用途与还款来源，区分申请、结果、建议和批准。
+  - 授信利率、担保条件、期限映射及贷款用途必须有本轮适用依据；申请金额、建议金额、模型结果和已批准金额分别表述。
+  - 已有额度测算过程可作为来源内容核对，不在本项目重建或执行样本中的授信模型。
+  conclusion:
+  - 综合审查发现、策略及重大限制，核对方案各要素与前文一致，不以报告交付替代授信审批。
+  - 调查结论说明关键风险、已有措施、条件性策略和待核实项；授信方案缺任何必要结果时保留缺口，不把待复核稿写成审批生效文件。
+  cover:
+  - 封面仅本尽调场景启用：标题按presentation.cover生成“关于{业务公司}{授信额度}综合授信调查报告”；呈报部门、客户经理未明确时均用XXXX，不移植参考样本姓名或单位。
+  - 当前额度选择器application_credit_amount对应application来源的credit_amount字段，按本轮主体、事项及评价基准核验并冻结，数值与单位必须能回到原字段；完整短金额可保留单位后缀，长段申请文字不整体当数值。不自动从其他申请、外部结果或材料上传顺序选金额。
+  - 标题金额仅使用本轮冻结事实，单位不明或冲突、缺失或未裁决多值时保留授信额度待核实；不默认10亿元。呈报时间由本轮started_at按北京时间生成，不从材料日期或宿主临时填写。封面文字不能替代外部额度、评级及审批结果。
+  presentation:
+  - 中文和数字、拉丁字符按样本主要显式设置使用仿宋，缺字体显式报错，禁止静默回退宋体或黑体。
+  - 文档样式统一读取presentation.styles：封面标题仿宋一号（26磅），章标题仿宋小三（15磅），二级标题及正文仿宋四号（14磅）；工商表五号读取命名表格样式compact。章节不存字体字号，其他未指定样式保持原默认值；不宣称完整版式复刻。

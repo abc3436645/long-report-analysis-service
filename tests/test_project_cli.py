@@ -57,7 +57,7 @@ class ProjectCliTests(unittest.TestCase):
             root = Path(temporary)
             request = root / "request.json"
             request.write_text(json.dumps({
-                "scenario_id": "credit_review",
+                "scenario_id": "financial_due_diligence",
                 "scenario_version": "0.2.0",
                 "subject_scope": {"business_unit": "合成单位"},
                 "evaluation_date": "2026-07-31",
@@ -69,6 +69,7 @@ class ProjectCliTests(unittest.TestCase):
             )
             self.assertEqual(created.returncode, 0, created.stderr)
             project = json.loads(created.stdout)["data"]
+            self.assertEqual(project["scenario_id"], "financial_due_diligence")
             self.assertEqual(project["evaluation_date"], "2026-07-31")
             self.assertEqual(project["credit_application_id"], "申请-001")
             self.assertNotIn("report_period", project)

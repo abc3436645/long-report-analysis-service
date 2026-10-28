@@ -1,5 +1,5 @@
 schema_version: 1
-id: credit_review
+id: financial_due_diligence
 title: 财务公司授信评审
 version: "0.2.0"
 subject_model: credit_application_and_business_unit
@@ -14,7 +14,28 @@ outline: outline.yaml
 analysis: analysis.yaml
 quality: quality.yaml
 template: templates/default-v0.2.0.docx
-presentation: {body_font: Songti SC, heading_font: Heiti SC, latin_font: Times New Roman}
+presentation:
+  body_font: 仿宋
+  heading_font: 仿宋
+  latin_font: 仿宋
+  allow_font_fallback: false
+  cover:
+    title_template: 关于{business_unit}{credit_amount}综合授信调查报告
+    amount_selector: application_credit_amount
+    amount_unit: 亿元
+    missing_amount: 授信额度待核实
+    timezone: Asia/Shanghai
+    fields:
+    - {label: 呈报部门, source: prepared_by, default: XXXX}
+    - {label: 客户经理, source: account_manager, default: XXXX}
+    - {label: 呈报时间, source: run_date}
+  styles:
+    Title: {font: 仿宋, font_size_pt: 26}
+    Heading 1: {font: 仿宋, font_size_pt: 15}
+    Heading 2: {font: 仿宋, font_size_pt: 14}
+    Normal: {font: 仿宋, font_size_pt: 14}
+  table_styles:
+    compact: {font: 仿宋, font_size_pt: 10.5}
 delivery: {required_formats: [md, docx], optional_formats: [pdf]}
 business_definitions:
   credit_policy: null
