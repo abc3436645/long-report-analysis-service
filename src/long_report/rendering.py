@@ -434,7 +434,7 @@ def _convert_pdf(docx: Path) -> Path:
     with tempfile.TemporaryDirectory(prefix="long-report-office-") as temporary:
         profile = Path(temporary)
         config = ET.Element("fontconfig")
-        for directory in ("/System/Library/Fonts", "/System/Library/Fonts/Supplemental", "/Library/Fonts",
+        for directory in ("/System/Library/Fonts", "/System/Library/Fonts/Supplemental", "/System/Library/AssetsV2", "/Library/Fonts",
                           "/usr/share/fonts", "/usr/local/share/fonts", str(Path.home() / "Library/Fonts"),
                           str(Path.home() / ".local/share/fonts"), str(Path.home() / ".fonts")):
             if Path(directory).is_dir():

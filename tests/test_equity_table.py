@@ -10,7 +10,7 @@ from docx import Document
 from docx.shared import Pt
 
 from long_report.rendering import render_docx, verify_docx
-from long_report.scenario import ScenarioError, load_scenario, validate_section_headings, validate_report_outline
+from long_report.scenario import ScenarioError, load_scenario, validate_section_headings, validate_report_outline, markdown_table_rows
 
 PARENT = "四、股权、股东及投资情况"
 CHILDREN = ["（一）股权结构", "（二）股东简介、持股情况"]
@@ -33,6 +33,17 @@ def equity_section():
 
 
 class EquityTableTests(unittest.TestCase):
+    def test_numeric_reference_precision_does_not_create_extra_table_columns(self):
+        source = TABLE.replace("32,650.41", "{{fact:capital_a|2}}")
+        source = source.replace("31,370.00", "{{fact:capital_b|2}}")
+        source = source.replace("64,020.41", "{{calc:capital_total|2}}")
+        validate_section_headings(equity_body(source), equity_section())
+        rows = markdown_table_rows(source)
+        self.assertEqual(rows[1][2], "{{fact:capital_a|2}}")
+        self.assertEqual(rows[-1], ["", "合    计", "{{calc:capital_total|2}}", "100.00"])
+        ordinary = "| 项目 | 内容 |\n| --- | --- |\n| 1 | 2}} |"
+        self.assertEqual(markdown_table_rows(ordinary)[1], ["1", "2}}"])
+
     def test_config_declares_scoped_four_columns_total_and_biographies_without_prefilling_facts(self):
         section = load_scenario("financial_due_diligence").outline["sections"][0]
         self.assertEqual(section.get("required_subsections", {}).get(PARENT), SUBSECTIONS)

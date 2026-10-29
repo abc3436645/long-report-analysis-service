@@ -97,7 +97,14 @@ def markdown_table_rows(block: str) -> list[list[str]] | None:
     if not (len(lines) >= 3 and all(line.startswith("|") and line.endswith("|") for line in lines)
             and all(set(cell.strip()) <= {"-", ":"} for cell in lines[1].strip("|").split("|"))):
         return None
-    rows = [[cell.strip() for cell in line.strip("|").split("|")] for line in (lines[0], *lines[2:])]
+    rows = []
+    for line in (lines[0], *lines[2:]):
+        cells, start = [], 1
+        for match in re.finditer(r"\{\{(?:fact|calc):[^}|]+\|[0-6]\}\}|\|", line):
+            if match[0] == "|" and match.start() > 0:
+                cells.append(line[start:match.start()].strip())
+                start = match.end()
+        rows.append(cells)
     if any(len(row) != len(rows[0]) for row in rows):
         raise ScenarioError("Markdown table has inconsistent columns")
     return rows

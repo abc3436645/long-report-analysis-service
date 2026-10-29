@@ -97,6 +97,18 @@ class CreditReportCliTests(unittest.TestCase):
             outline = standard_outline
             self.assertEqual(call("draft", "context", by_id["credit"]["id"], "--project", project["id"])["section"]["subheadings"],
                              ["一、信用评级", "二、征信情况", "三、涉诉情况"])
+            for section_id in by_id:
+                context = call("draft", "context", by_id[section_id]["id"], "--project", project["id"])
+                self.assertEqual(context["section"]["required_assets"],
+                                 next(item["required_assets"] for item in standard_outline["sections"] if item["id"] == section_id))
+                self.assertEqual(context["section"]["questions"],
+                                 next(item["questions"] for item in standard_outline["sections"] if item["id"] == section_id))
+                self.assertEqual(context["writing_guidance"], project["effective_config"]["analysis"]["writing_guidance"])
+                self.assertTrue(context["writing_guidance"]["review_checklist"])
+                for requirement in ("management_profiles", "table_interpretation", "counterparty_assessment", "operating_stability",
+                                    "business_adaptation", "report_expression", "cross_chapter_consistency", "comprehensive_assessment"):
+                    self.assertTrue(context["writing_guidance"][requirement],
+                                    "Detailed management and business interpretation requirements must reach the writer")
 
             def chapter(section_id, text):
                 headings = next(item["subheadings"] for item in outline["sections"] if item["id"] == section_id)
