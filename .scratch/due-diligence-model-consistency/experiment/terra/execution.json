@@ -1,0 +1,183 @@
+{
+  "model": "gpt-6.1-terra",
+  "reasoning_effort": "medium",
+  "project_id": "8b932637916d44bd912a76100ed17459",
+  "python": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.worktrees/due-diligence-model-consistency/.venv/bin/python",
+  "runtime": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.worktrees/due-diligence-model-consistency/.scratch/due-diligence-model-consistency/experiment/runtime",
+  "code_hashes": {
+    "src/long_report/__init__.py": "55665d55e43b849afe04d35e685a96ac9e0b1e187732e794a112b7d109f53f00",
+    "src/long_report/__main__.py": "7b7bbd5ff3f4ea198f77926be34a2dd3736b816b36dd86dbd11e0a2b8110551f",
+    "src/long_report/adapters/__init__.py": "f8c7548e54d4aa6c5c1b99bb667605a10f39c4543911a1c0afbd0d356ba19361",
+    "src/long_report/adapters/cli.py": "9ab3dfe26584a78f14fb6d24012ee9c9b16cd4cc7cb0055f2dbd85e2181faad4",
+    "src/long_report/application.py": "c568aea903cfd226c36f5aa8962ac43afff9edf949445d5072bb8846cbf59c50",
+    "src/long_report/charts.py": "87bd697aba7f4d915f4461ec7d16c39609e14b0dbc8fa69a7d86d259b7816411",
+    "src/long_report/compensation.py": "c7488cedb322ce7f1271ed15827085af459f60a77e9d58ea9ad7d5fc73931fc5",
+    "src/long_report/financials.py": "cfa53a1c0a33e691e632c7749300f864fcef282fd9b75d6e362f8d4a02284a62",
+    "src/long_report/formula_verification.py": "c60a1878f7f12f78ecc7e2e65f84d227c5e8cd283dfeefa99f74db778f94bc63",
+    "src/long_report/operators.py": "7f6287943ecad4260e55327919adb595caa79bb7c740757603c285acd437ae0f",
+    "src/long_report/rendering.py": "11c885be15f3f0d9e50613eb88c26e7e3368127acb41e2519c90a6b96de7cc6d",
+    "src/long_report/retrieval.py": "65c104291d24c6f651724e0e0b4ed66425436ac659d1e10df675d0f1568655bd",
+    "src/long_report/scenario.py": "33150ae07a962d4cd9c0327c87eeb3e5a12e842f7fd92676ba234d96cd77a847",
+    "scenarios/budget_operations/analysis.yaml": "67fe05dec9e4e25baa23cd691c23444128c883a5bd142ed0d743a6c5301cc2ec",
+    "scenarios/budget_operations/outline.yaml": "3a2883f0d53782301f678d5c19f9710bdc7f78fb3d693ba17c6ba44255075223",
+    "scenarios/budget_operations/quality.yaml": "cb62f10fcef689376929a5eb4612f2a9f22b23697fca9ec5e28205e156310ca2",
+    "scenarios/budget_operations/scenario.yaml": "949ab482256caf9dd2edbf26dfb61e5c6e7f44d3e11d785367f85f616d1ffc0c",
+    "scenarios/budget_operations/templates/default-v0.2.0.docx": "d911b39be59ff94e81a078630d401e1b08f4b74489ec1503676b28939f4e6757",
+    "scenarios/compensation_analysis/analysis.yaml": "53e13b78f068811538889d21a3fb7cf7465214aaf08a92b80f746cf8e180a169",
+    "scenarios/compensation_analysis/outline.yaml": "b513a415d55568e5c9b74b7410f3c336c289a36fdcd63823e06984a0f8e748f3",
+    "scenarios/compensation_analysis/quality.yaml": "da9891ee500e8e15fb7104ac125fe6f3bfd503e73fd8cf0a44326ba632bb2762",
+    "scenarios/compensation_analysis/scenario.yaml": "d793e4a84ef72e50704e1988465a44eb8168952577d6fcc7f9c0a881565131fb",
+    "scenarios/compensation_analysis/templates/default-v0.2.0.docx": "8572a57df086d55d68b1d2a985c878ef3d380bd032d8ffa6259a343362d047a0",
+    "scenarios/financial_due_diligence/analysis.yaml": "9501db44367cea314a31de43e8e8afa2e0addc5a046f7c035c62e64bc3394a71",
+    "scenarios/financial_due_diligence/outline.yaml": "a105319a144ff45fff39b6a9dc4eac7c09fd88a9485400a0e0bc25296ab1d46e",
+    "scenarios/financial_due_diligence/quality.yaml": "973926e3338e463b2b57d507704dbfb19f96e4244a02656903c7cdfc92b7ac2c",
+    "scenarios/financial_due_diligence/scenario.yaml": "31eb314158fb700e6700998fccb6777fb67a22d4f98b0078116133aea76e4a98",
+    "scenarios/financial_due_diligence/templates/default-v0.2.0.docx": "17af4448a38bb2014b4d02ae03e6bf919a0f26b36568f3d54c128120788bb4ae"
+  },
+  "input_hashes": {
+    "2023年度审计报告.pdf": "3e2277691545367626b2a0bc604378e043524fa4d32cc39c5bee5156123f051e",
+    "2024年度审计报告.pdf": "e177d21137ab5cdffb4a4d2f38eff5d8da986eb33de1df21c256d3d65d5afe8b",
+    "2025年度审计报告.pdf": "791bb50a5f86dcfb580ead16524f13bb5e44e7db8d72060de28e6ba958153ef4",
+    "2026年6月财务报表.pdf": "ae6988509b65b502feee71f30a44259ae013c28d6a97c1444d0284ac04dfe861",
+    "主要产品数据-科目解释.xlsx": "f9a1617a46a4e12269b496bcab28550fd31da10198edd190e26cfb326cc0073d",
+    "供应商及客户.xlsx": "e8379f724f40faf078bd697b99d898b4bce0d9ba404800c963b739e3f9a79fe5",
+    "公司章程.pdf": "fe2722a3ad2fe7761b26b28a860cd153a11ada5b71f98d5274ac2bd829111731",
+    "公司管理及高管履历.xlsx": "4651afac7e9368c4222694d32bbf6eead62064ba8de4f43f7ab988f695dae40e",
+    "2025中铜国贸长单合同1.pdf": "123e77ff4c554756072a2c9056cebc93178efff6d9c55b9463b39fe6090512cb",
+    "2025宏盛长单.pdf": "b89672f3cc59320e79168d2d3cf0a3b84818cf61576abaddb502779d2395c92c",
+    "2025紫金国贸-江铜华北长单合同.PDF": "4ddb96f4313f381608f942aa6c902500da7a272cc7d9a047c807e3852a082da7",
+    "2025集团铜业申旺卖方点价长单.pdf": "20d28a6e61077f9c3418da58776157874bf1ff20a05d2381dab5adee8ec7a1d6",
+    "微信图片_20260715114017_893_147.jpg": "ca86b22ac5833d3d48b69b212f86bbcdd42cf3715c6f77cfd4e75638225f9401",
+    "2025年铜杆材料长期买卖合同.pdf": "c9b9dbb8ba530dde84729933a1d47c8dff71a99662a17a95e4bd4a63570d3f9e",
+    "同方合同.pdf": "d8251ad7041294682dc01b97caada5b8d93d737940a6de9ff3fb8d9e2c6333a0",
+    "海南热联25年长单.pdf": "5de9a0dc7596c02fd794beb9607bbdf4de102260ad987108c3b86743820c2195",
+    "精达25年长单.pdf": "657201b810555a6a4bbb3a85e2956a615d4652a2e159ea68e0699b51d803a83b",
+    "集团同业合同.pdf": "2fe11bd1d8b4cd623adc77f350208219eb9b6c674aa430a6b22c5da23cc0c87b",
+    "赤峰合同2025.jpg": "a5180809a6eae7051c5a2a86abfdc981f7b04ef56c58507cc1fc5e6a3da1fbd2",
+    "赤峰合同2026.jpg": "d70aec972aa157579b2bc60430cd483e13142c2c2c3b424cb94c5af0012dc853",
+    "基础证件.pdf": "0cf8a34d334d2881cb79dee6e74bde65897662f6fb24008e1a8395bde2e602cf",
+    "外部融资.xlsx": "3e9ad41df2808a3a1a7e8a0b7de3878863d43a49cf21fd4edc5812a087f7bc15",
+    "征信报告.pdf": "d625e91413108f0642dfb83f4fae35e41ef536a351625d864d545379e0288a4b",
+    "扫描全能王 2026-08-14 10.16.pdf": "2cadccf0595d1e72c6c70c327d1f04c3c289b89871f0860607bd9a248573f529",
+    "授信申请书.pdf": "0b4882d74be12e8e1d0f2ff356422498af29d96753522db4d4e369465325c552",
+    "江铜华北（天津）铜业有限公司-企业深度信用报告-20261010-172123.pdf": "2bb947b11b8a3e3910232e24512203a73bf29cce2157bc1decf24b44875f898c",
+    "生产经营情况-成本分析表(1).xlsx": "e4a860989a5d9afb71e9137abe26327266cd2564a7e56287c24875a976c6758e",
+    "科目明细.xlsx": "f8db6cd1be4c9adb834120825a82f8630a891eed2b3c3c9d3ccaaa6d8e6d0141",
+    "股东会决议、董事会决议.pdf": "77716ad77405a1853d959800231ca6e24e7ff9a1bb484eb99c91145c53c2186a",
+    "营运资金测算（财务指标调整为与评级一致）.xlsx": "63d59d89fb45cbbbc7b37be3130738ebc246d5f0f0b53b947bd8ef4ac59e3887"
+  },
+  "started_at": "2026-10-30T02:02:59.417681+00:00",
+  "runs": [
+    {
+      "id": "1778ea59dda74d5787ba3e3239c7345b",
+      "status": "canceled",
+      "reason": "万得材料未准备完整即提交，使用标准CLI取消。"
+    },
+    {
+      "id": "00cf9eacb8044cc49b9dc94095572e9d",
+      "status": "canceled",
+      "reason": "原文片段标识跨材料重复导致16项非业务冲突。"
+    },
+    {
+      "id": "b37951e7165a4208862f96b3e4f8e727",
+      "status": "canceled",
+      "reason": "发现外部测算缓存需归一归档后进入运行快照。"
+    },
+    {
+      "id": "b482df61d2de467a8a6e4a5a82d17120",
+      "status": "canceled",
+      "reason": "两个归一CSV检索标识重复；已冻结但计划请求也因额外配置字段失败。"
+    },
+    {
+      "id": "a1cb5e86e81441cca0749beb1423a926",
+      "status": "canceled_after_candidate",
+      "reason": "初稿构建后按独立审阅要求归档补充材料，标准取消并重开。"
+    },
+    {
+      "id": "15ffff52e7154710a2e263744dcc559c",
+      "status": "canceled_after_candidate",
+      "reason": "第二稿构建后依据独立复核补充既有事实，标准取消重开。"
+    },
+    {
+      "id": "f010a93362fd41e9b125f17553046d1d",
+      "status": "canceled_after_candidate",
+      "reason": "第三稿复核要求引用新核读征信首页事实，标准取消并重开。"
+    },
+    {
+      "id": "6c0ee6c5f05c499188886431e901f7aa",
+      "status": "published_pending_review",
+      "reason": "封面事实修正前的标准已发布版本保留，未修改。"
+    },
+    {
+      "id": "0d0e67043e2d4543bb602794fced72a3",
+      "status": "candidate",
+      "base_revision_id": "df055b9a4e1a43e3ad021a5f7a0cdfb1",
+      "reason": "仅追加已核申请金额的报告评价基准关联键以供封面选取；签章日期不变。"
+    }
+  ],
+  "failed_calls": 0,
+  "author_errors": 1,
+  "repairs": 1,
+  "boundary": "共同运行时代码、原始材料和其他作者目录只读；不自审、不提交review、不publish。历史OCR未在本轮重新执行，不能声称逐页复核。",
+  "status": "cover_binding_candidate_built",
+  "run_id": "0d0e67043e2d4543bb602794fced72a3",
+  "completed_at": "2026-10-30T02:39:48.551737+00:00",
+  "candidate_count": 627,
+  "accepted_evidence_count": 628,
+  "calculated_count": 40,
+  "identity_conflicts": 0,
+  "failed_cli_calls": 3,
+  "failed_cli_details": [
+    "第四运行draft plan请求含额外outline字段",
+    "第五运行财务章节含未绑定年份；更正为日期格式后通过",
+    "新运行计算ID改变导致首次财务章引用拒绝，已按完整计算身份及输入证据精确映射后重提。"
+  ],
+  "preparation_script_failures": 2,
+  "author_corrections": "四次取消重开、两次准备脚本修复、两次CLI请求修复；保留相应日志。",
+  "derived_materials": {
+    "股东工商字段归一.csv": "4e90a4aa7f69d2dd0492d650603c9e04819fdaa0775017df19acaa1eca540759",
+    "外部测算缓存.csv": "18482c86f5acb6c9b323ec6cdfc4c7a92cada64c22f0c0805b27e635c1f6c4db"
+  },
+  "candidate_sha256": "6ccbaed3341bcdb9e5ca36e6d03d07520b0ddf9dc84d3a3bc2725ae2f773ce64",
+  "draft_response_sha256": "f1a45394bebc11a677879a4f3de7101b6692956e63615fa41769927239b23910",
+  "boundaries": [
+    "本次为修订候选，尚未独立复核、业务签认或发布。",
+    "历史OCR未重做；原件及识别文本并非全部逐页核读。已单独视觉核读申请书第1页。",
+    "两版外部测算的E3与E23为工作簿历史缓存，未原生复算或签认；营运资金量与流贷额度分列。",
+    "实验使用STFangsong；正式仿宋字体验收未通过。"
+  ],
+  "revision_source": "最终封面绑定修正；已发布版本和此前候选保存在 published_before_cover/。",
+  "repair_derived_materials": {
+    "repair-application.txt": "485891362f1be9595e7bd0a472b9379f6820e458bdaa5eddaf7321f321baae8e",
+    "repair-charter.csv": "55552479795419a2ee34decf896c54c7d0ea6e3760a91b640b7775a5e3391436",
+    "repair-hainan.csv": "c41a2698bc0cbc96d0a052834730567a3caaf5c9c5977ad4065e21e106c9399d",
+    "repair-hongsheng.csv": "27036f0c4e9556db53b4651b41322f5eb105c19774f41f9d65ed389bf943126d",
+    "repair-jingda.csv": "95870f3f7e6caff387a95b77e5f052f590d3385d8e8a03d364240018159a3aa7",
+    "repair-model.csv": "0b56faab35a1b019c32a47a34c55f311ce51f0c29cf3b4bac0bf136ad8829d2a",
+    "repair-registry.csv": "65874de6e30b0fd6eb46235fd42e0754c327402b9132c08a57d827b4c0062320",
+    "repair-shenwang.csv": "8caa26c224150f3be501e386172f61d6ae09dadbc826fb2eaba73f0acbb59fb3",
+    "repair-tongfang.csv": "e3df672f7f2d7b68baa6e2d635e5a7f927766b32e039500ec0a31c4de20019f8",
+    "repair-tonggan.csv": "b1fd1c7178afdbe85976fb65c159f801651d01b364d57cc2c3e11674a35c6225",
+    "repair-zhongtong.csv": "40ea449a3b91fac4c1f1d645b153a4edd9b8be9796cff40d4318a69bb0c5782d",
+    "repair-zijin.csv": "fc4b1355da595cb4bdac3df143891298209daa2f874dafa9022b01b9513498ec"
+  },
+  "second_repair_derived_material": {
+    "file": "second-repair-供销字段.csv",
+    "sha256": "80f52bb3129c20633f4f161a6f555f4e90b9ee516631ffef96edea05cde58c15"
+  },
+  "third_repair_derived_material": {
+    "file": "third-repair-征信首页.csv",
+    "sha256": "e9df63e6a0e14b33f5022140950f2eda82a62df0b38ccbde4a09440b078c77e1"
+  },
+  "cover_binding": {
+    "evidence_id": "ev_c70c0c76888e4368a4d6962acd82aacc",
+    "value": "10",
+    "unit": "亿元",
+    "period": "2026-06-30",
+    "period_semantics": "本报告evaluation_date关联键，非申请或签章日期",
+    "application_date": "2026-07-10",
+    "source": "申请书原件page:1",
+    "derived_sha256": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "rendered_markdown_unchanged": true
+  }
+}

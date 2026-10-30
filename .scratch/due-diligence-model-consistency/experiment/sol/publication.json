@@ -1,0 +1,532 @@
+{
+  "id": "11332f6ae2594fcb83e80937eff63d88",
+  "run_id": "e6f8bf431d124305acfdfc2b83dfa32f",
+  "project_id": "8b932637916d44bd912a76100ed17459",
+  "status": "pending_review",
+  "scenario_id": "financial_due_diligence",
+  "scenario_version": "0.3.0",
+  "effective_config_fingerprint": "91872f30bd0d39320484f475945daf6640acff7dc79ef50c1285c868380bf02e",
+  "evidence_snapshot_id": "7f15a85a845542309e9426c5d83cd9ef",
+  "material_fingerprints": {
+    "src_0465ecfda5dc884c597e81b1": "0465ecfda5dc884c597e81b189b7610602a21a84170b23d71f6fbd6ccc43e8e9",
+    "src_0b4882d74be12e8e1d0f2ff3": "0b4882d74be12e8e1d0f2ff356422498af29d96753522db4d4e369465325c552",
+    "src_0cf8a34d334d2881cb79dee6": "0cf8a34d334d2881cb79dee6e74bde65897662f6fb24008e1a8395bde2e602cf",
+    "src_0f51a8b61258c0ad5d653705": "0f51a8b61258c0ad5d6537053a8919ffa724e3e7bc13060cd5b497702be686e0",
+    "src_111585eeb8703cc1b23b9bfe": "111585eeb8703cc1b23b9bfe8c54fb3fd06da2b003fc5b4ff5d0367cf2492322",
+    "src_123e77ff4c554756072a2c90": "123e77ff4c554756072a2c9056cebc93178efff6d9c55b9463b39fe6090512cb",
+    "src_15ea5a768c454a8a360913b7": "15ea5a768c454a8a360913b77a2925063cb4029aeba9c3d7e483ee467f5bb4bc",
+    "src_1bbc605f196a672aa6b78c27": "1bbc605f196a672aa6b78c272ff3bed199abf60cd39f88cd491b5d587fe5904f",
+    "src_1eee5488aae26feea5561c86": "1eee5488aae26feea5561c86ca1c9e8db0e8d8e8700605a2893e1bac9b3ae850",
+    "src_20d28a6e61077f9c3418da58": "20d28a6e61077f9c3418da58776157874bf1ff20a05d2381dab5adee8ec7a1d6",
+    "src_238903180cc104ec2c5d8b3f": "238903180cc104ec2c5d8b3f20c5bc61b389ec0a967df8cc208cdc7cd454174f",
+    "src_29fdf68fed1d2fb28f251d1a": "29fdf68fed1d2fb28f251d1ab64bdcf142f1be39b4829ae290686598db721abb",
+    "src_2bb947b11b8a3e3910232e24": "2bb947b11b8a3e3910232e24512203a73bf29cce2157bc1decf24b44875f898c",
+    "src_2cadccf0595d1e72c6c70c32": "2cadccf0595d1e72c6c70c327d1f04c3c289b89871f0860607bd9a248573f529",
+    "src_2e0b4173d9110f7b18dd3438": "2e0b4173d9110f7b18dd34382855207e5d6689337a8d4cecdcad69add50eb752",
+    "src_2eba6382fad4b8b47f895fe5": "2eba6382fad4b8b47f895fe57c6ad24346b6c77d2a986a4218e2be7613cd9384",
+    "src_2fe11bd1d8b4cd623adc77f3": "2fe11bd1d8b4cd623adc77f350208219eb9b6c674aa430a6b22c5da23cc0c87b",
+    "src_3d5ce5517f9faf3b3f1f5184": "3d5ce5517f9faf3b3f1f5184bfca1641d4c269fb53aa42fac0b8cbfeb75b70dc",
+    "src_3e2277691545367626b2a0bc": "3e2277691545367626b2a0bc604378e043524fa4d32cc39c5bee5156123f051e",
+    "src_3e43e450edef87a134f331a1": "3e43e450edef87a134f331a183a0dd2e0d1e349f38cbbc4e8179cec633800fae",
+    "src_3e9ad41df2808a3a1a7e8a0b": "3e9ad41df2808a3a1a7e8a0b7de3878863d43a49cf21fd4edc5812a087f7bc15",
+    "src_3f672362b3f759b6a8f7d3b1": "3f672362b3f759b6a8f7d3b1089693def7ef41a363de94a7d58ba0347d6aaea5",
+    "src_40ef2ed93f40933cd351c239": "40ef2ed93f40933cd351c23981697f215c7c922963b0a34dda6aa6e08f6cf697",
+    "src_4651afac7e9368c4222694d3": "4651afac7e9368c4222694d32bbf6eead62064ba8de4f43f7ab988f695dae40e",
+    "src_49520519c3e8d19a033b5f24": "49520519c3e8d19a033b5f24ef6df55c4f591cd98bfc5724ab8cad583d7f1b0e",
+    "src_4bd1f4c5931f5677cb086f8d": "4bd1f4c5931f5677cb086f8dfd67fb29ddff8e87032f00fe76a86d75396049e7",
+    "src_4ddb96f4313f381608f942aa": "4ddb96f4313f381608f942aa6c902500da7a272cc7d9a047c807e3852a082da7",
+    "src_4e35dae522aeb27a1936ece0": "4e35dae522aeb27a1936ece00ef62df4e07e8d2e0b6d5a4947a26472e584c655",
+    "src_5467be81ffd4036ddc647457": "5467be81ffd4036ddc64745782ca829a2017adf30f52019cf963d05f3a0ac6ae",
+    "src_555e8784400069b32524dfbf": "555e8784400069b32524dfbf6c90dd85631659257f2e91113754f8fcae9c60b8",
+    "src_564372f8572beaa0c29837df": "564372f8572beaa0c29837dff99c39b45ec007168ed2fa0428f4138dc00a7e46",
+    "src_58c0bcce4121821460962c01": "58c0bcce4121821460962c01a64fd3afbe6cfffccaca95558d5e02fcc72f2bfa",
+    "src_5d68143f3d64d1c44729c260": "5d68143f3d64d1c44729c2605cb60920cbf969cf472db3f2d01b9b5b437d95ac",
+    "src_5de9a0dc7596c02fd794beb9": "5de9a0dc7596c02fd794beb9607bbdf4de102260ad987108c3b86743820c2195",
+    "src_608b7c4888b560b36fe316a6": "608b7c4888b560b36fe316a6a9e43099d4bb2aa7da6ec7087974697a64e90517",
+    "src_63d59d89fb45cbbbc7b37be3": "63d59d89fb45cbbbc7b37be3130738ebc246d5f0f0b53b947bd8ef4ac59e3887",
+    "src_63eaccd4c03fd8636b4f6daf": "63eaccd4c03fd8636b4f6daf4aea31eea9fd24655834eb3b4b64e599441725c9",
+    "src_657201b810555a6a4bbb3a85": "657201b810555a6a4bbb3a85e2956a615d4652a2e159ea68e0699b51d803a83b",
+    "src_6e2e93e1e208708dd267646d": "6e2e93e1e208708dd267646df5c5834f3e7ca1c37ae6de95a27991488ad6e6c2",
+    "src_745d4b9b8c5688ef97055210": "745d4b9b8c5688ef97055210840c3ea62eccd558672e343079ebeaa33418b7be",
+    "src_77716ad77405a1853d959800": "77716ad77405a1853d959800231ca6e24e7ff9a1bb484eb99c91145c53c2186a",
+    "src_77b2568393c8b69ad2c6e4f7": "77b2568393c8b69ad2c6e4f781794a0d6e223d7f10ac345f1a6472a46d09735a",
+    "src_7859abdbd26cd1a8e77a175a": "7859abdbd26cd1a8e77a175aaa8b79ac6b42040bdf3ce42bd845c97f6a93d3ce",
+    "src_791bb50a5f86dcfb580ead16": "791bb50a5f86dcfb580ead16524f13bb5e44e7db8d72060de28e6ba958153ef4",
+    "src_8074122741d2f7fa312eddcb": "8074122741d2f7fa312eddcbeacf98c9ed76b56e0acb5cfabdbefbd58bcae3c0",
+    "src_814842d729561c6e7b2bfe89": "814842d729561c6e7b2bfe89e5ef150ce7bd52d270bbb058fc07e727e6423d37",
+    "src_822859a3bbbb83bb7ba947d4": "822859a3bbbb83bb7ba947d407af249557f02a7cdbb5d4fdd0bab992166a569a",
+    "src_8903624673ebe23d6b0b7913": "8903624673ebe23d6b0b791383cd278baa2563c85f50b2ef3b743ec271ec25d4",
+    "src_8e5e3a393394aa7f323143ff": "8e5e3a393394aa7f323143ff10ff55142f797566fc8500fbd522d9f273a9a5d5",
+    "src_9013f108871cb4fc2ed3e823": "9013f108871cb4fc2ed3e8232f32a7c6612b8b1920ef561ddeb487ceed31cc96",
+    "src_917df3320d778ddbaa5c5c77": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "src_93b53539dd5567e0bb890701": "93b53539dd5567e0bb890701e2009a42187ab519665b572f737a27abaea3a907",
+    "src_9533692d1933fd5ade69a96a": "9533692d1933fd5ade69a96aa01d260941a7e3d0f1eb8c32f5fad565d4d4b756",
+    "src_977c456596602c5f783d31af": "977c456596602c5f783d31af342644ceaed87222ed69e30f632c3f6724eb6075",
+    "src_a497a78e0d24c03b50d10c2f": "a497a78e0d24c03b50d10c2f7d73f7feb7f91de3f3f3f9202954afbd2122ab6a",
+    "src_a5180809a6eae7051c5a2a86": "a5180809a6eae7051c5a2a86abfdc981f7b04ef56c58507cc1fc5e6a3da1fbd2",
+    "src_ae6988509b65b502feee71f3": "ae6988509b65b502feee71f30a44259ae013c28d6a97c1444d0284ac04dfe861",
+    "src_b89672f3cc59320e79168d2d": "b89672f3cc59320e79168d2d3cf0a3b84818cf61576abaddb502779d2395c92c",
+    "src_bb8e552910777723f3e67344": "bb8e552910777723f3e67344658dbd7d81d9a31ad058ddae41a7ad478ec0449f",
+    "src_c1dbe53e988e8172de56056e": "c1dbe53e988e8172de56056e36beff5df4c78c66b41b7c24a698fa3a13aa66d1",
+    "src_c9b9dbb8ba530dde84729933": "c9b9dbb8ba530dde84729933a1d47c8dff71a99662a17a95e4bd4a63570d3f9e",
+    "src_ca40f0cff7ce5d0aa3f1fb5f": "ca40f0cff7ce5d0aa3f1fb5f219284ccec7fba561d7980c18fce1495426aa44f",
+    "src_ca86b22ac5833d3d48b69b21": "ca86b22ac5833d3d48b69b212f86bbcdd42cf3715c6f77cfd4e75638225f9401",
+    "src_cf9cd8d8dbe872fe15787df9": "cf9cd8d8dbe872fe15787df9abddcc88e654ba56a90fb78d409227e6daa81614",
+    "src_d5ece226e094201bf8d8c302": "d5ece226e094201bf8d8c302d4cdd77259fded4c6546ebd23bd9f83d39255d57",
+    "src_d625e91413108f0642dfb83f": "d625e91413108f0642dfb83f4fae35e41ef536a351625d864d545379e0288a4b",
+    "src_d70aec972aa157579b2bc604": "d70aec972aa157579b2bc60430cd483e13142c2c2c3b424cb94c5af0012dc853",
+    "src_d8251ad7041294682dc01b97": "d8251ad7041294682dc01b97caada5b8d93d737940a6de9ff3fb8d9e2c6333a0",
+    "src_e177d21137ab5cdffb4a4d2f": "e177d21137ab5cdffb4a4d2f38eff5d8da986eb33de1df21c256d3d65d5afe8b",
+    "src_e4a860989a5d9afb71e9137a": "e4a860989a5d9afb71e9137abe26327266cd2564a7e56287c24875a976c6758e",
+    "src_e7bf312e5806941c91dd63f3": "e7bf312e5806941c91dd63f3d3a46b9b143e9c1da799ef5d001ef789cde7a9e2",
+    "src_e8379f724f40faf078bd697b": "e8379f724f40faf078bd697b99d898b4bce0d9ba404800c963b739e3f9a79fe5",
+    "src_ec9b4fec1c44ae5f2a96563b": "ec9b4fec1c44ae5f2a96563b3a5195b87dd278878cc455da0c8d29593e9fa3a2",
+    "src_ecac0b8e9af150c1b93043de": "ecac0b8e9af150c1b93043dee80ae70d58fe39277b104d629317ed7ed8704ef1",
+    "src_ed54144c4e651ea08bc10bc6": "ed54144c4e651ea08bc10bc6feffde9fd7b33042ea21947ce02f468d5ecce93f",
+    "src_ef93f0f08a2603ea88c098c7": "ef93f0f08a2603ea88c098c77e0b17c7e190bc83021567f2c5d8a17447c2583a",
+    "src_f5193d1900c0e67a54319bfc": "f5193d1900c0e67a54319bfc06e2f85849a296ebfb339fb267e5391664683e9f",
+    "src_f74450e92ec7988a876b0898": "f74450e92ec7988a876b0898b49cb0acc1a5671d210bf32d482f84819271a0f9",
+    "src_f8db6cd1be4c9adb83412082": "f8db6cd1be4c9adb834120825a82f8630a891eed2b3c3c9d3ccaaa6d8e6d0141",
+    "src_f9a1617a46a4e12269b496bc": "f9a1617a46a4e12269b496bcab28550fd31da10198edd190e26cfb326cc0073d",
+    "src_fc6a947e6bed7e82f4d50fbf": "fc6a947e6bed7e82f4d50fbf018c871c95fb8579091c20d1d47692e836a72109",
+    "src_fe2722a3ad2fe7761b26b28a": "fe2722a3ad2fe7761b26b28a860cd153a11ada5b71f98d5274ac2bd829111731"
+  },
+  "material_uses": [
+    {
+      "material_id": "src_0465ecfda5dc884c597e81b1",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_0b4882d74be12e8e1d0f2ff3",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_0cf8a34d334d2881cb79dee6",
+      "use": "context",
+      "reason": "核对信用代码及主体背景；扫描字段识别较差，工商表采用清晰企业档案与章程交叉支持，不传播个人证件信息。"
+    },
+    {
+      "material_id": "src_0f51a8b61258c0ad5d653705",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_111585eeb8703cc1b23b9bfe",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_123e77ff4c554756072a2c90",
+      "use": "context",
+      "reason": "采购历史合同背景；本轮量化中铜交易与预付取供销和科目明细，未从该合同选择数值或据其认定当前订单。"
+    },
+    {
+      "material_id": "src_15ea5a768c454a8a360913b7",
+      "use": "context",
+      "reason": "作为历史审计和合并边界背景，本轮未逐页核读；连续数字采用已检查的单体工作簿，未将该份解析值直接纳入量化或认定全部已核。"
+    },
+    {
+      "material_id": "src_1bbc605f196a672aa6b78c27",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_1eee5488aae26feea5561c86",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_20d28a6e61077f9c3418da58",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_238903180cc104ec2c5d8b3f",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_29fdf68fed1d2fb28f251d1a",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_2bb947b11b8a3e3910232e24",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_2cadccf0595d1e72c6c70c32",
+      "use": "context",
+      "reason": "重复申请样本用于大写额度交叉观察；正文归一选授信申请书，不重复确认另一笔申请。"
+    },
+    {
+      "material_id": "src_2e0b4173d9110f7b18dd3438",
+      "use": "context",
+      "reason": "重复申请样本用于大写额度交叉观察；正文归一选授信申请书，不重复确认另一笔申请。"
+    },
+    {
+      "material_id": "src_2eba6382fad4b8b47f895fe5",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_2fe11bd1d8b4cd623adc77f3",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_3d5ce5517f9faf3b3f1f5184",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_3e2277691545367626b2a0bc",
+      "use": "context",
+      "reason": "作为历史审计和合并边界背景，本轮未逐页核读；连续数字采用已检查的单体工作簿，未将该份解析值直接纳入量化或认定全部已核。"
+    },
+    {
+      "material_id": "src_3e43e450edef87a134f331a1",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_3e9ad41df2808a3a1a7e8a0b",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_3f672362b3f759b6a8f7d3b1",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_40ef2ed93f40933cd351c239",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_4651afac7e9368c4222694d3",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_49520519c3e8d19a033b5f24",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_4bd1f4c5931f5677cb086f8d",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_4ddb96f4313f381608f942aa",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_4e35dae522aeb27a1936ece0",
+      "use": "context",
+      "reason": "作为历史审计和合并边界背景，本轮未逐页核读；连续数字采用已检查的单体工作簿，未将该份解析值直接纳入量化或认定全部已核。"
+    },
+    {
+      "material_id": "src_5467be81ffd4036ddc647457",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_555e8784400069b32524dfbf",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_564372f8572beaa0c29837df",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_58c0bcce4121821460962c01",
+      "use": "context",
+      "reason": "采购历史合同背景；本轮量化中铜交易与预付取供销和科目明细，未从该合同选择数值或据其认定当前订单。"
+    },
+    {
+      "material_id": "src_5d68143f3d64d1c44729c260",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_5de9a0dc7596c02fd794beb9",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_608b7c4888b560b36fe316a6",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_63d59d89fb45cbbbc7b37be3",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_63eaccd4c03fd8636b4f6daf",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_657201b810555a6a4bbb3a85",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_6e2e93e1e208708dd267646d",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_745d4b9b8c5688ef97055210",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_77716ad77405a1853d959800",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_77b2568393c8b69ad2c6e4f7",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_7859abdbd26cd1a8e77a175a",
+      "use": "excluded",
+      "reason": "原件与识别物日期及题名存在不一致线索，未确认为本次评价时点有效订单，不选其合同金额。"
+    },
+    {
+      "material_id": "src_791bb50a5f86dcfb580ead16",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_8074122741d2f7fa312eddcb",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_814842d729561c6e7b2bfe89",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_822859a3bbbb83bb7ba947d4",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_8903624673ebe23d6b0b7913",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_8e5e3a393394aa7f323143ff",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_9013f108871cb4fc2ed3e823",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_917df3320d778ddbaa5c5c77",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_93b53539dd5567e0bb890701",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_9533692d1933fd5ade69a96a",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_977c456596602c5f783d31af",
+      "use": "context",
+      "reason": "核对信用代码及主体背景；扫描字段识别较差，工商表采用清晰企业档案与章程交叉支持，不传播个人证件信息。"
+    },
+    {
+      "material_id": "src_a497a78e0d24c03b50d10c2f",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_a5180809a6eae7051c5a2a86",
+      "use": "context",
+      "reason": "历史逐笔采购样本；本稿选用较新的赤峰合同解释保证金机制，不重复计订单或采购额。"
+    },
+    {
+      "material_id": "src_ae6988509b65b502feee71f3",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_b89672f3cc59320e79168d2d",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_bb8e552910777723f3e67344",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_c1dbe53e988e8172de56056e",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_c9b9dbb8ba530dde84729933",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_ca40f0cff7ce5d0aa3f1fb5f",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_ca86b22ac5833d3d48b69b21",
+      "use": "excluded",
+      "reason": "原件与识别物日期及题名存在不一致线索，未确认为本次评价时点有效订单，不选其合同金额。"
+    },
+    {
+      "material_id": "src_cf9cd8d8dbe872fe15787df9",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_d5ece226e094201bf8d8c302",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_d625e91413108f0642dfb83f",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_d70aec972aa157579b2bc604",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_d8251ad7041294682dc01b97",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    },
+    {
+      "material_id": "src_e177d21137ab5cdffb4a4d2f",
+      "use": "context",
+      "reason": "作为历史审计和合并边界背景，本轮未逐页核读；连续数字采用已检查的单体工作簿，未将该份解析值直接纳入量化或认定全部已核。"
+    },
+    {
+      "material_id": "src_e4a860989a5d9afb71e9137a",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_e7bf312e5806941c91dd63f3",
+      "use": "context",
+      "reason": "历史逐笔采购样本；本稿选用较新的赤峰合同解释保证金机制，不重复计订单或采购额。"
+    },
+    {
+      "material_id": "src_e8379f724f40faf078bd697b",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_ec9b4fec1c44ae5f2a96563b",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_ecac0b8e9af150c1b93043de",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_ed54144c4e651ea08bc10bc6",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_ef93f0f08a2603ea88c098c7",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_f5193d1900c0e67a54319bfc",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_f74450e92ec7988a876b0898",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_f8db6cd1be4c9adb83412082",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_f9a1617a46a4e12269b496bc",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_fc6a947e6bed7e82f4d50fbf",
+      "use": "analysis",
+      "reason": "本轮选取事实或其可追溯原件，用于主体、经营、财务、融资及授信判断；正文使用具体事实或计算，识别局限保留。"
+    },
+    {
+      "material_id": "src_fe2722a3ad2fe7761b26b28a",
+      "use": "context",
+      "reason": "归档原件或相关合同背景；本轮不从该解析选择事实，采用对应清晰衍生物或其他已核表格，未声称原件整篇可读或已逐页核验。"
+    }
+  ],
+  "scope_exclusions": [],
+  "file_hashes": {
+    "markdown": "1550897fccb6105a8d69670c8c35e95ef93eecb71e1e46dae9c8788b33d575e8",
+    "docx": "b565aba7244dc35e1af7489759ecb44886a9767edde1643f1fc47463ddfd708a",
+    "pdf": "4370091c2bb9d73382346ed78d0eb7939ec8cb95c68b08cf053e3ff5f889fbbc"
+  },
+  "chart_hashes": {},
+  "report_version": "V1.1",
+  "report_metadata": {
+    "统计期间": "2026年6月30日",
+    "报告生成日期": "2026-10-30",
+    "分析对象": "江铜华北（天津）铜业有限公司",
+    "编制部门": "未指定（待确认）",
+    "数据性质": "未明确标识（待核实）",
+    "报告版本": "V1.1",
+    "数据版本": "7f15a85a845542309e9426c5d83cd9ef",
+    "保密说明": "保密要求及等级未指定（待确认）",
+    "呈报部门": "XXXX",
+    "客户经理": "XXXX",
+    "呈报时间": "2026年10月30日",
+    "授信额度": "10亿元",
+    "额度证据": "ev_43d92ed473fd429d938d1a30df7db029"
+  },
+  "markdown_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.worktrees/due-diligence-model-consistency/.scratch/due-diligence-model-consistency/experiment/sol/projects/8b932637916d44bd912a76100ed17459/revisions/11332f6ae2594fcb83e80937eff63d88/dist/full_report.md",
+  "docx_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.worktrees/due-diligence-model-consistency/.scratch/due-diligence-model-consistency/experiment/sol/projects/8b932637916d44bd912a76100ed17459/revisions/11332f6ae2594fcb83e80937eff63d88/dist/full_report.docx",
+  "pdf_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.worktrees/due-diligence-model-consistency/.scratch/due-diligence-model-consistency/experiment/sol/projects/8b932637916d44bd912a76100ed17459/revisions/11332f6ae2594fcb83e80937eff63d88/dist/full_report.pdf"
+}

@@ -7,7 +7,7 @@ import unittest
 from contextlib import nullcontext
 from pathlib import Path
 
-from credit_test_support import synthetic_credit_cli, registration_table, equity_details
+from credit_test_support import synthetic_credit_cli, registration_table, equity_details, synthetic_review_coverage
 
 PDF = Path(__file__).parent / "fixtures" / "credit_pdf_fixture.pdf"
 PROFESSIONAL = Path(__file__).parent / "fixtures" / "credit_professional_records.docx"
@@ -35,7 +35,7 @@ class CreditReportCliTests(unittest.TestCase):
                 return json.loads(result.stdout)["data"]
 
             project = call("project", "create", request={
-                "scenario_id": "financial_due_diligence", "scenario_version": "0.2.0", "credit_application_id": "SYN-001",
+                "scenario_id": "financial_due_diligence", "scenario_version": "0.3.0", "credit_application_id": "SYN-001",
                 "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-07-31",
             })
             financial = root / "financial.csv"
@@ -46,6 +46,7 @@ class CreditReportCliTests(unittest.TestCase):
                 call("material", "add", request={"project_id": project["id"], "input_id": input_id, "path": str(source)})
             run = call("run", "start", request={"project_id": project["id"]})
             tasks = call("task", "list", "--project", project["id"], "--run", run["id"])
+            initial_tasks = list(tasks)
             facts = {}
             for task in tasks:
                 source = call("task", "context", task["id"], "--project", project["id"])["material"]
@@ -84,7 +85,8 @@ class CreditReportCliTests(unittest.TestCase):
             self.assertIn("fixed chapter titles", rejected.stderr)
             sections = call("draft", "plan", request={"project_id": project["id"], "run_id": run["id"],
                                                      "report_request": "审查甲公司授信风险与策略",
-                                                     "outline": standard_outline})
+                                                     "outline": standard_outline, "material_uses": [
+                            {"material_id": task["source_id"], "use": "analysis", "reason": "用于合成流程事实与缺口检查"} for task in tasks]})
             by_id = {item["section_id"]: item for item in sections}
             self.assertEqual(set(by_id), {"company", "operations", "financials", "financing", "industry", "risks", "credit", "terms", "conclusion"})
 
@@ -130,6 +132,8 @@ class CreditReportCliTests(unittest.TestCase):
                 "## 一、工商信息\n\n" + registration_table(outline["sections"][0]) + "\n\n", 1)
             bodies["company"] = bodies["company"].replace("## 四、股权、股东及投资情况\n\n",
                 "## 四、股权、股东及投资情况\n\n" + equity_details(outline["sections"][0]) + "\n\n", 1)
+            for section in outline["sections"]:
+                bodies[section["id"]] += "".join("\n\n资料缺口：" + asset + "：合成用例未提供完整业务表，相关能力待核实。" for asset in section["required_assets"])
             order = ("company", "operations", "financials", "financing", "industry", "risks", "credit", "terms", "conclusion")
             for section_id in order:
                 call("draft", "submit", request={
@@ -155,7 +159,7 @@ class CreditReportCliTests(unittest.TestCase):
             self.assertIn("未提供可核对的外部授信额度", content)
             call("review", "submit", request={
                 "project_id": project["id"], "run_id": run["id"], "draft_sha256": draft["sha256"],
-                "reviewer_id": "credit-reviewer", "verdict": "pass", "issues": [],
+                "reviewer_id": "credit-reviewer", "verdict": "pass", "issues": [], "coverage": synthetic_review_coverage(draft),
             })
             released = call("publish", request={"project_id": project["id"], "run_id": run["id"]})
             self.assertEqual(released["status"], "pending_review")
@@ -182,7 +186,13 @@ class CreditReportCliTests(unittest.TestCase):
                     "candidate_id": submitted["candidates"][0]["id"], "decision": "accept"})
                 call("evidence", "freeze", request={"project_id": project["id"], "run_id": update["id"]})
                 call("calculate", request={"project_id": project["id"], "run_id": update["id"]})
-                plan = call("draft", "plan", request={"project_id": project["id"], "run_id": update["id"]})
+                updated_uses = [item for item in run["report_plan"]["material_uses"] if item["material_id"] != replaces] if "report_plan" in run else [
+                    {"material_id": task["source_id"], "use": "analysis", "reason": "用于合成流程事实与缺口检查"} for task in initial_tasks]
+                updated_uses = [item for item in updated_uses if item["material_id"] in update["material_ids"]]
+                updated_uses.append({"material_id": material["id"], "use": "analysis", "reason": "新增外部结果核对"})
+                plan = call("draft", "plan", request={"project_id": project["id"], "run_id": update["id"],
+                    "report_request": "补充外部结果后审查", "outline": standard_outline, "material_uses": updated_uses})
+                initial_tasks.append({"source_id": material["id"]})
                 self.assertNotEqual(next(item for item in plan if item["section_id"] == "terms")["status"], "submitted")
                 revised = dict(bodies)
                 revised["terms"] = chapter("terms", "已收到外部结果：{{fact:" + accepted["id"] + "}}，来源 {{ev:" + accepted["id"] + "}}。仍须核对模型版本、等级流程和期限规则。")
@@ -196,7 +206,7 @@ class CreditReportCliTests(unittest.TestCase):
                 complete = call("draft", "build", request={"project_id": project["id"], "run_id": update["id"]})
                 self.assertIn(f"额度 {value} 万元", Path(complete["markdown_path"]).read_text(encoding="utf-8"))
                 call("review", "submit", request={"project_id": project["id"], "run_id": update["id"],
-                    "draft_sha256": complete["sha256"], "reviewer_id": "credit-reviewer", "verdict": "pass", "issues": []})
+                    "draft_sha256": complete["sha256"], "reviewer_id": "credit-reviewer", "verdict": "pass", "issues": [], "coverage": synthetic_review_coverage(complete)})
                 revision = call("publish", request={"project_id": project["id"], "run_id": update["id"]})
                 return material, revision
 
@@ -217,7 +227,7 @@ class CreditReportCliTests(unittest.TestCase):
                 "body": bodies["risks"] + " 补充核验后再提交有条件建议。"})
             final_draft = call("draft", "build", request={"project_id": project["id"], "run_id": wording["id"]})
             call("review", "submit", request={"project_id": project["id"], "run_id": wording["id"],
-                "draft_sha256": final_draft["sha256"], "reviewer_id": "credit-reviewer", "verdict": "pass", "issues": []})
+                "draft_sha256": final_draft["sha256"], "reviewer_id": "credit-reviewer", "verdict": "pass", "issues": [], "coverage": synthetic_review_coverage(final_draft)})
             final_revision = call("publish", request={"project_id": project["id"], "run_id": wording["id"]})
             self.assertIn("补充核验后再提交", Path(final_revision["markdown_path"]).read_text(encoding="utf-8"))
 

@@ -1,0 +1,7 @@
+test_http_result_is_archived_before_it_can_become_evidence (test_retrieval_cli.RetrievalCliTests.test_http_result_is_archived_before_it_can_become_evidence) ... ok
+test_mcp_partial_mismatch_empty_and_error_keep_distinct_gaps (test_retrieval_cli.RetrievalCliTests.test_mcp_partial_mismatch_empty_and_error_keep_distinct_gaps) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 67.976s
+
+OK

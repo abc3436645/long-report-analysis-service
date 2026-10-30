@@ -36,7 +36,7 @@ class ScenarioTests(unittest.TestCase):
         )
         for item in summaries:
             with self.subTest(item=item["id"]):
-                detail = get_scenario(item["id"], "0.2.0")
+                detail = get_scenario(item["id"], item["version"])
                 self.assertEqual(detail["fingerprint"], item["fingerprint"])
                 self.assertEqual(set(detail["quality"]["required_sections"]),
                                  {section["id"] for section in detail["outline"]["sections"]})

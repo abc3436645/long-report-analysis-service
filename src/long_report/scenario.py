@@ -436,6 +436,15 @@ def load_scenario(scenario_id: str, root=None) -> Scenario:
     selectors = _records(analysis.get("evidence_selectors"), "analysis.evidence_selectors")
     if cover is not None and cover["amount_selector"] not in selectors:
         raise ScenarioError("unknown cover amount selector")
+    if quality.get("financial_quality") is True and "financial_metrics" not in analysis:
+        raise ScenarioError("financial quality requires registered financial_metrics")
+    if "financial_metrics" in analysis:
+        from long_report.financials import FINANCIAL_METRICS
+        registered = analysis["financial_metrics"]
+        if (scenario_id != "financial_due_diligence" or not isinstance(registered, list) or not registered
+                or any(not isinstance(item, str) or item not in FINANCIAL_METRICS for item in registered)
+                or len(set(registered)) != len(registered) or quality.get("financial_quality") is not True):
+            raise ScenarioError("invalid financial metric or quality contract")
     metrics = _records(analysis.get("metrics"), "analysis.metrics")
     comparisons = _records(analysis.get("period_comparisons", []), "analysis.period_comparisons")
     tasks = _records(analysis.get("analysis_tasks"), "analysis.analysis_tasks")

@@ -1,0 +1,258 @@
+{
+  "run_id": "0d0e67043e2d4543bb602794fced72a3",
+  "status": "candidate",
+  "markdown_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.worktrees/due-diligence-model-consistency/.scratch/due-diligence-model-consistency/experiment/terra/projects/8b932637916d44bd912a76100ed17459/runs/0d0e67043e2d4543bb602794fced72a3/draft/full_report.md",
+  "sha256": "6ccbaed3341bcdb9e5ca36e6d03d07520b0ddf9dc84d3a3bc2725ae2f773ce64",
+  "review_requirements": [
+    {
+      "id": "company:一、工商信息",
+      "kind": "section",
+      "locator": "line:3"
+    },
+    {
+      "id": "company:table:1",
+      "kind": "table",
+      "locator": "line:9"
+    },
+    {
+      "id": "company:二、背景情况",
+      "kind": "section",
+      "locator": "line:25"
+    },
+    {
+      "id": "company:三、基本组织机构情况",
+      "kind": "section",
+      "locator": "line:29"
+    },
+    {
+      "id": "company:四、股权、股东及投资情况",
+      "kind": "section",
+      "locator": "line:33"
+    },
+    {
+      "id": "company:table:2",
+      "kind": "table",
+      "locator": "line:39"
+    },
+    {
+      "id": "company:五、对外投资情况",
+      "kind": "section",
+      "locator": "line:53"
+    },
+    {
+      "id": "company:六、法人代表及主要管理人情况",
+      "kind": "section",
+      "locator": "line:57"
+    },
+    {
+      "id": "operations:一、主营业务情况",
+      "kind": "section",
+      "locator": "line:64"
+    },
+    {
+      "id": "operations:二、主营产销情况",
+      "kind": "section",
+      "locator": "line:68"
+    },
+    {
+      "id": "operations:table:1",
+      "kind": "table",
+      "locator": "line:72"
+    },
+    {
+      "id": "operations:table:2",
+      "kind": "table",
+      "locator": "line:85"
+    },
+    {
+      "id": "operations:table:3",
+      "kind": "table",
+      "locator": "line:98"
+    },
+    {
+      "id": "operations:三、原料采购、产品销售情况",
+      "kind": "section",
+      "locator": "line:108"
+    },
+    {
+      "id": "operations:table:4",
+      "kind": "table",
+      "locator": "line:112"
+    },
+    {
+      "id": "operations:table:5",
+      "kind": "table",
+      "locator": "line:126"
+    },
+    {
+      "id": "financials:资产负债表",
+      "kind": "section",
+      "locator": "line:141"
+    },
+    {
+      "id": "financials:table:1",
+      "kind": "table",
+      "locator": "line:147"
+    },
+    {
+      "id": "financials:table:2",
+      "kind": "table",
+      "locator": "line:167"
+    },
+    {
+      "id": "financials:利润表：",
+      "kind": "section",
+      "locator": "line:182"
+    },
+    {
+      "id": "financials:table:3",
+      "kind": "table",
+      "locator": "line:186"
+    },
+    {
+      "id": "financials:table:4",
+      "kind": "table",
+      "locator": "line:198"
+    },
+    {
+      "id": "financials:现金流量表：",
+      "kind": "section",
+      "locator": "line:216"
+    },
+    {
+      "id": "financials:table:5",
+      "kind": "table",
+      "locator": "line:220"
+    },
+    {
+      "id": "financials:财务比率及分析",
+      "kind": "section",
+      "locator": "line:232"
+    },
+    {
+      "id": "financials:table:6",
+      "kind": "table",
+      "locator": "line:236"
+    },
+    {
+      "id": "financing:body",
+      "kind": "section",
+      "locator": "line:262"
+    },
+    {
+      "id": "financing:table:1",
+      "kind": "table",
+      "locator": "line:266"
+    },
+    {
+      "id": "industry:一、公司所处行业情况",
+      "kind": "section",
+      "locator": "line:299"
+    },
+    {
+      "id": "industry:二、主要行业政策",
+      "kind": "section",
+      "locator": "line:305"
+    },
+    {
+      "id": "industry:三、企业优势及行业地位",
+      "kind": "section",
+      "locator": "line:309"
+    },
+    {
+      "id": "risks:一、行业竞争、加工费下行风险",
+      "kind": "section",
+      "locator": "line:316"
+    },
+    {
+      "id": "risks:二、市场价格波动风险",
+      "kind": "section",
+      "locator": "line:320"
+    },
+    {
+      "id": "risks:三、应收账款坏账风险",
+      "kind": "section",
+      "locator": "line:324"
+    },
+    {
+      "id": "risks:四、财务与流动性风险",
+      "kind": "section",
+      "locator": "line:328"
+    },
+    {
+      "id": "credit:一、信用评级",
+      "kind": "section",
+      "locator": "line:337"
+    },
+    {
+      "id": "credit:二、征信情况",
+      "kind": "section",
+      "locator": "line:341"
+    },
+    {
+      "id": "credit:三、涉诉情况",
+      "kind": "section",
+      "locator": "line:345"
+    },
+    {
+      "id": "terms:一、授信额度",
+      "kind": "section",
+      "locator": "line:353"
+    },
+    {
+      "id": "terms:二、授信期限",
+      "kind": "section",
+      "locator": "line:357"
+    },
+    {
+      "id": "terms:三、担保方式",
+      "kind": "section",
+      "locator": "line:361"
+    },
+    {
+      "id": "terms:四、授信利率",
+      "kind": "section",
+      "locator": "line:365"
+    },
+    {
+      "id": "terms:五、借款用途",
+      "kind": "section",
+      "locator": "line:369"
+    },
+    {
+      "id": "terms:六、还款来源",
+      "kind": "section",
+      "locator": "line:373"
+    },
+    {
+      "id": "conclusion:一、调查结论",
+      "kind": "section",
+      "locator": "line:380"
+    },
+    {
+      "id": "conclusion:二、授信方案",
+      "kind": "section",
+      "locator": "line:386"
+    },
+    {
+      "id": "claim:capability",
+      "kind": "claim",
+      "locator": "line:5"
+    },
+    {
+      "id": "claim:risk",
+      "kind": "claim",
+      "locator": "line:5"
+    },
+    {
+      "id": "claim:mitigation",
+      "kind": "claim",
+      "locator": "line:5"
+    },
+    {
+      "id": "claim:credit_terms",
+      "kind": "claim",
+      "locator": "line:5"
+    }
+  ]
+}

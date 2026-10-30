@@ -1,0 +1,11 @@
+# 实验执行及发布边界
+
+作者按用户指定由平台spawn_agent启动：real_model_sol=gpt-6.1-sol medium、real_model_terra=gpt-6.1-terra medium，两者fork_turns=none，仅收到同一AUTHOR_TASK.md及各自工作路径。共同原件30份、复用OCR衍生物21份、配置、起始项目、工具和冻结运行时代码由manifest.json绑定。复用OCR经过原件/衍生物哈希及物理页映射核对，本轮没有重新OCR，也没有声称全部页语义正确。
+
+两作者独立选择材料、提取、计算、计划和起草，不读取对方结果或历史报告文句。作者可以制作有原定位的归一衍生物，故最终派生材料与证据数量不同。初稿及修订稿均保存，主Agent独立于报告作者阅读全文、对照原件/程序计算并反馈实际问题；两作者收到的修订意见按各自问题不同，不是双盲评分或统计模型排行榜。根Agent同时实现报告引擎，故其报告内容复核也不能取代Comet新的只读Verifier或财务公司业务签认。
+
+作者执行使用experiment/runtime冻结快照。此后最终产品增加source_span裁剪/数值边界、相同字节不同解析格式拒绝、结构数字检查细化、计算精度元数据及Word空行标题回读一致性修复，并同步outline说明中0.3.0基础表校验条件（固定sections不变）。作者没有使用后来新增的接口；不能把当前产品的全部功能冒称已由两模型调用。最终候选通过当前产品代码的review submit/validate/publish函数执行标准发布，publish_candidates.py只显式选择未改动的实验资源根以保持项目指纹和字体；没有跳过校验或直接调用渲染器交付。
+
+实验presentation显式选择本机可用STFangsong、禁止fallback；正式scenario保持仿宋和禁止fallback，缺正式字体会显式失败。实验报告供内容对比，不代表正式仿宋版式验收。转换器为项目标准PATH上的LibreOffice，真实Word/WPS人工打开验收未执行。
+
+共享运行时身份以manifest.json及各作者execution.json记录。此次平台模型覆盖设置已接受；未额外取得供应商签名的底层模型身份凭证，不据单次试验推断跨项目模型优劣。

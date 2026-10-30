@@ -1,0 +1,30 @@
+{
+  "original_files_unchanged": 39,
+  "linked_documents_checked": 10,
+  "official_font_unchanged": true,
+  "shared_author_runtime_unchanged": true,
+  "arms": [
+    {
+      "arm": "sol",
+      "requested_model": "gpt-6.1-sol",
+      "reasoning_effort": "medium",
+      "run_id": "e6f8bf431d124305acfdfc2b83dfa32f",
+      "material_count": 82,
+      "fact_count": 885,
+      "draft_sha256": "1550897fccb6105a8d69670c8c35e95ef93eecb71e1e46dae9c8788b33d575e8",
+      "docx_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.worktrees/due-diligence-model-consistency/.scratch/due-diligence-model-consistency/experiment/sol/projects/8b932637916d44bd912a76100ed17459/revisions/11332f6ae2594fcb83e80937eff63d88/dist/full_report.docx",
+      "pdf_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.worktrees/due-diligence-model-consistency/.scratch/due-diligence-model-consistency/experiment/sol/projects/8b932637916d44bd912a76100ed17459/revisions/11332f6ae2594fcb83e80937eff63d88/dist/full_report.pdf"
+    },
+    {
+      "arm": "terra",
+      "requested_model": "gpt-6.1-terra",
+      "reasoning_effort": "medium",
+      "run_id": "0d0e67043e2d4543bb602794fced72a3",
+      "material_count": 68,
+      "fact_count": 628,
+      "draft_sha256": "6ccbaed3341bcdb9e5ca36e6d03d07520b0ddf9dc84d3a3bc2725ae2f773ce64",
+      "docx_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.worktrees/due-diligence-model-consistency/.scratch/due-diligence-model-consistency/experiment/terra/projects/8b932637916d44bd912a76100ed17459/revisions/da5af6e419974b5284a8fb129ab51b0b/dist/full_report.docx",
+      "pdf_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.worktrees/due-diligence-model-consistency/.scratch/due-diligence-model-consistency/experiment/terra/projects/8b932637916d44bd912a76100ed17459/revisions/da5af6e419974b5284a8fb129ab51b0b/dist/full_report.pdf"
+    }
+  ]
+}
