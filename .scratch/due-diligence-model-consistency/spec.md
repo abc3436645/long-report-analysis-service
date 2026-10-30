@@ -6,8 +6,8 @@ Status: ready-for-human
 
 - [差异审查及已复现错误](../../docs/scenarios/财务公司授信评审-江铜华北双模型差异审查.md)
 - [输入及交付哈希、PDF探测和复算证据](evidence.json)
-- [变更范围及验收标准](../../docs/comet/changes/due-diligence-model-consistency/brief.md)
-- [目标契约](../../docs/comet/changes/due-diligence-model-consistency/specs/financial-evidence-quality/spec.md)
+- [变更范围及验收标准](../../docs/comet/archive/2026-10-30-due-diligence-model-consistency/brief.md)
+- [目标契约](../../docs/comet/archive/2026-10-30-due-diligence-model-consistency/specs/financial-evidence-quality/spec.md)
 
 ## Comments
 
