@@ -497,7 +497,7 @@ def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str], *, meta
     titles = [paragraph.text for paragraph in document.paragraphs if paragraph.style.name == "Title"]
     if titles != [document.core_properties.title]:
         raise ValueError("report cover title is missing, duplicated or inconsistent")
-    headings = [block.lstrip("#").strip() for block in markdown.strip().split("\n\n")
+    headings = [block.lstrip("#").strip() for block in (item.strip() for item in markdown.strip().split("\n\n"))
                 if re.match(r"^#{1,4} ", block)]
     rendered_headings = [paragraph.text for paragraph in document.paragraphs
                          if re.fullmatch(r"Heading [1-4]", paragraph.style.name)]

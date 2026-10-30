@@ -1,0 +1,8 @@
+test_de_xing_profit_rates_and_three_series_chart_use_uploaded_cells (test_budget_reference_indicators_cli.BudgetReferenceIndicatorsCliTests.test_de_xing_profit_rates_and_three_series_chart_use_uploaded_cells) ... ok
+test_sulfur_source_column_is_prior_cost_not_current_cost (test_budget_reference_indicators_cli.BudgetReferenceIndicatorsCliTests.test_sulfur_source_column_is_prior_cost_not_current_cost) ... ok
+test_uploaded_mining_cost_workbook_calculates_unit_cost_changes (test_budget_reference_indicators_cli.BudgetReferenceIndicatorsCliTests.test_uploaded_mining_cost_workbook_calculates_unit_cost_changes) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 44.053s
+
+OK

@@ -17,6 +17,7 @@ from zipfile import BadZipFile, ZipFile
 from zoneinfo import ZoneInfo
 
 from long_report.scenario import load_scenario, scenario_ids, scenario_template, validate_report_outline, validate_section_headings, validate_source_mapping
+from long_report.financials import calculate_financials, material_coverage, validate_financial_body, review_requirements, validate_review_coverage
 from long_report.operators import OPERATORS
 from long_report.rendering import render_paginated_docx, verify_docx, verify_pdf_charts
 from long_report.formula_verification import recalculate
@@ -192,6 +193,10 @@ def add_material(workspace: Path, request: dict) -> dict:
         old = connection.execute("SELECT data FROM material WHERE id = ?", (material_id,)).fetchone()
         if old:
             material = _checked_material(json.loads(old[0]))
+            if Path(material["original_name"]).suffix.lower() != source.suffix.lower():
+                raise ValueError("same bytes are already archived in a different material format")
+            if request.get("derivation") is not None and material.get("derivation") != request["derivation"]:
+                raise ValueError("archived material has a different derivation; preserve its source relationship")
             if replaced_id is not None and material.get("replaces_material_id") not in (None, replaced_id):
                 raise ValueError("archived material belongs to a different replacement chain")
             if replaced_id is not None and material.get("replaces_material_id") is None:
@@ -202,9 +207,32 @@ def add_material(workspace: Path, request: dict) -> dict:
             return material
         kind = source.suffix.lower()
         parsers = {".csv": _parse_csv, ".xlsx": _parse_xlsx, ".txt": _parse_text, ".md": _parse_text, ".docx": _parse_docx, ".pdf": _parse_pdf}
+        if project["scenario_id"] == "financial_due_diligence" and kind in (".jpg", ".jpeg", ".png"):
+            parsers[kind] = _parse_image
         if kind not in parsers:
             raise ValueError(f"no parser for material format: {kind}")
-        parsed = parsers[kind](data)
+        if kind == ".pdf" and project["scenario_id"] == "financial_due_diligence":
+            parsed = _parse_pdf(data, allow_empty=True)
+        else:
+            parsed = parsers[kind](data)
+        derivation = request.get("derivation")
+        if derivation is not None:
+            if not isinstance(derivation, dict) or not isinstance(derivation.get("method"), str) or not derivation["method"].strip():
+                raise ValueError("derivation requires source_id, source_sha256, method and locator_map")
+            original = get_material(workspace, project["id"], derivation.get("source_id"))
+            mapping = derivation.get("locator_map")
+            locators = {f["locator"] for f in parsed.get("fragments", [])}
+            locators.update(c["locator"] for sh in parsed.get("sheets", {}).values() for c in sh["cells"].values())
+            if (derivation.get("source_sha256") != original["fingerprint"] or original["fingerprint"] == fingerprint
+                    or not isinstance(mapping, dict) or set(mapping) != locators):
+                raise ValueError("derivation must bind every fragment to the archived original hash and locator")
+            pages = original["parsed"].get("coverage", {}).get("page_count", 0)
+            original_locators = {f["locator"] for f in original["parsed"].get("fragments", [])}
+            original_locators.update(c["locator"] for sh in original["parsed"].get("sheets", {}).values() for c in sh["cells"].values())
+            for locator in mapping.values():
+                page = re.fullmatch(r"page:([1-9][0-9]*)", str(locator))
+                if locator not in original_locators and not (page and int(page[1]) <= pages):
+                    raise ValueError("derivation original locator does not exist")
         archive = project_dir / "sources" / material_id
         archive.mkdir(parents=True)
         destination = archive / source.name
@@ -217,6 +245,8 @@ def add_material(workspace: Path, request: dict) -> dict:
         }
         if replaced_id is not None:
             material["replaces_material_id"] = replaced_id
+        if derivation is not None:
+            material["derivation"] = derivation
         connection.execute("INSERT INTO material VALUES (?, ?)", (material_id, json.dumps(material, ensure_ascii=False)))
     return material
 
@@ -446,8 +476,21 @@ def submit_task(workspace: Path, request: dict) -> dict:
         if not isinstance(item, dict) or any(not isinstance(item.get(key), str) or not item[key].strip() for key in ("subject_id", "metric_id", "period", "value", "source_locator", "source_value")):
             raise ValueError("candidate requires subject, metric, period, value and source")
         cell = cells.get(item["source_locator"])
-        if cell is None or cell["value"] != item["source_value"] or item["value"] != item["source_value"]:
+        if cell is None or cell["value"] != item["source_value"]:
             raise ValueError("candidate source locator or value does not match archived material")
+        span = item.get("source_span")
+        if span is None:
+            matches = item["value"] == item["source_value"]
+        else:
+            matches = (isinstance(span, list) and len(span) == 2 and all(type(index) is int for index in span)
+                       and 0 <= span[0] < span[1] <= len(item["source_value"])
+                       and item["source_value"][span[0]:span[1]] == item["value"])
+            if matches and item["value"][0].isdigit() and span[0] and item["source_value"][span[0] - 1] in "0123456789.,+-−":
+                matches = False
+            if matches and item["value"][-1].isdigit() and span[1] < len(item["source_value"]) and item["source_value"][span[1]] in "0123456789.,":
+                matches = False
+        if not matches:
+            raise ValueError("candidate source locator or value does not match archived material; invalid source_span")
         candidates.append({"id": uuid4().hex, **item, "source_id": material["id"], "task_id": task["id"], "run_id": run["id"], "status": "candidate"})
     database = workspace / request["project_id"] / "state.sqlite"
     with sqlite3.connect(database) as connection:
@@ -574,7 +617,7 @@ def decide_evidence(workspace: Path, request: dict) -> dict:
         if connection.execute("SELECT id FROM evidence WHERE candidate_id = ?", (candidate["id"],)).fetchone():
             raise ValueError("candidate already decided")
         existing = [json.loads(row[0]) for row in connection.execute("SELECT data FROM evidence WHERE run_id = ?", (run["id"],))] + _carried_evidence(connection, run)
-        identity = ("subject_id", "metric_id", "period", "window", "unit", "budget_version")
+        identity = ("subject_id", "metric_id", "period", "window", "unit", "budget_version", "financial_scope", "financial_version", "period_start", "period_days")
         def basis(item):
             roles = run["material_input_ids"][item["source_id"]]
             return item.get("basis") or (roles[0] if len(roles) == 1 else None)
@@ -635,6 +678,10 @@ def freeze_evidence(workspace: Path, request: dict) -> dict:
             "definition_missing": run["effective_config"]["scenario"]["definition_missing"],
             "retrieval_gaps": [f"{task['task_ref']}:{task['result_status']}" for task in tasks if task["kind"] == "retrieve" and task.get("result_status") != "success"],
         }
+        if project["scenario_id"] == "financial_due_diligence":
+            current_materials = [json.loads(row[0]) for row in connection.execute("SELECT data FROM material")
+                                 if json.loads(row[0])["id"] in run["material_ids"]]
+            snapshot["material_coverage"] = material_coverage(current_materials, evidence)
         connection.execute("CREATE TABLE IF NOT EXISTS evidence_snapshot (id TEXT PRIMARY KEY, run_id TEXT NOT NULL, data TEXT NOT NULL)")
         connection.execute("INSERT INTO evidence_snapshot VALUES (?, ?, ?)", (snapshot["id"], run["id"], json.dumps(snapshot, ensure_ascii=False)))
         run["evidence_snapshot_id"] = snapshot["id"]
@@ -663,6 +710,14 @@ def calculate_run(workspace: Path, request: dict) -> list[dict]:
             for item in results:
                 if item.get("id"):
                     connection.execute("INSERT OR REPLACE INTO calculation VALUES (?, ?, ?)", (item["id"], run["id"], json.dumps(item, ensure_ascii=False)))
+            return results
+        if project["scenario_id"] == "financial_due_diligence" and config["analysis"].get("financial_metrics"):
+            results = calculate_financials(evidence, config["analysis"]["financial_metrics"])
+            connection.execute("CREATE TABLE IF NOT EXISTS calculation (id TEXT PRIMARY KEY, run_id TEXT NOT NULL, data TEXT NOT NULL)")
+            for item in results:
+                item["run_id"] = run["id"]
+                item["id"] = "calc_" + sha256((run["id"] + item["id"]).encode()).hexdigest()[:24]
+                connection.execute("INSERT OR REPLACE INTO calculation VALUES (?, ?, ?)", (item["id"], run["id"], json.dumps(item, ensure_ascii=False)))
             return results
         selectors = {item["id"]: item for item in config["analysis"]["evidence_selectors"]}
         results = []
@@ -912,7 +967,7 @@ def plan_draft(workspace: Path, request: dict) -> list[dict]:
             raise ValueError("draft requires an active run with frozen evidence")
         if not run.get("report_plan") and ("outline" not in request or "report_request" not in request):
             raise ValueError("report_request and outline are required for the first draft plan")
-        if project["scenario_id"] == "budget_operations" and run.get("report_plan") and "outline" not in request and "report_request" not in request:
+        if (project["scenario_id"] == "budget_operations" or run["effective_config"]["quality"].get("financial_quality")) and run.get("report_plan") and "outline" not in request and "report_request" not in request:
             uses = run["report_plan"].get("material_uses")
             if not isinstance(uses, list) or any(not isinstance(item, dict) for item in uses) or {item.get("material_id") for item in uses} != set(run["material_ids"]):
                 raise ValueError("material_uses changed; submit a new report plan")
@@ -932,6 +987,11 @@ def plan_draft(workspace: Path, request: dict) -> list[dict]:
                     outline["unit_names"] != units or units and not any(section["repeat_for"] == "unit" for section in outline["sections"])
                 ):
                     raise ValueError("report outline must cover all project units with a repeated unit section")
+                snapshot = json.loads(connection.execute("SELECT data FROM evidence_snapshot WHERE id = ?", (run["evidence_snapshot_id"],)).fetchone()[0])
+                used_sources = {json.loads(row[0])["source_id"] for row in connection.execute("SELECT data FROM evidence")
+                                if json.loads(row[0])["id"] in snapshot["evidence_ids"]}
+                proposed["material_uses"] = _budget_material_uses(request.get("material_uses"), run["material_ids"], used_sources)
+            if project["scenario_id"] == "financial_due_diligence" and run["effective_config"]["quality"].get("financial_quality"):
                 snapshot = json.loads(connection.execute("SELECT data FROM evidence_snapshot WHERE id = ?", (run["evidence_snapshot_id"],)).fetchone()[0])
                 used_sources = {json.loads(row[0])["source_id"] for row in connection.execute("SELECT data FROM evidence")
                                 if json.loads(row[0])["id"] in snapshot["evidence_ids"]}
@@ -986,7 +1046,7 @@ def plan_draft(workspace: Path, request: dict) -> list[dict]:
             old_calculations = {item["id"]: item for row in connection.execute("SELECT data FROM calculation WHERE run_id = ?", (base_run["id"],)) if (item := json.loads(row[0]))}
             new_calculations = [json.loads(row[0]) for row in connection.execute("SELECT data FROM calculation WHERE run_id = ?", (run["id"],))]
             def calculation_key(item):
-                return item["metric_id"], item["subject_id"], item["period"], item.get("window"), tuple(item.get("input_evidence_ids", item.get("source_ids", []))), item["value"]
+                return item["metric_id"], item["subject_id"], item["period"], item.get("window"), tuple(item.get("input_evidence_ids", item.get("source_ids", []))), item["value"], item.get("financial_scope"), item.get("financial_version"), item.get("period_start"), item.get("period_days"), item.get("formula_version"), item.get("unit")
             new_calculation_ids = {calculation_key(item): item["id"] for item in new_calculations if item.get("status") == "calculated"}
             changed_material_ids = set(run["material_ids"]) ^ set(base_run["material_ids"])
             changed_roles = {role for material_id in changed_material_ids for role in run["material_input_ids"].get(material_id, base_run["material_input_ids"].get(material_id, []))}
@@ -1070,6 +1130,8 @@ def submit_draft(workspace: Path, request: dict) -> dict:
     if not isinstance(body, str) or not body.strip():
         raise ValueError("section body is required")
     validate_section_headings(body, context["section"])
+    if context["quality_rules"].get("financial_quality"):
+        validate_financial_body(body, context["section"])
     if re.search(r"!\[[^\]]*\]\([^)]+\)", body):
         raise ValueError("report images must use a registered chart reference")
     if re.search(r"(?<![\w.])\d+(?:\.\d+)?\s*(?:万|亿)?元", body):
@@ -1091,7 +1153,7 @@ def submit_draft(workspace: Path, request: dict) -> dict:
     if task["run_id"] != request["run_id"] or task["status"] != ("submitted" if replacing else "ready"):
         raise ValueError("section depends on unfinished work or is already submitted")
     references = re.findall(REFERENCE, body)
-    permitted = {"calc": {item["id"] for item in context["calculations"]}, "ev": {item["id"] for item in context["evidence"]}, "fact": {item["id"] for item in context["evidence"]}}
+    permitted = {"calc": {item["id"] for item in context["calculations"] if item["status"] == "calculated"}, "ev": {item["id"] for item in context["evidence"]}, "fact": {item["id"] for item in context["evidence"]}}
     chart_ids = re.findall(CHART_REFERENCE, body)
     with sqlite3.connect(workspace / project["id"] / "state.sqlite") as connection:
         charts = _chart_records(connection)
@@ -1288,6 +1350,8 @@ def build_draft(workspace: Path, request: dict) -> dict:
                 return f"〔来源：{materials[item['source_id']]['original_name']}，{item['source_locator']}〕"
             raise ValueError(f"missing report reference: {identifier}")
 
+        if run["effective_config"]["quality"].get("financial_quality"):
+            validate_financial_body(bodies[task["id"]], section)
         rendered = re.sub(REFERENCE, replace, bodies[task["id"]])
         def replace_chart(match):
             chart = charts[match[1]]
@@ -1318,7 +1382,14 @@ def build_draft(workspace: Path, request: dict) -> dict:
     temporary = output.with_suffix(".tmp")
     temporary.write_text(content, encoding="utf-8")
     temporary.replace(output)
-    return {"run_id": run["id"], "status": "candidate", "markdown_path": str(output), "sha256": sha256(content.encode()).hexdigest()}
+    result = {"run_id": run["id"], "status": "candidate", "markdown_path": str(output), "sha256": sha256(content.encode()).hexdigest()}
+    if run["effective_config"]["quality"].get("financial_quality"):
+        result["review_requirements"] = review_requirements(content, run["effective_config"]["outline"])
+        with sqlite3.connect(project_dir / "state.sqlite") as connection:
+            run["draft_sha256"] = result["sha256"]
+            run["section_body_sha256"] = {task["id"]: sha256(bodies[task["id"]].encode()).hexdigest() for task in tasks}
+            connection.execute("UPDATE run SET data = ? WHERE id = ?", (json.dumps(run, ensure_ascii=False), run["id"]))
+    return result
 
 
 def submit_review(workspace: Path, request: dict) -> dict:
@@ -1336,17 +1407,29 @@ def submit_review(workspace: Path, request: dict) -> dict:
         tasks = [json.loads(item[0]) for item in connection.execute("SELECT data FROM section_task WHERE run_id = ?", (request["run_id"],))]
         if not tasks or any(task["status"] != "submitted" for task in tasks) or reviewer in {task.get("author_id") for task in tasks}:
             raise ValueError("review must be independent of completed section authors")
+        run = json.loads(row[0])
+        if run["effective_config"]["quality"].get("financial_quality"):
+            snapshot = json.loads(connection.execute("SELECT data FROM evidence_snapshot WHERE id = ?", (run["evidence_snapshot_id"],)).fetchone()[0])
+            permitted = set(snapshot["evidence_ids"])
+            permitted.update(json.loads(row[0])["id"] for row in connection.execute("SELECT data FROM calculation WHERE run_id = ?", (run["id"],))
+                             if json.loads(row[0])["status"] == "calculated")
+            content = draft.read_text(encoding="utf-8")
+            validate_review_coverage(request.get("coverage"), review_requirements(content, run["effective_config"]["outline"]), content, permitted)
+            if request["verdict"] == "pass" and any(item["result"] == "needs_changes" for item in request["coverage"]):
+                raise ValueError("passing review cannot have unresolved coverage findings")
         if request["verdict"] == "pass" and request["issues"]:
             raise ValueError("passing review cannot have open issues")
         connection.execute("CREATE TABLE IF NOT EXISTS review (run_id TEXT PRIMARY KEY, data TEXT NOT NULL)")
         previous = connection.execute("SELECT data FROM review WHERE run_id = ?", (request["run_id"],)).fetchone()
         if previous:
             saved = json.loads(previous[0])
-            if all(saved[key] == request[key] for key in ("draft_sha256", "reviewer_id", "verdict", "issues")):
+            if all(saved[key] == request[key] for key in ("draft_sha256", "reviewer_id", "verdict", "issues")) and saved.get("coverage") == request.get("coverage"):
                 return saved
             raise ValueError("review already submitted with different content")
         review = {"id": uuid4().hex, "run_id": request["run_id"], "draft_sha256": request["draft_sha256"],
                   "reviewer_id": reviewer, "verdict": request["verdict"], "issues": request["issues"]}
+        if "coverage" in request:
+            review["coverage"] = request["coverage"]
         connection.execute("INSERT INTO review VALUES (?, ?)", (review["run_id"], json.dumps(review, ensure_ascii=False)))
     return review
 
@@ -1437,17 +1520,85 @@ def validate_run(workspace: Path, request: dict) -> dict:
     if project["scenario_id"] == "compensation_analysis":
         content = draft.read_text(encoding="utf-8") if draft_hash is not None else ""
         checks["personal_pay_hidden"] = draft_hash is not None and not any(re.search(r"(?<![A-Za-z0-9])" + re.escape(term) + r"(?![A-Za-z0-9])", content) for term in private_terms(run, materials))
+    if run["effective_config"]["quality"].get("financial_quality"):
+        checks.update(_financial_validation(project_dir=project_dir, run=run, tasks=tasks,
+                                             snapshot=snapshot, review=review, draft=draft))
     hard_passed = all(checks.values())
     gaps = {"missing_inputs": snapshot["missing_inputs"] if snapshot else [], "definition_missing": snapshot["definition_missing"] if snapshot else [],
             "retrieval_gaps": snapshot.get("retrieval_gaps", []) if snapshot else []}
+    if run["effective_config"]["quality"].get("financial_quality"):
+        gaps["material_gaps"] = [item for item in (snapshot or {}).get("material_coverage", [])
+                                  if item["status"] in ("partial", "not_extracted")]
+        gaps["review_gaps"] = [item["id"] for item in (review or {}).get("coverage", []) if item["result"] == "gap"]
+        with sqlite3.connect(project_dir / "state.sqlite") as connection:
+            gaps["calculation_gaps"] = ([{"metric_id": item["metric_id"], "subject_id": item["subject_id"], "period": item["period"], "status": item["status"]}
+                                        for row in connection.execute("SELECT data FROM calculation WHERE run_id = ?", (run["id"],))
+                                        if (item := json.loads(row[0]))["status"] != "calculated"]
+                                       if connection.execute("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'calculation'").fetchone() else [])
     status = "blocked" if not hard_passed else "pending_review" if any(gaps.values()) else "formal"
     return {"run_id": run["id"], "status": status, "hard_checks_passed": hard_passed, "checks": checks, "gaps": gaps,
             "scope_exclusions": scope_exclusions, "draft_sha256": draft_hash}
 
 
+def _financial_validation(project_dir: Path, run: dict, tasks: list[dict], snapshot: dict | None,
+                          review: dict | None, draft: Path) -> dict:
+    checks = {"material_disposition": False, "analysis_material_coverage": False,
+              "financial_binding": False, "financial_review_coverage": False, "candidate_integrity": False}
+    with sqlite3.connect(project_dir / "state.sqlite") as connection:
+        if not snapshot or not tasks or not draft.is_file():
+            return checks
+        evidence = {item["id"]: item for row in connection.execute("SELECT data FROM evidence")
+                    if (item := json.loads(row[0]))["id"] in snapshot["evidence_ids"]}
+        calculations = ({item["id"]: item for row in connection.execute("SELECT data FROM calculation WHERE run_id = ?", (run["id"],))
+                         if (item := json.loads(row[0])).get("status") == "calculated"}
+                        if connection.execute("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'calculation'").fetchone() else {})
+        bodies = {row[0]: row[1] for row in connection.execute("SELECT task_id, body FROM section_body")}
+        materials = {item["id"]: item for row in connection.execute("SELECT data FROM material") if (item := json.loads(row[0]))}
+    content = draft.read_text(encoding="utf-8")
+    checks["candidate_integrity"] = (sha256(draft.read_bytes()).hexdigest() == run.get("draft_sha256") and
+        all(task["id"] in bodies and sha256(bodies[task["id"]].encode()).hexdigest() == run.get("section_body_sha256", {}).get(task["id"]) for task in tasks))
+    try:
+        uses = _budget_material_uses(run.get("report_plan", {}).get("material_uses"), run["material_ids"], {item["source_id"] for item in evidence.values()})
+        checks["material_disposition"] = True
+        referenced = set()
+        definitions = {item["id"]: item for item in run["effective_config"]["outline"]["sections"]}
+        for task in tasks:
+            body = bodies[task["id"]]
+            validate_section_headings(body, definitions[task["section_id"]])
+            validate_financial_body(body, definitions[task["section_id"]])
+            for kind, identifier, precision in re.findall(REFERENCE, body):
+                if kind == "calc":
+                    if identifier not in calculations:
+                        raise ValueError("stale calculation")
+                    referenced.update(calculations[identifier]["input_evidence_ids"])
+                else:
+                    if identifier not in evidence:
+                        raise ValueError("stale evidence")
+                    if kind == "fact":
+                        referenced.add(identifier)
+        checks["financial_binding"] = True
+        used_sources = {evidence[identifier]["source_id"] for identifier in referenced if identifier in evidence}
+        # A derived fact explains the original's use; it never asserts a full-page OCR verification.
+        used_originals = {materials[identifier]["derivation"]["source_id"] for identifier in used_sources if materials[identifier].get("derivation")}
+        checks["analysis_material_coverage"] = all(
+            item["material_id"] in used_sources | used_originals or
+            re.search(r"(?m)^材料缺口：" + re.escape(materials[item["material_id"]]["original_name"]) + r"：\S.+$", content)
+            for item in uses if item["use"] == "analysis")
+        if review:
+            validate_review_coverage(review.get("coverage"), review_requirements(content, run["effective_config"]["outline"]), content, set(evidence) | set(calculations))
+            checks["financial_review_coverage"] = review["verdict"] == "pass" and not any(item["result"] == "needs_changes" for item in review["coverage"])
+    except (ValueError, KeyError, TypeError):
+        pass  # Each failed gate remains explicitly false in the returned checks.
+    return checks
+
+
 def _material_intact(workspace: Path, project_id: str, material_id: str) -> bool:
     try:
-        get_material(workspace, project_id, material_id)
+        material = get_material(workspace, project_id, material_id)
+        if material.get("derivation"):
+            original = get_material(workspace, project_id, material["derivation"]["source_id"])
+            if original["fingerprint"] != material["derivation"]["source_sha256"]:
+                return False
     except (ValueError, sqlite3.Error):
         return False
     return True
@@ -1703,24 +1854,24 @@ def _parse_xlsx(data: bytes) -> dict:
             sheets = {}
             for sheet in book.worksheets:
                 cells = {}
-                for row in sheet.rows:
-                    for cell in row:
-                        if cell.value is None:
-                            continue
-                        locator = f"sheet:{sheet.title}/cell:{cell.coordinate}"
-                        if cell.data_type == "f":
-                            result = cached[sheet.title][cell.coordinate].value
-                            state = "pending_verify" if result is None else "cached_unverified"
-                            if result is not None:
-                                try:
-                                    recomputed = recalculate(sheet, cell.coordinate)
-                                    state = "verified" if abs(recomputed - Decimal(str(result))) <= Decimal("0.000001") else "cache_mismatch"
-                                except (ValueError, SyntaxError, TypeError, InvalidOperation, ZeroDivisionError):
-                                    pass
-                            cells[cell.coordinate] = {"value": str(result) if state in ("verified", "cached_unverified") else None,
-                                                       "formula": cell.value, "state": state, "locator": locator}
-                        else:
-                            cells[cell.coordinate] = {"value": str(cell.value), "locator": locator}
+                # Loaded worksheets are sparse; .rows would allocate millions of styled blank cells.
+                for cell in sorted(list(sheet._cells.values()), key=lambda item: (item.row, item.column)):
+                    if cell.value is None:
+                        continue
+                    locator = f"sheet:{sheet.title}/cell:{cell.coordinate}"
+                    if cell.data_type == "f":
+                        result = cached[sheet.title][cell.coordinate].value
+                        state = "pending_verify" if result is None else "cached_unverified"
+                        if result is not None:
+                            try:
+                                recomputed = recalculate(sheet, cell.coordinate)
+                                state = "verified" if abs(recomputed - Decimal(str(result))) <= Decimal("0.000001") else "cache_mismatch"
+                            except (ValueError, SyntaxError, TypeError, InvalidOperation, ZeroDivisionError):
+                                pass
+                        cells[cell.coordinate] = {"value": str(result) if state in ("verified", "cached_unverified") else None,
+                                                   "formula": cell.value, "state": state, "locator": locator}
+                    else:
+                        cells[cell.coordinate] = {"value": str(cell.value), "locator": locator}
                 sheets[sheet.title] = {"cells": cells}
             return {"sheets": sheets}
         finally:
@@ -1757,7 +1908,7 @@ def _parse_docx(data: bytes) -> dict:
     return {"fragments": fragments}
 
 
-def _parse_pdf(data: bytes) -> dict:
+def _parse_pdf(data: bytes, allow_empty: bool = False) -> dict:
     from pypdf import PdfReader
     from pypdf.errors import PdfReadError
 
@@ -1765,14 +1916,26 @@ def _parse_pdf(data: bytes) -> dict:
         raise ValueError("invalid PDF material")
     try:
         reader = PdfReader(BytesIO(data), strict=False)
-        fragments = [
-            {"value": line, "locator": f"page:{page_number}/line:{line_number}"}
-            for page_number, page in enumerate(reader.pages, 1)
-            for line_number, line in enumerate((page.extract_text() or "").splitlines(), 1)
-            if line.strip()
-        ]
+        fragments, pages = [], []
+        for page_number, page in enumerate(reader.pages, 1):
+            text = page.extract_text() or ""
+            pages.append({"page": page_number, "text_chars": len(text.strip()),
+                          "status": "text_extracted" if text.strip() else "unread"})
+            fragments.extend({"value": line, "locator": f"page:{page_number}/line:{line_number}"}
+                             for line_number, line in enumerate(text.splitlines(), 1) if line.strip())
     except (PdfReadError, ValueError, OSError) as error:
         raise ValueError("invalid PDF material") from error
-    if not fragments:
+    if not fragments and not allow_empty:
         raise ValueError("PDF has no extractable text")
-    return {"fragments": fragments}
+    return {"fragments": fragments, "coverage": {"page_count": len(pages), "pages": pages,
+            "unread_pages": [page["page"] for page in pages if page["status"] == "unread"]}}
+
+
+def _parse_image(data: bytes) -> dict:
+    from PIL import Image
+    try:
+        with Image.open(BytesIO(data)) as image:
+            image.verify()
+    except (OSError, ValueError) as error:
+        raise ValueError("invalid image material") from error
+    return {"fragments": [], "coverage": {"page_count": 1, "pages": [{"page": 1, "text_chars": 0, "status": "unread"}], "unread_pages": [1]}}

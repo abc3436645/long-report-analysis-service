@@ -256,6 +256,6 @@ planning_guidance:
 - 第六章四类风险标题按用户标准固定，风险适用性仍须逐项审查；非加工主体不能套用加工费结论，其他适用风险在相关小节内补充三级标题。
 - 样本还提供逐章分析定位、论证顺序和材料深度参考，写作读取analysis.writing_guidance对应章及通用指引；企业名称、金额、人员、评级、期限、政策条文和测算公式不作为通用业务事实或算法。
 - 逐章回答questions，第二至第五章按required_assets及analysis.writing_guidance中的同章tables指引落实基础表格，按materiality_selection筛选金额大、变动大或性质重要科目并补明细和原因分析；整表缺失须具名披露影响及材料需求，不静默略过。
-- required_assets声明写作及独立审阅的基础表内容，不是新增机械门禁；期间列、主要对手方数量及触发明细随本轮材料规划，既有required_tables工商和股权表契约继续执行，其他科目未入选仍交代理由。
+- required_assets声明写作及独立审阅的基础表内容；0.3.0启用financial_quality时校验实际表或具名缺口，旧冻结配置保留原门禁；期间列、主要对手方数量及触发明细随本轮材料规划，既有required_tables工商和股权表契约继续执行，其他科目未入选仍交代理由。
 - 各章执行analysis.writing_guidance中的business_adaptation、report_expression和cross_chapter_consistency：按当前公司识别业务模式及证据分支，逐节形成局部判断，跨章保持事实和方案身份一致，不将样本公司答案或写作检查语句当成正文。
 - 以analysis.writing_guidance.comprehensive_assessment统领综合尽调：主动识别本轮证据支持的能力优势与发展潜力，同时排查潜在危险，结合持续性和缓释形成客观评价；不得把全文规划成风险罗列或预设优质危险结论。

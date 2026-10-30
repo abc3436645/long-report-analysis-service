@@ -1,0 +1,448 @@
+{
+  "id": "da5af6e419974b5284a8fb129ab51b0b",
+  "run_id": "0d0e67043e2d4543bb602794fced72a3",
+  "project_id": "8b932637916d44bd912a76100ed17459",
+  "status": "pending_review",
+  "scenario_id": "financial_due_diligence",
+  "scenario_version": "0.3.0",
+  "effective_config_fingerprint": "392a2dd8f1456c670ea36017075f669a4dabf6deea680319498891c8f43c10d8",
+  "evidence_snapshot_id": "1530fafb9649435985da1db024a84f78",
+  "material_fingerprints": {
+    "src_0b4882d74be12e8e1d0f2ff3": "0b4882d74be12e8e1d0f2ff356422498af29d96753522db4d4e369465325c552",
+    "src_0b56faab35a1b019c32a47a3": "0b56faab35a1b019c32a47a34c55f311ce51f0c29cf3b4bac0bf136ad8829d2a",
+    "src_0cf8a34d334d2881cb79dee6": "0cf8a34d334d2881cb79dee6e74bde65897662f6fb24008e1a8395bde2e602cf",
+    "src_123e77ff4c554756072a2c90": "123e77ff4c554756072a2c9056cebc93178efff6d9c55b9463b39fe6090512cb",
+    "src_15ea5a768c454a8a360913b7": "15ea5a768c454a8a360913b77a2925063cb4029aeba9c3d7e483ee467f5bb4bc",
+    "src_18482c86f5acb6c9b323ec6c": "18482c86f5acb6c9b323ec6cdfc4c7a92cada64c22f0c0805b27e635c1f6c4db",
+    "src_20d28a6e61077f9c3418da58": "20d28a6e61077f9c3418da58776157874bf1ff20a05d2381dab5adee8ec7a1d6",
+    "src_27036f0c4e9556db53b4651b": "27036f0c4e9556db53b4651b41322f5eb105c19774f41f9d65ed389bf943126d",
+    "src_2bb947b11b8a3e3910232e24": "2bb947b11b8a3e3910232e24512203a73bf29cce2157bc1decf24b44875f898c",
+    "src_2cadccf0595d1e72c6c70c32": "2cadccf0595d1e72c6c70c327d1f04c3c289b89871f0860607bd9a248573f529",
+    "src_2e0b4173d9110f7b18dd3438": "2e0b4173d9110f7b18dd34382855207e5d6689337a8d4cecdcad69add50eb752",
+    "src_2eba6382fad4b8b47f895fe5": "2eba6382fad4b8b47f895fe57c6ad24346b6c77d2a986a4218e2be7613cd9384",
+    "src_2fe11bd1d8b4cd623adc77f3": "2fe11bd1d8b4cd623adc77f350208219eb9b6c674aa430a6b22c5da23cc0c87b",
+    "src_3e2277691545367626b2a0bc": "3e2277691545367626b2a0bc604378e043524fa4d32cc39c5bee5156123f051e",
+    "src_3e9ad41df2808a3a1a7e8a0b": "3e9ad41df2808a3a1a7e8a0b7de3878863d43a49cf21fd4edc5812a087f7bc15",
+    "src_40ea449a3b91fac4c1f1d645": "40ea449a3b91fac4c1f1d645b153a4edd9b8be9796cff40d4318a69bb0c5782d",
+    "src_4651afac7e9368c4222694d3": "4651afac7e9368c4222694d32bbf6eead62064ba8de4f43f7ab988f695dae40e",
+    "src_485891362f1be9595e7bd0a4": "485891362f1be9595e7bd0a472b9379f6820e458bdaa5eddaf7321f321baae8e",
+    "src_4bd1f4c5931f5677cb086f8d": "4bd1f4c5931f5677cb086f8dfd67fb29ddff8e87032f00fe76a86d75396049e7",
+    "src_4ddb96f4313f381608f942aa": "4ddb96f4313f381608f942aa6c902500da7a272cc7d9a047c807e3852a082da7",
+    "src_4e35dae522aeb27a1936ece0": "4e35dae522aeb27a1936ece00ef62df4e07e8d2e0b6d5a4947a26472e584c655",
+    "src_4e90a4aa7f69d2dd0492d650": "4e90a4aa7f69d2dd0492d650603c9e04819fdaa0775017df19acaa1eca540759",
+    "src_55552479795419a2ee34decf": "55552479795419a2ee34decf896c54c7d0ea6e3760a91b640b7775a5e3391436",
+    "src_58c0bcce4121821460962c01": "58c0bcce4121821460962c01a64fd3afbe6cfffccaca95558d5e02fcc72f2bfa",
+    "src_5d68143f3d64d1c44729c260": "5d68143f3d64d1c44729c2605cb60920cbf969cf472db3f2d01b9b5b437d95ac",
+    "src_5de9a0dc7596c02fd794beb9": "5de9a0dc7596c02fd794beb9607bbdf4de102260ad987108c3b86743820c2195",
+    "src_608b7c4888b560b36fe316a6": "608b7c4888b560b36fe316a6a9e43099d4bb2aa7da6ec7087974697a64e90517",
+    "src_63d59d89fb45cbbbc7b37be3": "63d59d89fb45cbbbc7b37be3130738ebc246d5f0f0b53b947bd8ef4ac59e3887",
+    "src_63eaccd4c03fd8636b4f6daf": "63eaccd4c03fd8636b4f6daf4aea31eea9fd24655834eb3b4b64e599441725c9",
+    "src_657201b810555a6a4bbb3a85": "657201b810555a6a4bbb3a85e2956a615d4652a2e159ea68e0699b51d803a83b",
+    "src_65874de6e30b0fd6eb46235f": "65874de6e30b0fd6eb46235fd42e0754c327402b9132c08a57d827b4c0062320",
+    "src_77716ad77405a1853d959800": "77716ad77405a1853d959800231ca6e24e7ff9a1bb484eb99c91145c53c2186a",
+    "src_77b2568393c8b69ad2c6e4f7": "77b2568393c8b69ad2c6e4f781794a0d6e223d7f10ac345f1a6472a46d09735a",
+    "src_7859abdbd26cd1a8e77a175a": "7859abdbd26cd1a8e77a175aaa8b79ac6b42040bdf3ce42bd845c97f6a93d3ce",
+    "src_791bb50a5f86dcfb580ead16": "791bb50a5f86dcfb580ead16524f13bb5e44e7db8d72060de28e6ba958153ef4",
+    "src_80f52bb3129c20633f4f161a": "80f52bb3129c20633f4f161a6f555f4e90b9ee516631ffef96edea05cde58c15",
+    "src_814842d729561c6e7b2bfe89": "814842d729561c6e7b2bfe89e5ef150ce7bd52d270bbb058fc07e727e6423d37",
+    "src_822859a3bbbb83bb7ba947d4": "822859a3bbbb83bb7ba947d407af249557f02a7cdbb5d4fdd0bab992166a569a",
+    "src_8903624673ebe23d6b0b7913": "8903624673ebe23d6b0b791383cd278baa2563c85f50b2ef3b743ec271ec25d4",
+    "src_8caa26c224150f3be501e386": "8caa26c224150f3be501e386172f61d6ae09dadbc826fb2eaba73f0acbb59fb3",
+    "src_917df3320d778ddbaa5c5c77": "917df3320d778ddbaa5c5c7742bc4046bf803c36ed2b050f30844ed206783469",
+    "src_95870f3f7e6caff387a95b77": "95870f3f7e6caff387a95b77e5f052f590d3385d8e8a03d364240018159a3aa7",
+    "src_977c456596602c5f783d31af": "977c456596602c5f783d31af342644ceaed87222ed69e30f632c3f6724eb6075",
+    "src_a497a78e0d24c03b50d10c2f": "a497a78e0d24c03b50d10c2f7d73f7feb7f91de3f3f3f9202954afbd2122ab6a",
+    "src_a5180809a6eae7051c5a2a86": "a5180809a6eae7051c5a2a86abfdc981f7b04ef56c58507cc1fc5e6a3da1fbd2",
+    "src_ae6988509b65b502feee71f3": "ae6988509b65b502feee71f30a44259ae013c28d6a97c1444d0284ac04dfe861",
+    "src_b1fd1c7178afdbe85976fb65": "b1fd1c7178afdbe85976fb65c159f801651d01b364d57cc2c3e11674a35c6225",
+    "src_b89672f3cc59320e79168d2d": "b89672f3cc59320e79168d2d3cf0a3b84818cf61576abaddb502779d2395c92c",
+    "src_c41a2698bc0cbc96d0a05283": "c41a2698bc0cbc96d0a052834730567a3caaf5c9c5977ad4065e21e106c9399d",
+    "src_c9b9dbb8ba530dde84729933": "c9b9dbb8ba530dde84729933a1d47c8dff71a99662a17a95e4bd4a63570d3f9e",
+    "src_ca86b22ac5833d3d48b69b21": "ca86b22ac5833d3d48b69b212f86bbcdd42cf3715c6f77cfd4e75638225f9401",
+    "src_d625e91413108f0642dfb83f": "d625e91413108f0642dfb83f4fae35e41ef536a351625d864d545379e0288a4b",
+    "src_d70aec972aa157579b2bc604": "d70aec972aa157579b2bc60430cd483e13142c2c2c3b424cb94c5af0012dc853",
+    "src_d8251ad7041294682dc01b97": "d8251ad7041294682dc01b97caada5b8d93d737940a6de9ff3fb8d9e2c6333a0",
+    "src_e177d21137ab5cdffb4a4d2f": "e177d21137ab5cdffb4a4d2f38eff5d8da986eb33de1df21c256d3d65d5afe8b",
+    "src_e3df672f7f2d7b68baa6e2d6": "e3df672f7f2d7b68baa6e2d635e5a7f927766b32e039500ec0a31c4de20019f8",
+    "src_e4a860989a5d9afb71e9137a": "e4a860989a5d9afb71e9137abe26327266cd2564a7e56287c24875a976c6758e",
+    "src_e7bf312e5806941c91dd63f3": "e7bf312e5806941c91dd63f3d3a46b9b143e9c1da799ef5d001ef789cde7a9e2",
+    "src_e8379f724f40faf078bd697b": "e8379f724f40faf078bd697b99d898b4bce0d9ba404800c963b739e3f9a79fe5",
+    "src_e9df63e6a0e14b33f5022140": "e9df63e6a0e14b33f5022140950f2eda82a62df0b38ccbde4a09440b078c77e1",
+    "src_ed54144c4e651ea08bc10bc6": "ed54144c4e651ea08bc10bc6feffde9fd7b33042ea21947ce02f468d5ecce93f",
+    "src_ef93f0f08a2603ea88c098c7": "ef93f0f08a2603ea88c098c77e0b17c7e190bc83021567f2c5d8a17447c2583a",
+    "src_f74450e92ec7988a876b0898": "f74450e92ec7988a876b0898b49cb0acc1a5671d210bf32d482f84819271a0f9",
+    "src_f8db6cd1be4c9adb83412082": "f8db6cd1be4c9adb834120825a82f8630a891eed2b3c3c9d3ccaaa6d8e6d0141",
+    "src_f9a1617a46a4e12269b496bc": "f9a1617a46a4e12269b496bcab28550fd31da10198edd190e26cfb326cc0073d",
+    "src_fc4b1355da595cb4bdac3df1": "fc4b1355da595cb4bdac3df143891298209daa2f874dafa9022b01b9513498ec",
+    "src_fc6a947e6bed7e82f4d50fbf": "fc6a947e6bed7e82f4d50fbf018c871c95fb8579091c20d1d47692e836a72109",
+    "src_fe2722a3ad2fe7761b26b28a": "fe2722a3ad2fe7761b26b28a860cd153a11ada5b71f98d5274ac2bd829111731"
+  },
+  "material_uses": [
+    {
+      "material_id": "src_0b4882d74be12e8e1d0f2ff3",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_0b56faab35a1b019c32a47a3",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_0cf8a34d334d2881cb79dee6",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_123e77ff4c554756072a2c90",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_15ea5a768c454a8a360913b7",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_18482c86f5acb6c9b323ec6c",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_20d28a6e61077f9c3418da58",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_27036f0c4e9556db53b4651b",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_2bb947b11b8a3e3910232e24",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_2cadccf0595d1e72c6c70c32",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_2e0b4173d9110f7b18dd3438",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_2eba6382fad4b8b47f895fe5",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_2fe11bd1d8b4cd623adc77f3",
+      "use": "context",
+      "reason": "本轮未选取可独立核实的字段作数值判断，保留为背景，相关缺口在正文说明。"
+    },
+    {
+      "material_id": "src_3e2277691545367626b2a0bc",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_3e9ad41df2808a3a1a7e8a0b",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_40ea449a3b91fac4c1f1d645",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_4651afac7e9368c4222694d3",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_485891362f1be9595e7bd0a4",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_4bd1f4c5931f5677cb086f8d",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_4ddb96f4313f381608f942aa",
+      "use": "context",
+      "reason": "本轮未选取可独立核实的字段作数值判断，保留为背景，相关缺口在正文说明。"
+    },
+    {
+      "material_id": "src_4e35dae522aeb27a1936ece0",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_4e90a4aa7f69d2dd0492d650",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_55552479795419a2ee34decf",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_58c0bcce4121821460962c01",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_5d68143f3d64d1c44729c260",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_5de9a0dc7596c02fd794beb9",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_608b7c4888b560b36fe316a6",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_63d59d89fb45cbbbc7b37be3",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_63eaccd4c03fd8636b4f6daf",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_657201b810555a6a4bbb3a85",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_65874de6e30b0fd6eb46235f",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_77716ad77405a1853d959800",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_77b2568393c8b69ad2c6e4f7",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_7859abdbd26cd1a8e77a175a",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_791bb50a5f86dcfb580ead16",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_80f52bb3129c20633f4f161a",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_814842d729561c6e7b2bfe89",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_822859a3bbbb83bb7ba947d4",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_8903624673ebe23d6b0b7913",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_8caa26c224150f3be501e386",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_95870f3f7e6caff387a95b77",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_977c456596602c5f783d31af",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_a497a78e0d24c03b50d10c2f",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_a5180809a6eae7051c5a2a86",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_ae6988509b65b502feee71f3",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_b1fd1c7178afdbe85976fb65",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_b89672f3cc59320e79168d2d",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_c41a2698bc0cbc96d0a05283",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_c9b9dbb8ba530dde84729933",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_ca86b22ac5833d3d48b69b21",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_d625e91413108f0642dfb83f",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_d70aec972aa157579b2bc604",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_d8251ad7041294682dc01b97",
+      "use": "context",
+      "reason": "本轮未选取可独立核实的字段作数值判断，保留为背景，相关缺口在正文说明。"
+    },
+    {
+      "material_id": "src_e177d21137ab5cdffb4a4d2f",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_e3df672f7f2d7b68baa6e2d6",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_e4a860989a5d9afb71e9137a",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_e7bf312e5806941c91dd63f3",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_e8379f724f40faf078bd697b",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_e9df63e6a0e14b33f5022140",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_ed54144c4e651ea08bc10bc6",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_ef93f0f08a2603ea88c098c7",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_f74450e92ec7988a876b0898",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_f8db6cd1be4c9adb83412082",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_f9a1617a46a4e12269b496bc",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_fc4b1355da595cb4bdac3df1",
+      "use": "analysis",
+      "reason": "本轮选取已定位字段用于正文分析；OCR与外部缓存按原始识别和未复算边界披露。"
+    },
+    {
+      "material_id": "src_fc6a947e6bed7e82f4d50fbf",
+      "use": "context",
+      "reason": "历史衍生文本未选取足够可靠的具体事实；保留背景，不推断未披露事项。"
+    },
+    {
+      "material_id": "src_fe2722a3ad2fe7761b26b28a",
+      "use": "context",
+      "reason": "原件部分页面未提取，作为原始档案背景；可用衍生文本及其具体限制另行标注。"
+    },
+    {
+      "material_id": "src_917df3320d778ddbaa5c5c77",
+      "use": "analysis",
+      "reason": "已核申请原页金额，作为本报告评价基准关联键供封面使用；申请书签章日仍为2026年7月10日。"
+    }
+  ],
+  "scope_exclusions": [],
+  "file_hashes": {
+    "markdown": "6ccbaed3341bcdb9e5ca36e6d03d07520b0ddf9dc84d3a3bc2725ae2f773ce64",
+    "docx": "38c6c6af5b8e54fc0469d5d681910be55dbb30f95f915db61908a8d1965be802",
+    "pdf": "c8b038d773e3718e45dfa6de950cb3c734feee65fa7a0cdea096a13d12cd634b"
+  },
+  "chart_hashes": {},
+  "report_version": "V1.1",
+  "report_metadata": {
+    "统计期间": "2026年6月30日",
+    "报告生成日期": "2026-10-30",
+    "分析对象": "江铜华北（天津）铜业有限公司",
+    "编制部门": "未指定（待确认）",
+    "数据性质": "未明确标识（待核实）",
+    "报告版本": "V1.1",
+    "数据版本": "1530fafb9649435985da1db024a84f78",
+    "保密说明": "保密要求及等级未指定（待确认）",
+    "呈报部门": "XXXX",
+    "客户经理": "XXXX",
+    "呈报时间": "2026年10月30日",
+    "授信额度": "10亿元",
+    "额度证据": "ev_c70c0c76888e4368a4d6962acd82aacc"
+  },
+  "markdown_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.worktrees/due-diligence-model-consistency/.scratch/due-diligence-model-consistency/experiment/terra/projects/8b932637916d44bd912a76100ed17459/revisions/da5af6e419974b5284a8fb129ab51b0b/dist/full_report.md",
+  "docx_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.worktrees/due-diligence-model-consistency/.scratch/due-diligence-model-consistency/experiment/terra/projects/8b932637916d44bd912a76100ed17459/revisions/da5af6e419974b5284a8fb129ab51b0b/dist/full_report.docx",
+  "pdf_path": "/Users/a123/Downloads/workspace/jxcc_harness_project/jxcc_analysis_report_skills_project/.worktrees/due-diligence-model-consistency/.scratch/due-diligence-model-consistency/experiment/terra/projects/8b932637916d44bd912a76100ed17459/revisions/da5af6e419974b5284a8fb129ab51b0b/dist/full_report.pdf"
+}

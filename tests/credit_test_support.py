@@ -43,3 +43,12 @@ def equity_details(section):
     table += "| " + " | ".join("未提供（待核实）" for _ in rule["columns"]) + " |\n| " + " | ".join(total) + " |"
     children = [item["title"] for item in section["required_subsections"][rule["subheading"]]]
     return "### " + children[0] + "\n\n" + table + "\n\n### " + children[1] + "\n\n股东名单及持股、控制关系和简介资料待补，不推定股东人数或实际控制人。"
+
+
+def synthetic_review_coverage(draft):
+    """Synthetic contract fixtures only; these entries are not business signoff."""
+    lines = Path(draft["markdown_path"]).read_text(encoding="utf-8").splitlines()
+    return [{"id": item["id"], "locator": item["locator"],
+             "quote": lines[int(item["locator"].split(":")[1]) - 1], "result": "gap", "evidence_refs": [],
+             "assessment": "合成流程用例：该位置的业务充分性未作实质验收，保持待复核。"}
+            for item in draft["review_requirements"]]

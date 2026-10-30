@@ -1,0 +1,456 @@
+{
+  "inputs": [
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/2023年度审计报告.pdf",
+      "sha256": "3e2277691545367626b2a0bc604378e043524fa4d32cc39c5bee5156123f051e",
+      "bytes": 5675374
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/2024年度审计报告.pdf",
+      "sha256": "e177d21137ab5cdffb4a4d2f38eff5d8da986eb33de1df21c256d3d65d5afe8b",
+      "bytes": 8686547
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/2025年度审计报告.pdf",
+      "sha256": "791bb50a5f86dcfb580ead16524f13bb5e44e7db8d72060de28e6ba958153ef4",
+      "bytes": 10937661
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/2026年6月财务报表.pdf",
+      "sha256": "ae6988509b65b502feee71f30a44259ae013c28d6a97c1444d0284ac04dfe861",
+      "bytes": 1493189
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/主要产品数据-科目解释.xlsx",
+      "sha256": "f9a1617a46a4e12269b496bcab28550fd31da10198edd190e26cfb326cc0073d",
+      "bytes": 17755
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/供应商及客户.xlsx",
+      "sha256": "e8379f724f40faf078bd697b99d898b4bce0d9ba404800c963b739e3f9a79fe5",
+      "bytes": 16861
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/公司章程.pdf",
+      "sha256": "fe2722a3ad2fe7761b26b28a860cd153a11ada5b71f98d5274ac2bd829111731",
+      "bytes": 8098605
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/公司管理及高管履历.xlsx",
+      "sha256": "4651afac7e9368c4222694d32bbf6eead62064ba8de4f43f7ab988f695dae40e",
+      "bytes": 243928
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/合同/2025年五大采购合同/2025中铜国贸长单合同1.pdf",
+      "sha256": "123e77ff4c554756072a2c9056cebc93178efff6d9c55b9463b39fe6090512cb",
+      "bytes": 13941746
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/合同/2025年五大采购合同/2025宏盛长单.pdf",
+      "sha256": "b89672f3cc59320e79168d2d3cf0a3b84818cf61576abaddb502779d2395c92c",
+      "bytes": 3016763
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/合同/2025年五大采购合同/2025紫金国贸-江铜华北长单合同.PDF",
+      "sha256": "4ddb96f4313f381608f942aa6c902500da7a272cc7d9a047c807e3852a082da7",
+      "bytes": 526728
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/合同/2025年五大采购合同/2025集团铜业申旺卖方点价长单.pdf",
+      "sha256": "20d28a6e61077f9c3418da58776157874bf1ff20a05d2381dab5adee8ec7a1d6",
+      "bytes": 3780792
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/合同/2025年五大采购合同/微信图片_20260715114017_893_147.jpg",
+      "sha256": "ca86b22ac5833d3d48b69b212f86bbcdd42cf3715c6f77cfd4e75638225f9401",
+      "bytes": 746481
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/合同/2025年五大销售合同/2025年铜杆材料长期买卖合同.pdf",
+      "sha256": "c9b9dbb8ba530dde84729933a1d47c8dff71a99662a17a95e4bd4a63570d3f9e",
+      "bytes": 1845718
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/合同/2025年五大销售合同/同方合同.pdf",
+      "sha256": "d8251ad7041294682dc01b97caada5b8d93d737940a6de9ff3fb8d9e2c6333a0",
+      "bytes": 1273948
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/合同/2025年五大销售合同/海南热联25年长单.pdf",
+      "sha256": "5de9a0dc7596c02fd794beb9607bbdf4de102260ad987108c3b86743820c2195",
+      "bytes": 1606248
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/合同/2025年五大销售合同/精达25年长单.pdf",
+      "sha256": "657201b810555a6a4bbb3a85e2956a615d4652a2e159ea68e0699b51d803a83b",
+      "bytes": 2066101
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/合同/2025年五大销售合同/集团同业合同.pdf",
+      "sha256": "2fe11bd1d8b4cd623adc77f350208219eb9b6c674aa430a6b22c5da23cc0c87b",
+      "bytes": 1136346
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/合同/赤峰合同2025.jpg",
+      "sha256": "a5180809a6eae7051c5a2a86abfdc981f7b04ef56c58507cc1fc5e6a3da1fbd2",
+      "bytes": 950201
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/合同/赤峰合同2026.jpg",
+      "sha256": "d70aec972aa157579b2bc60430cd483e13142c2c2c3b424cb94c5af0012dc853",
+      "bytes": 893387
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/基础证件.pdf",
+      "sha256": "0cf8a34d334d2881cb79dee6e74bde65897662f6fb24008e1a8395bde2e602cf",
+      "bytes": 1535944
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/外部融资.xlsx",
+      "sha256": "3e9ad41df2808a3a1a7e8a0b7de3878863d43a49cf21fd4edc5812a087f7bc15",
+      "bytes": 12238
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/征信报告.pdf",
+      "sha256": "d625e91413108f0642dfb83f4fae35e41ef536a351625d864d545379e0288a4b",
+      "bytes": 4139432
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/扫描全能王 2026-08-14 10.16.pdf",
+      "sha256": "2cadccf0595d1e72c6c70c327d1f04c3c289b89871f0860607bd9a248573f529",
+      "bytes": 527607
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/授信申请书.pdf",
+      "sha256": "0b4882d74be12e8e1d0f2ff356422498af29d96753522db4d4e369465325c552",
+      "bytes": 456340
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/江铜华北（天津）铜业有限公司-企业深度信用报告-20261010-172123.pdf",
+      "sha256": "2bb947b11b8a3e3910232e24512203a73bf29cce2157bc1decf24b44875f898c",
+      "bytes": 617459
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/生产经营情况-成本分析表(1).xlsx",
+      "sha256": "e4a860989a5d9afb71e9137abe26327266cd2564a7e56287c24875a976c6758e",
+      "bytes": 11748
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/科目明细.xlsx",
+      "sha256": "f8db6cd1be4c9adb834120825a82f8630a891eed2b3c3c9d3ccaaa6d8e6d0141",
+      "bytes": 35162
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/股东会决议、董事会决议.pdf",
+      "sha256": "77716ad77405a1853d959800231ca6e24e7ff9a1bb484eb99c91145c53c2186a",
+      "bytes": 1691265
+    },
+    {
+      "path": "data/scenarios/financial_due_diligence/江铜华北/营运资金测算（财务指标调整为与评级一致）.xlsx",
+      "sha256": "63d59d89fb45cbbbc7b37be3130738ebc246d5f0f0b53b947bd8ef4ac59e3887",
+      "bytes": 251648
+    }
+  ],
+  "pdf_text_probe": [
+    {
+      "name": "2023年度审计报告.pdf",
+      "page_count": 76,
+      "text_chars": 47212,
+      "low_text_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        73,
+        74,
+        75,
+        76
+      ]
+    },
+    {
+      "name": "2024年度审计报告.pdf",
+      "page_count": 69,
+      "text_chars": 41788,
+      "low_text_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        66,
+        67,
+        68,
+        69
+      ]
+    },
+    {
+      "name": "2025年度审计报告.pdf",
+      "page_count": 66,
+      "text_chars": 39584,
+      "low_text_pages": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        63,
+        64,
+        65,
+        66
+      ]
+    },
+    {
+      "name": "2026年6月财务报表.pdf",
+      "page_count": 3,
+      "text_chars": 0,
+      "low_text_pages": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "公司章程.pdf",
+      "page_count": 37,
+      "text_chars": 0,
+      "low_text_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37
+      ]
+    },
+    {
+      "name": "基础证件.pdf",
+      "page_count": 4,
+      "text_chars": 0,
+      "low_text_pages": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "name": "征信报告.pdf",
+      "page_count": 13,
+      "text_chars": 0,
+      "low_text_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "name": "扫描全能王 2026-08-14 10.16.pdf",
+      "page_count": 1,
+      "text_chars": 0,
+      "low_text_pages": [
+        1
+      ]
+    },
+    {
+      "name": "授信申请书.pdf",
+      "page_count": 1,
+      "text_chars": 0,
+      "low_text_pages": [
+        1
+      ]
+    },
+    {
+      "name": "江铜华北（天津）铜业有限公司-企业深度信用报告-20261010-172123.pdf",
+      "page_count": 40,
+      "text_chars": 40084,
+      "low_text_pages": []
+    },
+    {
+      "name": "股东会决议、董事会决议.pdf",
+      "page_count": 3,
+      "text_chars": 0,
+      "low_text_pages": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "existing_model_cells": {
+    "营运资金测算": {
+      "B3": 2596820.985065,
+      "B5": 2779300,
+      "D22": 25.8415795354206,
+      "E23": 69024.3271802388
+    },
+    "营运资金测算-月均": {
+      "B3": 2596820.985065,
+      "B5": 2779300,
+      "D22": 20.0384078695393,
+      "E23": 100138.656093973
+    }
+  },
+  "recomputed_checks": {
+    "net_margin_percent": {
+      "2023": "0.2436769208444535317439062089",
+      "2024": "0.09208256216054458841483165767",
+      "2025": "0.07791526669691621677780723730",
+      "2026H1": "0.04964291135527681628812865743"
+    },
+    "ar_turnover_2026H1": "42.10941234359123250272378611",
+    "ar_days_2026H1_180_day_basis": "4.274578769499137441240331748",
+    "note": "复算采用已在报告及工作簿识别的单体金额；180天仅为明确展示的复算口径，正式口径须随计算契约记录；不构成授信模型运行。"
+  },
+  "artifacts": [
+    {
+      "path": "workspace/jiangtong_huabei_20261029/江铜华北（天津）铜业有限公司财务公司尽调分析报告.docx",
+      "sha256": "112913a2a7d538473d44435e5fa5c0afc29aaa6ac7648d44c460056d31370083",
+      "bytes": 31332
+    },
+    {
+      "path": "workspace/jiangtong_huabei_20261029/江铜华北（天津）铜业有限公司财务公司尽调分析报告.md",
+      "sha256": "6f42a6baee1df7cb0f9795380505a36b954750ba040317cd43317e674d097ab9",
+      "bytes": 34695
+    },
+    {
+      "path": "workspace/jiangtong_huabei_20261029/江铜华北（天津）铜业有限公司财务公司尽调分析报告.pdf",
+      "sha256": "5307a83fbc622313f9b44f44971e5ed916d470cffc27ddd5d612070289f7842a",
+      "bytes": 323434
+    },
+    {
+      "path": "workspace/jiangtong_huabei/.DS_Store",
+      "sha256": "7723a10c76e837aa0cb4b03573a6537df31b4ad36761a3fa69a419e246464a91",
+      "bytes": 6148
+    },
+    {
+      "path": "workspace/jiangtong_huabei/render_report.py",
+      "sha256": "93db06a8c822d6629860eae35a290ac11f11008ff45f17712ffd85c210ad6bf1",
+      "bytes": 4351
+    },
+    {
+      "path": "workspace/jiangtong_huabei/江铜华北财务尽调分析报告.md",
+      "sha256": "757c66bf45faf632bff99574b7a286689468362f61c4e73b4b05f3e4130d4867",
+      "bytes": 88468
+    },
+    {
+      "path": "workspace/jiangtong_huabei/deliverables/江铜华北授信调查报告.docx",
+      "sha256": "eb199f73511187bb62380019f47074b5acb11b51719fc51f836dc2964547c645",
+      "bytes": 83198
+    },
+    {
+      "path": "workspace/jiangtong_huabei/deliverables/江铜华北授信调查报告.pdf",
+      "sha256": "0254a44484cb815b860b5e5bc65fad88d0dc66df556361123c95ca5de0168cfd",
+      "bytes": 1561703
+    },
+    {
+      "path": "results/financial_due_diligence/关于2026年江铜华北（天津）铜业有限公司10亿.docx",
+      "sha256": "6265ae3ae707a0a4ab0b0871ca46f81d88926a63e8999e51f72e585c22e87c88",
+      "bytes": 174641
+    }
+  ],
+  "workspace_databases": [
+    {
+      "path": "workspace/jiangtong_huabei/8e3368ed05d641a79b0e3c6439502580/state.sqlite",
+      "tables": {
+        "project": 1
+      }
+    },
+    {
+      "path": "workspace/jiangtong_huabei_fresh/c8310095a89d4bf6b98e4a8a0fa8021f/state.sqlite",
+      "tables": {
+        "project": 1
+      }
+    },
+    {
+      "path": "workspace/jt_fresh/bfced0a3c4fe42d281bad2126a59ddbe/state.sqlite",
+      "tables": {
+        "project": 1
+      }
+    },
+    {
+      "path": "workspace/jt_fresh/c4c91bd445dc4757af2ce1ebbb688074/state.sqlite",
+      "tables": {
+        "project": 1,
+        "material": 10,
+        "run": 1,
+        "task": 10,
+        "candidate": 112,
+        "evidence": 51
+      }
+    },
+    {
+      "path": "workspace/jt_run2/962ecae0b4d74a518164c2f2d6cb653c/state.sqlite",
+      "tables": {
+        "project": 1,
+        "material": 10,
+        "run": 1,
+        "task": 10,
+        "candidate": 112,
+        "evidence": 60
+      }
+    }
+  ]
+}

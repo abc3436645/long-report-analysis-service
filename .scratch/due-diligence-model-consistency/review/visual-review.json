@@ -1,0 +1,120 @@
+{
+  "sol": {
+    "pdf_sha256": "4370091c2bb9d73382346ed78d0eb7939ec8cb95c68b08cf053e3ff5f889fbbc",
+    "page_count": 44,
+    "overview_pages_inspected": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44
+    ],
+    "full_size_pages_inspected": [
+      16,
+      26,
+      1,
+      39
+    ],
+    "final_changed_pages_rechecked": [
+      "page-01.png",
+      "page-39.png"
+    ],
+    "unchanged_pages_identical_to_previous_review": true,
+    "findings": [
+      "未见总览级裁切、重叠或全空白页；跨页表头有重复",
+      "章末/目录末页存在较大留白，来源标签较长"
+    ],
+    "limitations": [
+      "80dpi逐页总览及指定原尺寸页抽查，不等于所有字形逐字视觉比对",
+      "STFangsong实验字体，不是正式仿宋验收",
+      "未执行真实Word/WPS应用打开验收"
+    ]
+  },
+  "terra": {
+    "pdf_sha256": "c8b038d773e3718e45dfa6de950cb3c734feee65fa7a0cdea096a13d12cd634b",
+    "page_count": 23,
+    "overview_pages_inspected": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "full_size_pages_inspected": [
+      10,
+      15,
+      1
+    ],
+    "final_changed_pages_rechecked": [
+      "page-01.png"
+    ],
+    "unchanged_pages_identical_to_previous_review": true,
+    "findings": [
+      "未见总览级裁切、重叠或全空白页；跨页表头有重复",
+      "章末/目录末页存在较大留白，来源标签较长",
+      "Terra审计机构文字存在重复，可作后续编辑"
+    ],
+    "limitations": [
+      "80dpi逐页总览及指定原尺寸页抽查，不等于所有字形逐字视觉比对",
+      "STFangsong实验字体，不是正式仿宋验收",
+      "未执行真实Word/WPS应用打开验收"
+    ]
+  }
+}

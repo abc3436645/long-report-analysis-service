@@ -10,7 +10,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 
-from credit_test_support import synthetic_credit_cli, registration_table, equity_details
+from credit_test_support import synthetic_credit_cli, registration_table, equity_details, synthetic_review_coverage
 
 REPORT = Path(sys.executable).with_name("report")
 
@@ -65,7 +65,7 @@ class RetrievalCliTests(unittest.TestCase):
 
                 for expected in ("partial", "mismatch", "empty", "failed"):
                     project = call("project", "create", request={
-                        "scenario_id": "financial_due_diligence", "scenario_version": "0.2.0", "credit_application_id": "SYN-1",
+                        "scenario_id": "financial_due_diligence", "scenario_version": "0.3.0", "credit_application_id": "SYN-1",
                         "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-07-31",
                         "overrides": {"retrieval.enabled": True},
                     })
@@ -132,7 +132,7 @@ class RetrievalCliTests(unittest.TestCase):
                     return json.loads(result.stdout)["data"]
 
                 project = call("project", "create", request={
-                    "scenario_id": "financial_due_diligence", "scenario_version": "0.2.0",
+                    "scenario_id": "financial_due_diligence", "scenario_version": "0.3.0",
                     "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-07-31",
                     "credit_application_id": "SYN-001", "overrides": {"retrieval.enabled": True},
                 })
@@ -170,10 +170,10 @@ class RetrievalCliTests(unittest.TestCase):
 
                 def deliver(active_run, records):
                     call("calculate", request={"project_id": project["id"], "run_id": active_run["id"]})
-                    if not active_run.get("report_plan"):
-                        call("draft", "plan", request={"project_id": project["id"], "run_id": active_run["id"],
-                                                      "report_request": "评审甲公司授信风险与专业记录",
-                                                      "outline": outline})
+                    call("draft", "plan", request={"project_id": project["id"], "run_id": active_run["id"],
+                        "report_request": "评审甲公司授信风险与专业记录", "outline": outline,
+                        "material_uses": [{"material_id": identifier, "use": "analysis", "reason": "将已归档专业记录写入风险分析"}
+                                          for identifier in sorted({item["source_id"] for item in records})]})
                     event_lines = "；".join("{{fact:" + item["id"] + "}}（{{ev:" + item["id"] + "}}）" for item in records)
                     bodies = {}
                     for definition in outline["sections"]:
@@ -186,6 +186,8 @@ class RetrievalCliTests(unittest.TestCase):
                             text = "本稿依据归档专业记录提示担保和诉讼线索；必要材料及政策缺失，结论待复核。"
                         bodies[definition["id"]] = "\n\n".join("## " + heading + "\n\n" + text
                             for heading in definition["subheadings"]) if definition["subheadings"] else text
+                        for asset in definition.get("required_assets", []):
+                            bodies[definition["id"]] += "\n\n资料缺口：" + asset + "：合成检索流程未提供财务经营表，不作相应业务判断。"
                     bodies["company"] = bodies["company"].replace("## 一、工商信息\n\n",
                         "## 一、工商信息\n\n" + registration_table(outline["sections"][0]) + "\n\n", 1)
                     bodies["company"] = bodies["company"].replace("## 四、股权、股东及投资情况\n\n",
@@ -198,7 +200,8 @@ class RetrievalCliTests(unittest.TestCase):
                                 "task_id": section["id"], "author_id": "retrieval-writer", "body": bodies[section_id]})
                     draft = call("draft", "build", request={"project_id": project["id"], "run_id": active_run["id"]})
                     call("review", "submit", request={"project_id": project["id"], "run_id": active_run["id"],
-                        "draft_sha256": draft["sha256"], "reviewer_id": "retrieval-reviewer", "verdict": "pass", "issues": []})
+                        "draft_sha256": draft["sha256"], "reviewer_id": "retrieval-reviewer", "verdict": "pass", "issues": [],
+                        "coverage": synthetic_review_coverage(draft)})
                     return call("publish", request={"project_id": project["id"], "run_id": active_run["id"]})
 
                 first_revision = deliver(run, [evidence])
