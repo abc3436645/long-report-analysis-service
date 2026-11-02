@@ -15,6 +15,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 import yaml
 
 from long_report.operators import OPERATORS
+from long_report.amounts import validate_amount_display
 
 
 class ScenarioError(ValueError):
@@ -387,6 +388,11 @@ def load_scenario(scenario_id: str, root=None) -> Scenario:
         raise ScenarioError(f"{scenario_id}/scenario.yaml: presentation fonts are required")
     if type(presentation.get("allow_font_fallback", True)) is not bool:
         raise ScenarioError("scenario.presentation.allow_font_fallback must be boolean")
+    if "amount_display" in presentation:
+        try:
+            validate_amount_display(presentation["amount_display"])
+        except ValueError as error:
+            raise ScenarioError(str(error)) from error
     for group in ("styles", "table_styles"):
         style_rules = presentation.get(group, {})
         if not isinstance(style_rules, dict):

@@ -4,6 +4,8 @@ status: accepted
 
 # 财务公司尽调封面按对象额度和运行日期生成
 
+2026-10-30补充：[ADR 0018](0018-financial-amount-display.md)将声明`amount_display`的新配置封面额度改为按正文金额分级选择单位。下文固定亿元展示保留为原决策记录；其余绑定和核验约束继续适用。
+
 用户要求财务公司尽调封面除标题外包含呈报部门、客户经理及当日时间，并再次明确仅作用于该场景。用户文字中的“承包时间”按其示例解释为“呈报时间”；没有新增合同或承包业务字段。
 
 `financial_due_diligence/scenario.yaml.presentation.cover`定义标题模板、额度选择器、显示单位、缺口文字、时区及有序展示字段。标题为“关于{business_unit}{credit_amount}综合授信调查报告”；业务公司取项目`subject_scope.business_unit`，不预填样本公司。呈报部门读取`report_metadata.prepared_by`、客户经理读取`report_metadata.account_manager`，缺省均为`XXXX`。呈报时间取服务器持久化的本轮`started_at`，按Asia/Shanghai转为年月日，不接受用户日期覆盖，不用评价基准、材料日期或稍后的发布时间替代。每个新运行均独立记时，同一已发布运行重试保持原结果。

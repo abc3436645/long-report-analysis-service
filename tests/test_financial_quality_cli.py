@@ -91,7 +91,7 @@ class FinancialQualityCliTests(unittest.TestCase):
                     return
                 self.assertEqual(result.returncode, 0, result.stderr)
                 return json.loads(result.stdout)["data"]
-            project = call("project", "create", request={"scenario_id": "financial_due_diligence", "scenario_version": "0.3.0",
+            project = call("project", "create", request={"scenario_id": "financial_due_diligence", "scenario_version": "0.3.1",
                 "credit_application_id": "SYN-MIXED", "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-06-30"})
             writer = PdfWriter()
             writer.add_page(PdfReader(Path(__file__).parent / "fixtures/credit_pdf_fixture.pdf").pages[0])
@@ -169,7 +169,7 @@ class FinancialQualityCliTests(unittest.TestCase):
         from long_report.application import create_project, add_material
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            project = create_project(root / "projects", {"scenario_id": "financial_due_diligence", "scenario_version": "0.3.0",
+            project = create_project(root / "projects", {"scenario_id": "financial_due_diligence", "scenario_version": "0.3.1",
                 "credit_application_id": "SYN-SCAN", "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-06-30"})
             raw = root / "scan.pdf"
             writer = PdfWriter(); writer.add_blank_page(width=595, height=842)
@@ -210,7 +210,7 @@ class FinancialQualityCliTests(unittest.TestCase):
         from long_report.application import create_project, add_material, start_run, list_tasks, submit_task, decide_evidence
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            project = create_project(root / "projects", {"scenario_id": "financial_due_diligence", "scenario_version": "0.3.0",
+            project = create_project(root / "projects", {"scenario_id": "financial_due_diligence", "scenario_version": "0.3.1",
                 "credit_application_id": "SYN-SPAN", "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-06-30"})
             source = root / "source.txt"; source.write_text("法定代表人：魏斌；净利润-100.00万元；其他识别不清的长段。\n")
             material = add_material(root / "projects", {"project_id": project["id"], "input_id": "application", "path": str(source)})
@@ -246,7 +246,7 @@ class FinancialQualityCliTests(unittest.TestCase):
         from long_report.application import create_project, add_material
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            project = create_project(root / "projects", {"scenario_id": "financial_due_diligence", "scenario_version": "0.3.0",
+            project = create_project(root / "projects", {"scenario_id": "financial_due_diligence", "scenario_version": "0.3.1",
                 "credit_application_id": "SYN-FORMAT", "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-06-30"})
             text = root / "amount.txt"; text.write_text("10\n")
             first = add_material(root / "projects", {"project_id": project["id"], "input_id": "application", "path": str(text)})

@@ -16,7 +16,8 @@ from uuid import uuid4
 from zipfile import BadZipFile, ZipFile
 from zoneinfo import ZoneInfo
 
-from long_report.scenario import load_scenario, scenario_ids, scenario_template, validate_report_outline, validate_section_headings, validate_source_mapping
+from long_report.scenario import load_scenario, scenario_ids, scenario_template, validate_report_outline, validate_section_headings, validate_source_mapping, markdown_table_rows
+from long_report.amounts import UNITS, display_amount, convert_chart_point
 from long_report.financials import calculate_financials, material_coverage, validate_financial_body, review_requirements, validate_review_coverage
 from long_report.operators import OPERATORS
 from long_report.rendering import render_paginated_docx, verify_docx, verify_pdf_charts
@@ -903,6 +904,13 @@ def create_chart(workspace: Path, request: dict) -> dict:
                         "value": item["value"], "unit": item["unit"]}
                        for item in calculations if item.get("status") == "calculated" and item.get("subject_id") == next(iter(dimensions))[0]
                        and set(item.get("input_evidence_ids", [])) <= set(ids) and item.get("input_evidence_ids")][:4]
+        amount_display = run["effective_config"]["scenario"]["presentation"].get("amount_display")
+        chart_unit = next(iter(dimensions))[3]
+        if amount_display and chart_unit in UNITS:
+            points = [convert_chart_point({**point, "unit": chart_unit}, amount_display["chart_unit"]) for point in points]
+            chart_unit = amount_display["chart_unit"]
+        if amount_display:
+            annotations = [convert_chart_point(item, amount_display["chart_unit"]) for item in annotations]
         source_locations = {}
         for identifier in ids:
             item = evidence[identifier]
@@ -914,6 +922,8 @@ def create_chart(workspace: Path, request: dict) -> dict:
         spec = {"title": title.strip(), "renderer_version": CHART_RENDERER_VERSION,
                 "series": [{"label": item["label"].strip(), "evidence_id": item["evidence_id"]} for item in series],
                 "annotation_ids": [item["id"] for item in annotations]}
+        if amount_display:
+            spec["amount_display"] = amount_display
         chart_id = "chart_" + sha256((project["id"] + json.dumps(spec, ensure_ascii=False, sort_keys=True)).encode()).hexdigest()[:24]
         existing = _chart_records(connection).get(chart_id)
         if existing:
@@ -926,12 +936,13 @@ def create_chart(workspace: Path, request: dict) -> dict:
         if path.exists():
             raise ValueError("chart asset already exists without a registered record")
         dimensions_value = next(iter(dimensions))
-        draw_comparison(path, title.strip(), points, dimensions_value[3] or "",
+        draw_comparison(path, title.strip(), points, chart_unit or "",
                         dimensions_value[0] + " · " + evidence[ids[0]]["period"], "、".join(source_names), annotations)
         chart = {"id": chart_id, "project_id": project["id"], "created_run_id": run["id"], "title": title.strip(),
                  "series": spec["series"], "renderer_version": CHART_RENDERER_VERSION,
                  "source_evidence_ids": ids, "subject_id": next(iter(dimensions))[0], "metric_id": next(iter(dimensions))[1],
-                 "period": evidence[ids[0]]["period"], "unit": next(iter(dimensions))[3],
+                 "period": evidence[ids[0]]["period"], "unit": chart_unit,
+                 "display_series": points,
                  "source_caption": source_caption, "annotations": annotations,
                  "path": str(path), "sha256": sha256(path.read_bytes()).hexdigest()}
         connection.execute("CREATE TABLE IF NOT EXISTS chart (id TEXT PRIMARY KEY, data TEXT NOT NULL)")
@@ -1119,6 +1130,7 @@ def get_draft_context(workspace: Path, project_id: str, task_id: str) -> dict:
             "material_uses": [{**item, "original_name": materials[item["material_id"]]} for item in run.get("report_plan", {}).get("material_uses", [])],
             "scope_exclusions": scope_exclusions,
             "writing_guidance": run["effective_config"]["analysis"].get("writing_guidance", {}),
+            "amount_display": run["effective_config"]["scenario"]["presentation"].get("amount_display"),
             "quality_rules": run["effective_config"]["quality"]}
 
 
@@ -1324,6 +1336,7 @@ def build_draft(workspace: Path, request: dict) -> dict:
         materials = {item["id"]: item for row in connection.execute("SELECT data FROM material") if (item := json.loads(row[0]))}
         charts = _chart_records(connection)
     parts = []
+    amount_display = run["effective_config"]["scenario"]["presentation"].get("amount_display")
     section_defs = {item["id"]: item for item in run["effective_config"]["outline"]["sections"]}
     for task in sorted(tasks, key=lambda item: item["display_order"]):
         section_id = task["section_id"].split(":", 1)[0]
@@ -1338,21 +1351,38 @@ def build_draft(workspace: Path, request: dict) -> dict:
             parts.append(f"{'#' * level} {task['subject_id']}")
 
         def replace(match):
-            kind, identifier, precision = match.groups()
-            if kind == "calc" and identifier in calculations:
-                value = calculations[identifier]["value"]
-                return format(Decimal(value).quantize(Decimal(1).scaleb(-int(precision)), rounding=ROUND_HALF_UP), "f") if precision else value
-            if kind == "fact" and identifier in evidence:
-                value = evidence[identifier]["value"]
-                return format(Decimal(value).quantize(Decimal(1).scaleb(-int(precision)), rounding=ROUND_HALF_UP), "f") if precision else value
+            kind, identifier, precision = match.group(1, 2, 3)
+            suffix = (match[4] or "") if amount_display else ""
+            if kind in ("calc", "fact") and identifier in (calculations if kind == "calc" else evidence):
+                item = (calculations if kind == "calc" else evidence)[identifier]
+                if amount_display and (shown := display_amount(item, amount_display, medium, precision or None)):
+                    return shown[0] + ("" if medium == "table" and table_has_unit else shown[1])
+                value = item["value"]
+                return (format(Decimal(value).quantize(Decimal(1).scaleb(-int(precision)), rounding=ROUND_HALF_UP), "f") if precision else value) + suffix
             if kind == "ev" and identifier in evidence:
                 item = evidence[identifier]
-                return f"〔来源：{materials[item['source_id']]['original_name']}，{item['source_locator']}〕"
+                return f"〔来源：{materials[item['source_id']]['original_name']}，{item['source_locator']}〕" + suffix
             raise ValueError(f"missing report reference: {identifier}")
 
         if run["effective_config"]["quality"].get("financial_quality"):
             validate_financial_body(bodies[task["id"]], section)
-        rendered = re.sub(REFERENCE, replace, bodies[task["id"]])
+        if amount_display:
+            blocks = []
+            raw_blocks = bodies[task["id"]].split("\n\n")
+            for index, block in enumerate(raw_blocks):
+                medium = "table" if markdown_table_rows(block) is not None else "text"
+                table_has_unit = medium == "table" and bool(re.search(r"[（(](?:亿元|万元|元)[）)]|单位[：:]\s*(?:亿元|万元|元)", block.splitlines()[0]))
+                if medium == "table":
+                    header, rest = block.split("\n", 1)
+                    header = re.sub(r"([（(])(?:亿元|万元|元)([）)])", lambda m: m[1] + amount_display["table_unit"] + m[2], header)
+                    header = re.sub(r"(单位[：:]\s*)(?:亿元|万元|元)", lambda m: m[1] + amount_display["table_unit"], header)
+                    block = header + "\n" + rest
+                elif index + 1 < len(raw_blocks) and markdown_table_rows(raw_blocks[index + 1]) is not None:
+                    block = re.sub(r"(单位[：:]\s*)(?:亿元|万元|元)(?![/／])", lambda m: m[1] + amount_display["table_unit"], block)
+                blocks.append(re.sub(REFERENCE + r"([ \t]*(?:亿元|万元|元)(?![/／]))?", replace, block))
+            rendered = "\n\n".join(blocks)
+        else:
+            rendered = re.sub(REFERENCE, replace, bodies[task["id"]])
         def replace_chart(match):
             chart = charts[match[1]]
             point = evidence[chart["source_evidence_ids"][0]]
@@ -1658,6 +1688,10 @@ def _cover_metadata(project: dict, run: dict, evidence: list[dict], materials: l
                     value = Decimal(match[1].replace(",", "")) * units[unit] / units[profile["amount_unit"]]
                     text = format(value, "f")
                 metadata["授信额度"] = (text.rstrip("0").rstrip(".") if "." in text else text) + profile["amount_unit"]
+                amount_display = run["effective_config"]["scenario"]["presentation"].get("amount_display")
+                if amount_display:
+                    shown, shown_unit = display_amount({"value": match[1], "unit": unit}, amount_display, "text")
+                    metadata["授信额度"] = (shown.rstrip("0").rstrip(".") if "." in shown else shown) + shown_unit
                 metadata["额度证据"] = point["id"]
     return metadata
 

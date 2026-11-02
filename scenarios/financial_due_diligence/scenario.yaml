@@ -1,7 +1,7 @@
 schema_version: 1
 id: financial_due_diligence
 title: 财务公司授信评审
-version: "0.3.0"
+version: "0.3.1"
 subject_model: credit_application_and_business_unit
 time_model: evaluation_date
 inputs:
@@ -19,6 +19,13 @@ presentation:
   heading_font: 仿宋
   latin_font: 仿宋
   allow_font_fallback: false
+  amount_display:
+    table_unit: 万元
+    chart_unit: 万元
+    text_unit: 万元
+    text_large_unit: 亿元
+    text_large_threshold: "100000000"
+    decimal_places: 2
   cover:
     title_template: 关于{business_unit}{credit_amount}综合授信调查报告
     amount_selector: application_credit_amount
