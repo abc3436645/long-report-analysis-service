@@ -108,7 +108,8 @@ class CreditReportCliTests(unittest.TestCase):
                 self.assertEqual(context["writing_guidance"], project["effective_config"]["analysis"]["writing_guidance"])
                 self.assertTrue(context["writing_guidance"]["review_checklist"])
                 for requirement in ("management_profiles", "table_interpretation", "counterparty_assessment", "operating_stability",
-                                    "business_adaptation", "report_expression", "cross_chapter_consistency", "comprehensive_assessment"):
+                                    "business_adaptation", "report_expression", "cross_chapter_consistency", "comprehensive_assessment", "credit_policy_application",
+                                    "credit_scoring_review", "working_capital_review", "credit_terms_tables", "conclusion_traceability"):
                     self.assertTrue(context["writing_guidance"][requirement],
                                     "Detailed management and business interpretation requirements must reach the writer")
 
@@ -196,6 +197,8 @@ class CreditReportCliTests(unittest.TestCase):
                 self.assertNotEqual(next(item for item in plan if item["section_id"] == "terms")["status"], "submitted")
                 revised = dict(bodies)
                 revised["terms"] = chapter("terms", "已收到外部结果：{{fact:" + accepted["id"] + "}}，来源 {{ev:" + accepted["id"] + "}}。仍须核对模型版本、等级流程和期限规则。")
+                revised["terms"] += "".join("\n\n资料缺口：" + asset + "：合成补件只有结果，未提供完整测算和要素依据。"
+                                              for asset in next(item for item in outline["sections"] if item["id"] == "terms")["required_assets"])
                 revised["conclusion"] = chapter("conclusion", "已核对申请、财务、专业记录和本次外部结果；等级及期限仍按独立流程确认，本稿待复核。")
                 for section_id in order:
                     task = next(item for item in call("draft", "plan", request={"project_id": project["id"], "run_id": update["id"]})

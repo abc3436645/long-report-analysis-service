@@ -278,12 +278,12 @@ def validate_report_outline(outline: object, analysis: dict, scope: dict,
         _references(section.get("analysis_refs"), available, f"report outline.sections.{section_id}.analysis_refs")
     _check_dag(sections)
     if fixed_outline and fixed_outline.get("fixed"):
-        fields = ("id", "title", "display_order", "repeat_for", "subheadings", "required_tables", "required_subsections")
+        fields = ("id", "title", "display_order", "repeat_for", "subheadings", "required_tables", "required_subsections", "required_assets", "depends_on")
         def structure(items):
             return [{key: section.get(key) for key in fields}
                     for section in sorted(items, key=lambda item: item["display_order"])]
         if structure(list(sections.values())) != structure(fixed_outline["sections"]):
-            raise ScenarioError("report outline must preserve fixed chapter titles, order and subheadings")
+            raise ScenarioError("report outline must preserve fixed chapter titles, order, subheadings, required assets and dependencies")
     names = outline.get("unit_names", scope.get("units", []))
     if not isinstance(names, list) or any(not isinstance(name, str) or not name.strip() for name in names) or len(names) != len(set(names)) or not set(names) <= set(scope.get("units", [])):
         raise ScenarioError("report outline.unit_names must be distinct project units")
