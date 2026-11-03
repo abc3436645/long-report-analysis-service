@@ -1,0 +1,17 @@
+schema_version: 1
+connections:
+  somark_http:
+    protocol: http
+    endpoint: http://10.99.106.214:8006/v1
+    auth_ref: env:SOMARK_API_KEY
+services:
+  somark_ocr:
+    enabled: true
+    connection_ref: somark_http
+    adapter: somark_http
+    capability: document.ocr
+    contract_version: 1
+    timeout_seconds: 120
+    poll_interval_seconds: 2
+    max_upload_bytes: 50000000
+    max_response_bytes: 20000000
