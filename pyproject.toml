@@ -15,6 +15,8 @@ dependencies = [
     "Pillow>=11,<14",
     "pytest>=9.1.1",
     "pdf-inspector>=1.25.2",
+    "somark>=0.1.0",
+    "httpx>=0.28,<1",
 ]
 
 [project.scripts]

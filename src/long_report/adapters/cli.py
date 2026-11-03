@@ -6,8 +6,9 @@ import sqlite3
 import sys
 from pathlib import Path
 
-from long_report.application import add_material, auto_submit_task, build_draft, calculate_run, cancel_run, create_chart, create_project, decide_evidence, execute_retrieval, freeze_evidence, get_draft_context, get_latest_revision, get_material, get_project, get_run, get_scenario, get_task_context, list_scenarios, list_tasks, plan_draft, publish_run, start_run, submit_draft, submit_review, submit_task, validate_run
+from long_report.application import add_material, auto_submit_task, build_draft, calculate_run, cancel_run, create_chart, create_project, decide_evidence, execute_retrieval, freeze_evidence, get_draft_context, get_latest_revision, get_material, get_project, get_run, get_scenario, get_task_context, list_scenarios, list_tasks, ocr_material, plan_draft, publish_run, start_run, submit_draft, submit_review, submit_task, validate_run
 from long_report.scenario import ScenarioError
+from long_report.application import prepare_materials
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -30,6 +31,14 @@ def main(argv: list[str] | None = None) -> int:
     add = material_commands.add_parser("add")
     add.add_argument("--workspace", type=Path, required=True)
     add.add_argument("--request", type=Path, required=True)
+    ocr = material_commands.add_parser("ocr", help="prepare or resume configured OCR before starting a run")
+    ocr.add_argument("--workspace", type=Path, required=True)
+    ocr.add_argument("--request", type=Path, required=True)
+    ocr.add_argument("--services-config", type=Path)
+    prepare = material_commands.add_parser("prepare", help="extract unread original pages and resume pending OCR jobs")
+    prepare.add_argument("--workspace", type=Path, required=True)
+    prepare.add_argument("--request", type=Path, required=True)
+    prepare.add_argument("--services-config", type=Path)
     material_show = material_commands.add_parser("show")
     material_show.add_argument("id")
     material_show.add_argument("--project", required=True)
@@ -39,6 +48,8 @@ def main(argv: list[str] | None = None) -> int:
     start = run_commands.add_parser("start")
     start.add_argument("--workspace", type=Path, required=True)
     start.add_argument("--request", type=Path, required=True)
+    start.add_argument("--prepare-materials", action="store_true")
+    start.add_argument("--services-config", type=Path)
     run_show = run_commands.add_parser("show")
     run_show.add_argument("id")
     run_show.add_argument("--workspace", type=Path, required=True)
@@ -126,10 +137,20 @@ def main(argv: list[str] | None = None) -> int:
             result = get_project(args.workspace, args.id)
         elif args.command == "material" and args.material_command == "add":
             result = add_material(args.workspace, json.loads(args.request.read_text(encoding="utf-8")))
+        elif args.command == "material" and args.material_command in ("ocr", "prepare"):
+            request = json.loads(args.request.read_text(encoding="utf-8"))
+            if args.services_config is not None:
+                request["services_config"] = str(args.services_config.resolve())
+            result = (ocr_material if args.material_command == "ocr" else prepare_materials)(args.workspace, request)
         elif args.command == "material":
             result = get_material(args.workspace, args.project, args.id)
         elif args.command == "run" and args.run_command == "start":
-            result = start_run(args.workspace, json.loads(args.request.read_text(encoding="utf-8")))
+            request = json.loads(args.request.read_text(encoding="utf-8"))
+            if args.prepare_materials:
+                request["prepare_materials"] = True
+            if args.services_config is not None:
+                request["services_config"] = str(args.services_config.resolve())
+            result = start_run(args.workspace, request)
         elif args.command == "run" and args.run_command == "show":
             result = get_run(args.workspace, args.project, args.id)
         elif args.command == "run":
@@ -172,5 +193,6 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps({"ok": False, "error": str(error)}, ensure_ascii=False), file=sys.stderr)
         return 1
     capability = "scenario_contract_only" if args.command in ("scenario", "scenarios") else "project_state" if args.command == "project" else "material_state" if args.command == "material" else "run_state" if args.command in ("run", "task") else "retrieval_state" if args.command == "retrieval" else "evidence_state" if args.command == "evidence" else "calculation_state" if args.command == "calculate" else "chart_state" if args.command == "chart" else "draft_state" if args.command == "draft" else "review_state" if args.command == "review" else "validation_state" if args.command == "validate" else "revision_state"
-    print(json.dumps({"ok": True, "capability": capability, "data": result}, ensure_ascii=False))
-    return 0
+    complete = not isinstance(result, dict) or result.get("status") not in ("incomplete", "awaiting_materials")
+    print(json.dumps({"ok": complete, "capability": capability, "data": result}, ensure_ascii=False))
+    return 0 if complete else 1

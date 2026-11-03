@@ -1,20 +1,25 @@
 schema_version: 1
 id: financial_due_diligence
 title: 财务公司授信评审
-version: "0.3.1"
+version: "0.3.3"
 subject_model: credit_application_and_business_unit
 time_model: evaluation_date
 inputs:
   - {id: application, required: true, kinds: [docx, pdf, txt, jpg, jpeg, png]}
-  - {id: financials, required: false, kinds: [xlsx, csv, pdf, jpg, jpeg, png]}
+  - {id: financials, required: false, kinds: [xlsx, csv, pdf, txt, jpg, jpeg, png]}
   - {id: professional_records, required: false, kinds: [pdf, docx, txt]}
   - {id: external_credit_results, required: false, kinds: [pdf, docx, txt]}
 retrieval: {enabled: false, task_refs: [enterprise_events]}
+external_services:
+  ocr: {enabled: true, service_ref: somark_ocr, capability: document.ocr, contract_version: 1}
+ingestion:
+  ocr: {service_slot: ocr, when: unread_pages, mode: auto, sync_max_pages: 3}
 outline: outline.yaml
 analysis: analysis.yaml
 quality: quality.yaml
 template: templates/default-v0.2.0.docx
 presentation:
+  annotations: word_comments
   body_font: 仿宋
   heading_font: 仿宋
   latin_font: 仿宋

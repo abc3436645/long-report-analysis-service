@@ -115,7 +115,7 @@ def validate_financial_body(body: str, section: dict) -> None:
         raise ValueError("unbound financial number: use current fact/calc references, including table values")
 
 
-def review_requirements(markdown: str, outline: dict) -> list[dict]:
+def review_requirements(markdown: str, outline: dict, quality: dict | None = None) -> list[dict]:
     requirements, section, table_index = [], None, 0
     by_title = {item["title"]: item for item in outline["sections"]}
     lines = markdown.splitlines()
@@ -123,6 +123,11 @@ def review_requirements(markdown: str, outline: dict) -> list[dict]:
         if line.startswith("# "):
             section = by_title.get(line[2:])
             table_index = 0
+            if section and (quality or {}).get("chapter_expression_review"):
+                requirements.append({"id": "expression:" + section["id"], "kind": "expression", "locator": f"line:{i+1}",
+                                     "criteria": ["正文直接回答本章业务主题，不能以核查流程和补件替代事实及分析",
+                                                  "来源定位、核查过程、编稿说明和待办放批注，并有对应锚点",
+                                                  "实质风险、判断限制和授信前提仍在正文，不能仅藏于批注"]})
             if section and not section.get("subheadings"):
                 requirements.append({"id": section["id"] + ":body", "kind": "section", "locator": f"line:{i+1}"})
         elif section and line.startswith("## "):

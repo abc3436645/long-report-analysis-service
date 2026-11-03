@@ -92,7 +92,7 @@ class CreditCoverTests(unittest.TestCase):
 
     def test_project_accepts_reporting_people_but_not_forged_dates_or_manual_title(self):
         with tempfile.TemporaryDirectory() as temporary:
-            request = dict(scenario_id="financial_due_diligence", scenario_version="0.3.1",
+            request = dict(scenario_id="financial_due_diligence", scenario_version="0.3.3",
                            credit_application_id="COVER-1", subject_scope=dict(business_unit="甲公司"),
                            evaluation_date="2026-07-31", report_metadata=dict(prepared_by="公司业务部", account_manager="甲经理"))
             project = create_project(Path(temporary), request)

@@ -44,7 +44,7 @@ class AmountDisplayTests(unittest.TestCase):
         self.root = Path(self.temporary.name)
         self.workspace = self.root / "projects"
         self.project = app.create_project(self.workspace, {
-            "scenario_id": "financial_due_diligence", "scenario_version": "0.3.1",
+            "scenario_id": "financial_due_diligence", "scenario_version": "0.3.3",
             "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-06-30",
             "credit_application_id": "SYN-UNITS"})
         source = self.root / "amounts.txt"

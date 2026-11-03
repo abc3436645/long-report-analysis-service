@@ -5,3 +5,4 @@ formal_requires: all_required_checks_pass
 visible_fields: [business_unit, risk_finding, confirmed_external_result]
 
 financial_quality: true
+chapter_expression_review: true

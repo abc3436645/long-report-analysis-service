@@ -25,6 +25,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT, WD_TAB_LEADER
 from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT
 
 from long_report.scenario import markdown_table_rows
+from long_report.annotations import annotated_blocks, verify_comments
 from docx.enum.section import WD_ORIENT, WD_SECTION_START
 
 
@@ -189,6 +190,8 @@ def _table_rules(markdown: str, outline: dict | None, presentation: dict | None 
 def render_docx(markdown: str, template: Path, output: Path, title: str, toc_units: dict[str, int] | None = None,
                 presentation: dict | None = None, toc_entries: list[tuple[int, str, int]] | None = None,
                 metadata: dict | None = None, outline: dict | None = None) -> None:
+    annotated = annotated_blocks(markdown, presentation)
+    markdown = "\n\n".join(text for text, _ in annotated)
     if metadata is not None:
         _validate_cover(title, metadata, presentation)
     document = Document(template)
@@ -244,6 +247,8 @@ def render_docx(markdown: str, template: Path, output: Path, title: str, toc_uni
         if name == "Title":
             fmt.alignment = WD_ALIGN_PARAGRAPH.CENTER
             fmt.space_before, fmt.space_after = Pt(54), Pt(28)
+            if (presentation or {}).get("cover"):
+                fmt.left_indent = fmt.right_indent = Pt(points / 2)
         if style.element.pPr is not None:
             for border in style.element.pPr.findall(qn("w:pBdr")):
                 style.element.pPr.remove(border)
@@ -299,7 +304,7 @@ def render_docx(markdown: str, template: Path, output: Path, title: str, toc_uni
     first_heading, heading_index = True, 0
     landscape, following_note = False, False
     table_rules, table_index = _table_rules(markdown, outline, presentation), 0
-    blocks = markdown.strip().split("\n\n")
+    blocks = [block for block in markdown.strip().split("\n\n") if block.strip()]
     for block_index, block in enumerate(blocks):
         lines = block.splitlines()
         chart = re.fullmatch(r"!\[([^\]]+)\]\((assets/chart_[0-9a-f]{24}\.png)\)", block.strip())
@@ -318,6 +323,7 @@ def render_docx(markdown: str, template: Path, output: Path, title: str, toc_uni
             document.add_picture(str(output.parent / chart[2]), width=width)
             document.paragraphs[-1].paragraph_format.keep_with_next = True
             caption = document.add_paragraph(chart[1], style="Caption")
+            paragraph = caption
             caption.paragraph_format.keep_with_next = (block_index + 1 < len(blocks)
                                                        and blocks[block_index + 1].startswith("图表数据来源"))
         elif (rows := markdown_table_rows(block)) is not None:
@@ -382,6 +388,8 @@ def render_docx(markdown: str, template: Path, output: Path, title: str, toc_uni
                         shade.set(qn("w:fill"), "E9EFF5")
                         cell._tc.get_or_add_tcPr().append(shade)
                 table.rows[index]._tr.get_or_add_trPr().append(OxmlElement("w:cantSplit"))
+            paragraph = next((p for row in table.rows for cell in row.cells for p in cell.paragraphs if p.text),
+                             table.rows[0].cells[0].paragraphs[0])
         elif heading:
             level, name = len(heading[1]), heading[2].strip()
             paragraph = document.add_paragraph(name, style=f"Heading {level}")
@@ -397,7 +405,7 @@ def render_docx(markdown: str, template: Path, output: Path, title: str, toc_uni
                 paragraph.paragraph_format.page_break_before = not first_heading
                 first_heading = False
         elif re.match(r"^表\s*[0-9]+[-－—][0-9]+", block):
-            document.add_paragraph(block.strip(), style="Caption")
+            paragraph = document.add_paragraph(block.strip(), style="Caption")
         else:
             paragraph = document.add_paragraph(style="Normal")
             if (block.startswith("图表数据来源") or "〔来源：" in block
@@ -408,6 +416,12 @@ def render_docx(markdown: str, template: Path, output: Path, title: str, toc_uni
                 if part:
                     bold = part.startswith("**") and part.endswith("**")
                     paragraph.add_run(part[2:-2] if bold else part).bold = bold
+        for note in annotated[block_index][1]:
+            anchor = next((run for run in reversed(paragraph.runs) if run.text), None)
+            if anchor is None:
+                raise ValueError("comment requires visible report text")
+            document.add_comment(anchor, text=note, author="报告审阅", initials="")
+    verify_comments(document, annotated)
     output.parent.mkdir(parents=True, exist_ok=True)
     document.save(output)
 
@@ -434,6 +448,8 @@ def _convert_pdf(docx: Path) -> Path:
     with tempfile.TemporaryDirectory(prefix="long-report-office-") as temporary:
         profile = Path(temporary)
         config = ET.Element("fontconfig")
+        if os.environ.get("FONTCONFIG_FILE"):
+            ET.SubElement(config, "include").text = str(Path(os.environ["FONTCONFIG_FILE"]).resolve())
         for directory in ("/System/Library/Fonts", "/System/Library/Fonts/Supplemental", "/System/Library/AssetsV2", "/Library/Fonts",
                           "/usr/share/fonts", "/usr/local/share/fonts", str(Path.home() / "Library/Fonts"),
                           str(Path.home() / ".local/share/fonts"), str(Path.home() / ".fonts")):
@@ -482,6 +498,9 @@ def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str], *, meta
                 outline: dict | None = None, presentation: dict | None = None) -> dict:
     """Read the delivered Word body back before the revision becomes visible."""
     document = Document(path)
+    annotated = annotated_blocks(markdown, presentation)
+    verify_comments(document, annotated)
+    markdown = "\n\n".join(text for text, _ in annotated)
     for index, section in enumerate(document.sections):
         portrait = abs(section.page_width - Cm(21)) < Cm(.02) and abs(section.page_height - Cm(29.7)) < Cm(.02)
         landscape = abs(section.page_width - Cm(29.7)) < Cm(.02) and abs(section.page_height - Cm(21)) < Cm(.02)
@@ -589,6 +608,8 @@ def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str], *, meta
                     raise ValueError("report table text has no dedicated style")
                 if rule and "font" in rule:
                     for run in paragraph.runs:
+                        if not run.text:
+                            continue
                         properties = run._r.rPr
                         fonts = properties.rFonts if properties is not None else None
                         size_cs = properties.find(qn("w:szCs")) if properties is not None else None

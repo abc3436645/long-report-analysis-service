@@ -6,6 +6,8 @@ import json
 import re
 import shutil
 import sqlite3
+import math
+from time import monotonic, sleep
 from datetime import datetime, timedelta, timezone
 from io import BytesIO, StringIO
 from datetime import date
@@ -18,6 +20,7 @@ from zoneinfo import ZoneInfo
 
 from long_report.scenario import load_scenario, scenario_ids, scenario_template, validate_report_outline, validate_section_headings, validate_source_mapping, markdown_table_rows
 from long_report.amounts import UNITS, display_amount, convert_chart_point
+from long_report.annotations import annotated_blocks
 from long_report.financials import calculate_financials, material_coverage, validate_financial_body, review_requirements, validate_review_coverage
 from long_report.operators import OPERATORS
 from long_report.rendering import render_paginated_docx, verify_docx, verify_pdf_charts
@@ -25,6 +28,7 @@ from long_report.formula_verification import recalculate
 from long_report.compensation import calculate_groups, private_terms
 from long_report.retrieval import fetch
 from long_report.charts import CHART_RENDERER_VERSION, draw_comparison
+from long_report.integrations.ocr import load_ocr_service, request_ocr, transcript
 
 
 SUBJECT_MODELS = {
@@ -261,10 +265,264 @@ def get_material(workspace: Path, project_id: str, material_id: str) -> dict:
     return _checked_material(json.loads(row[0]))
 
 
+def _ocr_no_active_run(connection: sqlite3.Connection) -> None:
+    if connection.execute("SELECT 1 FROM sqlite_master WHERE name = 'run' AND type = 'table'").fetchone():
+        if any(json.loads(row[0])["status"] == "active" for row in connection.execute("SELECT data FROM run")):
+            raise ValueError("OCR material preparation cannot change an active run; cancel or finish it first")
+
+
+def _write_ocr_call(connection: sqlite3.Connection, call: dict) -> None:
+    current = json.loads(connection.execute("SELECT data FROM external_call WHERE id = ?", (call["id"],)).fetchone()[0])
+    if current["revision"] != call["revision"]:
+        raise ValueError("OCR call changed during request; resume the saved call")
+    call["revision"] += 1
+    connection.execute("UPDATE external_call SET data = ? WHERE id = ?", (json.dumps(call, ensure_ascii=False), call["id"]))
+
+
+def _ocr_archive_intact(artifacts: list[dict]) -> None:
+    for artifact in artifacts:
+        try:
+            raw = Path(artifact["path"]).read_bytes()
+        except OSError as error:
+            raise ValueError("OCR archive is missing") from error
+        if sha256(raw).hexdigest() != artifact["sha256"]:
+            raise ValueError("OCR archive checksum mismatch")
+
+
+def ocr_material(workspace: Path, request: dict) -> dict:
+    """Prepare derived sources before a run; remote async jobs survive CLI exits."""
+    project = get_project(workspace, request["project_id"])
+    manifest = project["effective_config"]["scenario"]
+    policy = manifest.get("ingestion", {}).get("ocr", {})
+    slot_name = policy.get("service_slot", "ocr")
+    slot = manifest.get("external_services", {}).get(slot_name, {})
+    if slot.get("enabled") is not True:
+        raise ValueError("OCR is not enabled for this scenario")
+    database = workspace / project["id"] / "state.sqlite"
+    with sqlite3.connect(database) as connection:
+        _ocr_no_active_run(connection)
+    original = get_material(workspace, project["id"], request["material_id"])
+    if original.get("derivation") or not original["parsed"].get("coverage", {}).get("page_count"):
+        raise ValueError("OCR requires an original PDF or image")
+    native_unread = original["parsed"]["coverage"]["unread_pages"]
+    requested_pages = request.get("pages", native_unread)
+    if (not isinstance(requested_pages, list) or any(type(page) is not int or not 1 <= page <= original["parsed"]["coverage"]["page_count"] for page in requested_pages)
+            or len(requested_pages) != len(set(requested_pages)) or "pages" in request and not requested_pages):
+        raise ValueError("OCR pages must be distinct valid original page numbers")
+    requested_pages = sorted(requested_pages)
+    if not requested_pages:
+        return {"status": "not_needed", "material_id": original["id"], "reason": "native text already obtained"}
+    mode = request.get("mode", policy["mode"])
+    if mode not in ("auto", "sync", "async"):
+        raise ValueError("invalid OCR mode")
+    if mode == "auto":
+        mode = "sync" if original["parsed"]["coverage"]["page_count"] <= policy["sync_max_pages"] else "async"
+    wait = request.get("wait_seconds", 0)
+    if type(wait) not in (int, float) or not math.isfinite(wait) or not 0 <= wait <= 300:
+        raise ValueError("OCR wait_seconds must be between 0 and 300")
+    if type(request.get("retry", False)) is not bool:
+        raise ValueError("OCR retry must be boolean")
+    page_key = "" if requested_pages == sorted(native_unread) else ":pages-" + sha256(json.dumps(requested_pages).encode()).hexdigest()[:16]
+    call_key = f"{original['id']}:{slot_name}{page_key}:{mode}"
+    with sqlite3.connect(database) as connection:
+        connection.execute("BEGIN IMMEDIATE")
+        _ocr_no_active_run(connection)
+        connection.execute("CREATE TABLE IF NOT EXISTS external_call (id TEXT PRIMARY KEY, data TEXT NOT NULL)")
+        calls = [json.loads(row[0]) for row in connection.execute("SELECT data FROM external_call ORDER BY rowid DESC")]
+        # Resume by source and slot before resolving a fresh mode; auto must not re-upload an async job.
+        call = next((item for item in calls if item["call_key"].rsplit(":", 1)[0] == call_key.rsplit(":", 1)[0]
+                     and item["status"] in ("pending", "ready", "submitting")), None)
+        if call is None:
+            call = next((item for item in calls if item["call_key"] == call_key or request.get("mode", "auto") == "auto"
+                         and item["call_key"].rsplit(":", 1)[0] == call_key.rsplit(":", 1)[0]), None)
+        if call is None or request.get("retry") and call["status"] in ("failed", "submitting"):
+            binding = load_ocr_service(request.get("services_config"), slot["service_ref"])
+            if Path(original["archived_path"]).stat().st_size > binding["max_upload_bytes"]:
+                raise ValueError("OCR input exceeds configured upload byte limit")
+            call = {"id": uuid4().hex, "call_key": call_key, "revision": 0, "source_id": original["id"],
+                    "source_sha256": original["fingerprint"], "mode": mode, "binding": binding,
+                    "requested_pages": requested_pages,
+                    "status": "submitting", "created_at": datetime.now(timezone.utc).isoformat(), "responses": []}
+            connection.execute("INSERT INTO external_call VALUES (?, ?)", (call["id"], json.dumps(call)))
+            fresh = True
+        else:
+            fresh = False
+    _ocr_archive_intact(call["responses"] + call.get("artifacts", []))
+    if call["status"] in ("succeeded", "partial", "empty", "failed"):
+        if call.get("derived_material_id"):
+            get_material(workspace, project["id"], call["derived_material_id"])
+        return {"call": call}
+    if call["status"] == "submitting" and not fresh:
+        raise ValueError("OCR submission outcome is unknown; retry=true explicitly permits another upload")
+    directory = workspace / project["id"] / "sources" / original["id"] / "ocr" / call["id"]
+    directory.mkdir(parents=True, exist_ok=True)
+    deadline = monotonic() + wait
+    while call["status"] != "ready":
+        task_id = call.get("provider_task_id")
+        limit = min(call["binding"]["timeout_seconds"], max(.01, deadline - monotonic())) if task_id and wait else None
+        raw, response, error = request_ocr(call["binding"],
+            source_path=Path(original["archived_path"]) if not task_id else None,
+            task_id=task_id, mode=call["mode"], timeout=limit)
+        raw_path = directory / (uuid4().hex + ".raw.json")
+        with raw_path.open("xb") as output:
+            output.write(raw)
+        call["responses"].append({"path": str(raw_path), "sha256": sha256(raw).hexdigest(),
+                                  "observed_at": datetime.now(timezone.utc).isoformat()})
+        data = response.get("data", {})
+        if error:
+            call.update(status="pending" if task_id else "failed", last_error=error)
+        elif data.get("error") or data.get("status") == "failed":
+            call.update(status="failed", last_error="OCR provider reported parsing failure")
+        elif call["mode"] == "async" and (not isinstance(data.get("task_id"), str) or not data["task_id"]
+                                              or task_id and task_id != data["task_id"]):
+            call.update(status="failed", last_error="OCR task identity mismatch")
+        elif call["mode"] == "async" and data.get("status") in ("queuing", "processing"):
+            call.update(status="pending", provider_task_id=data["task_id"])
+            call.pop("last_error", None)
+        elif call["mode"] == "sync" or data.get("status") == "success":
+            call["status"] = "ready"
+            call.pop("last_error", None)
+        else:
+            call.update(status="failed", last_error="unknown OCR provider status")
+        call["warnings"] = response.get("warnings", [])
+        with sqlite3.connect(database) as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            _write_ocr_call(connection, call)
+        if call["status"] == "pending":
+            if error or not wait or monotonic() >= deadline:
+                return {"call": call}
+            sleep(min(call["binding"]["poll_interval_seconds"], max(0, deadline - monotonic())))
+            if monotonic() >= deadline:
+                return {"call": call}
+        elif call["status"] == "failed":
+            return {"call": call}
+    _ocr_archive_intact(call["responses"])
+    response = json.loads(Path(call["responses"][-1]["path"]).read_bytes())
+    try:
+        conversion_source = {**original, "parsed": {**original["parsed"], "coverage": {
+            **original["parsed"]["coverage"], "unread_pages": call.get("requested_pages", native_unread)}}}
+        converted = transcript(response, conversion_source, call["id"])
+    except (ValueError, KeyError, TypeError, AttributeError) as error:
+        call.update(status="failed", last_error="invalid OCR result: " + str(error))
+        with sqlite3.connect(database) as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            _write_ocr_call(connection, call)
+        return {"call": call}
+    artifacts = []
+    for name, content in (("output.md", converted["markdown"]), ("output.json", converted["json"]), ("transcript.txt", converted["text"])):
+        path = directory / name
+        path.write_bytes(content)
+        artifacts.append({"path": str(path), "sha256": sha256(content).hexdigest()})
+    with sqlite3.connect(database) as connection:
+        connection.execute("BEGIN IMMEDIATE")
+        _ocr_no_active_run(connection)
+        # A network request never holds this lock; source registration and call completion do.
+        if converted["parsed"]["fragments"]:
+            fingerprint = artifacts[-1]["sha256"]
+            material = {"id": "src_" + fingerprint[:24], "input_id": original["input_id"], "input_ids": original["input_ids"],
+                "original_name": original["original_name"] + ".ocr.txt", "fingerprint": fingerprint, "status": "parsed",
+                "archived_path": artifacts[-1]["path"], "parsed": converted["parsed"],
+                "derivation": {"source_id": original["id"], "source_sha256": original["fingerprint"], "method": "somark_http",
+                    "locator_map": converted["locator_map"], "block_map": converted["block_map"],
+                    "ocr": {"call_id": call["id"], "binding": call["binding"], "original_path": original["archived_path"],
+                            "artifacts": call["responses"] + artifacts}}}
+            _checked_material(material)
+            connection.execute("INSERT OR IGNORE INTO material VALUES (?, ?)", (material["id"], json.dumps(material, ensure_ascii=False)))
+            call["derived_material_id"] = material["id"]
+        call.update(status=converted["status"], artifacts=artifacts, unread_pages=converted["parsed"]["coverage"]["unread_pages"])
+        _write_ocr_call(connection, call)
+    return {"call": call}
+
+
+def _current_materials(connection: sqlite3.Connection) -> list[dict]:
+    archived = [_checked_material(json.loads(row[0])) for row in connection.execute("SELECT data FROM material ORDER BY id")]
+    superseded = {material["replaces_material_id"] for material in archived if material.get("replaces_material_id")}
+    while True:
+        derived = {material["id"] for material in archived if material.get("derivation", {}).get("source_id") in superseded}
+        if derived <= superseded:
+            break
+        superseded.update(derived)
+    return [material for material in archived if material["id"] not in superseded]
+
+
+def prepare_materials(workspace: Path, request: dict) -> dict:
+    """Resolve unread pages before freezing inputs; never retry unknown uploads."""
+    project = get_project(workspace, request["project_id"])
+    with sqlite3.connect(workspace / project["id"] / "state.sqlite") as connection:
+        _ocr_no_active_run(connection)
+        connection.execute("CREATE TABLE IF NOT EXISTS material (id TEXT PRIMARY KEY, data TEXT NOT NULL)")
+        materials = _current_materials(connection)
+    if request.get("retry"):
+        raise ValueError("bulk preparation does not retry uploads; use material ocr for an explicit per-file retry")
+    originals = [item for item in materials if not item.get("derivation")]
+    selected = request.get("material_ids", [item["id"] for item in originals])
+    if (not isinstance(selected, list) or not selected or len(selected) != len(set(selected))
+            or any(identifier not in {item["id"] for item in originals} for identifier in selected)):
+        if originals or selected:
+            raise ValueError("material_ids must name distinct current original materials")
+    ocr_selected = request.get("ocr_material_ids", [])
+    if (not isinstance(ocr_selected, list) or any(not isinstance(identifier, str) or identifier not in selected for identifier in ocr_selected)
+            or len(ocr_selected) != len(set(ocr_selected))):
+        raise ValueError("ocr_material_ids must name distinct selected original materials after Agent reading assessment")
+    items = []
+    input_fingerprints = {material["id"]: material["fingerprint"] for material in materials}
+    for original in originals:
+        if original["id"] not in selected:
+            continue
+        unread = set(original["parsed"].get("coverage", {}).get("unread_pages", []))
+        item = {"material_id": original["id"], "original_name": original["original_name"],
+                "native_unread_pages": sorted(unread), "derived_material_ids": [],
+                "status": "native_text" if not unread else "unread", "content_verified": False}
+        for derived in materials:
+            relation = derived.get("derivation", {})
+            if relation.get("source_id") != original["id"] or relation.get("source_sha256") != original["fingerprint"]:
+                continue
+            covered = {int(match[1]) for locator in relation.get("locator_map", {}).values()
+                       if (match := re.fullmatch(r"page:(\d+)", locator))}
+            if covered & unread:
+                unread -= covered
+                item["derived_material_ids"].append(derived["id"])
+        if not unread and item["native_unread_pages"]:
+            item["status"] = "derived_text"
+        if unread and original["id"] not in ocr_selected:
+            item["status"] = "needs_reading_decision"
+        if unread and original["id"] in ocr_selected:
+            try:
+                result = ocr_material(workspace, {**{key: request[key] for key in ("services_config", "mode", "wait_seconds") if key in request},
+                    "project_id": project["id"], "material_id": original["id"]})
+                call = result["call"]
+                item.update(status=call["status"], call_id=call["id"], provider_task_id=call.get("provider_task_id"))
+                if call.get("derived_material_id"):
+                    item["derived_material_ids"].append(call["derived_material_id"])
+                    derived = get_material(workspace, project["id"], call["derived_material_id"])
+                    input_fingerprints[derived["id"]] = derived["fingerprint"]
+                    unread &= set(call["unread_pages"])
+                if call.get("last_error"):
+                    item["error"] = call["last_error"]
+            except (ValueError, OSError, sqlite3.Error) as error:
+                item.update(status="error", error=str(error))
+        item["unread_pages"] = sorted(unread)
+        item["next_action"] = ("review_extracted_content" if not unread else
+            "resume_preparation" if item["status"] in ("pending", "ready") else "resolve_error_or_review_original")
+        items.append(item)
+    return {"project_id": project["id"], "status": "incomplete" if any(item["unread_pages"] for item in items) else "ready",
+            "content_verified": False, "items": items, "input_fingerprints": input_fingerprints}
+
+
 def start_run(workspace: Path, request: dict) -> dict:
+    prepared = None
+    if type(request.get("prepare_materials", False)) is not bool:
+        raise ValueError("prepare_materials must be boolean")
+    if request.get("prepare_materials"):
+        if "material_ids" in request:
+            raise ValueError("run preparation must cover all current original materials")
+        prepared = prepare_materials(workspace, request)
+        if prepared["status"] != "ready":
+            return {"status": "awaiting_materials", "material_preparation": prepared}
     project = get_project(workspace, request["project_id"])
     database = workspace / project["id"] / "state.sqlite"
     with sqlite3.connect(database) as connection:
+        connection.execute("BEGIN IMMEDIATE")
         connection.execute("CREATE TABLE IF NOT EXISTS material (id TEXT PRIMARY KEY, data TEXT NOT NULL)")
         connection.execute("CREATE TABLE IF NOT EXISTS run (id TEXT PRIMARY KEY, data TEXT NOT NULL)")
         connection.execute("CREATE TABLE IF NOT EXISTS task (id TEXT PRIMARY KEY, run_id TEXT NOT NULL, data TEXT NOT NULL)")
@@ -277,9 +535,10 @@ def start_run(workspace: Path, request: dict) -> dict:
             latest_id = latest_row[0] if latest_row else None
         if request.get("base_revision_id") is not None and request["base_revision_id"] != latest_id:
             raise ValueError("stale base revision")
-        archived = [_checked_material(json.loads(row[0])) for row in connection.execute("SELECT data FROM material ORDER BY id")]
-        superseded = {material["replaces_material_id"] for material in archived if material.get("replaces_material_id")}
-        materials = [material for material in archived if material["id"] not in superseded]
+        materials = _current_materials(connection)
+        if prepared and prepared["input_fingerprints"] != {material["id"]: material["fingerprint"] for material in materials}:
+            return {"status": "awaiting_materials", "material_preparation": {
+                **prepared, "status": "inputs_changed", "reason": "materials changed during preparation; assess current inputs again"}}
         base_run = None
         if latest_id is not None:
             revision = json.loads(connection.execute("SELECT data FROM revision WHERE id = ?", (latest_id,)).fetchone()[0])
@@ -1130,6 +1389,7 @@ def get_draft_context(workspace: Path, project_id: str, task_id: str) -> dict:
             "material_uses": [{**item, "original_name": materials[item["material_id"]]} for item in run.get("report_plan", {}).get("material_uses", [])],
             "scope_exclusions": scope_exclusions,
             "writing_guidance": run["effective_config"]["analysis"].get("writing_guidance", {}),
+            "presentation": run["effective_config"]["scenario"]["presentation"],
             "amount_display": run["effective_config"]["scenario"]["presentation"].get("amount_display"),
             "quality_rules": run["effective_config"]["quality"]}
 
@@ -1142,6 +1402,7 @@ def submit_draft(workspace: Path, request: dict) -> dict:
     if not isinstance(body, str) or not body.strip():
         raise ValueError("section body is required")
     validate_section_headings(body, context["section"])
+    annotated_blocks(body, context["presentation"])
     if context["quality_rules"].get("financial_quality"):
         validate_financial_body(body, context["section"])
     if re.search(r"!\[[^\]]*\]\([^)]+\)", body):
@@ -1414,7 +1675,7 @@ def build_draft(workspace: Path, request: dict) -> dict:
     temporary.replace(output)
     result = {"run_id": run["id"], "status": "candidate", "markdown_path": str(output), "sha256": sha256(content.encode()).hexdigest()}
     if run["effective_config"]["quality"].get("financial_quality"):
-        result["review_requirements"] = review_requirements(content, run["effective_config"]["outline"])
+        result["review_requirements"] = review_requirements(content, run["effective_config"]["outline"], run["effective_config"]["quality"])
         with sqlite3.connect(project_dir / "state.sqlite") as connection:
             run["draft_sha256"] = result["sha256"]
             run["section_body_sha256"] = {task["id"]: sha256(bodies[task["id"]].encode()).hexdigest() for task in tasks}
@@ -1444,7 +1705,7 @@ def submit_review(workspace: Path, request: dict) -> dict:
             permitted.update(json.loads(row[0])["id"] for row in connection.execute("SELECT data FROM calculation WHERE run_id = ?", (run["id"],))
                              if json.loads(row[0])["status"] == "calculated")
             content = draft.read_text(encoding="utf-8")
-            validate_review_coverage(request.get("coverage"), review_requirements(content, run["effective_config"]["outline"]), content, permitted)
+            validate_review_coverage(request.get("coverage"), review_requirements(content, run["effective_config"]["outline"], run["effective_config"]["quality"]), content, permitted)
             if request["verdict"] == "pass" and any(item["result"] == "needs_changes" for item in request["coverage"]):
                 raise ValueError("passing review cannot have unresolved coverage findings")
         if request["verdict"] == "pass" and request["issues"]:
@@ -1596,15 +1857,18 @@ def _financial_validation(project_dir: Path, run: dict, tasks: list[dict], snaps
             body = bodies[task["id"]]
             validate_section_headings(body, definitions[task["section_id"]])
             validate_financial_body(body, definitions[task["section_id"]])
+            visible = "\n\n".join(text for text, _ in annotated_blocks(body, run["effective_config"]["scenario"]["presentation"]))
+            visible_references = {(kind, identifier) for kind, identifier, _ in re.findall(REFERENCE, visible)}
             for kind, identifier, precision in re.findall(REFERENCE, body):
                 if kind == "calc":
                     if identifier not in calculations:
                         raise ValueError("stale calculation")
-                    referenced.update(calculations[identifier]["input_evidence_ids"])
+                    if (kind, identifier) in visible_references:
+                        referenced.update(calculations[identifier]["input_evidence_ids"])
                 else:
                     if identifier not in evidence:
                         raise ValueError("stale evidence")
-                    if kind == "fact":
+                    if kind == "fact" and (kind, identifier) in visible_references:
                         referenced.add(identifier)
         checks["financial_binding"] = True
         used_sources = {evidence[identifier]["source_id"] for identifier in referenced if identifier in evidence}
@@ -1615,7 +1879,7 @@ def _financial_validation(project_dir: Path, run: dict, tasks: list[dict], snaps
             re.search(r"(?m)^材料缺口：" + re.escape(materials[item["material_id"]]["original_name"]) + r"：\S.+$", content)
             for item in uses if item["use"] == "analysis")
         if review:
-            validate_review_coverage(review.get("coverage"), review_requirements(content, run["effective_config"]["outline"]), content, set(evidence) | set(calculations))
+            validate_review_coverage(review.get("coverage"), review_requirements(content, run["effective_config"]["outline"], run["effective_config"]["quality"]), content, set(evidence) | set(calculations))
             checks["financial_review_coverage"] = review["verdict"] == "pass" and not any(item["result"] == "needs_changes" for item in review["coverage"])
     except (ValueError, KeyError, TypeError):
         pass  # Each failed gate remains explicitly false in the returned checks.
@@ -1861,6 +2125,10 @@ def _checked_material(material: dict) -> dict:
         raise ValueError("material archive is missing") from error
     if sha256(data).hexdigest() != material["fingerprint"]:
         raise ValueError("material archive checksum mismatch")
+    derivation = material.get("derivation", {})
+    if derivation.get("ocr"):
+        ocr = derivation["ocr"]
+        _ocr_archive_intact(ocr["artifacts"] + [{"path": ocr["original_path"], "sha256": derivation["source_sha256"]}])
     return material
 
 

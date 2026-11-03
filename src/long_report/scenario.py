@@ -388,6 +388,8 @@ def load_scenario(scenario_id: str, root=None) -> Scenario:
         raise ScenarioError(f"{scenario_id}/scenario.yaml: presentation fonts are required")
     if type(presentation.get("allow_font_fallback", True)) is not bool:
         raise ScenarioError("scenario.presentation.allow_font_fallback must be boolean")
+    if "annotations" in presentation and presentation["annotations"] != "word_comments":
+        raise ScenarioError("presentation.annotations must be word_comments")
     if "amount_display" in presentation:
         try:
             validate_amount_display(presentation["amount_display"])
@@ -455,6 +457,22 @@ def load_scenario(scenario_id: str, root=None) -> Scenario:
     comparisons = _records(analysis.get("period_comparisons", []), "analysis.period_comparisons")
     tasks = _records(analysis.get("analysis_tasks"), "analysis.analysis_tasks")
     retrieval_tasks = _records(analysis.get("retrieval_tasks", []), "analysis.retrieval_tasks")
+    services = manifest.get("external_services", {})
+    ingestion = manifest.get("ingestion", {})
+    if not isinstance(services, dict) or not isinstance(ingestion, dict):
+        raise ScenarioError("invalid OCR external_services or ingestion configuration")
+    for slot, service in services.items():
+        if (not isinstance(slot, str) or not slot or not isinstance(service, dict)
+                or type(service.get("enabled")) is not bool or not isinstance(service.get("service_ref"), str)
+                or not service["service_ref"].strip() or service.get("capability") != "document.ocr"
+                or type(service.get("contract_version")) is not int or service["contract_version"] != 1):
+            raise ScenarioError("external_services: invalid OCR service slot or capability")
+    if services or ingestion:
+        ocr = ingestion.get("ocr")
+        if (set(ingestion) != {"ocr"} or not isinstance(ocr, dict)
+                or ocr.get("service_slot") not in services or ocr.get("mode") not in ("auto", "sync", "async")
+                or ocr.get("when") != "unread_pages" or type(ocr.get("sync_max_pages")) is not int or ocr["sync_max_pages"] < 1):
+            raise ScenarioError("ingestion.ocr: invalid OCR policy")
     retrieval = manifest.get("retrieval")
     if not isinstance(retrieval, dict) or type(retrieval.get("enabled")) is not bool:
         raise ScenarioError("scenario.retrieval: enabled must be boolean")
@@ -516,6 +534,8 @@ def load_scenario(scenario_id: str, root=None) -> Scenario:
         raise ScenarioError("quality.required_sections must cover the fixed outline")
     if not isinstance(quality.get("checks"), list) or any(not isinstance(check, str) for check in quality["checks"]) or not REQUIRED_CHECKS.issubset(quality["checks"]):
         raise ScenarioError(f"{scenario_id}/quality.yaml: required checks missing")
+    if "chapter_expression_review" in quality and type(quality["chapter_expression_review"]) is not bool:
+        raise ScenarioError("quality.chapter_expression_review must be boolean")
     if scenario_id == "budget_operations":
         if quality.get("require_full_unit_scope") is not True or quality.get("require_material_disposition") is not True:
             raise ScenarioError("quality: budget scope and material disposition gates are required")

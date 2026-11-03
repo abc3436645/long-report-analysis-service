@@ -65,7 +65,7 @@ class RetrievalCliTests(unittest.TestCase):
 
                 for expected in ("partial", "mismatch", "empty", "failed"):
                     project = call("project", "create", request={
-                        "scenario_id": "financial_due_diligence", "scenario_version": "0.3.1", "credit_application_id": "SYN-1",
+                        "scenario_id": "financial_due_diligence", "scenario_version": "0.3.3", "credit_application_id": "SYN-1",
                         "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-07-31",
                         "overrides": {"retrieval.enabled": True},
                     })
@@ -132,7 +132,7 @@ class RetrievalCliTests(unittest.TestCase):
                     return json.loads(result.stdout)["data"]
 
                 project = call("project", "create", request={
-                    "scenario_id": "financial_due_diligence", "scenario_version": "0.3.1",
+                    "scenario_id": "financial_due_diligence", "scenario_version": "0.3.3",
                     "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-07-31",
                     "credit_application_id": "SYN-001", "overrides": {"retrieval.enabled": True},
                 })
