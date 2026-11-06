@@ -1,12 +1,13 @@
 """Project explicit editorial notes and source locators into native Word comments."""
 
 import re
+import unicodedata
 from docx.text.paragraph import Paragraph
 from long_report.scenario import markdown_table_rows
 
 
 NOTE = re.compile(r'<!-- review-note:\s*(.*?)\s*-->', re.DOTALL)
-SOURCE = re.compile(r'〔(来源：[^〕]+)〕')
+SOURCE = re.compile(r'〔(来源：(?>[^〔〕]+|〔[^〔〕]*〕)+)〕')
 
 
 def annotated_blocks(markdown: str, presentation: dict | None = None) -> list[tuple[str, list[str]]]:
@@ -28,6 +29,8 @@ def annotated_blocks(markdown: str, presentation: dict | None = None) -> list[tu
             continue
         notes = SOURCE.findall(block) if enabled else []
         text = SOURCE.sub('', block).strip() if enabled else block
+        if enabled:
+            text = re.sub(r'[\u2f00-\u2fd5]', lambda match: unicodedata.normalize('NFKC', match[0]), text)
         if text:
             result.append((text, notes))
         elif notes and result:

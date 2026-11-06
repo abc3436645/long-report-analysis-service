@@ -39,6 +39,15 @@ class FinancialQualityTests(unittest.TestCase):
         self.assertEqual(Decimal(standalone["value"]), Decimal("10"))
         self.assertNotEqual(results[0]["id"], results[1]["id"])
 
+    def test_ocr_grouped_amounts_calculate_without_accepting_malformed_grouping(self):
+        result = calculate_financials([self.fact("revenue", "14,800,904,696.06", unit="元"),
+                                       self.fact("net_profit", "7,347,604.13", unit="元")], ["net_margin"])[0]
+        self.assertEqual(result["status"], "calculated")
+        self.assertAlmostEqual(float(result["value"]), .04964294, places=5)
+        bad = calculate_financials([self.fact("revenue", "14,80,904.06", unit="元"),
+                                    self.fact("net_profit", "7,347.00", unit="元")], ["net_margin"])[0]
+        self.assertEqual(bad["status"], "non_numeric_input")
+
     def test_unbound_table_values_and_prose_rates_are_rejected_while_dates_are_structural(self):
         section = {"required_assets": []}
         for body in ["| 指标 | 2025年 |\n| --- | --- |\n| 净利率 | 0.78% |", "周转为43天。", "金额1,000。", "### 授信利率3.5%"]:
@@ -73,12 +82,15 @@ class FinancialQualityCliTests(unittest.TestCase):
         import tempfile
         from pathlib import Path
         from pypdf import PdfReader, PdfWriter
-        from credit_test_support import synthetic_credit_cli, registration_table, equity_details, synthetic_review_coverage
+        from credit_test_support import synthetic_credit_cli, registration_table, background_details, equity_details, investment_details, credit_rating_table, synthetic_review_coverage
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             cli = synthetic_credit_cli(root)
             workspace = root / "projects"
             def call(*args, request=None, fails=None):
+                if args[:2] == ("draft", "submit") and request is not None:
+                    context = call("draft", "context", request["task_id"], "--project", request["project_id"])
+                    request = {**request, "dependency_fingerprint": context["dependency_fingerprint"]}
                 command = [*cli, *args, "--workspace", str(workspace)]
                 if request is not None:
                     path = root / "request.json"
@@ -91,7 +103,7 @@ class FinancialQualityCliTests(unittest.TestCase):
                     return
                 self.assertEqual(result.returncode, 0, result.stderr)
                 return json.loads(result.stdout)["data"]
-            project = call("project", "create", request={"scenario_id": "financial_due_diligence", "scenario_version": "0.3.3",
+            project = call("project", "create", request={"scenario_id": "financial_due_diligence", "scenario_version": "0.3.34",
                 "credit_application_id": "SYN-MIXED", "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-06-30"})
             writer = PdfWriter()
             writer.add_page(PdfReader(Path(__file__).parent / "fixtures/credit_pdf_fixture.pdf").pages[0])
@@ -132,18 +144,24 @@ class FinancialQualityCliTests(unittest.TestCase):
                                              {"material_id": finance["id"], "use": "analysis", "reason": "数值复算"}]
             planned = call("draft", "plan", request=plan_request)
             sections = project["effective_config"]["outline"]["sections"]
+            submitted_bodies = {}
             for section, task in zip(sections, planned):
-                body = "\n\n".join("## " + heading + "\n\n本小节资料不足，仅保留可核事实。" for heading in section["subheadings"]) or "融资资料未提供。"
+                body = "\n\n".join("## " + heading + "\n\n本小节资料不足，仅保留可核事实。" for heading in section.get("subheadings", [])) or "融资资料未提供。"
                 if section["id"] == "company":
                     body = body.replace("## 一、工商信息\n\n", "## 一、工商信息\n\n" + registration_table(section) + "\n\n")
+                    body = body.replace("## 二、背景情况\n\n", "## 二、背景情况\n\n" + background_details(section) + "\n\n")
                     body = body.replace("## 四、股权、股东及投资情况\n\n", "## 四、股权、股东及投资情况\n\n" + equity_details(section) + "\n\n")
-                body += "".join("\n\n资料缺口：" + asset + "：未提供完整表，不能评价相应能力。" for asset in section["required_assets"])
+                    body = body.replace("## 五、对外投资情况\n\n", "## 五、对外投资情况\n\n" + investment_details(section) + "\n\n")
+                if section["id"] == "credit":
+                    body = body.replace("## 一、信用评级\n\n", "## 一、信用评级\n\n" + credit_rating_table(section) + "\n\n", 1)
+                body += "".join("\n\n资料缺口：" + asset + "：未提供完整表，不能评价相应能力。" for asset in section["required_assets"] if section["id"] != "credit")
                 if section["id"] == "financials":
                     body += "\n\n" + "；".join("{{fact:" + f["id"] + "}}万元" for f in facts)
                     body += "\n\n应收周转天数为{{calc:" + days["id"] + "|4}}天，依据{{ev:" + facts[0]["id"] + "}}。"
                     call("draft", "submit", request={"project_id": project["id"], "run_id": run["id"], "task_id": task["id"],
                         "author_id": "writer", "body": body + "\n\n| 指标 | 金额（万元） |\n| --- | --- |\n| 裸数 | 43 |"}, fails="unbound financial number")
                     financial_body, financial_task = body, task
+                submitted_bodies[task["id"]] = body
                 call("draft", "submit", request={"project_id": project["id"], "run_id": run["id"], "task_id": task["id"], "author_id": "writer", "body": body})
             # Facts hidden in editorial comments remain bound, but cannot satisfy business analysis coverage.
             base = {"project_id": project["id"], "run_id": run["id"]}
@@ -153,6 +171,11 @@ class FinancialQualityCliTests(unittest.TestCase):
                                        (hidden + "\n\n<!-- review-note:\n材料缺口：" + finance["original_name"] + "：仅验证解析，业务分析仍缺少账龄及回款资料。\n-->", True),
                                        (financial_body, True)):
                 call("draft", "submit", request={**base, "task_id": financial_task["id"], "author_id": "writer", "body": test_body, "replace": True})
+                for task in planned:
+                    context = call("draft", "context", task["id"], "--project", project["id"])
+                    if context["task"]["status"] == "ready":
+                        call("draft", "submit", request={**base, "task_id": task["id"], "author_id": "writer",
+                                                          "body": submitted_bodies[task["id"]]})
                 call("draft", "build", request=base)
                 checked = call("validate", request=base)
                 self.assertTrue(checked["checks"]["financial_binding"], checked)
@@ -163,6 +186,14 @@ class FinancialQualityCliTests(unittest.TestCase):
                       "reviewer_id": "reviewer", "verdict": "pass", "issues": []}
             call("review", "submit", request=review, fails="review coverage")
             review["coverage"] = synthetic_review_coverage(draft)
+            decisions = [item for item in draft["review_requirements"] if item["id"].startswith("decision:")]
+            self.assertEqual(len(decisions), 5)
+            expression = [item for item in draft["review_requirements"] if item["kind"] == "expression"]
+            self.assertEqual(len(expression), 9)
+            criteria = project["effective_config"]["quality"]["chapter_expression_criteria"]
+            self.assertTrue(all(item["criteria"][-len(criteria):] == criteria for item in expression))
+            call("review", "submit", request={**review, "coverage": [item for item in review["coverage"]
+                 if item["id"] != "decision:repayment"]}, fails="review coverage")
             call("review", "submit", request={**review, "reviewer_id": "writer"}, fails="independent")
             call("review", "submit", request={**review, "draft_sha256": "stale"}, fails="stale")
             call("review", "submit", request=review)
@@ -182,7 +213,7 @@ class FinancialQualityCliTests(unittest.TestCase):
         from long_report.application import create_project, add_material
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            project = create_project(root / "projects", {"scenario_id": "financial_due_diligence", "scenario_version": "0.3.3",
+            project = create_project(root / "projects", {"scenario_id": "financial_due_diligence", "scenario_version": "0.3.34",
                 "credit_application_id": "SYN-SCAN", "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-06-30"})
             raw = root / "scan.pdf"
             writer = PdfWriter(); writer.add_blank_page(width=595, height=842)
@@ -223,7 +254,7 @@ class FinancialQualityCliTests(unittest.TestCase):
         from long_report.application import create_project, add_material, start_run, list_tasks, submit_task, decide_evidence
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            project = create_project(root / "projects", {"scenario_id": "financial_due_diligence", "scenario_version": "0.3.3",
+            project = create_project(root / "projects", {"scenario_id": "financial_due_diligence", "scenario_version": "0.3.34",
                 "credit_application_id": "SYN-SPAN", "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-06-30"})
             source = root / "source.txt"; source.write_text("法定代表人：魏斌；净利润-100.00万元；其他识别不清的长段。\n")
             material = add_material(root / "projects", {"project_id": project["id"], "input_id": "application", "path": str(source)})
@@ -259,7 +290,7 @@ class FinancialQualityCliTests(unittest.TestCase):
         from long_report.application import create_project, add_material
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            project = create_project(root / "projects", {"scenario_id": "financial_due_diligence", "scenario_version": "0.3.3",
+            project = create_project(root / "projects", {"scenario_id": "financial_due_diligence", "scenario_version": "0.3.34",
                 "credit_application_id": "SYN-FORMAT", "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-06-30"})
             text = root / "amount.txt"; text.write_text("10\n")
             first = add_material(root / "projects", {"project_id": project["id"], "input_id": "application", "path": str(text)})

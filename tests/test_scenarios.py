@@ -15,6 +15,19 @@ SOURCE = Path(__file__).resolve().parents[1] / "scenarios"
 
 
 class ScenarioTests(unittest.TestCase):
+    def test_invalid_secondary_font_policy_is_rejected_instead_of_guessed(self):
+        for value in (["仿宋-简"], {"仿宋": []}, {"仿宋": "仿宋-简"},
+                      {"仿宋": ["仿宋-简", "仿宋-简"]}, {"仿宋": ["仿宋"]}, {"仿宋": [None]}):
+            with self.subTest(value=value), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                shutil.copytree(SOURCE / "financial_due_diligence", root / "financial_due_diligence")
+                path = root / "financial_due_diligence/scenario.yaml"
+                manifest = yaml.safe_load(path.read_text())
+                manifest["presentation"]["font_alternatives"] = value
+                path.write_text(yaml.safe_dump(manifest, allow_unicode=True))
+                with self.assertRaisesRegex(ScenarioError, "font_alternatives"):
+                    load_scenario("financial_due_diligence", root=root)
+
     def test_budget_scenario_keeps_stable_guidance_without_fixed_report_plan(self):
         scenario = get_scenario("budget_operations")
         self.assertEqual(scenario["outline"]["sections"], [])

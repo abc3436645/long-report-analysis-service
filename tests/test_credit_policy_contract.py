@@ -14,13 +14,13 @@ class CreditPolicyContractTests(unittest.TestCase):
         self.assertEqual(set(self.sections["credit"]["depends_on"]),
                          {"company", "operations", "financials", "financing", "industry", "risks"})
         self.assertIn("credit", self.sections["terms"]["depends_on"])
-        self.assertIn("terms", self.sections["conclusion"]["depends_on"])
+        self.assertEqual(set(self.sections["conclusion"]["depends_on"]), {"credit", "terms"},
+                         "The final opinion must wait for both credit findings and proposed terms")
         self.assertEqual(self.scenario.analysis["metrics"], [],
                          "Evidence review must not silently become an authority to calculate credit limits")
 
     def test_policy_tables_require_actual_evidence_or_an_explicit_limit_on_judgment(self):
         for section_id, names in {
-            "credit": ["信用评级汇总表"],
             "terms": ["额度测算核对表", "授信要素依据表"],
         }.items():
             section = self.sections[section_id]
@@ -38,7 +38,8 @@ class CreditPolicyContractTests(unittest.TestCase):
                     validate_financial_body(tables.replace("{{fact:current}}", "87"), section)
 
     def test_per_run_outline_cannot_remove_the_policy_evidence_tables(self):
-        for section_id, field in (("terms", "required_assets"), ("credit", "depends_on")):
+        for section_id, field in (("terms", "required_assets"), ("credit", "depends_on"),
+                                  ("conclusion", "depends_on")):
             outline = {"sections": copy.deepcopy(self.scenario.outline["sections"])}
             next(item for item in outline["sections"] if item["id"] == section_id)[field] = []
             with self.subTest(field=field), self.assertRaises(ScenarioError):

@@ -6,3 +6,37 @@ visible_fields: [business_unit, risk_finding, confirmed_external_result]
 
 financial_quality: true
 chapter_expression_review: true
+require_dependency_fingerprint: true
+chapter_review_guidance:
+  company: [company, management_profiles]
+  operations: [operations, operations_tables, counterparty_assessment]
+  financials: [financials, financials_tables, financial_ratio_rows, presentation, execution_quality]
+  financing: [financing, financing_tables]
+  industry: [industry, industry_tables]
+  risks: [risks, risk_item_fields]
+  credit: [credit, credit_rating_sources, credit_scoring_review]
+  terms: [terms, working_capital_review, credit_terms_tables]
+  conclusion: [conclusion, conclusion_traceability]
+chapter_expression_criteria:
+- 对每项重要判断核对论据是否足以支持结论、归因是否有桥接或交易证据、反向证据是否处理；有引用不等于证明因果，正文区分事实、公司解释、审查推断和建议。
+- 逐项比对原始依据与成文，余额减少不能直接写成现金回收，履历或股东背景不能写成绩效，合同不能写成已履约，空白及“无”含义未明不能写成无账期或无风险；证据不足时缩小结论，不以润色删掉实质限定。
+- 分析段落围绕单一业务判断，用关键比较或条款解释传导及授信含义；表后不是逐格复述，原因不明时指出能成立的结论及缺口对意见的具体影响，不堆“有利于”“提供基础”等泛化语句。
+- 各章承担不同论证任务，结论只综合前文证实的事项；已证明的事实直接表达，限制只在影响判断处保留，不反复免责，不将作者作业、检索过程或写作规则交付给评审人。
+- 重要结论能回指当前证据及正文落点；审阅assessment记录实际抽取的判断、证据支持范围与推理是否成立，不能复制同一通过评语。发现结论扩大、关键反证遗漏或因果无据须needs_changes，不用gap放行错误表达。
+decision_reviews:
+- id: facility
+  criteria:
+  - 区分申请、模型结果、建议及批准，明确额度维持、存量到期续作和新增提款的关系；额度余额不等于到期安排，核对共享额度和重复融资。
+- id: earnings_cash
+  criteria:
+  - 核对账面利润到可持续收益和现金的桥接；套保对应范围、期间、已实现与未实现及重复计入逐项说明，算术加总不证明套保有效或现金到账。
+- id: liquidity
+  criteria:
+  - 核对现金受限与可支配、投资与债权、名义与有效授信以及债务期限；保证金须匹配债务和释放时点，净额分析不替代全额到期表，不重复扣减或将股东背景当担保。
+- id: repayment
+  criteria:
+  - 按债务期限匹配基准与不利情景的回款、必要支出、本息及已落实资金，说明峰值缺口、支持来源及未闭合影响；参数和算术有依据，未落实续贷不当确定流入。
+- id: conditions
+  criteria:
+  - 每项重大风险对应基数、目标或限制、期限、责任、证据、触发、处置权限、解除条件及剩余风险；区分审批阻断、放款前提、贷后约束和普通补件，新增提款控制不替代存量回收。
+  - 结论回答何种证据和条件下支持、条件不成立如何改变意见、落实后剩余风险；重大依据缺失而正文仍无条件支持须退回，不能用gap掩盖正文矛盾。

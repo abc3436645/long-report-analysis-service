@@ -1,6 +1,7 @@
 """Render a reviewed Markdown body with the scenario's Word styles."""
 
 from datetime import date
+from copy import deepcopy
 from functools import lru_cache
 from unicodedata import east_asian_width
 from pathlib import Path
@@ -63,19 +64,37 @@ def _installed_fonts() -> set[str]:
 def report_fonts(presentation: dict | None = None) -> dict[str, str]:
     requested = presentation or {"body_font": "宋体", "heading_font": "黑体", "latin_font": "Times New Roman"}
     installed = _installed_fonts()
+    alternatives = requested.get("font_alternatives", {})
     if not requested.get("allow_font_fallback", True):
+        resolved = {key: next((name for name in (requested[key], *alternatives.get(requested[key], []))
+                               if name.casefold() in installed), None)
+                    for key in ("body_font", "heading_font", "latin_font")}
         missing = [requested[key] for key in ("body_font", "heading_font", "latin_font")
-                   if requested[key].casefold() not in installed]
+                   if resolved[key] is None]
         if missing:
             raise ValueError("required report font unavailable: " + ", ".join(sorted(set(missing))))
-        return {key: requested[key] for key in ("body_font", "heading_font", "latin_font")}
+        return resolved
     result = {}
     for key, fallback in (("body_font", ("Noto Serif CJK SC", "Source Han Serif SC", "Songti SC")),
                           ("heading_font", ("Noto Sans CJK SC", "Source Han Sans SC", "Heiti SC", "Hiragino Sans GB")),
                           ("latin_font", ("Liberation Serif", "Times"))):
-        result[key] = next((name for name in (requested[key], *fallback) if name.casefold() in installed), None)
+        result[key] = next((name for name in (requested[key], *alternatives.get(requested[key], []), *fallback)
+                            if name.casefold() in installed), None)
         if result[key] is None:
             raise ValueError("reliable installed report font unavailable: " + key)
+    return result
+
+
+def resolved_presentation(presentation: dict | None) -> dict | None:
+    if not presentation or not presentation.get("font_alternatives"):
+        return presentation
+    result = deepcopy(presentation)
+    result.update(report_fonts(presentation))
+    for group in ("styles", "table_styles"):
+        for rule in result.get(group, {}).values():
+            rule["font"] = report_fonts({**presentation, "body_font": rule["font"],
+                                         "heading_font": rule["font"], "latin_font": rule["font"],
+                                         "allow_font_fallback": False})["body_font"]
     return result
 
 
@@ -190,6 +209,7 @@ def _table_rules(markdown: str, outline: dict | None, presentation: dict | None 
 def render_docx(markdown: str, template: Path, output: Path, title: str, toc_units: dict[str, int] | None = None,
                 presentation: dict | None = None, toc_entries: list[tuple[int, str, int]] | None = None,
                 metadata: dict | None = None, outline: dict | None = None) -> None:
+    presentation = resolved_presentation(presentation)
     annotated = annotated_blocks(markdown, presentation)
     markdown = "\n\n".join(text for text, _ in annotated)
     if metadata is not None:
@@ -497,6 +517,7 @@ def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str], *, meta
                 toc_entries: list[tuple[int, str, int]] | None = None, pdf: Path | None = None,
                 outline: dict | None = None, presentation: dict | None = None) -> dict:
     """Read the delivered Word body back before the revision becomes visible."""
+    presentation = resolved_presentation(presentation)
     document = Document(path)
     annotated = annotated_blocks(markdown, presentation)
     verify_comments(document, annotated)
@@ -538,6 +559,7 @@ def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str], *, meta
         if paragraph.style.name == "Normal" and paragraph.text:
             if _effective(paragraph, "line_spacing") != 1.3 or not _effective(paragraph, "widow_control"):
                 raise ValueError("report body paragraph spacing or widow control is invalid")
+    resolved_fonts = report_fonts(presentation)
     for name, points in STYLE_SIZES.items():
         rule = (presentation or {}).get("styles", {}).get(name)
         if rule:
@@ -547,11 +569,14 @@ def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str], *, meta
         fonts = document.styles[name].element.rPr.rFonts
         if fonts is None or any(not fonts.get(qn("w:" + key)) for key in ("eastAsia", "ascii", "hAnsi")):
             raise ValueError("report style font is incomplete: " + name)
-        if rule:
-            size_cs = document.styles[name].element.rPr.find(qn("w:szCs"))
-            if (any(fonts.get(qn("w:" + key)) != rule["font"] for key in ("eastAsia", "ascii", "hAnsi", "cs"))
-                    or size_cs is None or size_cs.get(qn("w:val")) != str(int(points * 2))):
-                raise ValueError("report style typography differs from presentation: " + name)
+        heading = name == "Title" or name.startswith("Heading ") or name == "TOC Heading"
+        chinese = rule["font"] if rule else resolved_fonts["heading_font" if heading else "body_font"]
+        latin = rule["font"] if rule else resolved_fonts["latin_font"]
+        size_cs = document.styles[name].element.rPr.find(qn("w:szCs"))
+        if (any(fonts.get(qn("w:" + key)) != (chinese if key == "eastAsia" else latin)
+                for key in ("eastAsia", "ascii", "hAnsi", "cs"))
+                or size_cs is None or size_cs.get(qn("w:val")) != str(int(points * 2))):
+            raise ValueError("report style typography differs from presentation: " + name)
     for paragraph in document.paragraphs:
         rule = (presentation or {}).get("styles", {}).get(paragraph.style.name)
         if rule:
@@ -617,6 +642,18 @@ def verify_docx(markdown: str, path: Path, chart_hashes: dict[str, str], *, meta
                                 or any(fonts.get(qn("w:" + key)) != rule["font"] for key in ("eastAsia", "ascii", "hAnsi", "cs"))
                                 or size_cs is None or size_cs.get(qn("w:val")) != str(int(rule["font_size_pt"] * 2))):
                             raise ValueError("required table font or size differs from scenario configuration")
+                else:
+                    style = paragraph.style
+                    for run in paragraph.runs:
+                        properties = run._r.rPr
+                        fonts = properties.rFonts if properties is not None else None
+                        size_cs = properties.find(qn("w:szCs")) if properties is not None else None
+                        if ((run.font.size is not None and run.font.size != style.font.size)
+                                or fonts is not None and any(fonts.get(qn("w:" + key)) not in
+                                    (None, style.element.rPr.rFonts.get(qn("w:" + key)))
+                                    for key in ("eastAsia", "ascii", "hAnsi", "cs"))
+                                or size_cs is not None and size_cs.get(qn("w:val")) != str(int(style.font.size.pt * 2))):
+                            raise ValueError("table typography overrides its document style")
                 if index and re.fullmatch(r"[+−-]?[0-9][0-9,]*(?:\.[0-9]+)?%?", cell.text) and paragraph.alignment != WD_ALIGN_PARAGRAPH.RIGHT:
                     raise ValueError("report table amount is not right aligned")
     if any(shape.width > widths[shape._inline.xpath('ancestor::w:p')[0]] for shape in document.inline_shapes):

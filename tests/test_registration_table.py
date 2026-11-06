@@ -28,6 +28,14 @@ class RegistrationTableTests(unittest.TestCase):
         section = load_scenario("financial_due_diligence").outline["sections"][0]
         self.assertEqual(section["required_tables"][0], RULE)
 
+    def test_registration_guidance_requires_full_license_table_without_routine_prose(self):
+        guidance = "\n".join(load_scenario("financial_due_diligence").analysis["writing_guidance"]["company"])
+        for requirement in ("以本轮提供的营业执照为主", "经营范围按执照全文列示",
+                            "实收资本无可靠依据时不照抄第三方登记快照", "表后不写文字说明",
+                            "仅在内容单元格备注或紧邻表格的锚定批注提示"):
+            with self.subTest(requirement=requirement):
+                self.assertIn(requirement, guidance)
+
     def test_registration_requires_one_complete_nonempty_table_in_its_own_subsection(self):
         section = dict(subheadings=["一、工商信息", "二、背景情况"], required_tables=[RULE])
         suffix = "\n\n## 二、背景情况\n\n资料待补。"

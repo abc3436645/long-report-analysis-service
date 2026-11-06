@@ -58,7 +58,7 @@ class ProjectCliTests(unittest.TestCase):
             request = root / "request.json"
             request.write_text(json.dumps({
                 "scenario_id": "financial_due_diligence",
-                "scenario_version": "0.3.3",
+                "scenario_version": "0.3.34",
                 "subject_scope": {"business_unit": "合成单位"},
                 "evaluation_date": "2026-07-31",
                 "credit_application_id": "申请-001",

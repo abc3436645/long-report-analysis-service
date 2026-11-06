@@ -7,6 +7,7 @@ import re
 import shutil
 import sqlite3
 import math
+import os
 from time import monotonic, sleep
 from datetime import datetime, timedelta, timezone
 from io import BytesIO, StringIO
@@ -21,7 +22,7 @@ from zoneinfo import ZoneInfo
 from long_report.scenario import load_scenario, scenario_ids, scenario_template, validate_report_outline, validate_section_headings, validate_source_mapping, markdown_table_rows
 from long_report.amounts import UNITS, display_amount, convert_chart_point
 from long_report.annotations import annotated_blocks
-from long_report.financials import calculate_financials, material_coverage, validate_financial_body, review_requirements, validate_review_coverage
+from long_report.financials import calculate_financials, material_coverage, validate_financial_body, validate_reference_units, review_requirements, validate_review_coverage
 from long_report.operators import OPERATORS
 from long_report.rendering import render_paginated_docx, verify_docx, verify_pdf_charts
 from long_report.formula_verification import recalculate
@@ -211,13 +212,13 @@ def add_material(workspace: Path, request: dict) -> dict:
             connection.execute("UPDATE material SET data = ? WHERE id = ?", (json.dumps(material, ensure_ascii=False), material_id))
             return material
         kind = source.suffix.lower()
-        parsers = {".csv": _parse_csv, ".xlsx": _parse_xlsx, ".txt": _parse_text, ".md": _parse_text, ".docx": _parse_docx, ".pdf": _parse_pdf}
+        parsers = {".csv": _parse_csv, ".xlsx": _parse_xlsx, ".xls": _parse_xls, ".txt": _parse_text, ".md": _parse_text, ".docx": _parse_docx, ".pdf": _parse_pdf}
         if project["scenario_id"] == "financial_due_diligence" and kind in (".jpg", ".jpeg", ".png"):
             parsers[kind] = _parse_image
         if kind not in parsers:
             raise ValueError(f"no parser for material format: {kind}")
         if kind == ".pdf" and project["scenario_id"] == "financial_due_diligence":
-            parsed = _parse_pdf(data, allow_empty=True)
+            parsed = _parse_pdf(data, allow_empty=True, inspect=True)
         else:
             parsed = parsers[kind](data)
         derivation = request.get("derivation")
@@ -304,7 +305,8 @@ def ocr_material(workspace: Path, request: dict) -> dict:
     original = get_material(workspace, project["id"], request["material_id"])
     if original.get("derivation") or not original["parsed"].get("coverage", {}).get("page_count"):
         raise ValueError("OCR requires an original PDF or image")
-    native_unread = original["parsed"]["coverage"]["unread_pages"]
+    coverage = original["parsed"]["coverage"]
+    native_unread = sorted(set(coverage["unread_pages"]) | set(coverage.get("pages_needing_ocr", [])))
     requested_pages = request.get("pages", native_unread)
     if (not isinstance(requested_pages, list) or any(type(page) is not int or not 1 <= page <= original["parsed"]["coverage"]["page_count"] for page in requested_pages)
             or len(requested_pages) != len(set(requested_pages)) or "pages" in request and not requested_pages):
@@ -460,7 +462,15 @@ def prepare_materials(workspace: Path, request: dict) -> dict:
             or any(identifier not in {item["id"] for item in originals} for identifier in selected)):
         if originals or selected:
             raise ValueError("material_ids must name distinct current original materials")
-    ocr_selected = request.get("ocr_material_ids", [])
+    ocr_selected = request.get("ocr_material_ids")
+    if ocr_selected is None:
+        ocr_selected = ([item["id"] for item in originals if item["id"] in selected and
+                         item["original_name"].lower().endswith(".pdf") and
+                         (item["parsed"].get("coverage", {}).get("pages_needing_ocr") or
+                          item["parsed"].get("coverage", {}).get("unread_pages") or
+                          item["parsed"].get("coverage", {}).get("pdf_type") in ("scanned", "image_based"))]
+                        if project["scenario_id"] == "financial_due_diligence" and
+                        (request.get("services_config") or os.environ.get("REPORT_SERVICES_CONFIG")) else [])
     if (not isinstance(ocr_selected, list) or any(not isinstance(identifier, str) or identifier not in selected for identifier in ocr_selected)
             or len(ocr_selected) != len(set(ocr_selected))):
         raise ValueError("ocr_material_ids must name distinct selected original materials after Agent reading assessment")
@@ -469,9 +479,12 @@ def prepare_materials(workspace: Path, request: dict) -> dict:
     for original in originals:
         if original["id"] not in selected:
             continue
-        unread = set(original["parsed"].get("coverage", {}).get("unread_pages", []))
+        coverage = original["parsed"].get("coverage", {})
+        unread = set(coverage.get("unread_pages", [])) | set(coverage.get("pages_needing_ocr", []))
         item = {"material_id": original["id"], "original_name": original["original_name"],
-                "native_unread_pages": sorted(unread), "derived_material_ids": [],
+                "native_unread_pages": coverage.get("unread_pages", []),
+                "inspector_ocr_pages": coverage.get("pages_needing_ocr", []), "pdf_type": coverage.get("pdf_type"),
+                "derived_material_ids": [],
                 "status": "native_text" if not unread else "unread", "content_verified": False}
         for derived in materials:
             relation = derived.get("derivation", {})
@@ -482,7 +495,7 @@ def prepare_materials(workspace: Path, request: dict) -> dict:
             if covered & unread:
                 unread -= covered
                 item["derived_material_ids"].append(derived["id"])
-        if not unread and item["native_unread_pages"]:
+        if not unread and (item["native_unread_pages"] or item["inspector_ocr_pages"]):
             item["status"] = "derived_text"
         if unread and original["id"] not in ocr_selected:
             item["status"] = "needs_reading_decision"
@@ -1365,6 +1378,31 @@ def plan_draft(workspace: Path, request: dict) -> list[dict]:
     return tasks
 
 
+def _draft_dependencies(connection, task: dict) -> tuple[list[dict], str]:
+    upstream = {}
+    for raw, body in connection.execute(
+            "SELECT t.data, b.body FROM section_task t LEFT JOIN section_body b ON b.task_id = t.id WHERE t.run_id = ?",
+            (task["run_id"],)):
+        parent = json.loads(raw)
+        if parent["section_id"] not in task["depends_on"]:
+            continue
+        if parent["evidence_snapshot_id"] != task["evidence_snapshot_id"]:
+            raise ValueError("upstream section has a stale evidence snapshot")
+        if parent["status"] == "submitted" and (not isinstance(body, str) or not body.strip()):
+            raise ValueError("submitted upstream section is missing its body")
+        submitted = body if parent["status"] == "submitted" else None
+        upstream[parent["section_id"]] = {
+            "task_id": parent["id"], "section_id": parent["section_id"], "title": parent["title"],
+            "status": parent["status"], "body": submitted,
+            "body_sha256": sha256(submitted.encode()).hexdigest() if submitted is not None else None}
+    if set(upstream) != set(task["depends_on"]):
+        raise ValueError("configured upstream section task is missing")
+    ordered = [upstream[section_id] for section_id in task["depends_on"]]
+    signature = {"run_id": task["run_id"], "evidence_snapshot_id": task["evidence_snapshot_id"],
+                 "upstream": [{key: value for key, value in item.items() if key != "body"} for item in ordered]}
+    return ordered, sha256(json.dumps(signature, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
+
+
 def get_draft_context(workspace: Path, project_id: str, task_id: str) -> dict:
     project = get_project(workspace, project_id)
     with sqlite3.connect(workspace / project["id"] / "state.sqlite") as connection:
@@ -1373,6 +1411,11 @@ def get_draft_context(workspace: Path, project_id: str, task_id: str) -> dict:
             raise ValueError("unknown section task")
         task = json.loads(row[0])
         run = json.loads(connection.execute("SELECT data FROM run WHERE id = ?", (task["run_id"],)).fetchone()[0])
+        if run["evidence_snapshot_id"] != task["evidence_snapshot_id"]:
+            raise ValueError("stale section task")
+        upstream, dependency_fingerprint = _draft_dependencies(connection, task)
+        previous = (connection.execute("SELECT body FROM section_body WHERE task_id = ?", (task["id"],)).fetchone()
+                    if task.get("invalidated_by") else None)
         snapshot = json.loads(connection.execute("SELECT data FROM evidence_snapshot WHERE id = ?", (task["evidence_snapshot_id"],)).fetchone()[0])
         evidence = [json.loads(item[0]) for item in connection.execute("SELECT data FROM evidence")]
         calculations = [json.loads(item[0]) for item in connection.execute("SELECT data FROM calculation WHERE run_id = ?", (run["id"],))]
@@ -1386,6 +1429,8 @@ def get_draft_context(workspace: Path, project_id: str, task_id: str) -> dict:
     section_id = task["section_id"].split(":", 1)[0]
     section = next(item for item in run["effective_config"]["outline"]["sections"] if item["id"] == section_id)
     return {"task": task, "section": section, "run_id": run["id"], "evidence": evidence, "calculations": calculations, "gaps": snapshot,
+            "upstream_sections": upstream, "dependency_fingerprint": dependency_fingerprint,
+            "previous_body": previous[0] if previous else None,
             "material_uses": [{**item, "original_name": materials[item["material_id"]]} for item in run.get("report_plan", {}).get("material_uses", [])],
             "scope_exclusions": scope_exclusions,
             "writing_guidance": run["effective_config"]["analysis"].get("writing_guidance", {}),
@@ -1405,6 +1450,7 @@ def submit_draft(workspace: Path, request: dict) -> dict:
     annotated_blocks(body, context["presentation"])
     if context["quality_rules"].get("financial_quality"):
         validate_financial_body(body, context["section"])
+        validate_reference_units(body, {item["id"]: item for item in context["evidence"] + context["calculations"]})
     if re.search(r"!\[[^\]]*\]\([^)]+\)", body):
         raise ValueError("report images must use a registered chart reference")
     if re.search(r"(?<![\w.])\d+(?:\.\d+)?\s*(?:万|亿)?元", body):
@@ -1418,6 +1464,9 @@ def submit_draft(workspace: Path, request: dict) -> dict:
             raise ValueError("section exposes a payroll person identifier")
     if not isinstance(request.get("author_id"), str) or not request["author_id"].strip():
         raise ValueError("section author_id is required")
+    if context["quality_rules"].get("require_dependency_fingerprint") and task["depends_on"]:
+        if request.get("dependency_fingerprint") != context["dependency_fingerprint"]:
+            raise ValueError("missing or stale dependency_fingerprint: read draft context again")
     if task["run_id"] == request["run_id"] and task["status"] == "submitted" and not replacing:
         with sqlite3.connect(workspace / request["project_id"] / "state.sqlite") as connection:
             existing = connection.execute("SELECT body FROM section_body WHERE task_id = ?", (task["id"],)).fetchone()
@@ -1495,25 +1544,57 @@ def submit_draft(workspace: Path, request: dict) -> dict:
         raise ValueError("section has unknown or malformed evidence/calculation reference")
     database = workspace / request["project_id"] / "state.sqlite"
     with sqlite3.connect(database) as connection:
+        connection.execute("BEGIN IMMEDIATE")
         run = json.loads(connection.execute("SELECT data FROM run WHERE id = ?", (task["run_id"],)).fetchone()[0])
         if run["status"] != "active" or run["evidence_snapshot_id"] != task["evidence_snapshot_id"]:
             raise ValueError("stale section task")
         current = json.loads(connection.execute("SELECT data FROM section_task WHERE id = ?", (task["id"],)).fetchone()[0])
         if current["status"] != ("submitted" if replacing else "ready"):
             raise ValueError("section task already changed")
+        guarded = run["effective_config"]["quality"].get("require_dependency_fingerprint", False)
+        if (guarded and task["depends_on"]) or "dependency_fingerprint" in request:
+            _, fingerprint = _draft_dependencies(connection, current)
+            if request.get("dependency_fingerprint") != fingerprint:
+                raise ValueError("missing or stale dependency_fingerprint: read draft context again")
         if replacing:
             connection.execute("CREATE TABLE IF NOT EXISTS review (run_id TEXT PRIMARY KEY, data TEXT NOT NULL)")
             if current.get("author_id") != request["author_id"] or connection.execute("SELECT 1 FROM review WHERE run_id = ?", (run["id"],)).fetchone():
                 raise ValueError("reviewed section or different author cannot replace draft")
         connection.execute("CREATE TABLE IF NOT EXISTS section_body (task_id TEXT PRIMARY KEY, body TEXT NOT NULL)")
+        if replacing and guarded:
+            previous = connection.execute("SELECT body FROM section_body WHERE task_id = ?", (task["id"],)).fetchone()
+            if previous and previous[0] != body:
+                related = [json.loads(row[0]) for row in connection.execute("SELECT data FROM section_task WHERE run_id = ?", (run["id"],))]
+                affected = {task["section_id"]}
+                while True:
+                    expanded = affected | {item["section_id"] for item in related if set(item["depends_on"]) & affected}
+                    if expanded == affected:
+                        break
+                    affected = expanded
+                if locked := affected & set(run.get("locked_sections", [])):
+                    raise ValueError("locked section conflict: " + ", ".join(sorted(locked)))
+                for item in related:
+                    if item["section_id"] not in affected - {task["section_id"]}:
+                        continue
+                    item.update(status="blocked", invalidated_by=task["section_id"])
+                    item.pop("author_id", None)
+                    if item.get("reused_from_task_id"):
+                        item["edited_from_task_id"] = item.pop("reused_from_task_id")
+                    connection.execute("UPDATE section_task SET data = ? WHERE id = ?", (json.dumps(item, ensure_ascii=False), item["id"]))
+                run.pop("draft_sha256", None)
+                run.pop("section_body_sha256", None)
+                connection.execute("UPDATE run SET data = ? WHERE id = ?", (json.dumps(run, ensure_ascii=False), run["id"]))
         if replacing:
             connection.execute("UPDATE section_body SET body = ? WHERE task_id = ?", (body, task["id"]))
             if task.get("reused_from_task_id"):
                 task["edited_from_task_id"] = task.pop("reused_from_task_id")
+        elif task.get("invalidated_by"):
+            connection.execute("INSERT INTO section_body VALUES (?, ?) ON CONFLICT(task_id) DO UPDATE SET body = excluded.body", (task["id"], body))
         else:
             connection.execute("INSERT INTO section_body VALUES (?, ?)", (task["id"], body))
         task["status"] = "submitted"
         task["author_id"] = request["author_id"]
+        task.pop("invalidated_by", None)
         connection.execute("UPDATE section_task SET data = ? WHERE id = ?", (json.dumps(task, ensure_ascii=False), task["id"]))
         tasks = [json.loads(row[0]) for row in connection.execute("SELECT data FROM section_task WHERE run_id = ?", (run["id"],))]
         submitted_ids = {item["section_id"] for item in tasks if item["status"] == "submitted"}
@@ -1627,6 +1708,7 @@ def build_draft(workspace: Path, request: dict) -> dict:
 
         if run["effective_config"]["quality"].get("financial_quality"):
             validate_financial_body(bodies[task["id"]], section)
+            validate_reference_units(bodies[task["id"]], {**evidence, **calculations})
         if amount_display:
             blocks = []
             raw_blocks = bodies[task["id"]].split("\n\n")
@@ -1675,7 +1757,7 @@ def build_draft(workspace: Path, request: dict) -> dict:
     temporary.replace(output)
     result = {"run_id": run["id"], "status": "candidate", "markdown_path": str(output), "sha256": sha256(content.encode()).hexdigest()}
     if run["effective_config"]["quality"].get("financial_quality"):
-        result["review_requirements"] = review_requirements(content, run["effective_config"]["outline"], run["effective_config"]["quality"])
+        result["review_requirements"] = review_requirements(content, run["effective_config"]["outline"], run["effective_config"]["quality"], run["effective_config"]["analysis"])
         with sqlite3.connect(project_dir / "state.sqlite") as connection:
             run["draft_sha256"] = result["sha256"]
             run["section_body_sha256"] = {task["id"]: sha256(bodies[task["id"]].encode()).hexdigest() for task in tasks}
@@ -1705,7 +1787,7 @@ def submit_review(workspace: Path, request: dict) -> dict:
             permitted.update(json.loads(row[0])["id"] for row in connection.execute("SELECT data FROM calculation WHERE run_id = ?", (run["id"],))
                              if json.loads(row[0])["status"] == "calculated")
             content = draft.read_text(encoding="utf-8")
-            validate_review_coverage(request.get("coverage"), review_requirements(content, run["effective_config"]["outline"], run["effective_config"]["quality"]), content, permitted)
+            validate_review_coverage(request.get("coverage"), review_requirements(content, run["effective_config"]["outline"], run["effective_config"]["quality"], run["effective_config"]["analysis"]), content, permitted)
             if request["verdict"] == "pass" and any(item["result"] == "needs_changes" for item in request["coverage"]):
                 raise ValueError("passing review cannot have unresolved coverage findings")
         if request["verdict"] == "pass" and request["issues"]:
@@ -1857,6 +1939,7 @@ def _financial_validation(project_dir: Path, run: dict, tasks: list[dict], snaps
             body = bodies[task["id"]]
             validate_section_headings(body, definitions[task["section_id"]])
             validate_financial_body(body, definitions[task["section_id"]])
+            validate_reference_units(body, {**evidence, **calculations})
             visible = "\n\n".join(text for text, _ in annotated_blocks(body, run["effective_config"]["scenario"]["presentation"]))
             visible_references = {(kind, identifier) for kind, identifier, _ in re.findall(REFERENCE, visible)}
             for kind, identifier, precision in re.findall(REFERENCE, body):
@@ -1879,7 +1962,7 @@ def _financial_validation(project_dir: Path, run: dict, tasks: list[dict], snaps
             re.search(r"(?m)^材料缺口：" + re.escape(materials[item["material_id"]]["original_name"]) + r"：\S.+$", content)
             for item in uses if item["use"] == "analysis")
         if review:
-            validate_review_coverage(review.get("coverage"), review_requirements(content, run["effective_config"]["outline"], run["effective_config"]["quality"]), content, set(evidence) | set(calculations))
+            validate_review_coverage(review.get("coverage"), review_requirements(content, run["effective_config"]["outline"], run["effective_config"]["quality"], run["effective_config"]["analysis"]), content, set(evidence) | set(calculations))
             checks["financial_review_coverage"] = review["verdict"] == "pass" and not any(item["result"] == "needs_changes" for item in review["coverage"])
     except (ValueError, KeyError, TypeError):
         pass  # Each failed gate remains explicitly false in the returned checks.
@@ -2183,6 +2266,35 @@ def _parse_xlsx(data: bytes) -> dict:
         raise ValueError("invalid xlsx archive") from error
 
 
+def _parse_xls(data: bytes) -> dict:
+    import xlrd
+    from openpyxl.utils import get_column_letter
+
+    try:
+        book = xlrd.open_workbook(file_contents=data)
+    except xlrd.XLRDError as error:
+        raise ValueError("invalid xls workbook") from error
+    sheets = {}
+    for sheet in book.sheets():
+        cells = {}
+        for row in range(sheet.nrows):
+            for column in range(sheet.row_len(row)):
+                cell = sheet.cell(row, column)
+                if cell.ctype in (xlrd.XL_CELL_EMPTY, xlrd.XL_CELL_BLANK):
+                    continue
+                coordinate = f"{get_column_letter(column + 1)}{row + 1}"
+                item = {"value": str(cell.value), "locator": f"sheet:{sheet.name}/cell:{coordinate}"}
+                if cell.ctype == xlrd.XL_CELL_NUMBER:
+                    item["state"] = "cached_unverified"  # XLS does not expose a reliable formula identity here.
+                elif cell.ctype == xlrd.XL_CELL_DATE:
+                    item["value"] = xlrd.xldate_as_datetime(cell.value, book.datemode).isoformat()
+                elif cell.ctype == xlrd.XL_CELL_ERROR:
+                    item.update(value=None, state="error")
+                cells[coordinate] = item
+        sheets[sheet.name] = {"cells": cells}
+    return {"sheets": sheets}
+
+
 def _parse_text(data: bytes) -> dict:
     try:
         lines = data.decode("utf-8-sig").splitlines()
@@ -2210,7 +2322,7 @@ def _parse_docx(data: bytes) -> dict:
     return {"fragments": fragments}
 
 
-def _parse_pdf(data: bytes, allow_empty: bool = False) -> dict:
+def _parse_pdf(data: bytes, allow_empty: bool = False, inspect: bool = False) -> dict:
     from pypdf import PdfReader
     from pypdf.errors import PdfReadError
 
@@ -2229,8 +2341,16 @@ def _parse_pdf(data: bytes, allow_empty: bool = False) -> dict:
         raise ValueError("invalid PDF material") from error
     if not fragments and not allow_empty:
         raise ValueError("PDF has no extractable text")
-    return {"fragments": fragments, "coverage": {"page_count": len(pages), "pages": pages,
-            "unread_pages": [page["page"] for page in pages if page["status"] == "unread"]}}
+    coverage = {"page_count": len(pages), "pages": pages,
+                "unread_pages": [page["page"] for page in pages if page["status"] == "unread"]}
+    if inspect:
+        import pdf_inspector
+        detected = pdf_inspector.detect_pdf_bytes(data)
+        if detected.page_count != len(pages):
+            raise ValueError("PDF inspection page count mismatch")
+        coverage.update(pdf_type=detected.pdf_type, pages_needing_ocr=detected.pages_needing_ocr,
+                        has_encoding_issues=detected.has_encoding_issues)
+    return {"fragments": fragments, "coverage": coverage}
 
 
 def _parse_image(data: bytes) -> dict:

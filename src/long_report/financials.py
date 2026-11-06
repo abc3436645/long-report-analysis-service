@@ -6,7 +6,7 @@ from datetime import date
 from decimal import Decimal, InvalidOperation, localcontext
 from hashlib import sha256
 
-from long_report.scenario import markdown_table_rows
+from long_report.scenario import markdown_table_rows, validate_section_headings
 
 
 # Inputs are current-period facts; opening/closing balances retain that period's identity.
@@ -61,7 +61,12 @@ def calculate_financials(evidence: list[dict], metric_ids: list[str]) -> list[di
                 try:
                     with localcontext() as ctx:
                         ctx.prec = 34
-                        values = [Decimal(items[0]["value"]) * MONEY_UNITS[items[0]["unit"]] for items in selected]
+                        values = []
+                        for items in selected:
+                            raw = items[0]["value"]
+                            if not re.fullmatch(r"[+-]?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?", raw):
+                                raise InvalidOperation
+                            values.append(Decimal(raw.replace(",", "")) * MONEY_UNITS[items[0]["unit"]])
                         if not all(value.is_finite() for value in values):
                             raise InvalidOperation
                         if metric_id == "gross_margin":
@@ -98,6 +103,9 @@ def material_coverage(materials: list[dict], evidence: list[dict]) -> list[dict]
 def validate_financial_body(body: str, section: dict) -> None:
     """Check binding before expansion; structural dates/captions are explicit exceptions."""
     blocks = body.strip().split("\n\n")
+    fixed_rules = [rule for rule in section.get("required_tables", []) if "fixed_rows" in rule]
+    if fixed_rules:
+        validate_section_headings(body, section)
     for asset in section.get("required_assets", []):
         gap = re.search(r"(?m)^资料缺口：" + re.escape(asset) + r"：\S.+$", body)
         table = any(asset in block and re.match(r"^表[0-9]+-[0-9]+[ 　]", block)
@@ -105,7 +113,18 @@ def validate_financial_body(body: str, section: dict) -> None:
                     for i, block in enumerate(blocks))
         if not gap and not table:
             raise ValueError("required financial asset needs a table or named gap: " + asset)
-    clean = re.sub(REFERENCE, "", body)
+    for i, block in enumerate(blocks):
+        rows = markdown_table_rows(block) if fixed_rules else None
+        if rows is None:
+            continue
+        for rule in fixed_rules:
+            if rows[0] == rule["columns"] and len(rows) == len(rule["fixed_rows"]) + 1:
+                for row, pattern in zip(rows[1:], rule["fixed_rows"]):
+                    for j, expected in enumerate(pattern):
+                        if expected is not None and row[j] == expected:
+                            row[j] = ""
+                blocks[i] = "\n".join(" | ".join(row) for row in rows)
+    clean = re.sub(REFERENCE, "", "\n\n".join(blocks))
     clean = re.sub(r"(?m)^#{1,6} +", "", clean)
     clean = re.sub(r"(?m)^表[0-9]+-[0-9]+[ 　]", "表 ", clean)
     clean = re.sub(r"(?<!\d)(?:19|20)\d{2}[—–至-](?:19|20)\d{2}年", "年份区间", clean)
@@ -115,19 +134,36 @@ def validate_financial_body(body: str, section: dict) -> None:
         raise ValueError("unbound financial number: use current fact/calc references, including table values")
 
 
-def review_requirements(markdown: str, outline: dict, quality: dict | None = None) -> list[dict]:
+def validate_reference_units(body: str, values: dict[str, dict]) -> None:
+    # shortcut: checks explicit suffixes; extend when table-header units have a declared schema.
+    for match in re.finditer(r"\{\{(?:fact|calc):([^}|]+)(?:\|[0-6])?\}\}[ \t]*(%|％|倍|次|天)", body):
+        unit = values.get(match[1], {}).get("unit")
+        shown = "%" if match[2] == "％" else match[2]
+        if unit in ("%", "倍", "次", "天") and shown != unit:
+            raise ValueError("reference unit mismatch: " + match[1] + " uses " + unit + ", not " + shown)
+
+
+def review_requirements(markdown: str, outline: dict, quality: dict | None = None,
+                        analysis: dict | None = None) -> list[dict]:
     requirements, section, table_index = [], None, 0
     by_title = {item["title"]: item for item in outline["sections"]}
+    chapter_guidance = (quality or {}).get("chapter_review_guidance", {})
+    guidance = (analysis or {}).get("writing_guidance", {})
+    if chapter_guidance and (not analysis or any(ref not in guidance for refs in chapter_guidance.values() for ref in refs)):
+        raise ValueError("chapter_review_guidance requires the frozen analysis writing guidance")
     lines = markdown.splitlines()
     for i, line in enumerate(lines):
         if line.startswith("# "):
             section = by_title.get(line[2:])
             table_index = 0
             if section and (quality or {}).get("chapter_expression_review"):
+                business_criteria = [ref + "：" + point for ref in chapter_guidance.get(section["id"], [])
+                                     for point in guidance[ref]]
                 requirements.append({"id": "expression:" + section["id"], "kind": "expression", "locator": f"line:{i+1}",
                                      "criteria": ["正文直接回答本章业务主题，不能以核查流程和补件替代事实及分析",
                                                   "来源定位、核查过程、编稿说明和待办放批注，并有对应锚点",
-                                                  "实质风险、判断限制和授信前提仍在正文，不能仅藏于批注"]})
+                                                  "实质风险、判断限制和授信前提仍在正文，不能仅藏于批注"]
+                                                 + business_criteria + (quality or {}).get("chapter_expression_criteria", [])})
             if section and not section.get("subheadings"):
                 requirements.append({"id": section["id"] + ":body", "kind": "section", "locator": f"line:{i+1}"})
         elif section and line.startswith("## "):
@@ -137,6 +173,9 @@ def review_requirements(markdown: str, outline: dict, quality: dict | None = Non
             requirements.append({"id": section["id"] + f":table:{table_index}", "kind": "table", "locator": f"line:{i+1}"})
     for category in ("capability", "risk", "mitigation", "credit_terms"):
         requirements.append({"id": "claim:" + category, "kind": "claim", "locator": f"line:{next((i+1 for i, line in enumerate(lines) if line.strip() and not line.startswith(('#', '|'))), 1)}"})
+    for item in (quality or {}).get("decision_reviews", []):
+        requirements.append({"id": "decision:" + item["id"], "kind": "claim",
+                             "locator": requirements[-1]["locator"], "criteria": item["criteria"]})
     return requirements
 
 

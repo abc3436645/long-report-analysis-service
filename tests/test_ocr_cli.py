@@ -149,6 +149,32 @@ class OcrCliTests(unittest.TestCase):
         self.assertEqual(prepared["items"][0]["native_unread_pages"], [1, 2])
         self.assertEqual(self.seen, [], "page coverage is a hint, not permission to upload every PDF")
 
+    def test_inspector_routes_scanned_pdf_to_ocr_and_registers_source_for_run(self):
+        scanned = self.call("material", "show", self.original["id"], "--project", self.project["id"])
+        self.assertEqual(scanned["parsed"]["coverage"]["pdf_type"], "scanned")
+        self.assertEqual(scanned["parsed"]["coverage"]["pages_needing_ocr"], [1, 2])
+        native = self.call("material", "add", request={"project_id": self.project["id"],
+            "input_id": "professional_records", "path": str(Path(__file__).parent / "fixtures/credit_pdf_fixture.pdf")})
+        self.assertEqual(native["parsed"]["coverage"]["pdf_type"], "text_based")
+        self.replies = [("/v1/parse/sync", 200, result())]
+        prepared = self.call("material", "prepare", request={"project_id": self.project["id"],
+            "services_config": str(self.config)})
+        self.assertEqual(prepared["status"], "ready")
+        self.assertEqual(len(self.seen), 1, "text PDF must stay on native extraction")
+        item = next(item for item in prepared["items"] if item["material_id"] == self.original["id"])
+        self.assertEqual(item["pdf_type"], "scanned")
+        self.assertEqual(item["status"], "succeeded")
+        self.assertEqual(len(item["derived_material_ids"]), 1)
+        repeated = self.call("material", "prepare", request={"project_id": self.project["id"],
+            "services_config": str(self.config)})
+        self.assertEqual(repeated["status"], "ready")
+        self.assertEqual(len(self.seen), 1, "prepared OCR source must be reused")
+        derived = self.call("material", "show", item["derived_material_ids"][0], "--project", self.project["id"])
+        self.assertEqual(derived["derivation"]["source_id"], self.original["id"])
+        run = self.call("run", "start", request={"project_id": self.project["id"]})
+        tasks = self.call("task", "list", "--project", self.project["id"], "--run", run["id"])
+        self.assertIn(derived["id"], {task["source_id"] for task in tasks})
+
     def test_run_preparation_waits_for_async_result_without_freezing_incomplete_inputs(self):
         from long_report.application import start_run, list_tasks
         self.replies = [("/v1/parse/async", 200, {"code": 0, "data": {"task_id": "prepare-job", "status": "queuing"}}),

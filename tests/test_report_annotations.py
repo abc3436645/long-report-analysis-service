@@ -9,6 +9,42 @@ from long_report.financials import review_requirements, validate_review_coverage
 
 
 class ReportAnnotationTests(unittest.TestCase):
+    def test_pdf_radicals_use_normal_han_in_body_while_raw_source_stays_traceable(self):
+        md = '流动资⾦不得⽤于股东分红，比例①为10%。〔来源：资⾦规定〔2024〕.pdf，page:1〕'
+        blocks = annotated_blocks(md, {'annotations': 'word_comments'})
+        self.assertEqual(blocks, [('流动资金不得用于股东分红，比例①为10%。',
+                                   ['来源：资⾦规定〔2024〕.pdf，page:1'])])
+        self.assertEqual(annotated_blocks(md, {}), [(md, [])])
+
+    def test_bracketed_policy_year_stays_in_comment_without_leaking_filename(self):
+        source = '来源：江铜财务司字〔2024〕55号附件.pdf，page:2/line:6'
+        md = '评级有效期与贷款期限不同。〔' + source + '〕另有条件。〔来源：申请书.pdf，page:1〕'
+        blocks = annotated_blocks(md, {'annotations': 'word_comments'})
+        self.assertEqual(blocks, [('评级有效期与贷款期限不同。另有条件。',
+                                   [source, '来源：申请书.pdf，page:1'])])
+        with tempfile.TemporaryDirectory() as tmp:
+            template, output = Path(tmp)/'template.docx', Path(tmp)/'report.docx'
+            Document().save(template)
+            render_docx(md, template, output, '报告', presentation={**report_fonts(), 'annotations': 'word_comments'})
+            doc = Document(output)
+            self.assertFalse(any('55号附件' in p.text for p in doc.paragraphs))
+            verify_comments(doc, blocks)
+
+    def test_professional_expression_criteria_reach_every_chapter_without_changing_old_reviews(self):
+        md = '# 公司\n\n履历不代表经营绩效。\n\n# 财务\n\n余额下降尚未确认为现金回收。'
+        outline = {'sections': [{'id': 'company', 'title': '公司'}, {'id': 'financials', 'title': '财务'}]}
+        old = review_requirements(md, outline, {'chapter_expression_review': True})
+        criteria = ['每项结论有足以支持该结论的证据，余额减少不直接等于现金回收。']
+        current = review_requirements(md, outline, {'chapter_expression_review': True,
+                                                   'chapter_expression_criteria': criteria})
+        self.assertEqual(len(current), len(old))
+        self.assertEqual(sum(r['kind'] == 'expression' for r in current), 2)
+        for before, after in zip(old, current):
+            if after['kind'] == 'expression':
+                self.assertEqual(after['criteria'], before['criteria'] + criteria)
+            else:
+                self.assertEqual(before, after)
+
     def test_empty_table_corner_uses_visible_header_and_wrong_block_anchor_is_rejected(self):
         md = '# 财务\n\n| | 本期 |\n| --- | --- |\n| 风险 | 资金受限 |\n\n<!-- review-note: 请确认释放时间。 -->'
         profile = {**report_fonts(), 'annotations': 'word_comments'}

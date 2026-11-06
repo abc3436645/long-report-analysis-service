@@ -12,17 +12,26 @@ import yaml
 from long_report import application as app
 from long_report.scenario import ScenarioError, load_scenario
 from long_report.amounts import display_amount, convert_chart_point
-from credit_test_support import registration_table, equity_details
+from credit_test_support import registration_table, background_details, equity_details, investment_details, credit_rating_table
 
 
 class AmountConversionTests(unittest.TestCase):
+    def test_table_grouping_is_opt_in_and_preserves_source_and_prose(self):
+        rule = load_scenario("financial_due_diligence").manifest["presentation"]["amount_display"]
+        item = {"value": "-123456789", "unit": "元"}
+        self.assertEqual(display_amount(item, {**rule, "table_grouping": True}, "table"), ("-12,345.68", "万元"))
+        old = {k: v for k, v in rule.items() if k != "table_grouping"}
+        self.assertEqual(display_amount(item, old, "table"), ("-12345.68", "万元"))
+        self.assertEqual(display_amount(item, rule, "text"), ("-1.23", "亿元"))
+        self.assertEqual(item["value"], "-123456789")
+
     def test_all_supported_source_scales_share_the_same_display_magnitude(self):
         rule = load_scenario("financial_due_diligence").manifest["presentation"]["amount_display"]
         for value, unit in [("125000000", "元"), ("12500", "万元"), ("1.25", "亿元"), ("1.25亿元", "text"), ("1.25e8", "元")]:
             with self.subTest(value=value, unit=unit):
                 item = {"value": value, "unit": unit}
                 self.assertEqual(display_amount(item, rule, "text"), ("1.25", "亿元"))
-                self.assertEqual(display_amount(item, rule, "table"), ("12500.00", "万元"))
+                self.assertEqual(display_amount(item, rule, "table"), ("12,500.00", "万元"))
                 self.assertEqual(convert_chart_point(item, "万元")["unit"], "万元")
 
     def test_unit_selection_never_rounds_source_precision_at_the_boundary(self):
@@ -44,7 +53,7 @@ class AmountDisplayTests(unittest.TestCase):
         self.root = Path(self.temporary.name)
         self.workspace = self.root / "projects"
         self.project = app.create_project(self.workspace, {
-            "scenario_id": "financial_due_diligence", "scenario_version": "0.3.3",
+            "scenario_id": "financial_due_diligence", "scenario_version": "0.3.34",
             "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-06-30",
             "credit_application_id": "SYN-UNITS"})
         source = self.root / "amounts.txt"
@@ -76,17 +85,23 @@ class AmountDisplayTests(unittest.TestCase):
             "outline": {"sections": self.project["effective_config"]["outline"]["sections"]},
             "material_uses": [{"material_id": self.material["id"], "use": "analysis", "reason": "金额换算核验"}]})
         for section, task in zip(self.project["effective_config"]["outline"]["sections"], tasks):
-            body = "\n\n".join("## " + heading + "\n\n资料待核实。" for heading in section["subheadings"]) or "融资资料待核实。"
+            body = "\n\n".join("## " + heading + "\n\n资料待核实。" for heading in section.get("subheadings", [])) or "融资资料待核实。"
             if section["id"] == "company":
                 body = body.replace("## 一、工商信息\n\n", "## 一、工商信息\n\n" + registration_table(section) + "\n\n")
+                body = body.replace("## 二、背景情况\n\n", "## 二、背景情况\n\n" + background_details(section) + "\n\n")
                 body = body.replace("## 四、股权、股东及投资情况\n\n", "## 四、股权、股东及投资情况\n\n" + equity_details(section) + "\n\n")
-            body += "".join("\n\n资料缺口：" + asset + "：未取得完整资料。" for asset in section["required_assets"])
+                body = body.replace("## 五、对外投资情况\n\n", "## 五、对外投资情况\n\n" + investment_details(section) + "\n\n")
+            if section["id"] == "credit":
+                body = body.replace("## 一、信用评级\n\n", "## 一、信用评级\n\n" + credit_rating_table(section) + "\n\n", 1)
+            body += "".join("\n\n资料缺口：" + asset + "：未取得完整资料。" for asset in section["required_assets"] if section["id"] != "credit")
             if section["id"] == "financials":
                 body += "\n\n" + "；".join("金额为" + self.ref(i) + "元" for i in range(6)) + "。"
                 body += "\n\n比例" + self.ref(6) + "%，单价" + self.ref(7) + "元/吨，人数" + self.ref(8) + "人。"
                 body += "\n\n精度展示" + self.ref(5, "4") + "元。"
                 body += "\n\n表3-2 金额明细（单位：元）\n\n| 项目 | 金额（元） |\n| --- | --- |\n| 大额 | " + self.ref(2) + " |\n| 损失 | " + self.ref(3) + "元 |"
-            app.submit_draft(self.workspace, {**self.request, "task_id": task["id"], "author_id": "writer", "body": body})
+            context = app.get_draft_context(self.workspace, self.project["id"], task["id"])
+            app.submit_draft(self.workspace, {**self.request, "task_id": task["id"], "author_id": "writer", "body": body,
+                                              "dependency_fingerprint": context["dependency_fingerprint"]})
         draft = app.build_draft(self.workspace, self.request)
         text = Path(draft["markdown_path"]).read_text(encoding="utf-8")
         self.assertIn("金额为10000.00万元；金额为1.00亿元；金额为1.00亿元；金额为-1.25亿元；金额为0.00万元；金额为1.23万元", text)
@@ -94,8 +109,8 @@ class AmountDisplayTests(unittest.TestCase):
         self.assertIn("精度展示1.2346万元", text)
         self.assertIn("| 项目 | 金额（万元） |", text)
         self.assertIn("表3-2 金额明细（单位：万元）", text)
-        self.assertIn("| 大额 | 10000.00 |", text)
-        self.assertIn("| 损失 | -12500.00 |", text)
+        self.assertIn("| 大额 | 10,000.00 |", text)
+        self.assertIn("| 损失 | -12,500.00 |", text)
         context = app.get_draft_context(self.workspace, self.project["id"], tasks[0]["id"])
         self.assertEqual(context["amount_display"]["table_unit"], "万元")
         with sqlite3.connect(self.workspace / self.project["id"] / "state.sqlite") as connection:
@@ -129,7 +144,7 @@ class AmountDisplayTests(unittest.TestCase):
 
     def test_invalid_amount_display_config_fails_at_load(self):
         source = Path(__file__).resolve().parents[1] / "scenarios/financial_due_diligence"
-        for invalid in ({"chart_unit": "美元"}, {"decimal_places": True}, {"text_large_threshold": "NaN"}, {"typo": "万元"}):
+        for invalid in ({"table_grouping": "true"}, {"chart_unit": "美元"}, {"decimal_places": True}, {"text_large_threshold": "NaN"}, {"typo": "万元"}):
             with self.subTest(invalid=invalid), tempfile.TemporaryDirectory() as temporary:
                 root = Path(temporary)
                 shutil.copytree(source, root / "financial_due_diligence")

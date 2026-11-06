@@ -10,7 +10,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 
-from credit_test_support import synthetic_credit_cli, registration_table, equity_details, synthetic_review_coverage
+from credit_test_support import synthetic_credit_cli, registration_table, background_details, equity_details, investment_details, credit_rating_table, synthetic_review_coverage
 
 REPORT = Path(sys.executable).with_name("report")
 
@@ -65,7 +65,7 @@ class RetrievalCliTests(unittest.TestCase):
 
                 for expected in ("partial", "mismatch", "empty", "failed"):
                     project = call("project", "create", request={
-                        "scenario_id": "financial_due_diligence", "scenario_version": "0.3.3", "credit_application_id": "SYN-1",
+                        "scenario_id": "financial_due_diligence", "scenario_version": "0.3.34", "credit_application_id": "SYN-1",
                         "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-07-31",
                         "overrides": {"retrieval.enabled": True},
                     })
@@ -123,6 +123,9 @@ class RetrievalCliTests(unittest.TestCase):
                 cli = synthetic_credit_cli(root)
 
                 def call(*args, request=None):
+                    if args[:2] == ("draft", "submit") and request is not None:
+                        context = call("draft", "context", request["task_id"], "--project", request["project_id"])
+                        request = {**request, "dependency_fingerprint": context["dependency_fingerprint"]}
                     command = [*cli, *args, "--workspace", str(workspace)]
                     if request is not None:
                         request_path.write_text(json.dumps(request, ensure_ascii=False), encoding="utf-8")
@@ -132,7 +135,7 @@ class RetrievalCliTests(unittest.TestCase):
                     return json.loads(result.stdout)["data"]
 
                 project = call("project", "create", request={
-                    "scenario_id": "financial_due_diligence", "scenario_version": "0.3.3",
+                    "scenario_id": "financial_due_diligence", "scenario_version": "0.3.34",
                     "subject_scope": {"business_unit": "甲公司"}, "evaluation_date": "2026-07-31",
                     "credit_application_id": "SYN-001", "overrides": {"retrieval.enabled": True},
                 })
@@ -185,13 +188,20 @@ class RetrievalCliTests(unittest.TestCase):
                         elif definition["id"] == "conclusion":
                             text = "本稿依据归档专业记录提示担保和诉讼线索；必要材料及政策缺失，结论待复核。"
                         bodies[definition["id"]] = "\n\n".join("## " + heading + "\n\n" + text
-                            for heading in definition["subheadings"]) if definition["subheadings"] else text
-                        for asset in definition.get("required_assets", []):
+                            for heading in definition.get("subheadings", [])) if definition.get("subheadings", []) else text
+                        if definition["id"] == "credit":
+                            bodies["credit"] = bodies["credit"].replace("## 一、信用评级\n\n",
+                                "## 一、信用评级\n\n" + credit_rating_table(definition) + "\n\n", 1)
+                        for asset in definition.get("required_assets", []) if definition["id"] != "credit" else []:
                             bodies[definition["id"]] += "\n\n资料缺口：" + asset + "：合成检索流程未提供财务经营表，不作相应业务判断。"
                     bodies["company"] = bodies["company"].replace("## 一、工商信息\n\n",
                         "## 一、工商信息\n\n" + registration_table(outline["sections"][0]) + "\n\n", 1)
+                    bodies["company"] = bodies["company"].replace("## 二、背景情况\n\n",
+                        "## 二、背景情况\n\n" + background_details(outline["sections"][0]) + "\n\n", 1)
                     bodies["company"] = bodies["company"].replace("## 四、股权、股东及投资情况\n\n",
                         "## 四、股权、股东及投资情况\n\n" + equity_details(outline["sections"][0]) + "\n\n", 1)
+                    bodies["company"] = bodies["company"].replace("## 五、对外投资情况\n\n",
+                        "## 五、对外投资情况\n\n" + investment_details(outline["sections"][0]) + "\n\n", 1)
                     for section_id in (item["id"] for item in outline["sections"]):
                         section = next(item for item in call("draft", "plan", request={"project_id": project["id"], "run_id": active_run["id"]})
                                        if item["section_id"] == section_id)

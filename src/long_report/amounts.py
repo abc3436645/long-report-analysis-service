@@ -9,7 +9,8 @@ NUMBER = r"[+-]?(?:(?:[0-9]+|[0-9]{1,3}(?:,[0-9]{3})+)(?:\.[0-9]*)?|\.[0-9]+)(?:
 
 def validate_amount_display(rule: object) -> None:
     keys = {"table_unit", "chart_unit", "text_unit", "text_large_unit", "text_large_threshold", "decimal_places"}
-    if (not isinstance(rule, dict) or set(rule) != keys
+    if (not isinstance(rule, dict) or set(rule) - {"table_grouping"} != keys
+            or "table_grouping" in rule and type(rule["table_grouping"]) is not bool
             or any(not isinstance(rule[k], str) or rule[k] not in UNITS
                    for k in ("table_unit", "chart_unit", "text_unit", "text_large_unit"))
             or type(rule["decimal_places"]) is not int or not 0 <= rule["decimal_places"] <= 6
@@ -43,7 +44,7 @@ def display_amount(item: dict, rule: dict, medium: str, precision: str | None = 
         arithmetic.prec = max(120, len(value.as_tuple().digits) + 20)
         shown = value / UNITS[unit]
         shown = shown.quantize(Decimal(1).scaleb(-int(precision if precision is not None else rule["decimal_places"])), rounding=ROUND_HALF_UP)
-    return format(shown, "f"), unit
+    return format(shown, ",f" if medium == "table" and rule.get("table_grouping") else "f"), unit
 
 
 def convert_chart_point(item: dict, unit: str) -> dict:

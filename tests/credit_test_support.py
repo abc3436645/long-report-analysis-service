@@ -34,6 +34,15 @@ def registration_table(section):
         "| " + field + " | 未提供（待核实） |" for field in rule["required_fields"])
 
 
+def background_details(section):
+    children = section["required_subsections"]["二、背景情况"]
+    gaps = ("公司全称、简称、成立时间、合资性质及股东股权资料待核实。",
+            "关键发展节点资料待核实。",
+            "最近三个完整会计年度的营业收入和利润总额资料待核实。")
+    assert len(children) == len(gaps)
+    return "\n\n".join("### " + child["title"] + "\n\n" + gap for child, gap in zip(children, gaps))
+
+
 def equity_details(section):
     rule = next(item for item in section["required_tables"] if "total_row" in item)
     total = ["" if column in rule["total_row"]["blank_columns"] else
@@ -43,6 +52,21 @@ def equity_details(section):
     table += "| " + " | ".join("未提供（待核实）" for _ in rule["columns"]) + " |\n| " + " | ".join(total) + " |"
     children = [item["title"] for item in section["required_subsections"][rule["subheading"]]]
     return "### " + children[0] + "\n\n" + table + "\n\n### " + children[1] + "\n\n股东名单及持股、控制关系和简介资料待补，不推定股东人数或实际控制人。"
+
+
+def investment_details(section):
+    rule = next(item for item in section["required_tables"] if item["subheading"] == "五、对外投资情况")
+    table = "| " + " | ".join(rule["columns"]) + " |\n| --- | --- | --- | --- |\n"
+    table += "| 未提供（待核实） | 未提供（待核实） | 未提供（待核实） | 未提供（待核实） |"
+    return table + "\n\n持股公司全称、简称、成立时间及股权构成资料待核实。"
+
+
+def credit_rating_table(section):
+    rule = section["required_tables"][0]
+    table = "| " + " | ".join(rule["columns"]) + " |\n| --- | --- | --- | --- |\n"
+    table += "\n".join("| " + " | ".join(cell if cell is not None else "未提供（待核实）" for cell in row)
+                       + " |" for row in rule["fixed_rows"])
+    return "评级对象：本公司（审计年度及评级状态待核实）。\n\n表7-1 信用等级评定表\n\n" + table
 
 
 def synthetic_review_coverage(draft):

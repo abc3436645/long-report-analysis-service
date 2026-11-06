@@ -113,14 +113,16 @@ def markdown_table_rows(block: str) -> list[list[str]] | None:
 
 def validate_section_headings(body: str, section: dict) -> None:
     """Check fixed headings and required tables before submission and after evidence expansion."""
-    if "subheadings" in section:
+    if "subheadings" in section or section.get("dynamic_subheadings"):
         headings = list(re.finditer(r"(?m)^ *(#{1,2}) +(.+?)\s*$", body))
+        titles = [match[2].strip() for match in headings]
         if (any(match[0].startswith(" ") or match[1] != "##" for match in headings)
-                or [match[2].strip() for match in headings] != section["subheadings"]):
+                or len(titles) != len(set(titles))
+                or "subheadings" in section and titles != section["subheadings"]):
             raise ScenarioError("section must preserve fixed second-level headings and order")
         rendered_headings = [match[2].strip() for block in body.strip().split("\n\n")
                              if (match := re.fullmatch(r"(#{1,2}) (.+)", block.strip()))]
-        if rendered_headings != section["subheadings"]:
+        if rendered_headings != titles:
             raise ScenarioError("fixed headings must be standalone Markdown blocks separated by blank lines")
         for index, heading in enumerate(headings):
             end = headings[index + 1].start() if index + 1 < len(headings) else len(body)
@@ -159,24 +161,43 @@ def validate_section_headings(body: str, section: dict) -> None:
                 raise ScenarioError("required subsection needs narrative or an explicit gap: " + definition["title"])
     for rule in section.get("required_tables", []):
         active, child, tables = None, None, []
-        for block in body.strip().split("\n\n"):
+        blocks = body.strip().split("\n\n")
+        for index, block in enumerate(blocks):
             heading = re.fullmatch(r"(#{1,3}) (.+)", block.strip())
             if heading and len(heading[1]) <= 2:
                 active, child = heading[2].strip() if heading[1] == "##" else None, None
             elif heading:
                 child = heading[2].strip()
-            elif (active == rule["subheading"] and ("child_heading" not in rule or child == rule["child_heading"])
-                  and (rows := markdown_table_rows(block)) is not None):
+            elif ("asset" in rule and re.match(r"^表[0-9]+-[0-9]+[ 　]+" + re.escape(rule["asset"])
+                                                + r"(?=$|[（(：:\s])", block)):
+                if active != rule["subheading"]:
+                    raise ScenarioError("required table is under the wrong subheading: " + rule["asset"])
+                rows = markdown_table_rows(blocks[index + 1]) if index + 1 < len(blocks) else None
+                if rows is None:
+                    raise ScenarioError("required table missing or has incorrect columns: " + rule["asset"])
                 tables.append(rows)
+            elif (active == rule["subheading"] and ("child_heading" not in rule or child == rule["child_heading"])
+                  and "asset" not in rule and (rows := markdown_table_rows(block)) is not None):
+                tables.append(rows)
+        if not tables and "asset" in rule and "fixed_rows" not in rule:
+            if not re.search(r"(?m)^资料缺口：" + re.escape(rule["asset"]) + r"：\S.+$", body):
+                raise ScenarioError("required table or named gap missing: " + rule["asset"])
+            continue
         if len(tables) != 1 or tables[0][0] != rule["columns"]:
             raise ScenarioError("required table missing or has incorrect columns: " + rule["subheading"])
         records = tables[0][1:]
-        if "required_fields" in rule:
+        if "fixed_rows" in rule:
+            if len(records) != len(rule["fixed_rows"]) or any(
+                    not cell or expected is not None and cell != expected
+                    for row, pattern in zip(records, rule["fixed_rows"])
+                    for cell, expected in zip(row, pattern)):
+                raise ScenarioError("required table fixed row missing, changed or empty: " + rule["subheading"])
+        elif "required_fields" in rule:
             fields = [row[0] for row in records]
             if (not set(rule["required_fields"]) <= set(fields) or len(fields) != len(set(fields))
                     or any(not cell for row in records for cell in row)):
                 raise ScenarioError("required table field missing, duplicated or empty: " + rule["subheading"])
-        else:
+        elif "total_row" in rule:
             total = rule["total_row"]
             key = rule["columns"].index(total["label_column"])
             if (len(records) < 2 or "".join(records[-1][key].split()) != "".join(total["label"].split())
@@ -204,6 +225,8 @@ def validate_section_headings(body: str, section: dict) -> None:
                 if None not in numbers:
                     if sum(numbers[:-1], Decimal(0)) != numbers[-1]:
                         raise ScenarioError("table total differs from shareholder rows: " + column)
+        elif not records or any(not cell for row in records for cell in row):
+            raise ScenarioError("required table needs nonempty rows: " + rule["subheading"])
 
 
 def validate_report_outline(outline: object, analysis: dict, scope: dict,
@@ -231,6 +254,8 @@ def validate_report_outline(outline: object, analysis: dict, scope: dict,
         if not isinstance(title, str) or not title.strip() or "\n" in title or len(title) > 120 or type(order) is not int or order < 1 or order in orders or section.get("repeat_for") not in (None, "unit"):
             raise ScenarioError(f"report outline.sections.{section_id}: invalid title, order or repetition")
         orders.add(order)
+        if "dynamic_subheadings" in section and (section["dynamic_subheadings"] is not True or "subheadings" in section):
+            raise ScenarioError("dynamic_subheadings must be true and cannot coexist with subheadings")
         if "subheadings" in section:
             headings = section["subheadings"]
             if (not isinstance(headings, list) or any(not isinstance(title, str) or not title.strip()
@@ -249,20 +274,30 @@ def validate_report_outline(outline: object, analysis: dict, scope: dict,
         if not isinstance(table_rules, list):
             raise ScenarioError("required_tables must be a list")
         for rule in table_rules:
-            allowed = {"subheading", "child_heading", "columns", "required_fields", "total_row", "style"}
+            allowed = {"subheading", "child_heading", "asset", "columns", "required_fields", "total_row", "fixed_rows", "style"}
             if (not isinstance(rule, dict) or not {"subheading", "columns"} <= set(rule) or set(rule) - allowed
                     or rule["subheading"] not in section.get("subheadings", [])
                     or not _valid_table_labels(rule["columns"]) or len(rule["columns"]) < 2
-                    or ("required_fields" in rule) == ("total_row" in rule)
+                    or ("asset" in rule and (not isinstance(rule["asset"], str)
+                                            or rule["asset"] not in section.get("required_assets", [])))
+                    or sum(key in rule for key in ("required_fields", "total_row", "fixed_rows")) > 1
                     or "child_heading" in rule and rule["child_heading"] not in
                        [item["title"] for item in required_subsections.get(rule["subheading"], [])]):
                 raise ScenarioError("invalid required table definition")
             if "style" in rule and (not isinstance(rule["style"], str) or not re.fullmatch(r"[a-z][a-z0-9_]*", rule["style"])):
                 raise ScenarioError("invalid required table style reference")
-            if "required_fields" in rule:
+            if "fixed_rows" in rule:
+                rows = rule["fixed_rows"]
+                if (not isinstance(rows, list) or not rows
+                        or any(not isinstance(row, list) or len(row) != len(rule["columns"])
+                               or not any(cell is not None for cell in row)
+                               or any(cell is not None and (not isinstance(cell, str) or not cell.strip()
+                                      or "\n" in cell or len(cell) > 120) for cell in row) for row in rows)):
+                    raise ScenarioError("invalid required table fixed rows")
+            elif "required_fields" in rule:
                 if not _valid_table_labels(rule["required_fields"]) or not rule["required_fields"] or len(rule["columns"]) != 2:
                     raise ScenarioError("invalid required table fields")
-            else:
+            elif "total_row" in rule:
                 total = rule["total_row"]
                 if (not isinstance(total, dict) or set(total) != {"label_column", "label", "blank_columns", "sum_columns"}
                         or total["label_column"] not in rule["columns"] or not isinstance(total["label"], str)
@@ -272,13 +307,13 @@ def validate_report_outline(outline: object, analysis: dict, scope: dict,
                         or total["label_column"] in total["blank_columns"] + total["sum_columns"]
                         or set(total["blank_columns"]) & set(total["sum_columns"])):
                     raise ScenarioError("invalid required table total row")
-        if len({(rule["subheading"], rule.get("child_heading")) for rule in table_rules}) != len(table_rules):
+        if len({(rule["subheading"], rule.get("child_heading"), rule.get("asset")) for rule in table_rules}) != len(table_rules):
             raise ScenarioError("duplicate required table subsection")
         _references(section.get("evidence_refs"), selectors, f"report outline.sections.{section_id}.evidence_refs")
         _references(section.get("analysis_refs"), available, f"report outline.sections.{section_id}.analysis_refs")
     _check_dag(sections)
     if fixed_outline and fixed_outline.get("fixed"):
-        fields = ("id", "title", "display_order", "repeat_for", "subheadings", "required_tables", "required_subsections", "required_assets", "depends_on")
+        fields = ("id", "title", "display_order", "repeat_for", "subheadings", "dynamic_subheadings", "required_tables", "required_subsections", "required_assets", "depends_on")
         def structure(items):
             return [{key: section.get(key) for key in fields}
                     for section in sorted(items, key=lambda item: item["display_order"])]
@@ -388,6 +423,15 @@ def load_scenario(scenario_id: str, root=None) -> Scenario:
         raise ScenarioError(f"{scenario_id}/scenario.yaml: presentation fonts are required")
     if type(presentation.get("allow_font_fallback", True)) is not bool:
         raise ScenarioError("scenario.presentation.allow_font_fallback must be boolean")
+    alternatives = presentation.get("font_alternatives", {})
+    if (not isinstance(alternatives, dict) or any(
+            not isinstance(font, str) or not font.strip() or len(font) > 80 or any(c in font for c in "\r\n")
+            or not isinstance(names, list) or not names
+            or any(not isinstance(name, str) or not name.strip() or len(name) > 80
+                   or any(c in name for c in "\r\n") for name in names)
+            or len({name.casefold() for name in names}) != len(names) or font.casefold() in {name.casefold() for name in names}
+            for font, names in alternatives.items())):
+        raise ScenarioError("presentation.font_alternatives must declare ordered, distinct font names")
     if "annotations" in presentation and presentation["annotations"] != "word_comments":
         raise ScenarioError("presentation.annotations must be word_comments")
     if "amount_display" in presentation:
@@ -489,8 +533,8 @@ def load_scenario(scenario_id: str, root=None) -> Scenario:
         raise ScenarioError("outline.fixed must be boolean")
     if outline.get("fixed"):
         validate_report_outline({"sections": list(sections.values())}, analysis, {})
-        if any(section.get("repeat_for") is not None or "subheadings" not in section for section in sections.values()):
-            raise ScenarioError("fixed outline requires unrepeated chapters with explicit subheadings")
+        if any(section.get("repeat_for") is not None or "subheadings" not in section and not section.get("dynamic_subheadings") for section in sections.values()):
+            raise ScenarioError("fixed outline requires unrepeated chapters with explicit or dynamic subheadings")
     for section in sections.values():
         for table in section.get("required_tables", []):
             if "style" in table and table["style"] not in presentation.get("table_styles", {}):
@@ -536,6 +580,34 @@ def load_scenario(scenario_id: str, root=None) -> Scenario:
         raise ScenarioError(f"{scenario_id}/quality.yaml: required checks missing")
     if "chapter_expression_review" in quality and type(quality["chapter_expression_review"]) is not bool:
         raise ScenarioError("quality.chapter_expression_review must be boolean")
+    if "chapter_expression_criteria" in quality:
+        criteria = quality["chapter_expression_criteria"]
+        if (quality.get("chapter_expression_review") is not True
+                or not isinstance(criteria, list) or not criteria
+                or any(not isinstance(point, str) or not point.strip() for point in criteria)):
+            raise ScenarioError("quality.chapter_expression_criteria needs enabled review and nonempty criteria")
+    if "require_dependency_fingerprint" in quality and (
+            type(quality["require_dependency_fingerprint"]) is not bool
+            or quality["require_dependency_fingerprint"] and quality.get("financial_quality") is not True):
+        raise ScenarioError("quality.require_dependency_fingerprint needs a boolean and financial quality")
+    if "chapter_review_guidance" in quality:
+        chapter_guidance = quality["chapter_review_guidance"]
+        if (quality.get("chapter_expression_review") is not True or not isinstance(chapter_guidance, dict)
+                or set(chapter_guidance) != set(quality["required_sections"])):
+            raise ScenarioError("quality.chapter_review_guidance must cover all required chapters with enabled review")
+        for section_id, refs in chapter_guidance.items():
+            if (not isinstance(refs, list) or not refs or any(not isinstance(ref, str) or ref not in guidance for ref in refs)
+                    or len(refs) != len(set(refs))):
+                raise ScenarioError("quality.chapter_review_guidance has missing or duplicate writing guidance: " + section_id)
+    decisions = quality.get("decision_reviews", [])
+    if (not isinstance(decisions, list)
+            or any(not isinstance(item, dict)
+                   or not re.fullmatch(r"[a-z][a-z0-9_]*", str(item.get("id", "")))
+                   or not isinstance(item.get("criteria"), list) or not item["criteria"]
+                   or any(not isinstance(point, str) or not point.strip() for point in item["criteria"])
+                   for item in decisions)
+            or len({item["id"] for item in decisions}) != len(decisions)):
+        raise ScenarioError("quality.decision_reviews requires unique ids and nonempty criteria")
     if scenario_id == "budget_operations":
         if quality.get("require_full_unit_scope") is not True or quality.get("require_material_disposition") is not True:
             raise ScenarioError("quality: budget scope and material disposition gates are required")

@@ -13,7 +13,7 @@ from long_report.rendering import render_docx, verify_docx
 from long_report.scenario import ScenarioError, load_scenario, validate_section_headings, validate_report_outline, markdown_table_rows
 
 PARENT = "四、股权、股东及投资情况"
-CHILDREN = ["（一）股权结构", "（二）股东简介、持股情况"]
+CHILDREN = ["（一）股权架构", "（二）股东简介、持股情况"]
 SUBSECTIONS = [dict(title=CHILDREN[0], content="table"), dict(title=CHILDREN[1], content="narrative")]
 COLUMNS = ["排名", "股东名称", "认缴资本（万元）", "持股比例（%）"]
 RULE = dict(subheading=PARENT, child_heading=CHILDREN[0], columns=COLUMNS,
@@ -49,6 +49,15 @@ class EquityTableTests(unittest.TestCase):
         self.assertEqual(section.get("required_subsections", {}).get(PARENT), SUBSECTIONS)
         self.assertIn(RULE, section["required_tables"])
         self.assertNotIn("江西铜业股份有限公司", str(section))
+
+    def test_shareholder_guidance_keeps_the_table_only_and_requires_sourced_biographies(self):
+        guidance = "\n".join(load_scenario("financial_due_diligence").analysis["writing_guidance"]["company"])
+        for requirement in ("股权架构只输出排名、股东名称、认缴资本（万元）、持股比例（%）四列表格",
+                            "不在表后添加正文", "识别控股股东", "不把控股股东自动写成实际控制人",
+                            "公司全称、简称、成立时间、主营产品及可核实的行业地位",
+                            "不移植参考样例中的公司事实或评价"):
+            with self.subTest(requirement=requirement):
+                self.assertIn(requirement, guidance)
 
     def test_table_must_be_in_equity_child_section_and_have_a_final_total_row(self):
         section = equity_section()
